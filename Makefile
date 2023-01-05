@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/05 17:13:46 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/05 17:53:29 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 #========================================#
 
 NAME		:=	marshell
+EXE			:=	marsh
 
 OBJ_DIR		:=	OBJ
 SRC_DIR		:=	src
@@ -32,7 +33,6 @@ DEP			:=	$(OBJ:.o=.d)
 
 BREW_DIR	:=	$(shell brew --prefix)
 
--include $(DEP)
 
 #============== LIBRARIES ===============#
 
@@ -70,9 +70,16 @@ endif
 
 COMPILE		:=	$(CC) $(CFL)
 
+#============ MAKE INCLUDES =============#
+
+-include makerc/colours.mk
+-include makerc/config.mk
+# research colours.mk/config.mk
+# not functioning
+-include $(DEP)
 
 echo: 
-	@echo "$(LIB_LIST)"
+	@echo "$(RED)HEYA$(RESET)"
 #FOR TESTING PURPOSES
 
 #========================================#
@@ -85,12 +92,13 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(NAME): LIB $(OBJ) 
-	@$(COMPILE) $(INCLUDE) $(OBJ) -o $(NAME) $(LIB_LIST)
+	@$(COMPILE) $(INCLUDE) $(OBJ) -o $(EXE) $(LIB_LIST)
 	@echo "$(CYAN)$(BOLD)COMPILING COMPLETE$(RESET)"
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/*/%.c | $(OBJ_DIR)
 	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
-	@echo "$(CYAN)COMPILING: $(notdir $<)$(RESET)"
+	@echo "$(CYAN)COMPILING: $(notdir $<)$(if $(findstring -g,$(CFL)), debug) \
+		$(RESET)"
 
 debug:
 	@$(MAKE) DEBUG=1
@@ -102,7 +110,7 @@ clean:
 	@echo "$(RED)$(BOLD)CLEANING $(NAME)$(RESET)"
 
 fclean: clean 
-	@rm -f $(NAME)
+	@rm -f $(EXE)
 
 lclean:
 	@make -C $(LIB_LIBFT) clean
