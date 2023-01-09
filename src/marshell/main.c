@@ -1,21 +1,21 @@
-#include <marshell.h>
+#include <minishell.h>
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
+	char		*input;
+	const char	prompt[] = MARSH_PROMPT;
+
 	(void) argc;
 	(void) argv;
 	(void) envp;
 	input = NULL;
-
 	while (1)
 	{
 		input = readline(prompt);
-		
+		if (ft_strncmp(input, "exit", 4) == 0)
+			return (free(input), EXIT_SUCCESS);
+		printf("%s\n", input);
 		free(input);
 	}
+	return (0);
 }
-
-/*
- * prompt: "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
- */

@@ -25,7 +25,7 @@ COMPILE		:=	$(CC) $(CFL)
 #=========== TESTING RECIPIES ===========#
 
 echo: 
-	@echo "$(LIB_DIR)    $(DIR_LIBFT)    $(LIB_LIBFT)"
+	@echo "$(BREW_DIR)"
 
 #========================================#
 #============ MISCELLANEOUS =============#

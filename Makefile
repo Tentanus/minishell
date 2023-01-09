@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/06 18:46:33 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/09 18:46:43 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 #============ MAKE INCLUDES =============#
@@ -22,12 +22,10 @@ NAME		:=	marshell
 EXE			:=	marsh
 
 SRC			:=	marshell/main.c \
-				lexer/lexer.c
-
-OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
+#				lexer/lexer.c
 
 SRC			:=	$(addprefix $(SRC_DIR)/,$(SRC))
-
+OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 DEP			:=	$(OBJ:.o=.d)
 
 #============== LIBRARIES ===============#
@@ -38,16 +36,16 @@ LIB_LIBFT	:=	$(DIR_LIBFT)/$(LIBFT).a
 
 LIB_READLINE:=	$(BREW_DIR)/opt/readline/lib
 
-LIB_COLLECT	:=	$(DIR_LIBFT) \
-				$(LIB_READLINE)
+LIB_LIST	:=	$(addprefix -L,$(LIB_READLINE)) \
+				$(LIB_LIBFT)
 
-LIB_LIST	:=	$(addprefix -L,$(LIB_COLLECT))
+#=========== FLAGS & INCLUDES ===========#
 
-#============= COMPILATION ==============#
+INCLUDE		:=	-I$(INC_DIR) \
+				-I$(DIR_LIBFT)/include \
+				-I$(BREW_DIR)/opt/readline/include
 
-INCLUDE		:=	-I $(INC_DIR) \
-				-I $(DIR_LIBFT)/include \
-				-I $(LIB_READLINE)/opt/readline/include
+FLAG		:=	-lreadline
 
 #========================================#
 #============== RECIPIES  ===============#
@@ -59,19 +57,13 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(NAME): LIB $(OBJ) 
-	@echo "$(CYAN)$(BOLD)LINKING OBJECT FILES$(RESET)"
-	@$(COMPILE) $(INCLUDE) $(OBJ) -o $(EXE) $(LIB_LIST)
-	@echo "$(CYAN)$(BOLD)COMPILING COMPLETE$(RESET)"
+	@$(COMPILE) $(INCLUDE) $(FLAG) $(LIB_LIST) $(OBJ) -o $(EXE)
+	@echo "$(GREEN)$(BOLD)========== $(EXE) COMPILED ==========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c | $(OBJ_DIR)
 	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
-	@echo "$(CYAN)COMPILING: $(notdir $<)$(if $(findstring -g,$(CFL)), debug) \
+	@echo "$(CYAN)COMPILING: $(notdir $<)$(if $(findstring -g,$(CFL)), debug)\
 		$(RESET)"
-
-debug:
-	@$(MAKE) DEBUG=1
-
-rebug: fclean debug
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -86,6 +78,11 @@ lclean:
 flclean: lclean fclean
 
 re: fclean all
+
+debug:
+	@$(MAKE) DEBUG=1
+
+rebug: fclean debug
 
 #========================================#
 #============== LIBRARIES ===============#
