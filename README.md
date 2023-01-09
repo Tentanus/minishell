@@ -1,10 +1,9 @@
 # minishell / marshell
 ### a 42 (Codam) project
 
-* This project is about creating a simple shell. Yes, your own little bash.
-You will learn a lot about processes, file descriptors, redirections and more *
+* This project is about creating a simple shell. Yes, your own little bash. You will learn a lot about processes, file descriptors, redirections and more. *
 
-This project is a start into the world of SHELL development. The goal is to make a SHELL, losely base on bash.
+This project is a start into the world of SHELL development. The goal is to make a SHELL, losely base on bash. 
 
 #### Useful Sources:
 - [Readline guide](https://web.mit.edu/gnu/doc/html/rlman_2.html)
