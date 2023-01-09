@@ -10,8 +10,8 @@ This project is a start into the world of SHELL development. The goal is to make
 
 
 ### Team:
-- [mweverli](www.github.com/Tentanus)
-- [mverbrug](www.github.com/maresverbrugge)
+- [mweverli](https://github.com/Tentanus)
+- [mverbrug](https://github.com/maresverbrugge)
 
 #### Useful Sources
 - [Readline guide](https://web.mit.edu/gnu/doc/html/rlman_2.html)
