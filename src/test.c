@@ -106,4 +106,7 @@ void redirect_and_execute_cmd()
 
     // * still need to set up stderror redirection (fd 2). 
     // * make sure that stderr of ALL simple commands will be send to the same place!
+
+    // Built-in functions in parent process
+    // Call built-in function in executor instead of forking.
 }
