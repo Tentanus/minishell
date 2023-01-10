@@ -17,6 +17,8 @@
 
 //			STRUCTURES
 
+typedef struct s_token{
+	
 //			FUNCTIONS
 
 //				UTILS

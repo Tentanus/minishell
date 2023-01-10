@@ -2,19 +2,18 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
-	const char	prompt[] = MARSH_PROMPT;
+	char	*input;
+	s_token	token;
 
 	(void) argc;
 	(void) argv;
 	(void) envp;
-	input = NULL;
 	while (1)
 	{
-		input = readline(prompt);
+		input = readline(MARSH_PROMPT);
 		if (ft_strncmp(input, "exit", 4) == 0)
 			return (free(input), EXIT_SUCCESS);
-		printf("%s\n", input);
+		token = lexer(input);
 		free(input);
 	}
 	return (0);
