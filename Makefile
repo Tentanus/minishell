@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/09 18:46:43 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/10 20:31:03 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 #============ MAKE INCLUDES =============#
@@ -22,7 +22,7 @@ NAME		:=	marshell
 EXE			:=	marsh
 
 SRC			:=	marshell/main.c \
-#				lexer/lexer.c
+				lexer/lexer.c
 
 SRC			:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
