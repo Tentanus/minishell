@@ -2,13 +2,10 @@
    The grammar symbols
    ------------------------------------------------------- */
 
-
 %token  WORD
-%token  IO_NUMBER
 
 %token   DLESS    DGREAT
 /*       '<<'     '>>'    */
-
 
 /* -------------------------------------------------------
    The Grammar
@@ -36,14 +33,10 @@ cmd_suffix       :            io_redirect
                  |            WORD
                  | cmd_suffix WORD
                  ;
-io_redirect      :           io_file
-                 | IO_NUMBER io_file
-                 |           io_here
-                 | IO_NUMBER io_here
-                 ;
-io_file          : '<'       filename
+io_redirect      : '<'       filename
                  | '>'       filename
                  | DGREAT    filename
+                 |           io_here
                  ;
 filename         : WORD                      /* Apply rule 2 */
                  ;

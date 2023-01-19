@@ -11,7 +11,7 @@ t_minishell	shell_init(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
-	t_token		*token;
+	t_token		*lst_token;
 
 	(void) argv;
 	if (argc > 1)
@@ -22,9 +22,8 @@ int	main(int argc, char **argv, char **envp)
 		shell.input = readline(MARSH_PROMPT);
 		if (ft_strncmp(shell.input, "exit", 4) == 0)
 			return (free(shell.input), SUCCESS);
-		printf("%s\n", shell.input);
-		token = lexer(shell.input);
-//		lex_free(token);
+		lst_token = lexer(shell.input);
+		list_token_print(lst_token);
 		free(shell.input);
 	}
 	return (SUCCESS);

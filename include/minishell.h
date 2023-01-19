@@ -13,27 +13,26 @@
 
 //			MACROS
 
-# define SUCCESS 0
-# define ERROR -1
-
 # define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
 
 //			E_NUMS
 
-typedef enum e_token_identifiers {
-	UNINITIATIED = 0,
-	BACK_SLASH,
-	DOUB_QUOTE,
+typedef struct s_token_id = {
+	0 = UNINITIALIZED,
 	PIPE,
+	QUOTE,
+	DQUOTE,
 	GREAT,
 	LESS,
-	CHAR_END
-} t_token_identifiers;
+	DGREAT,
+	DLESS,
+}	t_token_id;
 
 //			STRUCTURES
 
-typedef struct s_token{
-
+typedef struct s_token
+{
+	t_token_id		id;
 	char			*str;
 	struct s_token	*next;
 }	t_token;

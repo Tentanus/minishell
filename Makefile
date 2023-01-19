@@ -6,20 +6,18 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/10 20:31:03 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/19 11:51:15 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 #============ MAKE INCLUDES =============#
 
 -include include/config.mk
--include $(DEP)
 
 #========================================#
 #=========  GENERAL VARIABLES:  =========#
 #========================================#
 
 NAME		:=	marshell
-EXE			:=	marsh
 
 SRC			:=	marshell/main.c \
 				lexer/lexer.c
@@ -27,6 +25,8 @@ SRC			:=	marshell/main.c \
 SRC			:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 DEP			:=	$(OBJ:.o=.d)
+
+-include $(DEP)
 
 #============== LIBRARIES ===============#
 
@@ -47,6 +47,11 @@ INCLUDE		:=	-I$(INC_DIR) \
 
 FLAG		:=	-lreadline
 
+#=========== TESTING RECIPIES ===========#
+
+echo: 
+	@echo "$(NAME)"
+
 #========================================#
 #============== RECIPIES  ===============#
 #========================================#
@@ -57,8 +62,8 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(NAME): LIB $(OBJ) 
-	@$(COMPILE) $(INCLUDE) $(FLAG) $(LIB_LIST) $(OBJ) -o $(EXE)
-	@echo "$(GREEN)$(BOLD)========== $(EXE) COMPILED ==========$(RESET)"
+	@$(COMPILE) $(INCLUDE) $(FLAG) $(LIB_LIST) $(OBJ) -o $(NAME)
+	@echo "$(GREEN)$(BOLD)======== $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c | $(OBJ_DIR)
 	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
