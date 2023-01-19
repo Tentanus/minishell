@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/26 11:14:57 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/16 16:05:06 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/01/19 14:41:02 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,32 @@ typedef struct struct_args
 	char	*path_to_cmd2;
 }	t_args;
 
-typedef struct s_cmd_redir
-{
-	char *infile;
-	char *outfile;
-	char *errfile;
-}				t_cmd_redir;
+// typedef struct s_redir
+// {
+// 	t_redir			redir;
+// 	char			*file;
+// 	struct s_redir	*next;
+// }				t_redir;
 
 typedef struct s_cmd
 {
 	char 			*cmd;
 	char 			**args;
-	t_cmd_redir		*redir;
+	// t_redir			*redir;
 	struct s_cmd	*next;
 }				t_cmd;
 
-int		pipex(int argc, char **argv, t_args *arg, char **envp, t_cmd *cmd);
-void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, t_cmd *cmd);
-void	read_child(int *fd_pipe, t_args *arg, char **argv, char **envp);
-void	close_pipe_ends(int *fd_pipe);
+// typedef struct s_cmd_redir
+// {
+// 	char *infile;
+// 	char *outfile;
+// 	char *errfile;
+// }				t_cmd_redir;
+
+// int		pipex(int argc, char **argv, t_args *arg, char **envp, t_cmd *cmd);
+// void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, t_cmd *cmd, int argc);
+// void	read_child(int *fd_pipe, t_args *arg, char **argv, char **envp);
+// void	close_pipe_ends(int *fd_pipe);
 
 void	parse_input(t_args *arg, char **argv, char **envp);
 char	**get_cmd(char *input);
@@ -79,8 +86,8 @@ void	handle_execve1_fail(t_args *arg, char **argv);
 int		ft_word_counter(char const *s, char c);
 
 bool    check_builtin(char *cmd);
-void    execute_builtin(t_args *arg, t_cmd *cmd);
-int		execute_echo(t_args *arg, t_cmd *cmd);
+void	execute_builtin(char *cmd, int argc, char **argv);
+int		execute_echo(int argc, char **argv);
 bool	has_n_option(char *str);
 
 #endif

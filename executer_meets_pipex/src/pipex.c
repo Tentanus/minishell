@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/09 18:14:40 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/16 16:05:12 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/01/19 14:42:12 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	read_child(int *fd_pipe, t_args *arg, char **argv, char **envp)
     instead of standard output.
 */
 
-void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, t_cmd *cmd)
+void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, int argc)
 {
 	int	fd_file;
 
@@ -73,7 +73,7 @@ void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, t_cmd *cm
 	close(fd_file);
 	// !!!! TESTING BUILTINS!
 	if (check_builtin(arg->cmd2_split[0]) == true)
-		execute_builtin(arg, cmd);
+		execute_builtin(arg->cmd2_split[0], argc, argv);
 	// !!!! END
 	else if (execve(arg->path_to_cmd2, arg->cmd2_split, envp) != 0)
 	{
@@ -98,7 +98,7 @@ void	write_parent(int *fd_pipe, t_args *arg, char **argv, char **envp, t_cmd *cm
     parent waits for child to finish execution.
 */
 
-int	pipex(int argc, char **argv, t_args *arg, char **envp, t_cmd *cmd)
+int	pipex(int argc, char **argv, t_args *arg, char **envp)
 {
 	int	fd_pipe[2];
 	int	pid;
@@ -114,7 +114,7 @@ int	pipex(int argc, char **argv, t_args *arg, char **envp, t_cmd *cmd)
 			exit_message("Fork failed\n", 2);
 		if (pid == 0)
 			read_child(fd_pipe, arg, argv, envp);
-		write_parent(fd_pipe, arg, argv, envp, cmd);
+		write_parent(fd_pipe, arg, argv, envp, argc);
 		close_pipe_ends(fd_pipe);
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
@@ -127,7 +127,7 @@ int	pipex(int argc, char **argv, t_args *arg, char **envp, t_cmd *cmd)
 int	main(int argc, char **argv, char **envp)
 {
 	t_args	arg;
-	t_cmd	cmd;
+	// t_cmd	cmd;
 
-	return (pipex(argc, argv, &arg, envp, &cmd));
+	return (pipex(argc, argv, &arg, envp));
 }
