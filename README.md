@@ -1,5 +1,5 @@
 # minishell / marshell
-### a 42 (Codam) project
+#### a 42 (Codam) project
 
 *This project is about creating a simple shell. Yes, your own little bash. You will learn a lot about processes, file descriptors, redirections and more.*
 

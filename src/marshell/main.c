@@ -1,21 +1,30 @@
 #include <minishell.h>
 
+t_minishell	shell_init(char **envp)
+{
+	t_minishell	shell;
+
+	shell.envp = envp;
+	return (shell);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
-	const char	prompt[] = MARSH_PROMPT;
+	t_minishell	shell;
+	t_token		*lst_token;
 
-	(void) argc;
 	(void) argv;
-	(void) envp;
-	input = NULL;
+	if (argc > 1)
+		return (ERROR);
+	shell = shell_init(envp);
 	while (1)
 	{
-		input = readline(prompt);
-		if (ft_strncmp(input, "exit", 4) == 0)
-			return (free(input), EXIT_SUCCESS);
-		printf("%s\n", input);
-		free(input);
+		shell.input = readline(MARSH_PROMPT);
+		if (ft_strncmp(shell.input, "exit", 4) == 0)
+			return (free(shell.input), SUCCESS);
+		lst_token = lexer(shell.input);
+		list_token_print(lst_token);
+		free(shell.input);
 	}
-	return (0);
+	return (SUCCESS);
 }
