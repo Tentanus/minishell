@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/20 14:04:48 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/20 14:32:17 by mverbrug      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <minishell.h>
 
 // readline main by Tentanus:
@@ -33,6 +21,7 @@
 // }
 
 // mini main by Maresiskoning
+
 int	main(int argc, char **argv)
 {
 	t_cmd cmd;
