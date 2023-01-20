@@ -17,8 +17,8 @@
 
 //			E_NUMS
 
-typedef struct s_token_id = {
-	0 = UNINITIALIZED,
+typedef enum e_token_id {
+	UNINITIALIZED,
 	PIPE,
 	QUOTE,
 	DQUOTE,
