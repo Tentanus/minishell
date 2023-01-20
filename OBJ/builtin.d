@@ -1,5 +1,5 @@
-OBJ/main.o: src/main.c include/minishell.h lib/libft/include/libft.h \
-  vendor/readline/include/readline/readline.h \
+OBJ/builtin.o: src/builtin/builtin.c include/minishell.h \
+  lib/libft/include/libft.h vendor/readline/include/readline/readline.h \
   vendor/readline/include/readline/rlstdc.h \
   vendor/readline/include/readline/rltypedefs.h \
   vendor/readline/include/readline/keymaps.h \

@@ -2,7 +2,7 @@
 # define MINISHELL_H
 
 //			INCLUDES
-
+# include <stdio.h> // for printf (and partly readline)
 # include <libft.h> // for libft
 # include <unistd.h> // for close, write, access, dup2, execve, fork, pipe
 # include <stdlib.h> // for free, exit, malloc
@@ -10,7 +10,6 @@
 # include <readline/history.h> // for history
 # include <stdbool.h> // for bool
 
-# include <stdio.h> // for printf
 # include <fcntl.h> // for open
 # include <string.h> // for strerror
 # include <errno.h> // for errors
@@ -36,6 +35,8 @@ typedef struct s_cmd
 void	parse_input(int argc, char **argv, t_cmd *cmd);
 bool    check_builtin(char *cmd);
 void    execute_builtin(t_cmd *cmd);
+char	**make_double_array(int word_count);
+int		execute_echo(t_cmd *cmd);
 
 //				UTILS
 

@@ -44,4 +44,3 @@ int    execute_echo(t_cmd *cmd)
         ft_putchar_fd('\n', 1);
     return (0);
 }
-
