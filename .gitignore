@@ -1,0 +1,4 @@
+/vendor/*
+/OBJ
+.vscode
+.DS_Store
