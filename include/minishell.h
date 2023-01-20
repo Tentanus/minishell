@@ -2,14 +2,18 @@
 # define MINISHELL_H
 
 //			INCLUDES
+# include <stdio.h> // for printf (and partly readline)
+# include <libft.h> // for libft
+# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe
+# include <stdlib.h> // for free, exit, malloc
+# include <readline/readline.h> // for readline
+# include <readline/history.h> // for history
+# include <stdbool.h> // for bool
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# include <libft.h>
+# include <fcntl.h> // for open
+# include <string.h> // for strerror
+# include <errno.h> // for errors
+# include <sys/wait.h> // for waitpid
 
 //			MACROS
 
@@ -44,12 +48,24 @@ typedef struct s_minishell{
 	int		status;
 }	t_minishell;
 
+typedef struct s_cmd{
+	char 			*simple_cmd;
+	char 			**args;
+    int             amount_of_args;
+	// t_redir			*redir;
+	struct s_cmd	*next;
+}				t_cmd;
 
 //			FUNCTIONS
 
 t_token	*lexer(const char *inp);
-
 void	lex_free(t_token *token);
+
+void	parse_input(int argc, char **argv, t_cmd *cmd);
+bool    check_builtin(char *cmd);
+void    execute_builtin(t_cmd *cmd);
+char	**make_double_array(int word_count);
+int		execute_echo(t_cmd *cmd);
 
 //				UTILS
 
