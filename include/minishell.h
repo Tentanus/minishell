@@ -3,13 +3,18 @@
 
 //			INCLUDES
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <libft.h> // for libft
+# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe
+# include <stdlib.h> // for free, exit, malloc
+# include <readline/readline.h> // for readline
+# include <readline/history.h> // for history
+# include <stdbool.h> // for bool
 
-# include <libft.h>
+# include <stdio.h> // for printf
+# include <fcntl.h> // for open
+# include <string.h> // for strerror
+# include <errno.h> // for errors
+# include <sys/wait.h> // for waitpid
 
 //			MACROS
 
@@ -17,7 +22,20 @@
 
 //			STRUCTURES
 
+typedef struct s_cmd
+{
+	char 			*simple_cmd;
+	char 			**args;
+    int             amount_of_args;
+	// t_redir			*redir;
+	struct s_cmd	*next;
+}				t_cmd;
+
 //			FUNCTIONS
+
+void	parse_input(int argc, char **argv, t_cmd *cmd);
+bool    check_builtin(char *cmd);
+void    execute_builtin(t_cmd *cmd);
 
 //				UTILS
 

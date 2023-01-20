@@ -2,6 +2,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_cmd cmd;
 	char		*input;
 	const char	prompt[] = MARSH_PROMPT;
 
@@ -17,5 +18,8 @@ int	main(int argc, char **argv, char **envp)
 		printf("%s\n", input);
 		free(input);
 	}
+    parse_input(argc, argv, &cmd);
+    if (check_builtin(cmd.simple_cmd) == true)
+        execute_builtin(&cmd);
 	return (0);
 }

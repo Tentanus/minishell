@@ -1,4 +1,4 @@
-#include "../pipex.h"
+#include <minishell.h>
 
 bool is_n_option(char *str)
 {

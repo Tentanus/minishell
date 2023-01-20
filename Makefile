@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/19 12:01:54 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/01/20 11:15:14 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,10 @@
 
 NAME		:=	marshell
 
-SRC			:=	marshell/main.c \
-#				lexer/lexer.c
+SRC			:=	marshell/main.c 		\
+				marshell/mini_parse.c	\
+				marshell/builtin.c		\
+				marshell/echo.c			\
 
 SRC			:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
@@ -92,4 +94,3 @@ LIB: $(LIB_LIBFT)
 
 $(LIB_LIBFT):
 	@make -C $(DIR_LIBFT)
-

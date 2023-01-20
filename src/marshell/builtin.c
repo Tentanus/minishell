@@ -1,4 +1,4 @@
-#include "../pipex.h"
+#include <minishell.h>
 
 // bool    check_builtin(char *cmd)
 // {
