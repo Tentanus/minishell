@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/20 14:51:37 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/01/20 15:13:04 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ SRC			:=	main.c 					\
 
 SRC			:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ			:=	$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
+T_OBJ		:=	$(addprefix $(OBJ_DIR)/,$(notdir $(T_SRC:.c=.o)))
+
 DEP			:=	$(OBJ:.o=.d)
 
 -include $(DEP)
@@ -53,6 +55,11 @@ INCLUDE		:=	-I$(INC_DIR) \
 				-I$(READLINE_PATH)/include
 
 # FLAG		:=	-lreadline
+
+#=========== TESTING RECIPIES ===========#
+
+echo: 
+	@echo "$(NAME)"
 
 #========================================#
 #============== RECIPIES  ===============#
