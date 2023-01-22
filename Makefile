@@ -12,7 +12,7 @@
 
 #===========  MAKE INCULDES  ============#
 
--include include/config.mk
+-include include/config_std.mk
 
 #========================================#
 #=========  GENERAL VARIABLES:  =========#
@@ -37,6 +37,7 @@ OBJ			:=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 DEP			:=	$(OBJ:%.o=%.d)
 
 -include $(DEP)
+-include include/config_test.mk
 
 READLINE_PATH = vendor/readline
 READLINE_LINK = -L vendor/readline/lib -l readline -l ncurses
@@ -67,14 +68,6 @@ echo:
 #========================================#
 
 all: $(NAME)
-
-test_ver: LIB $(OBJ)
-	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
-
-test_wev: LIB $(OBJ)
-	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(NAME): LIB $(OBJ) 
 	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(OBJ) -o $(NAME)
