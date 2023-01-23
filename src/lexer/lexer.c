@@ -28,16 +28,16 @@ t_token	*lexer(const char *inp)
 {
 	int		i;
 	t_token	*top;
+	t_token	*node;
 
 	i = 0;
-	top = NULL;
 	while (inp[i])
 	{
+		tok_get_extremes(&inp[i]);
+
 		node = malloc(sizeof(t_token) * (1));
 		if (!node)
 			minishell_error();
-		tok_get_extremes(&inp[i]);
-
 	}
 	return (list_token);
 }
