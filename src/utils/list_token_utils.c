@@ -34,10 +34,8 @@ void	list_token_add_back(t_token **list t_token *new)
 		*list = new;
 		return ;
 	}
-	size = list_token_size(*list);
 	tmp = list_token_last(list);
 	tmp->next = new;
-
 }
 
 void	list_token_print(t_token *top)
