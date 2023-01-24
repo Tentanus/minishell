@@ -2,7 +2,7 @@
 
 # fast `brew link readline`
 
-LIB_FOLDER=vendor
+LIB_FOLDER=lib
 
 TEMP_FOLDER=$LIB_FOLDER/.tmp_readline-install/
 READLINE_PATH=$LIB_FOLDER/readline/
@@ -12,7 +12,7 @@ INSTALLER=$LIB_FOLDER/readline-8.1
 BASEDIR=$(pwd)
 curl -k https://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz > $ARCHIVE
 
-tar -xf $ARCHIVE -C vendor/
+tar -xf $ARCHIVE -C lib/
 mkdir -p $READLINE_PATH
 cd $READLINE_PATH
 READLINE_PATH=$(pwd)

@@ -1,4 +1,4 @@
-/vendor/*
+/lib/*
 /OBJ
 .vscode
 .DS_Store
