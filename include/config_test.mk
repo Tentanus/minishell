@@ -13,7 +13,12 @@ V: LIB $(VOBJ)
 W: LIB $(WOBJ)
 	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(WOBJ) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
-	./martest
+
+Vebug: clean
+	@$(MAKE) V DEBUG=1
+
+Webug: clean
+	@$(MAKE) W DEBUG=1
 
 tclean:
-	@rm martest
+	@rm -rf martest

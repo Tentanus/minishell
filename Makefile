@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/24 12:27:50 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/01/24 13:54:03 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,9 @@ clean:
 fclean: clean 
 	@rm -f $(NAME)
 
+gclean: lclean tclean fclean
+	@echo "$(RED)$(BOLD)\n\t-=- READY FOR GIT -=-$(RESET)"
+
 re: fclean all
 
 debug:
@@ -110,6 +113,4 @@ $(READLINE_PATH):
 
 lclean:
 	@make -C $(DIR_LIBFT) fclean
-
-flclean: lclean fclean
 
