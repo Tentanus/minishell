@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/24 13:54:03 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/01/24 14:31:50 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,11 @@ NAME		:=	marshell
 SRC			:=	builtin/builtin.c		\
 				builtin/echo.c			\
 				builtin/pwd.c			\
-				utils/utils.c
+				builtin/cd.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c \
+				tmp_mares/mini_parse.c	\
+				tmp_mares/utils.c		\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				test/wev_main.c

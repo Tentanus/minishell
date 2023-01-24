@@ -8,11 +8,20 @@
 ** or an invalid option is supplied.
 */
 
-int    execute_pwd(int fd)
+int	execute_pwd(int fd)
 {
-    char    *cwd = NULL;
-    cwd = getcwd(cwd, sizeof(cwd));
-    ft_putstr_fd(cwd, fd);
-    ft_putstr_fd("\n", fd);
-    return (0);
+	char	*cwd = NULL;
+
+	cwd = getcwd(cwd, 0);
+	if (cwd != NULL)
+	{
+		ft_putstr_fd(cwd, fd);
+		ft_putstr_fd("\n", fd);
+	}
+	else
+	{
+		perror("pwd error");
+		return (1);
+	}
+	return (0);
 }

@@ -4,8 +4,8 @@
 //			INCLUDES
 
 # include <stdio.h> // for printf (and partly readline)
-# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe
-# include <stdlib.h> // for free, exit, malloc
+# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe, getcwd, chdir
+# include <stdlib.h> // for free, exit, malloc, getenv
 # include <readline/readline.h> // for readline
 # include <readline/history.h> // for history
 # include <stdbool.h> // for bool
@@ -67,7 +67,8 @@ bool	check_builtin(char *cmd);
 void	execute_builtin(t_cmd *cmd);
 char	**make_double_array(int word_count);
 int		execute_echo(t_cmd *cmd, int fd);
-int    execute_pwd(int fd);
+int		execute_pwd(int fd);
+int		execute_cd(t_cmd *cmd);
 
 //				UTILS
 
