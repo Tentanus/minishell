@@ -21,7 +21,7 @@ bool is_n_option(char *str)
         return (false);
 }
 
-int    execute_echo(t_cmd *cmd)
+int    execute_echo(t_cmd *cmd, int fd)
 {
     // echo [-neE] [arg …]
     // output args seperated by spaces, terminated with newline
@@ -35,12 +35,12 @@ int    execute_echo(t_cmd *cmd)
     }
     while (i < cmd->amount_of_args)
     {
-        ft_putstr_fd(cmd->args[i], 1);
+        ft_putstr_fd(cmd->args[i], fd);
         if (i != (cmd->amount_of_args - 1))
-            ft_putchar_fd(' ', 1);
+            ft_putchar_fd(' ', fd);
         i++;
     }
     if (n_option == 0)
-        ft_putchar_fd('\n', 1);
+        ft_putchar_fd('\n', fd);
     return (0);
 }

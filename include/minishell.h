@@ -65,7 +65,7 @@ void	parse_input(int argc, char **argv, t_cmd *cmd);
 bool    check_builtin(char *cmd);
 void    execute_builtin(t_cmd *cmd);
 char	**make_double_array(int word_count);
-int		execute_echo(t_cmd *cmd);
+int		execute_echo(t_cmd *cmd, int fd);
 
 //				UTILS
 

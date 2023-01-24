@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/20 14:05:06 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/01/24 11:41:22 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool    check_builtin(char *cmd)
 void    execute_builtin(t_cmd *cmd)
 {
     if (ft_strncmp(cmd->simple_cmd, "echo", 5) == 0)
-        execute_echo(cmd);
+        execute_echo(cmd, 1);
 }
 
 // void    execute_builtin(t_args *arg, t_cmd *cmd)
