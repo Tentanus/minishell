@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/23 14:44:31 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/24 12:27:50 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ NAME		:=	marshell
 
 SRC			:=	builtin/builtin.c		\
 				builtin/echo.c			\
+				builtin/pwd.c			\
 				utils/utils.c
 
 VER_SRC		:=	$(SRC) \

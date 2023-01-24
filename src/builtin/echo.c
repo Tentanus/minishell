@@ -1,5 +1,13 @@
 #include <minishell.h>
 
+/*
+** echo:
+** echo [-n] [arg …]
+** Outputs the args, separated by spaces, terminated with a newline. 
+** The return status is 0 unless a write error occurs. 
+** If -n is specified, the trailing newline is suppressed.
+*/
+
 bool is_n_option(char *str)
 {
     if (ft_strncmp(str, "-n", 2) == 0)
@@ -23,9 +31,6 @@ bool is_n_option(char *str)
 
 int    execute_echo(t_cmd *cmd, int fd)
 {
-    // echo [-neE] [arg …]
-    // output args seperated by spaces, terminated with newline
-    // returns 0 UNLESS a write error occurs
     int i = 0;
     int n_option = 0;
     while (is_n_option(cmd->args[i]) == true)

@@ -67,6 +67,7 @@ bool	check_builtin(char *cmd);
 void	execute_builtin(t_cmd *cmd);
 char	**make_double_array(int word_count);
 int		execute_echo(t_cmd *cmd, int fd);
+int    execute_pwd(int fd);
 
 //				UTILS
 
