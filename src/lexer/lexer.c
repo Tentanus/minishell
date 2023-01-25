@@ -5,6 +5,7 @@ typedef struct s_token_info {
 	size_t	end;
 }	t_token_info;
 
+/*
 static const char	*g_id_chars[] = {\
 	[END_INP] = '\0', \
 	[PIPE] = "|", \
@@ -12,34 +13,33 @@ static const char	*g_id_chars[] = {\
 	[LESS] = "<", \
 	[CHAR_END] = ""
 };
+*/
 
-int	skip_whitespace(const char *str)
+
+t_token_info	get_token_info(const char *inp)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	return (i);
+	
 }
-
 
 t_token	*lexer(const char *inp)
 {
-	int		i;
-	t_token	*top;
-	t_token	*node;
+	int				i;
+	t_token			*top;
+	t_token			*node;
+	t_token_info	info;
 
-	i = 0;
+	top = NULL;
+	i = skip_whitespace(&str[0]);;
 	while (inp[i])
 	{
-		tok_get_extremes(&inp[i]);
-
-		node = malloc(sizeof(t_token) * (1));
+		info = get_token_info(&inp[i]);
+		node = list_token_new(info);
 		if (!node)
-			minishell_error();
+			minishell_exit("lexer/lexer.c: lexer(malloc)");
+		list_token_add_back(&top, node);
+		i += skip_whitespace(&str[i]);
 	}
-	return (list_token);
+	return (top);
 }
 
 /*

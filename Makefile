@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/24 13:06:55 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/25 18:19:09 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ NAME		:=	marshell
 
 SRC			:=	builtin/builtin.c		\
 				builtin/echo.c			\
+				lexer/lexer.c			\
 				utils/utils.c
 
 VER_SRC		:=	$(SRC) \
