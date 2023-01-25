@@ -19,6 +19,7 @@
 //			MACROS
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
+# define MARES_PROMPT "\001\033[1;32m\002Maresiscoding> \001\033[0m\002"
 
 //			E_NUMS
 
@@ -62,10 +63,12 @@ typedef struct s_cmd{
 t_token	*lexer(const char *inp);
 void	lex_free(t_token *token);
 
-void	parse_input(int argc, char **argv, t_cmd *cmd);
+// void	parse_input(int argc, char **argv, t_cmd *cmd);
+void	mini_parse_input(char *input, t_cmd *cmd);
 bool	check_builtin(char *cmd);
 void	execute_builtin(t_cmd *cmd);
 char	**make_double_array(int word_count);
+int		ft_word_counter(char const *s, char c);
 int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
 int		execute_cd(t_cmd *cmd);

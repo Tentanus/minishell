@@ -48,8 +48,8 @@ int	execute_cd(t_cmd *cmd)
 	cwd = getcwd(cwd, 0);
 	printf("cwd = %s\n", cwd);
 	ft_strlcpy(old_working_dir, cwd, ft_strlen(cwd));
-	printf("ft_strlen(cwd) = %zu\n", ft_strlen(cwd));
-	printf("old_working_dir = %s\n", old_working_dir);
+	// printf("ft_strlen(cwd) = %zu\n", ft_strlen(cwd));
+	// printf("old_working_dir = %s\n", old_working_dir); // WERKT NIET??
 
 	//  change working directory PWD to new_directory
 	chdir_return = chdir(new_working_dir);
