@@ -58,10 +58,16 @@ typedef struct s_cmd{
 	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct s_env{
-	char			*OLDPWD;
-	char			*PWD;
-}				t_env;
+// typedef struct s_env{
+// 	char			*OLDPWD;
+// 	char			*PWD;
+// }				t_env;
+
+// typedef struct s_env_list{
+// 	char				*key;
+// 	char				*value;
+//	struct s_env_list	*next;
+// }				t_env_list;
 
 //			FUNCTIONS
 
@@ -71,12 +77,12 @@ void	lex_free(t_token *token);
 // void	parse_input(int argc, char **argv, t_cmd *cmd);
 void	mini_parse_input(char *input, t_cmd *cmd);
 bool	check_builtin(char *cmd);
-void	execute_builtin(t_cmd *cmd, t_env *env, char **envp);
+void	execute_builtin(t_cmd *cmd, char **envp);
 char	**make_double_array(int word_count);
 int		ft_word_counter(char const *s, char c);
 int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
-int		execute_cd(t_cmd *cmd, t_env *env, char **envp);
+int		execute_cd(t_cmd *cmd, char **envp);
 
 //				UTILS
 

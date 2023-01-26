@@ -10,10 +10,11 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
+// int	execute_cd(t_cmd *cmd, char **envp)
+int	execute_cd(t_cmd *cmd, char **envp) 
 {
 	char *new_working_dir;
-	char *old_working_dir = NULL;
+	// char *old_working_dir = NULL;
 	char *cwd = NULL;
 	int	chdir_return;
 	bool to_print = false;
@@ -28,14 +29,15 @@ int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
 		{
 			char *OLDWD = getenv("OLDPWD"); // get OLDPWD
 			printf("OLDWD = %s\n", OLDWD);
-			printf("PWD = %s\n", getenv("PWD"));
-			if (!OLDWD) // check if OLDPWD exists, if not:
+			if (OLDWD == NULL) // check if OLDPWD exists, if not:
 			{
 				perror("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
 			new_working_dir = OLDWD;
-			env->OLDPWD = new_working_dir;
+			
+			// env->OLDPWD = new_working_dir;
+
 			// (ignore other args)
 			// print cwd! met execute_pwd() ?
 			to_print = true;
@@ -48,9 +50,28 @@ int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
 	// save current working directory into old_working_dir ("OLDPWD= " ???)
 	cwd = getcwd(cwd, 0);
 	printf("cwd = %s\n", cwd);
-	ft_strlcpy(old_working_dir, cwd, ft_strlen(cwd));
-	// printf("ft_strlen(cwd) = %zu\n", ft_strlen(cwd));
-	// printf("old_working_dir = %s\n", old_working_dir); // WERKT NIET??
+
+	// Save the current PWD to OLDPWD
+	// Code from chatGPT:
+    char *pwd = getenv("PWD");
+    // char *pwd = "teeeest";
+    char *oldpwd = getenv("OLDPWD");
+    int len_pwd = strlen(pwd);
+    int len_oldpwd = strlen(oldpwd);
+    char *str_pwd = (char *)malloc(sizeof(char) * (len_pwd+4));
+    char *str_oldpwd = (char *)malloc(sizeof(char) * (len_oldpwd+7));
+    strcpy(str_oldpwd, "OLDPWD=");
+    strcat(str_oldpwd, pwd);
+    strcpy(str_pwd, "PWD=");
+    strcat(str_pwd, new_working_dir);
+    for (int i = 0; envp[i]; i++) {
+        if (strncmp(envp[i], "OLDPWD=", 7) == 0) {
+            envp[i] = str_oldpwd;
+        }
+        if (strncmp(envp[i], "PWD=", 4) == 0) {
+            envp[i] = str_pwd;
+        }
+    }
 
 	//  change working directory PWD to new_directory
 	chdir_return = chdir(new_working_dir);
@@ -59,18 +80,21 @@ int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
 		perror("cd: args[0]");
 		return (1);
 	}
-	else // remove later when finished
+	else // remove else block later when finished
 	{
 		char *new_cwd = NULL;
 		new_cwd = getcwd(new_cwd, 0);
 		printf("new_cwd: %s\n", new_cwd);
 	}
-
-	printf("dit is een test %s\n", getenv(envp[6]));
-
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
-	// printf("cmd->amount_of_args = %d\n", cmd->amount_of_args);
+
+	int i = 0; // remove this block later
+	while(envp[i])
+	{
+		printf("envp[%d] = %s\n", i, envp[i]);
+		i++;
+	}
 	return (0);
 }
 
@@ -93,3 +117,8 @@ int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
 // change working directory PWD to new_directory
 
 // - expanding tilde in the path
+
+// create link list of key+value to copy envp's too
+// Make look for env variable function (strcmp loopen door envp[i])
+// make set variable function (key + value)
+

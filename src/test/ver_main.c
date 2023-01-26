@@ -5,7 +5,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd		cmd;
-	t_env		env;
+	// t_env		env;
 	char		*input;
 	const char	prompt[] = MARES_PROMPT;
 	(void) argc; // to silence compiler
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 
 		mini_parse_input(input, &cmd);
 		if (check_builtin(cmd.simple_cmd) == true)
-			execute_builtin(&cmd, &env, envp);
+			execute_builtin(&cmd, envp);
 		free(input);
 	}
 	return (0);
