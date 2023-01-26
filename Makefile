@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/25 18:19:09 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/26 13:50:31 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,12 @@
 
 NAME		:=	marshell
 
-SRC			:=	builtin/builtin.c		\
-				builtin/echo.c			\
-				lexer/lexer.c			\
-				utils/utils.c
+SRC			:=	builtin/builtin.c			\
+				builtin/echo.c				\
+				lexer/lexer.c				\
+				utils/utils.c				\
+				utils/list_token_utils.c	\
+				utils/str_utils.c
 
 VER_SRC		:=	$(SRC) \
 				tmp_mares/mini_parse.c \

@@ -1,10 +1,5 @@
 #include <minishell.h>
 
-typedef struct s_token_info {
-	size_t	start;
-	size_t	end;
-}	t_token_info;
-
 /*
 static const char	*g_id_chars[] = {\
 	[END_INP] = '\0', \
@@ -16,9 +11,10 @@ static const char	*g_id_chars[] = {\
 */
 
 
-t_token_info	get_token_info(const char *inp)
+int	get_token_info(const char *inp, t_token *node)
 {
-	
+	(void)	inp;
+	(void)	node;
 }
 
 t_token	*lexer(const char *inp)
@@ -26,18 +22,17 @@ t_token	*lexer(const char *inp)
 	int				i;
 	t_token			*top;
 	t_token			*node;
-	t_token_info	info;
 
 	top = NULL;
-	i = skip_whitespace(&str[0]);;
+	i = skip_whitespace(&inp[0]);;
 	while (inp[i])
 	{
-		info = get_token_info(&inp[i]);
-		node = list_token_new(info);
+		node = list_token_new();
 		if (!node)
-			minishell_exit("lexer/lexer.c: lexer(malloc)");
+			return (NULL);	//minishell_exit("lexer/lexer.c: lexer(malloc)");
+		i += get_token_info(&inp[i], node);
 		list_token_add_back(&top, node);
-		i += skip_whitespace(&str[i]);
+		i += skip_whitespace(&inp[i]);
 	}
 	return (top);
 }

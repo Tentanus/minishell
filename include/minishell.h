@@ -75,6 +75,7 @@ int		skip_whitespace(const char *str);
 //				UTILS_TOKEN
 
 int		list_token_size(t_token *top);
+t_token *list_token_new(void);
 t_token	*list_token_last(t_token *list);
 void	list_token_add_back(t_token **list, t_token *node);
 
