@@ -13,6 +13,41 @@ int	list_token_size(t_token *top)
 	return (size);
 }
 
+t_token	*list_token_new(t_token_info inp)
+{
+	t_token	new;
+
+	new = malloc(sizeof(t_token) * 1);
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	return (new);
+}
+t_token	*list_token_last(t_token *list)
+{
+	int	size;
+
+	size = list_token_size(list);
+	while (size-- > 1)
+		list = list->next;
+	return (list)
+
+void	list_token_add_back(t_token **list t_token *new)
+{
+	int		size;
+	t_token	*tmp;
+
+	if (!new)
+		return ;// Malloc has return NULL in prior call
+	else if (!(*list))
+	{
+		*list = new;
+		return ;
+	}
+	tmp = list_token_last(list);
+	tmp->next = new;
+}
+
 void	list_token_print(t_token *top)
 {
 	int			list_size = list_token_size(top);

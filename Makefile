@@ -22,7 +22,7 @@ NAME		:=	marshell
 
 SRC			:=	builtin/builtin.c		\
 				builtin/echo.c			\
-				utils/minishell_error.c	\
+				lexer/lexer.c			\
 				utils/utils.c
 
 VER_SRC		:=	$(SRC) \
