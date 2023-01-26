@@ -10,13 +10,13 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd)
+int	execute_cd(t_cmd *cmd, t_env *env, char **envp)
 {
 	char *new_working_dir;
 	char *old_working_dir = NULL;
 	char *cwd = NULL;
 	int	chdir_return;
-	bool to_print;
+	bool to_print = false;
 
 	// set new_working_dir
 	if (cmd->amount_of_args == 0)
@@ -27,14 +27,15 @@ int	execute_cd(t_cmd *cmd)
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			char *OLDWD = getenv("OLDPWD"); // get OLDPWD
-			if (OLDWD == NULL) // check if OLDPWD exists, if not:
+			printf("OLDWD = %s\n", OLDWD);
+			printf("PWD = %s\n", getenv("PWD"));
+			if (!OLDWD) // check if OLDPWD exists, if not:
 			{
 				perror("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
-
 			new_working_dir = OLDWD;
-
+			env->OLDPWD = new_working_dir;
 			// (ignore other args)
 			// print cwd! met execute_pwd() ?
 			to_print = true;
@@ -55,8 +56,6 @@ int	execute_cd(t_cmd *cmd)
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
 	{
-		// printf("cd: ");
-		// printf("%s:", cmd->args[0]);
 		perror("cd: args[0]");
 		return (1);
 	}
@@ -66,6 +65,8 @@ int	execute_cd(t_cmd *cmd)
 		new_cwd = getcwd(new_cwd, 0);
 		printf("new_cwd: %s\n", new_cwd);
 	}
+
+	printf("dit is een test %s\n", getenv(envp[6]));
 
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
