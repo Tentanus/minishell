@@ -59,6 +59,8 @@ typedef struct s_cmd{
 
 //			FUNCTIONS
 
+void	minishell_error(const char *loc);
+
 t_token	*lexer(const char *inp);
 void	lex_free(t_token *token);
 

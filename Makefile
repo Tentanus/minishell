@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/26 13:50:31 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/27 16:09:58 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC			:=	builtin/builtin.c			\
 				builtin/echo.c				\
 				lexer/lexer.c				\
 				utils/utils.c				\
+				utils/minishell_error.c		\
 				utils/list_token_utils.c	\
 				utils/str_utils.c
 
