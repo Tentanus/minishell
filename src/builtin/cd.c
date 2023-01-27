@@ -10,7 +10,6 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-// int	execute_cd(t_cmd *cmd, char **envp)
 int	execute_cd(t_cmd *cmd, char **envp) 
 {
 	char *new_working_dir;
@@ -52,26 +51,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	printf("cwd = %s\n", cwd);
 
 	// Save the current PWD to OLDPWD
-	// Code from chatGPT:
-    char *pwd = getenv("PWD");
-    // char *pwd = "teeeest";
-    char *oldpwd = getenv("OLDPWD");
-    int len_pwd = strlen(pwd);
-    int len_oldpwd = strlen(oldpwd);
-    char *str_pwd = (char *)malloc(sizeof(char) * (len_pwd+4));
-    char *str_oldpwd = (char *)malloc(sizeof(char) * (len_oldpwd+7));
-    strcpy(str_oldpwd, "OLDPWD=");
-    strcat(str_oldpwd, pwd);
-    strcpy(str_pwd, "PWD=");
-    strcat(str_pwd, new_working_dir);
-    for (int i = 0; envp[i]; i++) {
-        if (strncmp(envp[i], "OLDPWD=", 7) == 0) {
-            envp[i] = str_oldpwd;
-        }
-        if (strncmp(envp[i], "PWD=", 4) == 0) {
-            envp[i] = str_pwd;
-        }
-    }
+	change_pwd_oldpwd(envp);
 
 	//  change working directory PWD to new_directory
 	chdir_return = chdir(new_working_dir);
@@ -89,36 +69,24 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
 
-	int i = 0; // remove this block later
-	while(envp[i])
-	{
-		printf("envp[%d] = %s\n", i, envp[i]);
-		i++;
-	}
+	print_env(envp); // to test!
 	return (0);
 }
 
-// - SET new_working_dir:
-// cd zonder arg: change cwd to "HOME"
-// cd met 1 arg: CHECK IF arg[0] EXISTS and change cwd to arg[0]
-
-// - handling the - argument (should take the user back to previous working directory (OLDPWD))
+// 1. SET new_working_dir:
+// - cd zonder arg: change cwd to "HOME"
+// - cd met 1 arg: change cwd to arg[0]
+// - "cd -": should take the user back to previous working directory (OLDPWD)
 // cd met arg[0][0] == '-': change cwd to previous working directory OLDPWD (ignore other args), print cwd!
+// let op! old pwd does not necessarily exist
 // if arg[0][0] == '-'
-// save oldpwd in tmp
-// change oldpwd to cwd
-// change cwd to tmp
 
-// - SAVE the value of the OLDPWD environment variables
-// old pwd does not necessarily exist
-// if cd: save cwd in OLDPWD by using getenv("PWD")
+// 2. save current_working_dir in OLDPWD in envp list
 
-// CHANGE cwd met chdir()
+// 3. CHANGE cwd met chdir()
 // change working directory PWD to new_directory
+// CHECK IF new_working_directory (arg[0]) EXISTS!!!
 
-// - expanding tilde in the path
+// 4. save new_working_dir in PWD in envp list
 
-// create link list of key+value to copy envp's too
-// Make look for env variable function (strcmp loopen door envp[i])
-// make set variable function (key + value)
-
+// (expanding tilde in the path)

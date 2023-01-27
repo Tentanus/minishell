@@ -84,6 +84,8 @@ int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
 int		execute_cd(t_cmd *cmd, char **envp);
 
+void    print_env(char **envp);
+void	change_pwd_oldpwd(char **envp);
 //				UTILS
 
 #endif

@@ -10,8 +10,9 @@
 
 int	execute_pwd(int fd)
 {
-	char	*cwd = NULL;
+	char	*cwd;
 
+	cwd = NULL;
 	cwd = getcwd(cwd, 0);
 	if (cwd != NULL)
 	{
