@@ -15,6 +15,12 @@ int	get_token_info(const char *inp, t_token *node)
 {
 	(void)	inp;
 	(void)	node;
+	int		i;
+
+	i = 0;
+	while (ft_isalpha(inp[i]))
+		i++;
+	return (i);
 }
 
 t_token	*lexer(const char *inp)
@@ -29,7 +35,7 @@ t_token	*lexer(const char *inp)
 	{
 		node = list_token_new();
 		if (!node)
-			return (NULL);	//minishell_exit("lexer/lexer.c: lexer(malloc)");
+			minishell_error("lexer/lexer.c: lexer @ malloc");
 		i += get_token_info(&inp[i], node);
 		list_token_add_back(&top, node);
 		i += skip_whitespace(&inp[i]);
