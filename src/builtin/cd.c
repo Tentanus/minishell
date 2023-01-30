@@ -18,7 +18,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	int	chdir_return;
 	bool to_print = false;
 
-	// set new_working_dir
+	// 1. set new_working_dir
 	if (cmd->amount_of_args == 0)
 		new_working_dir = getenv("HOME");
 	else
@@ -46,14 +46,17 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	}
 	printf("new_working_dir = %s\n", new_working_dir);
 
-	// save current working directory into old_working_dir ("OLDPWD= " ???)
-	cwd = getcwd(cwd, 0);
-	printf("cwd = %s\n", cwd);
+	// 2. save current working directory into "OLDPWD=" environment variable
+	// function to search environment variable (strcmp), look for OLDPWD
+	// if function does not exist yet: add/set environment variable
+	// if function does exist already: function to modify environment variable
+	// cwd = getcwd(cwd, 0);
+	// printf("cwd = %s\n", cwd);
+	// Save the current PWD to OLDPWD :change_pwd_oldpwd(envp);
 
-	// Save the current PWD to OLDPWD
-	change_pwd_oldpwd(envp);
-
-	//  change working directory PWD to new_directory
+	//  3. change working directory PWD to new_directory
+	//  chdir() = 0 (indicating success): the operating system updates the process's
+	//  current working directory
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
 	{
@@ -68,6 +71,12 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	}
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
+
+	// 4. save new_working_dir in PWD in envp list
+	// function to search environment variable (strcmp), look for PWD
+	// modify PWD environment variable
+	// PWD = getcwd(cwd, 0);
+	// printf("cwd = %s\n", cwd);
 
 	print_env(envp); // to test!
 	return (0);

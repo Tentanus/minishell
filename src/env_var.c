@@ -3,11 +3,25 @@
 /*
 ** This file contains functions to manage and change environment variables.
 **
-** function to print all envps (for env)
-** function to add/set environment variable (at end?)
-** function to search environment variable (strcmp)
+** function to print all envps (env builtin)
+**
+** function to add/set environment variable:
+- equivalent of putenv() or setenv()
+- create new string of format 'NAME=value'
+- where to add variable,  at end?
+**
+** function to search for environment variable:
+** - getenv om te checken of env var bestaat
+** - daarna strncmp door envp's om goede env var te "pakken":
+** if (strncmp(name, env_var, len(name)) == 0 && (env_var)[len] == '=') dan gevonden!
+** - pointer naar juiste env var returnen?
+**
 ** function to modify environment variable
-** function to remove environment variable
+**
+** function to remove environment variable (unset builtin)
+**
+** function to export a variable (export builtin)
+** 
 **
 ** environment variables of 'NAME=value' format
 ** - getenv() gives the 'value'
@@ -31,6 +45,28 @@ void    print_env(char **envp)
 		ft_putstr_fd("\n", 1); // change 1 to fd?
 		i++;
 	}
+    return ;
+}
+
+void    set_env(char *name, char *value, int overwrite, char **envp)
+{
+	char *env_var;
+    
+    // malloc for strlen(name) + strlen(value) + 2
+    env_var = malloc(strlen(name) + strlen(value) + 2);
+    // protect malloc!
+    if (!env_var)
+    {
+        perror("malloc set_env fail");
+		exit(1);
+        // throw error and exit/return
+    }
+
+    // make new env_var of format 'NAME=value'
+    ft_strcpy(env_var, name); // copy name to env_var
+    ft_strcat(env_var, "="); // concatenate name and =
+    ft_strcat(env_var, value); // concatenate name= and value
+    
     return ;
 }
 
