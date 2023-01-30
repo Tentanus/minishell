@@ -24,13 +24,13 @@
 
 typedef enum e_token_id {
 	UNINITIALIZED,
-	PIPE,
 	QUOTE,
 	DQUOTE,
+	PIPE,
 	GREAT,
 	LESS,
-	DGREAT,
-	DLESS,
+	SPAC,
+	WORD
 }	t_token_id;
 
 //			STRUCTURES
@@ -61,8 +61,9 @@ typedef struct s_cmd{
 
 void	minishell_error(const char *loc);
 
-t_token	*lexer(const char *inp);
+t_token	*lexer(char *inp);
 void	lex_free(t_token *token);
+void	get_token_info(const char *inp, int *current_pos, t_token *node);
 
 void	parse_input(int argc, char **argv, t_cmd *cmd);
 bool	check_builtin(char *cmd);
@@ -73,6 +74,7 @@ int		execute_echo(t_cmd *cmd);
 //				UTILS
 
 int		skip_whitespace(const char *str);
+void	ft_str_rmspace(char *inp);
 
 //				UTILS_TOKEN
 

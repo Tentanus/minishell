@@ -1,9 +1,5 @@
 #include <minishell.h>
 
-/*
-	list_token_stize(t_token *top)
-*/
-
 int	list_token_size(t_token *top)
 {
 	int	size;
@@ -23,8 +19,10 @@ t_token	*list_token_new(void)
 
 	new = malloc(sizeof(t_token) * 1);
 	if (!new)
-		return (NULL);
+		minishell_error("utils/list_token_utils.c: list_token_new @ malloc");
 	new->next = NULL;
+	new->id = UNINITIALIZED;
+	new->str = NULL;
 	return (new);
 }
 
@@ -43,7 +41,7 @@ void	list_token_add_back(t_token **list, t_token *new)
 	t_token	*tmp;
 
 	if (!new)
-		return ;// maybe we should do the minishell exit here to.
+		return ;
 	else if (!(*list))
 	{
 		*list = new;
@@ -51,7 +49,10 @@ void	list_token_add_back(t_token **list, t_token *new)
 	}
 	tmp = list_token_last(*list);
 	tmp->next = new;
+	return ;
 }
+
+// TESTING FUNCTION
 
 void	list_token_print(t_token *top)
 {
@@ -60,7 +61,7 @@ void	list_token_print(t_token *top)
 
 	while (size--)
 	{
-		ft_printf("TOKEN [%d]\nstr:\t|%s|\ntoken:\t|%d|\n", top->str, top->id, (con - size));
+		ft_printf("TOKEN [%d]\nstr:\t|%s|\ntoken:\t|%d|\n", top->id, top->str, (con - size));
 		top = top->next;
 	}
 	return ;

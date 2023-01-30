@@ -1,44 +1,56 @@
 #include <minishell.h>
 
-/*
-static const char	*g_id_chars[] = {\
-	[END_INP] = '\0', \
-	[PIPE] = "|", \
-	[GREAT] = ">", \
-	[LESS] = "<", \
-	[CHAR_END] = ""
-};
-*/
-
-
-int	get_token_info(const char *inp, t_token *node)
+int	token_delimeter(const char c)
 {
-	(void)	inp;
-	(void)	node;
-	int		i;
+	int			val;
+	const char	delim[] = "\'\"|<> ";
 
-	i = 0;
-	while (ft_isalpha(inp[i]))
-		i++;
-	return (i);
+	val = UNINITIALIZED;
+	while (val != WORD)
+	{
+		printf("%d  ", val);
+		if (!ft_strncmp(delim, &c, 1))
+			break ;
+		val++;
+	}
+	if (val == WORD)
+		return (0);
+	return (val);
 }
 
-t_token	*lexer(const char *inp)
+void	get_token_info(const char *inp, int *current_pos, t_token *node)
 {
-	int				i;
+	const int	start_pos = *current_pos;
+	bool		quote;
+
+	quote = false;
+	while (inp[*current_pos])
+	{
+		if (token_delimeter(inp[*current_pos]))
+			break ;
+		(*current_pos)++;
+	}
+	node->str = ft_substr(inp, start_pos, (*current_pos - start_pos));
+}
+
+t_token	*lexer(char *inp)
+{
+	int				current_pos;
 	t_token			*top;
 	t_token			*node;
 
 	top = NULL;
-	i = skip_whitespace(&inp[0]);;
-	while (inp[i])
+	current_pos = skip_whitespace(inp);
+	ft_str_rmspace(inp);
+	while (inp[current_pos])
 	{
 		node = list_token_new();
 		if (!node)
 			minishell_error("lexer/lexer.c: lexer @ malloc");
-		i += get_token_info(&inp[i], node);
+		get_token_info(inp, &current_pos, node);
 		list_token_add_back(&top, node);
-		i += skip_whitespace(&inp[i]);
+		current_pos += skip_whitespace(&inp[current_pos]);
+		printf("|%s|\n", &inp[current_pos]);
 	}
 	return (top);
 }
