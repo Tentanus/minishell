@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/27 16:09:58 by mweverli      ########   odam.nl          #
+#    Updated: 2023/01/31 11:26:48 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,19 +20,20 @@
 
 NAME		:=	marshell
 
-SRC			:=	builtin/builtin.c			\
-				builtin/echo.c				\
-				lexer/lexer.c				\
-				utils/utils.c				\
-				utils/minishell_error.c		\
-				utils/list_token_utils.c	\
-				utils/str_utils.c
+SRC			:=	builtin/builtin.c		\
+				builtin/echo.c			\
+				builtin/pwd.c			\
+				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c \
+				tmp_mares/mini_parse.c		\
+				tmp_mares/parse_utils.c		\
+				builtin/cd.c				\
+				builtin/env_var.c			\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
-				test/wev_main.c
+				test/wev_main.c			\
+				lexer/lexer.c
 SRC			+=	main.c
 
 SRC			:=	$(SRC:%=$(SRC_DIR)/%)

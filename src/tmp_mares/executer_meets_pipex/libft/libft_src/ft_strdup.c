@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   ft_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/20 14:04:43 by mverbrug      ########   odam.nl         */
+/*   Created: 2020/11/23 16:10:39 by mverbrug      #+#    #+#                 */
+/*   Updated: 2022/04/20 12:29:08 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../libft.h"
 
-char	**make_double_array(int word_count)
+/*
+** The strdup() function allocates sufficient memory for a copy of the
+** string s1, does the copy, and returns a pointer to it.  The pointer may
+** subsequently be used as an argument to the function free().
+*/
+
+char	*ft_strdup(const char *s1)
 {
-	char	**result;
+	char	*dst;
+	int		len;
 
-	result = malloc((word_count + 1) * sizeof(char *));
-	if (!result)
+	len = ft_strlen(s1) + 1;
+	dst = (char *)malloc(len * sizeof(char));
+	if (!dst)
 		return (NULL);
-	return (result);
+	ft_strlcpy(dst, s1, len);
+	return (dst);
 }

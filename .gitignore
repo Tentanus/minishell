@@ -2,3 +2,5 @@
 /OBJ
 .vscode
 .DS_Store
+*.o
+*.d
