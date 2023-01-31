@@ -76,18 +76,20 @@ void	minishell_error(const char *loc);
 t_token	*lexer(const char *inp);
 void	lex_free(t_token *token);
 
-// void	parse_input(int argc, char **argv, t_cmd *cmd);
 void	mini_parse_input(char *input, t_cmd *cmd);
-bool	check_builtin(char *cmd);
-void	execute_builtin(t_cmd *cmd, char **envp);
 char	**make_double_array(int word_count);
 int		ft_word_counter(char const *s, char c);
+
+bool	check_builtin(char *cmd);
+void	execute_builtin(t_cmd *cmd, char **envp);
 int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
 int		execute_cd(t_cmd *cmd, char **envp);
 
 void    print_env(char **envp);
+void    set_env(char *name, char *value);
 void	change_pwd_oldpwd(char **envp);
+
 
 //				UTILS
 

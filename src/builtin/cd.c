@@ -27,16 +27,13 @@ int	execute_cd(t_cmd *cmd, char **envp)
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			char *OLDWD = getenv("OLDPWD"); // get OLDPWD
-			printf("OLDWD = %s\n", OLDWD);
+			// printf("OLDWD = %s\n", OLDWD);
 			if (OLDWD == NULL) // check if OLDPWD exists, if not:
 			{
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
 			new_working_dir = OLDWD;
-			
-			// env->OLDPWD = new_working_dir;
-
 			// (ignore other args)
 			// print cwd! met execute_pwd() ?
 			to_print = true;
@@ -44,7 +41,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 		else
 			new_working_dir = cmd->args[0];
 	}
-	printf("new_working_dir = %s\n", new_working_dir);
+	// printf("new_working_dir = %s\n", new_working_dir);
 
 	// 2. save current working directory into "OLDPWD=" environment variable
 	// function to search environment variable (strcmp), look for OLDPWD
@@ -53,6 +50,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// cwd = getcwd(cwd, 0);
 	// printf("cwd = %s\n", cwd);
 	// Save the current PWD to OLDPWD :change_pwd_oldpwd(envp);
+	set_env("TEST_ENV_VAR", "weetikhet");
 
 	//  3. change working directory PWD to new_directory
 	//  chdir() = 0 (indicating success): the operating system updates the process's

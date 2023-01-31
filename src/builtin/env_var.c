@@ -50,22 +50,28 @@ void    print_env(char **envp)
 void    set_env(char *name, char *value)
 {
 	char *env_var;
+    size_t env_var_size;
     
+    printf("name = %s\n", name);
+    printf("value = %s\n", value);
+    printf("DUS WE ZIJN IN SET_ENV\n\n");
+
+    env_var_size = ft_strlen(name) + ft_strlen(value) + 2;
     // malloc for strlen(name) + strlen(value) + 2
-    env_var = malloc(strlen(name) + strlen(value) + 2);
+    env_var = malloc(env_var_size);
     // protect malloc!
     if (!env_var)
     {
         minishell_error("set_env malloc");
 		exit(1);
     }
-
     // make new env_var of format 'NAME=value'
-    ft_strlcpy(env_var, name, ft_strlen(env_var)); // copy name to env_var
-    ft_strlcat(env_var, "=", ft_strlen(env_var)); // concatenate name and =
-    ft_strlcat(env_var, value, ft_strlen(env_var)); // concatenate name= and value
-    
-    printf("env var = %s\n", env_var);
+    ft_strlcpy(env_var, name, env_var_size); // copy name to env_var
+    printf("1. env var = %s\n", env_var);
+    ft_strlcat(env_var, "=", env_var_size); // concatenate name and =
+    printf("2. env var = %s\n", env_var);
+    ft_strlcat(env_var, value, env_var_size); // concatenate name= and value
+    printf("3. env var = %s\n\n", env_var);
     return ;
 }
 
