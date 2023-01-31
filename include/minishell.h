@@ -4,8 +4,8 @@
 //			INCLUDES
 
 # include <stdio.h> // for printf (and partly readline)
-# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe
-# include <stdlib.h> // for free, exit, malloc
+# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe, getcwd, chdir
+# include <stdlib.h> // for free, exit, malloc, getenv
 # include <readline/readline.h> // for readline
 # include <readline/history.h> // for history
 # include <stdbool.h> // for bool
@@ -19,6 +19,7 @@
 //			MACROS
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
+# define MARES_PROMPT "\001\033[1;32m\002Maresiscoding> \001\033[0m\002"
 
 //			E_NUMS
 
@@ -57,6 +58,17 @@ typedef struct s_cmd{
 	struct s_cmd	*next;
 }				t_cmd;
 
+// typedef struct s_env{
+// 	char			*OLDPWD;
+// 	char			*PWD;
+// }				t_env;
+
+// typedef struct s_env_list{
+// 	char				*key;
+// 	char				*value;
+//	struct s_env_list	*next;
+// }				t_env_list;
+
 //			FUNCTIONS
 
 void	minishell_error(const char *loc);
@@ -64,12 +76,18 @@ void	minishell_error(const char *loc);
 t_token	*lexer(const char *inp);
 void	lex_free(t_token *token);
 
-void	parse_input(int argc, char **argv, t_cmd *cmd);
+// void	parse_input(int argc, char **argv, t_cmd *cmd);
+void	mini_parse_input(char *input, t_cmd *cmd);
 bool	check_builtin(char *cmd);
-void	execute_builtin(t_cmd *cmd);
+void	execute_builtin(t_cmd *cmd, char **envp);
 char	**make_double_array(int word_count);
-int		execute_echo(t_cmd *cmd);
+int		ft_word_counter(char const *s, char c);
+int		execute_echo(t_cmd *cmd, int fd);
+int		execute_pwd(int fd);
+int		execute_cd(t_cmd *cmd, char **envp);
 
+void    print_env(char **envp);
+void	change_pwd_oldpwd(char **envp);
 //				UTILS
 
 int		skip_whitespace(const char *str);
