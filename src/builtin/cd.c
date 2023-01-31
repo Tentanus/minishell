@@ -14,7 +14,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 {
 	char *new_working_dir;
 	// char *old_working_dir = NULL;
-	char *cwd = NULL;
+	// char *cwd = NULL;
 	int	chdir_return;
 	bool to_print = false;
 
