@@ -55,6 +55,17 @@ t_token	*lexer(char *inp)
 	return (top);
 }
 
+
+
+
+
+
+
+
+
+
+
+
 /*
 1. if end of input is recognised current token shall be delimited.
 	if there is no current token END_INP shall be returned.
