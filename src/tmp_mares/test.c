@@ -8,13 +8,13 @@ void execute()
         pid = fork();
         if (pid < 0)
         {
-            perror("fork fail"); 
+            minishell_error("fork fail"); 
             return ;
         }
         if (pid == 0) // child process
         {
             execve(path_to_cmd, cmd, envp); 
-            perror(“execve”);
+            minishell_error("execve");
             exit(1);
         }
         // Parent process

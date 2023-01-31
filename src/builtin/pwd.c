@@ -21,7 +21,7 @@ int	execute_pwd(int fd)
 	}
 	else
 	{
-		perror("pwd error");
+		minishell_error("pwd error");
 		return (1);
 	}
 	return (0);

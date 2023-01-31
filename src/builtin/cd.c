@@ -30,7 +30,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 			printf("OLDWD = %s\n", OLDWD);
 			if (OLDWD == NULL) // check if OLDPWD exists, if not:
 			{
-				perror("cd: OLDPWD not set"); // throw error like bash
+				minishell_error("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
 			new_working_dir = OLDWD;
@@ -60,7 +60,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
 	{
-		perror("cd: args[0]");
+		minishell_error("chdir error. cd: args[0]"); // throw error like bash 
 		return (1);
 	}
 	else // remove else block later when finished

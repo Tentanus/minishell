@@ -57,7 +57,7 @@ void    set_env(char *name, char *value, int overwrite, char **envp)
     // protect malloc!
     if (!env_var)
     {
-        perror("malloc set_env fail");
+        minishell_error("malloc set_env fail");
 		exit(1);
         // throw error and exit/return
     }
