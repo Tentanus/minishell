@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/31 11:04:43 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/01/31 11:09:12 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				test/wev_main.c			\
-				lexer/lexer.c			\
+				lexer/lexer.c
 SRC			+=	main.c
 
 SRC			:=	$(SRC:%=$(SRC_DIR)/%)
