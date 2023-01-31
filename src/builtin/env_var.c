@@ -37,9 +37,6 @@ void    print_env(char **envp)
     i = 0;
 	while(envp[i])
 	{
-		// printf("envp[%d] = %s\n", i, envp[i]);
-		// printf("%s\n", envp[i]);
-		// printf("getenvp[%d] = %s\n", i, getenv(envp[i]));
 		s = envp[i];
 		ft_putstr_fd(s, 1); // change 1 to fd?
 		ft_putstr_fd("\n", 1); // change 1 to fd?
@@ -48,7 +45,9 @@ void    print_env(char **envp)
     return ;
 }
 
-void    set_env(char *name, char *value, int overwrite, char **envp)
+
+// void    set_env(char *name, char *value, int overwrite, char **envp)
+void    set_env(char *name, char *value)
 {
 	char *env_var;
     
@@ -57,18 +56,21 @@ void    set_env(char *name, char *value, int overwrite, char **envp)
     // protect malloc!
     if (!env_var)
     {
-        minishell_error("malloc set_env fail");
+        minishell_error("set_env malloc");
 		exit(1);
-        // throw error and exit/return
     }
 
     // make new env_var of format 'NAME=value'
-    ft_strcpy(env_var, name); // copy name to env_var
-    ft_strcat(env_var, "="); // concatenate name and =
-    ft_strcat(env_var, value); // concatenate name= and value
+    ft_strlcpy(env_var, name, ft_strlen(env_var)); // copy name to env_var
+    ft_strlcat(env_var, "=", ft_strlen(env_var)); // concatenate name and =
+    ft_strlcat(env_var, value, ft_strlen(env_var)); // concatenate name= and value
     
+    printf("env var = %s\n", env_var);
     return ;
 }
+
+
+
 
 // Code inspiration from chatGPT:
 void	change_pwd_oldpwd(char **envp)
