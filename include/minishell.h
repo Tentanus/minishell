@@ -71,6 +71,8 @@ typedef struct s_cmd{
 
 //			FUNCTIONS
 
+void	minishell_error(const char *loc);
+
 t_token	*lexer(const char *inp);
 void	lex_free(t_token *token);
 
@@ -87,5 +89,17 @@ int		execute_cd(t_cmd *cmd, char **envp);
 void    print_env(char **envp);
 void	change_pwd_oldpwd(char **envp);
 //				UTILS
+
+int		skip_whitespace(const char *str);
+
+//				UTILS_TOKEN
+
+int		list_token_size(t_token *top);
+t_token	*list_token_last(t_token *list);
+void	list_token_add_back(t_token **list, t_token *node);
+
+//		TEST FUNCTIONS (CAN BE REMOVED)
+void	list_token_print(t_token *top);
+
 
 #endif

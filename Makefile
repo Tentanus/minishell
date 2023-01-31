@@ -25,6 +25,9 @@ SRC			:=	builtin/builtin.c		\
 				builtin/pwd.c			\
 				builtin/cd.c			\
 				env_var.c
+				lexer/lexer.c			\
+				utils/utils.c			\
+				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
 				tmp_mares/mini_parse.c		\
