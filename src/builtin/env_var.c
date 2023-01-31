@@ -47,7 +47,7 @@ void    print_env(char **envp)
 
 
 // void    set_env(char *name, char *value, int overwrite, char **envp)
-void    set_env(char *name, char *value)
+void    set_env(char *name, char *value, char **envp)
 {
 	char *env_var;
     size_t env_var_size;
@@ -56,11 +56,10 @@ void    set_env(char *name, char *value)
     printf("value = %s\n", value);
     printf("DUS WE ZIJN IN SET_ENV\n\n");
 
-    env_var_size = ft_strlen(name) + ft_strlen(value) + 2;
     // malloc for strlen(name) + strlen(value) + 2
+    env_var_size = ft_strlen(name) + ft_strlen(value) + 2;
     env_var = malloc(env_var_size);
-    // protect malloc!
-    if (!env_var)
+    if (!env_var)  // protect malloc!
     {
         minishell_error("set_env malloc");
 		exit(1);
@@ -72,10 +71,45 @@ void    set_env(char *name, char *value)
     printf("2. env var = %s\n", env_var);
     ft_strlcat(env_var, value, env_var_size); // concatenate name= and value
     printf("3. env var = %s\n\n", env_var);
+
+	int var_index = search_for_env_index(name, envp);
+	envp[var_index] = env_var;
     return ;
 }
 
+bool	env_var_exists(char *name)
+{
+	if (getenv(name) != NULL)
+		return true;
+	return false;
+}
+int		search_for_env_index(char *name, char **envp)
+{
+    int i;
+    int len_name;
 
+    printf("WE ZIJN IN SEARCH_FOR_ENV\n");
+
+	i = 0;
+	len_name = ft_strlen(name);
+	if (env_var_exists(name) == true)
+	{
+		while(ft_strncmp(envp[i], name, len_name) != 0)
+		{
+			if (ft_strncmp(&envp[i][len_name], "=", 1) == 0)
+				return (i);
+			i++;
+		}
+		return (i);
+	}
+	else
+	{
+		int i = 0;
+		while(envp[i])
+			i++;
+		return (i);
+	}
+}
 
 
 // Code inspiration from chatGPT:

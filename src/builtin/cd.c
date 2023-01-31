@@ -50,7 +50,14 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// cwd = getcwd(cwd, 0);
 	// printf("cwd = %s\n", cwd);
 	// Save the current PWD to OLDPWD :change_pwd_oldpwd(envp);
-	set_env("TEST_ENV_VAR", "weetikhet");
+	// set_env("USER", "weetikhet", envp);
+	set_env("HERTJES", "weetikhet", envp);
+	printf("getenv = %s\n", getenv("HERTJES"));
+	int result = search_for_env_index("HERTJES", envp);
+    if (result != -1)
+		printf("env_var found = %s\n\n", envp[result]);
+	else
+		printf("env_var did not exist (yet)\n\n");
 
 	//  3. change working directory PWD to new_directory
 	//  chdir() = 0 (indicating success): the operating system updates the process's
