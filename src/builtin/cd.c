@@ -13,8 +13,9 @@
 int	execute_cd(t_cmd *cmd, char **envp) 
 {
 	char *new_working_dir;
-	// char *old_working_dir = NULL;
-	// char *cwd = NULL;
+	char *current_working_dir;
+	char *old_pwd;
+	char *pwd;
 	int	chdir_return;
 	bool to_print = false;
 
@@ -26,14 +27,14 @@ int	execute_cd(t_cmd *cmd, char **envp)
 		// handle "cd -": change cwd to previous working directory OLDPWD
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
-			char *OLDWD = getenv("OLDPWD"); // get OLDPWD
-			// printf("OLDWD = %s\n", OLDWD);
-			if (OLDWD == NULL) // check if OLDPWD exists, if not:
+			old_pwd = getenv("OLDPWD"); // get OLDPWD
+			// printf("old_pwd = %s\n", old_pwd);
+			if (old_pwd == NULL) // check if OLDPWD exists, if not:
 			{
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
-			new_working_dir = OLDWD;
+			new_working_dir = old_pwd;
 			// (ignore other args)
 			// print cwd! met execute_pwd() ?
 			to_print = true;
@@ -47,9 +48,9 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// function to search environment variable (strcmp), look for OLDPWD
 	// if function does not exist yet: add/set environment variable
 	// if function does exist already: function to modify environment variable
-	// cwd = getcwd(cwd, 0);
-	// printf("cwd = %s\n", cwd);
-	// Save the current PWD to OLDPWD :change_pwd_oldpwd(envp);
+	current_working_dir = getcwd(current_working_dir, 0);
+	printf("current_working_dir = %s\n", current_working_dir);
+	set_env("OLDPWD", current_working_dir, envp);
 	// set_env("USER", "weetikhet", envp);
 	set_env("HERTJES", "weetikhet", envp);
 	printf("getenv = %s\n", getenv("HERTJES"));
@@ -80,8 +81,19 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// 4. save new_working_dir in PWD in envp list
 	// function to search environment variable (strcmp), look for PWD
 	// modify PWD environment variable
-	// PWD = getcwd(cwd, 0);
-	// printf("cwd = %s\n", cwd);
+	pwd = getcwd(pwd, 0);
+	printf("pwd = %s\n", pwd);
+	set_env("PWD", pwd, envp);
+
+	// int i = 0;
+    // while (envp[i])
+    // {
+    //     if (strncmp(envp[i], "OLDPWD=", 7) == 0)
+    //         envp[i] = current_working_dir;
+    //     if (strncmp(envp[i], "PWD=", 4) == 0)
+    //         envp[i] = pwd;
+    //     i++;
+    // }
 
 	print_env(envp); // to test!
 	return (0);

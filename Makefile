@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/01/31 11:09:12 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/01 15:26:35 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,4 +117,3 @@ $(READLINE_PATH):
 
 lclean:
 	@make -C $(DIR_LIBFT) fclean
-
