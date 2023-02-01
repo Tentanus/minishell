@@ -50,12 +50,11 @@ char	*make_env_var_format(char *name, char *value)
     }
     // make new env_var of format 'NAME=value'
     ft_strlcpy(env_var, name, env_var_size); // copy name to env_var
-    printf("1. env var = %s\n", env_var);
+    // printf("1. env var = %s\n", env_var);
     ft_strlcat(env_var, "=", env_var_size); // concatenate name and =
-    printf("2. env var = %s\n", env_var);
+    // printf("2. env var = %s\n", env_var);
     ft_strlcat(env_var, value, env_var_size); // concatenate name= and value
-    printf("3. env var = %s\n\n", env_var);
-
+    // printf("3. env var = %s\n\n", env_var);
 	return (env_var);
 }
 
@@ -80,21 +79,24 @@ int		search_for_env_index(char *name, char **envp)
 // equivalent of putenv() or setenv()
 void    set_env(char *name, char *value, char **envp)
 {
-	char	*env_var;
+	char	*env_var = NULL;
 	int		index;
-    size_t	env_var_size;
 
+	env_var = make_env_var_format(name, value);
+	// printf("env_var in set_env = %s\n", env_var);
 	if (env_var_exists(name) == true)
 	{
 		index = search_for_env_index(name, envp);
 	}
 	else
 	{
-		env_var = make_env_var_format(name, value);
 		index = get_end_of_envp_list(envp);
 	}
-	envp[index] = env_var;
-    return ;
+	envp[index] = env_var; // op de een of andere manier doet ie dit niet??
+	// printf("envp[index] op eind van set_env = %s\n", envp[index]);
+    
+	// print_env(envp); // envp wordt niet geupdate??
+	return ;
 }
 
 // 5. function to remove environment variable (unset builtin)

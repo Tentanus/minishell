@@ -86,14 +86,14 @@ int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
 int		execute_cd(t_cmd *cmd, char **envp);
 
-void    print_env(char **envp);
-void    set_env(char *name, char *value, char **envp);
-int		search_for_env_index(char *name, char **envp);
 bool	env_var_exists(char *name);
-void	change_pwd_oldpwd(char **envp);
+char	*make_env_var_format(char *name, char *value);
+int		search_for_env_index(char *name, char **envp);
+void    set_env(char *name, char *value, char **envp);
+int		get_end_of_envp_list(char **envp);
+void    print_env(char **envp);
 
-
-//				UTILS
+//			UTILS
 
 int		skip_whitespace(const char *str);
 
