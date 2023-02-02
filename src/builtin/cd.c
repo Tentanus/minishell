@@ -20,12 +20,11 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	bool to_print = false;
 
 	// 1. set new_working_dir
-	if (cmd->amount_of_args == 0)
+	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
 		new_working_dir = getenv("HOME");
 	else
 	{
 		// handle "cd -": change cwd to previous working directory OLDPWD
-		// ! small problem with cmd not allocated at this stage if it's just cd
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			old_pwd = getenv("OLDPWD"); // get OLDPWD
@@ -45,12 +44,9 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// printf("new_working_dir = %s\n", new_working_dir);
 
 	// 2. save current working directory into "OLDPWD=" environment variable
-	// function to search environment variable (strcmp), look for OLDPWD
-	// if function does not exist yet: add/set environment variable
-	// if function does exist already: function to modify environment variable
 	current_working_dir = getcwd(current_working_dir, 0);
-	// printf("current_working_dir = %s\n", current_working_dir);
 	set_env("OLDPWD", current_working_dir, envp);
+	// printf("current_working_dir = %s\n", current_working_dir);
 
 	//  3. change working directory PWD to new_directory
 	//  chdir() = 0 (indicating success): the operating system updates the process's
@@ -58,17 +54,15 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
 	{
-		minishell_error("chdir error. cd: args[0]"); // throw error like bash 
+		minishell_error("chdir error. cd: args[0]"); // throw error like bash
 		return (1);
 	}
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
 
 	// 4. save new_working_dir in PWD in envp list
-	// function to search environment variable (strcmp), look for PWD
-	// modify PWD environment variable
 	pwd = getcwd(pwd, 0);
-	printf("pwd = %s\n", pwd);
+	// printf("pwd = %s\n", pwd);
 	set_env("PWD", pwd, envp);
 
 	// printf("envp at the end of execute_cd:\n\n");

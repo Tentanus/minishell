@@ -70,10 +70,10 @@ int		search_for_env_index(char *name, char **envp)
 	{
 		if (ft_strncmp(envp[i], name, len_name) == 0 &&
 				ft_strncmp(&envp[i][len_name], "=", 1) == 0)
-			return (i);
+			break;
 		i++;
 	}
-	return (-1);
+	return (i);
 }
 
 // 4. function to set environment variable:
@@ -84,29 +84,25 @@ void    set_env(char *name, char *value, char **envp)
 	int		index = 0;
 
 	env_var = make_env_var_format(name, value);
-	// printf("env_var in set_env = %s\n", env_var);
-	if (env_var_exists(name) == true)
+	index = search_for_env_index(name, envp);
+	// if (env_var_exists(name) == true)
+	// {
+	// 	free(envp[index]);
+	// 	envp[index] = NULL;
+	// }
+	// envp[index] = malloc(sizeof(ft_strlen(name) + ft_strlen(value) + 2));
+	envp[index] = env_var;
+	if (env_var_exists(name) == false)
 	{
-		printf("env_var %s does exist\n", name);
-		index = search_for_env_index(name, envp);
-		// free(envp[index]); // ????
+		// envp[index] = malloc(sizeof(ft_strlen(name) + ft_strlen(value) + 2));
+		envp[index + 1] = NULL;
 	}
-	else
-	{
-		printf("env_var %s does NOT YET exist\n", name);
-		index = get_end_of_envp_list(envp) + 1;
-	}
-	envp[index] = env_var; // op de een of andere manier doet ie dit niet??
-	printf("envp[index] op eind van set_env = %s\n\n", envp[index]);
-
-	printf("envp at the end of set_env:\n\n");
-	print_env(envp); // envp wordt niet geupdate??
 	return ;
 }
 
 // 5. function to remove environment variable (unset builtin)
 
-// 6.
+// 6. IS THIS REALLY NECESSARY
 int		get_end_of_envp_list(char **envp)
 {
 	int i;
@@ -124,7 +120,7 @@ void    print_env(char **envp)
 	char *s;
     
     i = 0;
-	while(envp[i])
+	while(envp[i] != NULL)
 	{
 		s = envp[i];
 		ft_putstr_fd(s, 1); // change 1 to fd?
