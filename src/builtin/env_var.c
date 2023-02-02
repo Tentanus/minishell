@@ -66,9 +66,10 @@ int		search_for_env_index(char *name, char **envp)
 
 	i = 0;
 	len_name = ft_strlen(name);
-	while (ft_strncmp(envp[i], name, len_name) != 0)
+	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(&envp[i][len_name], "=", 1) == 0)
+		if (ft_strncmp(envp[i], name, len_name) == 0 &&
+				ft_strncmp(&envp[i][len_name], "=", 1) == 0)
 			return (i);
 		i++;
 	}
@@ -80,22 +81,26 @@ int		search_for_env_index(char *name, char **envp)
 void    set_env(char *name, char *value, char **envp)
 {
 	char	*env_var = NULL;
-	int		index;
+	int		index = 0;
 
 	env_var = make_env_var_format(name, value);
 	// printf("env_var in set_env = %s\n", env_var);
 	if (env_var_exists(name) == true)
 	{
+		printf("env_var %s does exist\n", name);
 		index = search_for_env_index(name, envp);
+		// free(envp[index]); // ????
 	}
 	else
 	{
-		index = get_end_of_envp_list(envp);
+		printf("env_var %s does NOT YET exist\n", name);
+		index = get_end_of_envp_list(envp) + 1;
 	}
 	envp[index] = env_var; // op de een of andere manier doet ie dit niet??
-	// printf("envp[index] op eind van set_env = %s\n", envp[index]);
-    
-	// print_env(envp); // envp wordt niet geupdate??
+	printf("envp[index] op eind van set_env = %s\n\n", envp[index]);
+
+	printf("envp at the end of set_env:\n\n");
+	print_env(envp); // envp wordt niet geupdate??
 	return ;
 }
 

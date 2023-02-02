@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   parse_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/25 15:47:46 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/02 13:30:44 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 char	**make_double_array(int word_count)
 {
 	char	**result;
+	// char	*arg;
 
 	result = malloc((word_count + 1) * sizeof(char *));
+	// arg = malloc((1024) * sizeof(char));
+	// arg = "..";
 	if (!result)
 		return (NULL);
+	// result[0] = arg;
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/01 15:26:35 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/02 13:19:33 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ $(NAME): LIB $(OBJ)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
-	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
+	@$(COMPILE) $(INCLUDE) -g -MMD -o $@ -c $<
 	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFL)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
 

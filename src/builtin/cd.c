@@ -25,6 +25,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	else
 	{
 		// handle "cd -": change cwd to previous working directory OLDPWD
+		// ! small problem with cmd not allocated at this stage if it's just cd
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			old_pwd = getenv("OLDPWD"); // get OLDPWD
@@ -67,10 +68,10 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// function to search environment variable (strcmp), look for PWD
 	// modify PWD environment variable
 	pwd = getcwd(pwd, 0);
-	// printf("pwd = %s\n", pwd);
+	printf("pwd = %s\n", pwd);
 	set_env("PWD", pwd, envp);
 
-
+	// printf("envp at the end of execute_cd:\n\n");
 	// print_env(envp);
 	return (0);
 }
