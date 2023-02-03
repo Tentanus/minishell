@@ -6,11 +6,25 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/02/03 12:06:04 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/03 16:53:31 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	free_double_array(char **double_array)
+{
+	int	i;
+
+	i = 0;
+	while (double_array[i] != NULL)
+	{
+		free(double_array[i]);
+		i++;
+	}
+	free(double_array);
+	return ;
+}
 
 char	**make_double_array(int word_count)
 {

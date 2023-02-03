@@ -10,7 +10,7 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd, char **envp)
+int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 {
 	char *new_working_dir;
 	char *current_working_dir = NULL;
@@ -19,17 +19,15 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	int	chdir_return;
 	bool to_print = false;
 
-	make_copy_env(envp);
-
 	// 1. set new_working_dir
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
-		new_working_dir = getenv("HOME");
+		new_working_dir = get_env("HOME", our_env_var); // getenv("HOME");
 	else
 	{
 		// handle "cd -": change cwd to previous working directory OLDPWD
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
-			old_pwd = getenv("OLDPWD"); // get OLDPWD
+			old_pwd = get_env("OLDPWD", our_env_var); // get OLDPWD // getenv("OLDPWD");
 			printf("we zijn in cd - en old_pwd = %s\n", old_pwd);
 			if (old_pwd == NULL) // check if OLDPWD exists, if not:
 			{
@@ -44,11 +42,12 @@ int	execute_cd(t_cmd *cmd, char **envp)
 		else
 			new_working_dir = cmd->args[0];
 	}
-	// printf("new_working_dir = %s\n", new_working_dir);
+	printf("new_working_dir = %s\n", new_working_dir);
 
 	// 2. save current working directory into "OLDPWD=" environment variable
-	current_working_dir = getcwd(current_working_dir, 0);
-	set_env("OLDPWD", current_working_dir, envp);
+	// current_working_dir = getcwd(current_working_dir, 0);
+	current_working_dir = get_env("PWD", our_env_var);
+	set_env("OLDPWD", current_working_dir, our_env_var);
 	// printf("current_working_dir = %s\n", current_working_dir);
 
 	//  3. change working directory PWD to new_directory
@@ -66,10 +65,13 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// 4. save new_working_dir in PWD in envp list
 	pwd = getcwd(pwd, 0);
 	// printf("pwd = %s\n", pwd);
-	set_env("PWD", pwd, envp);
+	set_env("PWD", pwd, our_env_var);
 
 	// system("leaks martest");
-	// printf("envp at the end of execute_cd:\n\n");
+	printf("\n\n");
+	printf("envp at the end of execute_cd:\n\n");
+	print_env(our_env_var->our_envp);
+	printf("\n klaaar \n");
 	return (0);
 }
 

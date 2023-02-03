@@ -27,10 +27,27 @@
 */
 
 // 1.
-bool	env_var_exists(char *name)
+bool	get_env_var_exists(char *name)
 {
 	if (getenv(name) != NULL)
 		return true;
+	return false;
+}
+
+bool	env_var_exists(char *name, char **env_vars)
+{
+	int i;
+    int len_name;
+
+	i = 0;
+	len_name = ft_strlen(name);
+	while (env_vars[i] != NULL)
+	{
+		if (ft_strncmp(env_vars[i], name, len_name) == 0 &&
+				ft_strncmp(&env_vars[i][len_name], "=", 1) == 0)
+			return true;
+		i++;
+	}
 	return false;
 }
 
@@ -50,11 +67,8 @@ char	*make_env_var_format(char *name, char *value)
     }
     // make new env_var of format 'NAME=value'
     ft_strlcpy(env_var, name, env_var_size); // copy name to env_var
-    // printf("1. env var = %s\n", env_var);
     ft_strlcat(env_var, "=", env_var_size); // concatenate name and =
-    // printf("2. env var = %s\n", env_var);
     ft_strlcat(env_var, value, env_var_size); // concatenate name= and value
-    // printf("3. env var = %s\n\n", env_var);
 	return (env_var);
 }
 
@@ -78,51 +92,54 @@ int		search_for_env_index(char *name, char **envp)
 
 // 4. function to set environment variable:
 // equivalent of putenv() or setenv()
-void    set_env(char *name, char *value, char **envp)
+void    set_env(char *name, char *value, t_env_var *our_env_var)
 {
 	char	*env_var = NULL;
-	int		index = 0;
+	int		index;
+	int		len_env_var;
 
+	index  = 0;
 	env_var = make_env_var_format(name, value);
-	index = search_for_env_index(name, envp);
-	// if (env_var_exists(name) == true)
+	len_env_var = ft_strlen(env_var) + 1;
+	index = search_for_env_index(name, our_env_var->our_envp);
+	// if (env_var_exists(name, our_env_var->our_envp) == true)
 	// {
-	// 	free(envp[index]);
-	// 	envp[index] = NULL;
+	// 	free(our_env_var->our_envp[index]); // verdwijnt dan deze hele pointer?
 	// }
-	// envp[index] = malloc(sizeof(ft_strlen(name) + ft_strlen(value) + 2));
-	envp[index] = env_var;
-	if (env_var_exists(name) == false)
+	if (env_var_exists(name, our_env_var->our_envp) == false)
 	{
-		// envp[index] = malloc(sizeof(ft_strlen(name) + ft_strlen(value) + 2));
-		envp[index + 1] = NULL; // overwriting data we cannot access?
+		printf("we zijn hier met name = %s\n", name);
+		our_env_var->our_envp[index] = (char *)malloc(len_env_var * sizeof(char *));
+		our_env_var->our_envp[index + 1] = NULL;
 	}
+	our_env_var->our_envp[index] = env_var; // of ft_strlcpy(our_envp[i], envp[i], envp_len);
+	printf("is het gelukt? our_env_var->our_envp[index] = %s\n", our_env_var->our_envp[index]);
 	return ;
 }
 
 // 5. function to remove environment variable (unset builtin)
 
 // 6. IS THIS REALLY NECESSARY?
-int		get_end_of_envp_list(char **envp)
+int		get_end_of_envp_list(char **env_vars)
 {
 	int i;
 	
 	i = 0;
-	while(envp[i])
+	while(env_vars[i])
 		i++;
 	return (i);
 }
 
 // 7.
-void    print_env(char **envp)
+void    print_env(char **env_vars)
 {
     int i;
 	char *s;
     
     i = 0;
-	while(envp[i] != NULL)
+	while(env_vars[i] != NULL)
 	{
-		s = envp[i];
+		s = env_vars[i];
 		ft_putstr_fd(s, 1); // change 1 to fd?
 		ft_putstr_fd("\n", 1); // change 1 to fd?
 		i++;
@@ -134,27 +151,53 @@ void    print_env(char **envp)
 
 
 // 9. ff proberen
-char	**make_copy_env(char **envp)
+void	make_our_env(char **envp, t_env_var *our_env_var)
 {
-    char	**our_envp;
 	int		i;
 	int		env_vars_at_start;
 	int		envp_len;
 
     i = 0;
 	env_vars_at_start = get_end_of_envp_list(envp);
-	our_envp = (char **)malloc((env_vars_at_start + 1) * sizeof(char *));
+	our_env_var->our_envp = (char **)malloc((env_vars_at_start + 1) * sizeof(char *));
+	if (!our_env_var->our_envp)
+	{
+		minishell_error("malloc fail make_our_env our_envp");
+		exit (1);
+	}
 	while(envp[i] != NULL)
 	{
 		envp_len = ft_strlen(envp[i]) + 1;
-		our_envp[i] = (char *)malloc(envp_len * sizeof(char *));
-		ft_strlcpy(our_envp[i], envp[i], envp_len);
+		our_env_var->our_envp[i] = (char *)malloc(envp_len * sizeof(char *));
+		if (!our_env_var->our_envp[i])
+		{
+			minishell_error("malloc fail make_our_env our_envp[i]");
+			exit (1);
+		}
+		ft_strlcpy(our_env_var->our_envp[i], envp[i], envp_len);
 		i++;
 	}
-	our_envp[i] = NULL;
+	our_env_var->our_envp[i] = NULL;
 
-	printf("our envp: \n");
-	print_env(our_envp);
-	// printf("\n\n");
-    return (our_envp);
+	printf("\n our envp at end of make_our_envp: \n");
+	print_env(our_env_var->our_envp);
+	printf("\n waaah \n");
+    return ;
+}
+
+
+char	*get_env(char *name, t_env_var *our_env_var)
+{
+	int		index;
+	int		len_name;
+
+	index = 0;
+	len_name = ft_strlen(name);
+	if (env_var_exists(name, our_env_var->our_envp) == true)
+	{
+		index = search_for_env_index(name, our_env_var->our_envp);
+		return (&our_env_var->our_envp[index][len_name + 1]);
+	}
+	else
+		return (NULL);
 }

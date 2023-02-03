@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/27 15:45:02 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/03 18:08:58 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
-void	execute_builtin(t_cmd *cmd, char **envp)
+void	execute_builtin(t_cmd *cmd, t_env_var *our_env_var)
 {
 	if (ft_strncmp(cmd->simple_cmd, "echo", 5) == 0)
 		execute_echo(cmd, 1);
 	if (ft_strncmp(cmd->simple_cmd, "pwd", 4) == 0)
 		execute_pwd(1);
 	if (ft_strncmp(cmd->simple_cmd, "cd", 3) == 0)
-		execute_cd(cmd, envp);
+		execute_cd(cmd, our_env_var);
 	if (ft_strncmp(cmd->simple_cmd, "env", 4) == 0)
-        print_env(envp);
+        print_env(our_env_var->our_envp);
 }
 
 // void    execute_builtin(t_args *arg, t_cmd *cmd)
