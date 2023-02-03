@@ -95,14 +95,14 @@ void    set_env(char *name, char *value, char **envp)
 	if (env_var_exists(name) == false)
 	{
 		// envp[index] = malloc(sizeof(ft_strlen(name) + ft_strlen(value) + 2));
-		envp[index + 1] = NULL;
+		envp[index + 1] = NULL; // overwriting data we cannot access?
 	}
 	return ;
 }
 
 // 5. function to remove environment variable (unset builtin)
 
-// 6. IS THIS REALLY NECESSARY
+// 6. IS THIS REALLY NECESSARY?
 int		get_end_of_envp_list(char **envp)
 {
 	int i;

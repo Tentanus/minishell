@@ -28,6 +28,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			old_pwd = getenv("OLDPWD"); // get OLDPWD
+			printf("we zijn in cd - en old_pwd = %s\n", old_pwd);
 			if (old_pwd == NULL) // check if OLDPWD exists, if not:
 			{
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
@@ -65,6 +66,7 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	// printf("pwd = %s\n", pwd);
 	set_env("PWD", pwd, envp);
 
+	// system("leaks martest");
 	// printf("envp at the end of execute_cd:\n\n");
 	// print_env(envp);
 	return (0);
