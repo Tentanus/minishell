@@ -10,7 +10,7 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd, char **envp) 
+int	execute_cd(t_cmd *cmd, char **envp)
 {
 	char *new_working_dir;
 	char *current_working_dir = NULL;
@@ -18,6 +18,8 @@ int	execute_cd(t_cmd *cmd, char **envp)
 	char *pwd = NULL;
 	int	chdir_return;
 	bool to_print = false;
+
+	make_copy_env(envp);
 
 	// 1. set new_working_dir
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
@@ -68,7 +70,6 @@ int	execute_cd(t_cmd *cmd, char **envp)
 
 	// system("leaks martest");
 	// printf("envp at the end of execute_cd:\n\n");
-	// print_env(envp);
 	return (0);
 }
 

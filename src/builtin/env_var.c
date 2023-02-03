@@ -131,3 +131,30 @@ void    print_env(char **envp)
 }
 
 // 8. function to export variable (export)
+
+
+// 9. ff proberen
+char	**make_copy_env(char **envp)
+{
+    char	**our_envp;
+	int		i;
+	int		env_vars_at_start;
+	int		envp_len;
+
+    i = 0;
+	env_vars_at_start = get_end_of_envp_list(envp);
+	our_envp = (char **)malloc((env_vars_at_start + 1) * sizeof(char *));
+	while(envp[i] != NULL)
+	{
+		envp_len = ft_strlen(envp[i]) + 1;
+		our_envp[i] = (char *)malloc(envp_len * sizeof(char *));
+		ft_strlcpy(our_envp[i], envp[i], envp_len);
+		i++;
+	}
+	our_envp[i] = NULL;
+
+	printf("our envp: \n");
+	print_env(our_envp);
+	// printf("\n\n");
+    return (our_envp);
+}

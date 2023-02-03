@@ -93,6 +93,8 @@ void    set_env(char *name, char *value, char **envp);
 int		get_end_of_envp_list(char **envp);
 void    print_env(char **envp);
 
+char	**make_copy_env(char **envp);
+
 //			UTILS
 
 int		skip_whitespace(const char *str);
