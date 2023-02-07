@@ -3,21 +3,20 @@
 /*
 ** cd 
 ** Changes the current working directory.
-** If the new_directory is not supplied, the value of the HOME shell variable is used.
-** If the shell variable CDPATH exists, it is used as a search path:
+** If the new_directory is not supplied, the value of the HOME shell variable
+** is used. If the shell variable CDPATH exists, it is used as a search path:
 ** each directory name in CDPATH is searched for directory,
 ** with alternative directory names in CDPATH separated by a colon (‘:’).
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
+int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 {
-	char *new_working_dir;
-	char *current_working_dir = NULL;
-	char *old_pwd;
-	char *pwd = NULL;
-	int	chdir_return;
-	bool to_print = false;
+	char	*current_working_dir = NULL;
+	char	*pwd = NULL;
+	bool	to_print = false;
+	char	*new_working_dir;
+	int		chdir_return;
 
 	// 1. set new_working_dir
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
@@ -27,14 +26,13 @@ int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 		// handle "cd -": change cwd to previous working directory OLDPWD
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
-			old_pwd = get_env("OLDPWD", our_env_var); // get OLDPWD // getenv("OLDPWD");
-			printf("we zijn in cd - en old_pwd = %s\n", old_pwd);
-			if (old_pwd == NULL) // check if OLDPWD exists, if not:
+			new_working_dir = get_env("OLDPWD", our_env_var);
+			// printf("we zijn in cd - en old_pwd = %s\n", old_pwd);
+			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
 			{
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
-			new_working_dir = old_pwd;
 			// (ignore other args)
 			// print cwd! met execute_pwd() ?
 			to_print = true;
@@ -42,7 +40,7 @@ int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 		else
 			new_working_dir = cmd->args[0];
 	}
-	printf("new_working_dir = %s\n", new_working_dir);
+	// printf("new_working_dir = %s\n", new_working_dir);
 
 	// 2. save current working directory into "OLDPWD=" environment variable
 	// current_working_dir = getcwd(current_working_dir, 0);
@@ -51,7 +49,8 @@ int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 	// printf("current_working_dir = %s\n", current_working_dir);
 
 	//  3. change working directory PWD to new_directory
-	//  chdir() = 0 (indicating success): the operating system updates the process's
+	//  chdir() = 0 (indicating success):
+	//	the operating system updates the process's
 	//  current working directory
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
@@ -67,28 +66,30 @@ int		execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 	// printf("pwd = %s\n", pwd);
 	set_env("PWD", pwd, our_env_var);
 
-	// system("leaks martest");
-	printf("\n\n");
-	printf("envp at the end of execute_cd:\n\n");
-	print_env(our_env_var->our_envp);
-	printf("\n klaaar \n");
+	// free(pwd);
+	// free(new_working_dir);
+	// free(current_working_dir);
+	// free(old_pwd);
 	return (0);
 }
 
-// 1. SET new_working_dir:
-// - cd zonder arg: change cwd to "HOME"
-// - cd met 1 arg: change cwd to arg[0]
-// - "cd -": should take the user back to previous working directory (OLDPWD)
-// cd met arg[0][0] == '-': change cwd to previous working directory OLDPWD (ignore other args), print cwd!
-// let op! old pwd does not necessarily exist
-// if arg[0][0] == '-'
+/*
+** 1. SET new_working_dir:
+** - cd zonder arg: change cwd to "HOME"
+** - cd met 1 arg: change cwd to arg[0]
+** - "cd -": should take the user back to previous working directory (OLDPWD)
+** cd met arg[0][0] == '-': change cwd to previous working directory OLDPWD
+** (ignore other args), print cwd!
+** let op! old pwd does not necessarily exist
+** if arg[0][0] == '-'
 
-// 2. save current_working_dir in OLDPWD in envp list
+** 2. save current_working_dir in OLDPWD in envp list
 
-// 3. CHANGE cwd met chdir()
-// change working directory PWD to new_directory
-// CHECK IF new_working_directory (arg[0]) EXISTS!!!
+** 3. CHANGE cwd met chdir()
+** change working directory PWD to new_directory
+** CHECK IF new_working_directory (arg[0]) EXISTS!!!
 
-// 4. save new_working_dir in PWD in envp list
+** 4. save new_working_dir in PWD in envp list
 
-// (expanding tilde in the path)
+** (expanding tilde in the path)
+*/

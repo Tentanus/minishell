@@ -36,7 +36,7 @@ int	execute_echo(t_cmd *cmd, int fd)
 
 	i = 0;
 	n_option = 0;
-	// fix seg fault for 'echo -n' command
+	// fix seg fault for 'echo -n' command without other args
 	while (is_n_option(cmd->args[i]) == true)
 	{
 		n_option = 1;

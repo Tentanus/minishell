@@ -25,6 +25,10 @@ int	main(int argc, char **argv, char **envp)
 		if (check_builtin(cmd.simple_cmd) == true)
 			execute_builtin(&cmd, &our_env_var);
 		free(input);
+		// free(cmd.simple_cmd);
+		// free_double_array(cmd.args);
+		// system("leaks -q martest");
 	}
+	// free_double_array(our_env_var.our_envp);
 	return (0);
 }

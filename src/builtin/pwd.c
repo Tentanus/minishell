@@ -18,6 +18,7 @@ int	execute_pwd(int fd)
 	{
 		ft_putstr_fd(cwd, fd);
 		ft_putstr_fd("\n", fd);
+		free(cwd);
 	}
 	else
 	{

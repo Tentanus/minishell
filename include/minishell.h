@@ -43,14 +43,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_minishell{
+typedef struct s_minishell
+{
 	t_token	*token;
 	char	**envp;
 	char	*input;
 	int		status;
 }	t_minishell;
 
-typedef struct s_cmd{
+typedef struct s_cmd
+{
 	char			*simple_cmd;
 	char			**args;
 	int				amount_of_args;
@@ -58,15 +60,10 @@ typedef struct s_cmd{
 	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct s_env_var{
+typedef struct s_env_var
+{
 	char			**our_envp;
 }				t_env_var;
-
-// typedef struct s_env_list{
-// 	char				*key;
-// 	char				*value;
-//	struct s_env_list	*next;
-// }				t_env_list;
 
 //			FUNCTIONS
 

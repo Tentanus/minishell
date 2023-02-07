@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/02/03 16:53:31 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/07 12:10:37 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,34 @@ void	free_double_array(char **double_array)
 	while (double_array[i] != NULL)
 	{
 		free(double_array[i]);
+		// double_array[i] = NULL;
 		i++;
 	}
 	free(double_array);
+	// double_array = NULL;
 	return ;
 }
 
 char	**make_double_array(int word_count)
 {
 	char	**result;
+	int		i;
 
-	result = malloc((word_count + 1) * sizeof(char *));
+	i = 0;
+	result = (char **)malloc((word_count + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
+	while (i < word_count)
+	{
+		result[i] = (char *)malloc(1024 * sizeof(char));
+		if (!result[i])
+			return (NULL);
+		i++;
+	}
+	// result[i] = (char *)malloc(1024 * sizeof(char *));
+	// if (!result[i])
+	// 	return (NULL);
+	// result[i] = NULL;
 	return (result);
 }
 
