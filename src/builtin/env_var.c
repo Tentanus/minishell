@@ -54,7 +54,7 @@ bool	env_var_exists(char *name, char **env_vars)
 // 2.
 char	*make_env_var_format(char *name, char *value)
 {
-	char	*env_var;
+	char	*env_var = NULL;
 	size_t	env_var_size;
 
 	env_var_size = ft_strlen(name) + ft_strlen(value) + 2;
@@ -91,7 +91,7 @@ int	search_for_env_index(char *name, char **envp)
 
 // 4. function to set environment variable:
 // equivalent of putenv() or setenv()
-void	set_env(char *name, char *value, t_env_var *our_env_var)
+void	set_env(char *name, char *value, t_env_var_old *our_env_var)
 {
 	char	*env_var = NULL;
 	int		index;
@@ -102,20 +102,15 @@ void	set_env(char *name, char *value, t_env_var *our_env_var)
 	len_env_var = ft_strlen(env_var) + 1;
 	index = search_for_env_index(name, our_env_var->our_envp);
 	if (env_var_exists(name, our_env_var->our_envp) == true)
-	{
 		free(our_env_var->our_envp[index]); // verdwijnt dan deze hele pointer?
-		// our_env_var->our_envp[index] = NULL;
-	}
 	if (env_var_exists(name, our_env_var->our_envp) == false)
 	{
-		// printf("we zijn hier met name = %s\n", name);
 		our_env_var->our_envp[index]
 			= (char *)malloc(len_env_var * sizeof(char *));
 		our_env_var->our_envp[index + 1] = NULL;
 	}
 	our_env_var->our_envp[index] = env_var; // of ft_strlcpy(our_envp[i], envp[i], envp_len);
 	// free(env_var);
-	// printf("is het gelukt? our_env_var->our_envp[index] = %s\n", our_env_var->our_envp[index]);
 	return ;
 }
 
@@ -153,7 +148,7 @@ void    print_env(char **env_vars)
 
 
 // 9. ff proberen
-void	make_our_env(char **envp, t_env_var *our_env_var)
+void	make_our_env(char **envp, t_env_var_old *our_env_var)
 {
 	int		i;
 	int		env_vars_at_start;
@@ -180,14 +175,11 @@ void	make_our_env(char **envp, t_env_var *our_env_var)
 		i++;
 	}
 	our_env_var->our_envp[i] = NULL;
-
-	// printf("\n our envp at end of make_our_envp: \n");
-	// print_env(our_env_var->our_envp);
     return ;
 }
 
 
-char	*get_env(char *name, t_env_var *our_env_var)
+char	*get_env(char *name, t_env_var_old *our_env_var)
 {
 	int		index;
 	int		len_name;
@@ -203,3 +195,7 @@ char	*get_env(char *name, t_env_var *our_env_var)
 		return (NULL);
 }
 
+void	unset_env(char *name, t_env_var_old *our_env_var)
+{
+
+}

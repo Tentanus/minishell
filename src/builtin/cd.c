@@ -10,12 +10,12 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
+int	execute_cd(t_cmd *cmd, t_env_var_old *our_env_var)
 {
 	char	*current_working_dir = NULL;
 	char	*pwd = NULL;
 	bool	to_print = false;
-	char	*new_working_dir;
+	char	*new_working_dir = NULL;
 	int		chdir_return;
 
 	// 1. set new_working_dir
@@ -27,7 +27,6 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			new_working_dir = get_env("OLDPWD", our_env_var);
-			// printf("we zijn in cd - en old_pwd = %s\n", old_pwd);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
 			{
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
@@ -40,13 +39,11 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 		else
 			new_working_dir = cmd->args[0];
 	}
-	// printf("new_working_dir = %s\n", new_working_dir);
 
 	// 2. save current working directory into "OLDPWD=" environment variable
 	// current_working_dir = getcwd(current_working_dir, 0);
 	current_working_dir = get_env("PWD", our_env_var);
 	set_env("OLDPWD", current_working_dir, our_env_var);
-	// printf("current_working_dir = %s\n", current_working_dir);
 
 	//  3. change working directory PWD to new_directory
 	//  chdir() = 0 (indicating success):
@@ -63,13 +60,8 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 
 	// 4. save new_working_dir in PWD in envp list
 	pwd = getcwd(pwd, 0);
-	// printf("pwd = %s\n", pwd);
 	set_env("PWD", pwd, our_env_var);
-
-	// free(pwd);
-	// free(new_working_dir);
-	// free(current_working_dir);
-	// free(old_pwd);
+	free(pwd);
 	return (0);
 }
 
