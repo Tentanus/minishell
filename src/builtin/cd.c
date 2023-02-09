@@ -10,7 +10,9 @@
 ** If directory begins with a slash, CDPATH is not used.
 */
 
-int	execute_cd(t_cmd *cmd, t_env_var_old *our_env_var)
+// ! TO DO: 'cd ~' handelen
+
+int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 {
 	char	*current_working_dir = NULL;
 	char	*pwd = NULL;

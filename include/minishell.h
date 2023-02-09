@@ -60,18 +60,18 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct s_env_var_old
+typedef struct s_env_var
 {
 	char			**our_envp;
-}				t_env_var_old;
+}				t_env_var;
 
-// typedef struct s_env_var
+// typedef struct s_env_var_ll
 // {
 // 	char				*key;
 // 	char				*value;
 // 	bool				has_value;
 // 	struct s_env_var	*next;
-// }				t_env_var;
+// }				t_env_var_ll;
 
 //			FUNCTIONS
 
@@ -86,20 +86,21 @@ int		ft_word_counter(char const *s, char c);
 void	free_double_array(char **double_array);
 
 bool	check_builtin(char *cmd);
-void	execute_builtin(t_cmd *cmd, t_env_var_old *our_env_var);
+void	execute_builtin(t_cmd *cmd, t_env_var *env_var);
 int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
-int		execute_cd(t_cmd *cmd, t_env_var_old *our_env_var);
+int		execute_cd(t_cmd *cmd, t_env_var *env_var);
 
 bool	get_env_var_exists(char *name); // old, making use of getenv()
-bool	env_var_exists(char *name, char **env_vars); // new
+bool	env_var_exists(char *name, char **envp); // new
+char	*get_env(char *name, t_env_var *envars);
+int		search_for_env_index(char *name, char **envp);
+int		get_end_of_envp_list(char **envp);
 char	*make_env_var_format(char *name, char *value);
-int		search_for_env_index(char *name, char **env_vars);
-void    set_env(char *name, char *value, t_env_var_old *our_env_var);
-int		get_end_of_envp_list(char **env_vars);
-void    print_env(char **env_vars);
-void	make_our_env(char **envp, t_env_var_old *our_env_var);
-char	*get_env(char *name, t_env_var_old *our_env_var);
+void	set_env(char *name, char *value, t_env_var *envars);
+void	unset_env(char *name, t_env_var *envars);
+void    print_env(char **envp);
+void	set_our_envp(char **envp, t_env_var *envars);
 
 //			UTILS
 
