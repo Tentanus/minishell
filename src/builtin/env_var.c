@@ -15,13 +15,13 @@
 **
 ** 6. our own setenv function: it sets a (new) environment variable 
 **
-** 7. function to print double array / all envps (env builtin)
-** 
-** #. function to remove environment variable (unset builtin)
+** 7. function to remove environment variable (unset builtin)
 **
-** #. function to export variable (export)
+** 8. function to print double array / all envps (env builtin)
 **
-** #. function for initial copy of char **envp into t_env_var *envars->our_envp
+** 9. function to export variable (export)
+**
+** 10. function for initial copy of char **envp into t_env_var *envars->our_envp
 ** 
 */
 
@@ -159,7 +159,7 @@ void	set_env(char *name, char *value, t_env_var *envars)
 	return ;
 }
 
-// #. function to remove environment variable (unset builtin)
+// 7. function to remove environment variable (unset builtin)
 void	unset_env(char *name, t_env_var *envars)
 {
 	char	**new_envp;
@@ -191,7 +191,7 @@ void	unset_env(char *name, t_env_var *envars)
 	return ;
 }
 
-// 7. function to print double char array (like 'char **envp')
+// 8. function to print double char array (like 'char **envp')
 // void    print_double_array(char **double_array)
 // {
 //     int i;
@@ -227,10 +227,10 @@ void    print_env(char **envp)
     return ;
 }
 
-// #. function to export variable (export)
+// 9. function to export variable (export)
 
 
-// # function for initial copy of char **envp into t_env_var *envars->our_envp
+// 10. function for initial copy of char **envp into t_env_var *envars->our_envp
 void	set_our_envp(char **envp, t_env_var *envars)
 {
 	int		i;

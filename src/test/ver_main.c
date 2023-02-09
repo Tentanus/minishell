@@ -34,3 +34,14 @@ int	main(int argc, char **argv, char **envp)
 	free_double_array(envars.our_envp);
 	return (0);
 }
+
+// !! TO DO:
+// !!
+// !! check unset function of ie goed werkt
+// !! volgorde uitvoering commands bekijken en optimaliseren 
+// !! structuur functies optimaliseren en norm maken
+// !! export function maken (#9)
+// !! alle env functions goed checken en naar free-en kijken
+// !!
+// !! exit builtin maken (denk aan goed free-en)
+// !! executer opzet maken (OP PAPIER MRAZ!!!)
