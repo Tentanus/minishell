@@ -59,6 +59,7 @@ void	list_token_print(t_token *top)
 	int			size = list_token_size(top);
 	const int	con = size;
 
+	printf("\n\t-=-  TOKEN PRINT -=-\n");
 	while (size--)
 	{
 		ft_printf("TOKEN [%d]\nstr:\t|%s|\ntoken:\t|%d|\n", top->id, top->str, (con - size));

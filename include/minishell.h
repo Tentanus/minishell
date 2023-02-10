@@ -30,7 +30,7 @@ typedef enum e_token_id {
 	PIPE,
 	GREAT,
 	LESS,
-	SPAC,
+	SPACEBAR,
 	WORD
 }	t_token_id;
 
@@ -91,9 +91,6 @@ void	print_env(char **envp);
 void	change_pwd_oldpwd(char **envp);
 
 //				UTILS
-
-int		skip_whitespace(const char *str);
-void	ft_str_rmspace(char *inp);
 
 //				UTILS_TOKEN
 
