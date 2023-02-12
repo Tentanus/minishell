@@ -62,10 +62,9 @@ void	list_token_print(t_token *top)
 	printf("\n\t-=-  TOKEN PRINT -=-\n");
 	while (size--)
 	{
-		ft_printf("TOKEN [%d]\nstr:\t|%s|\ntoken:\t|%d|\n", top->id, top->str, (con - size));
+		ft_printf("TOKEN [%d]\n\tstr:\t|%s|\n\ttoken:\t|%d|\n", (con - size), top->str, top->id);
 		top = top->next;
 	}
 	return ;
 }
-
 

@@ -12,8 +12,6 @@ t_token_id	token_delimiter(const char c)
 			break ;
 		val++;
 	}
-	if (val == WORD)
-		return (0);
 	return (val);
 }
 
@@ -25,16 +23,6 @@ void	get_token_info(const char *inp, int *current_pos, t_token *node)
 	while (inp[*current_pos] && node->id == token_delimiter(inp[*current_pos]))
 		(*current_pos)++;
 	node->str = ft_substr(inp, start_pos, (*current_pos - start_pos));
-}
-
-int	skip2next_token(const char *inp)
-{
-	int	ret;
-
-	ret = ft_skip_whitespace(inp);;
-	if (!ret)
-		ret++;
-	return ret;
 }
 
 t_token	*lexer(char *inp)
@@ -52,7 +40,7 @@ t_token	*lexer(char *inp)
 			minishell_error("lexer/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		list_token_add_back(&top, node);
-		current_pos += skip2next_token(&inp[current_pos]);
+		current_pos += ft_skip_whitespace(&inp[current_pos]);
 	}
 	return (top);
 }
