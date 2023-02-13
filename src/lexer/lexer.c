@@ -1,7 +1,7 @@
 #include <minishell.h>
 
 t_token_id	token_delimiter(const char c)
-	{
+{
 	t_token_id	val;
 	const char	delim[] = "-\'\"|>< ";
 
@@ -15,12 +15,28 @@ t_token_id	token_delimiter(const char c)
 	return (val);
 }
 
+typedef t_token_id		(*t_delimiter_func)(const char c);
+
+t_token_id	token_quote_delimiter(const char c)
+{
+	(void) c;
+	return (1);
+}
+
 void	get_token_info(const char *inp, int *current_pos, t_token *node)
 {
-	const int	start_pos = *current_pos;
-	node->id = token_delimiter(inp[start_pos]);
+	const int				start_pos = *current_pos;
+	bool					quote;
+	const t_delimiter_func	func[2] = {
+	[0] = &token_delimiter,
+	[1] = &token_quote_delimiter
+	};
 
-	while (inp[*current_pos] && node->id == token_delimiter(inp[*current_pos]))
+	quote = false;
+	node->id = token_delimiter(inp[start_pos]);
+	if (node->id == 1 || node->id == 2)
+		quote = true;
+	while (inp[*current_pos] && node->id == func[quote](inp[*current_pos]))
 		(*current_pos)++;
 	node->str = ft_substr(inp, start_pos, (*current_pos - start_pos));
 }
@@ -45,18 +61,18 @@ t_token	*lexer(char *inp)
 	return (top);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
+
+
+
+
+
+
+
+
+
+
+
 1. if end of input is recognised current token shall be delimited.
 	if there is no current token END_INP shall be returned.
 	
