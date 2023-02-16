@@ -1,44 +1,42 @@
 #include <minishell.h>
 
-t_token_id	token_delimiter(const char c)
+t_token_id	get_char_id(const char c)
 {
 	t_token_id	val;
-	const char	delim[] = "-\'\"|>< ";
+	const char	set_delimiters[] = "\'\"|>< ";
 
-	val = UNINITIALIZED + 1;
+	val = QUOTE;
 	while (val != WORD)
 	{
-		if (delim[val] == c)
+		if (set_delimiters[val] == c)
 			break ;
 		val++;
 	}
 	return (val);
 }
 
-void	get_token_info(const char *inp, int *current_pos, t_token *node)
+void	get_token_info(const char *inp, size_t *pos, t_token *node)
 {
-	const int	start_pos = *current_pos;
+	const int	start_pos = *pos;
 
-	node->id = token_delimiter(inp[(*current_pos)]);
-	(*current_pos)++;
+	node->id = get_char_id(inp[(*pos)]);
+	(*pos)++;
 	if (node->id == QUOTE || node->id == DQUOTE)
 	{
-		while (inp[*current_pos]
-			&& node->id != token_delimiter(inp[*current_pos]))
-			(*current_pos)++;
-		if (inp[*current_pos])
-			(*current_pos)++;
+		while (inp[*pos] && node->id != get_char_id(inp[*pos]))
+			(*pos)++;
+		if (inp[*pos])
+			(*pos)++;
 	}
 	else
-		while (inp[*current_pos]
-			&& node->id == token_delimiter(inp[*current_pos]))
-			(*current_pos)++;
-	node->str = ft_substr(inp, start_pos, (*current_pos - start_pos));
+		while (inp[*pos] && node->id == get_char_id(inp[*pos]))
+			(*pos)++;
+	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 }
 
-t_token	*lexer(char *inp)
+t_token	*lexer(const char *inp)
 {
-	int				current_pos;
+	size_t			current_pos;
 	t_token			*top;
 	t_token			*node;
 
