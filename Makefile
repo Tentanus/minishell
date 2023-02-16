@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/10 19:34:58 by mweverli      ########   odam.nl          #
+#    Updated: 2023/02/16 20:26:50 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@
 NAME		:=	marshell
 
 SRC			:=	\
+				lexer/lexer.c				\
+				utils/list_token_utils.c	\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
@@ -33,9 +35,7 @@ VER_SRC		:=	$(SRC) \
 				builtin/env_var.c			\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/wev_main.c		\
-				utils/list_token_utils.c	\
-				lexer/lexer.c
+				tmp_martijn/wev_main.c
 SRC			+=	main.c
 
 SRC			:=	$(SRC:%=$(SRC_DIR)/%)
