@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
  {
 	char		*input;
-	t_token		*top;
+	t_minishell	mini;
 
  	(void)	argv;
 	(void)	envp;
@@ -24,14 +24,12 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	while (1)
 	{
- 		input = readline(MARSH_PROMPT);
+ 		mini.input = readline(MARSH_PROMPT);
  		if (ft_strncmp(input, "exit", 4) == 0)
 			minishell_error("EXIT AT MINISHELL");
 		printf("%s\n", input);
-		top = lexer(input);
-	list_token_print(top);
+		parser(&mini);
  		free(input);
-
  	}
  	return (EXIT_SUCCESS);
 }
