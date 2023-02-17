@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-t_token_id	get_char_id(const char c)
+t_token_id	get_token_id(const char c)
 {
 	t_token_id	val;
 	const char	set_delimiters[] = "\'\"|>< ";
@@ -15,21 +15,45 @@ t_token_id	get_char_id(const char c)
 	return (val);
 }
 
+/* considering variable expansion:
+ *
+ * 		export CD="c d ef"; echo ab$CD"g"
+ * 		argv would show:
+ * 		argv[1] = "abc"
+ * 		argv[2] = "d"
+ * 		argv[3] = "efg"
+ * 		argv[4] = NULL
+ *
+ * implying some part of expansion happens before parsing or lexigng.
+ * however further testing show that the tokens that are added,
+ * show up as WORD tokens
+ *
+ * 		VAR="cat|"; <Makefile $VAR cat >>out
+ * 		bash: cat|: command not found
+ *
+ * 		bash-3.2$ VAR="cat |"; <Makefile $VAR cat >>out
+ * 		cat: |: No such file or directory
+ * 		cat: cat: No such file or directory
+ *
+ * add a jumptable for token_id_specific functions.
+ * 
+ */
+
 void	get_token_info(const char *inp, size_t *pos, t_token *node)
 {
 	const int	start_pos = *pos;
 
-	node->id = get_char_id(inp[(*pos)]);
+	node->id = get_token_id(inp[(*pos)]);
 	(*pos)++;
 	if (node->id == QUOTE || node->id == DQUOTE)
 	{
-		while (inp[*pos] && node->id != get_char_id(inp[*pos]))
+		while (inp[*pos] && node->id != get_token_id(inp[*pos]))
 			(*pos)++;
 		if (inp[*pos])
 			(*pos)++;
 	}
 	else
-		while (inp[*pos] && node->id == get_char_id(inp[*pos]))
+		while (inp[*pos] && node->id == get_token_id(inp[*pos]))
 			(*pos)++;
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 }
