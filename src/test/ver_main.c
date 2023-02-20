@@ -37,10 +37,9 @@ int	main(int argc, char **argv, char **envp)
 
 // !! TO DO:
 // !!
-// !! check unset function of ie goed werkt
-// !! volgorde uitvoering commands bekijken en optimaliseren 
-// !! structuur functies optimaliseren en norm maken
 // !! export function maken (#9)
+// !! volgorde uitvoering commands bekijken en optimaliseren
+// !! structuur functies optimaliseren en norm maken
 // !! alle env functions goed checken en naar free-en kijken
 // !!
 // !! exit builtin maken (denk aan goed free-en)

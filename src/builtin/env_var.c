@@ -126,16 +126,19 @@ void	set_env(char *name, char *value, t_env_var *envars)
 	char	**new_envp;
 	int		size_of_array;
 	char	*env_var = NULL;
-	int		index_name;
-	int		i;
+	int		index;
 
-	i = 0;
+	index = 0;
 	env_var = make_env_var_format(name, value);
 	if (env_var_exists(name, envars->our_envp) == true)
 	{
-		index_name = search_for_env_index(name, envars->our_envp);
-		free(envars->our_envp[i]);
-		envars->our_envp[i] = ft_strdup(env_var);
+		index = search_for_env_index(name, envars->our_envp);
+		// printf("envars->our_envp[i] before free = %s\n", envars->our_envp[index]);
+		free(envars->our_envp[index]);
+		envars->our_envp[index] = NULL;
+		// printf("envars->our_envp[i] after free = %s\n", envars->our_envp[index]);
+		envars->our_envp[index] = ft_strdup(env_var);
+		// printf("envars->our_envp[i] after strdup = %s\n", envars->our_envp[index]);
 	}
 	if (env_var_exists(name, envars->our_envp) == false)
 	{
@@ -146,13 +149,13 @@ void	set_env(char *name, char *value, t_env_var *envars)
 			minishell_error("malloc fail set_env");
 			exit(1);
 		}
-		while(envars->our_envp[i] != NULL)
+		while(envars->our_envp[index] != NULL)
 		{
-			new_envp[i] = ft_strdup(envars->our_envp[i]);
-			i++;
+			new_envp[index] = ft_strdup(envars->our_envp[index]);
+			index++;
 		}
-		new_envp[i] = env_var;
-		new_envp[i + 1] = NULL;
+		new_envp[index] = env_var;
+		new_envp[index + 1] = NULL;
 		free_double_array(envars->our_envp);
 		envars->our_envp = new_envp;
 	}
@@ -167,7 +170,7 @@ void	unset_env(char *name, t_env_var *envars)
 	int		i;
 	int		j;
 
-	size_of_array = get_end_of_envp_list(envars->our_envp);
+	size_of_array = get_end_of_envp_list(envars->our_envp) + 1;
 	new_envp = (char **)malloc(size_of_array * sizeof(char *));
 	if (!new_envp) // protect malloc!
 	{
@@ -180,7 +183,6 @@ void	unset_env(char *name, t_env_var *envars)
 	{
 		if (i == search_for_env_index(name, envars->our_envp))
 			j++;
-		// ft_strlcpy(new_envp[i], envars->our_envp[j], envp_len);
 		new_envp[i] = ft_strdup(envars->our_envp[j]);
 		i++;
 		j++;
@@ -246,6 +248,11 @@ void	set_our_envp(char **envp, t_env_var *envars)
 	}
 	while(envp[i] != NULL)
 	{
+		// !!!
+		// SHLVL should be updated
+		// strncmp for 'SHLVL=' 
+		// update value += 1 using atoi and itoa
+		// think about memory when updating SHLVL from 9 to 10 etc
 		envars->our_envp[i] = ft_strdup(envp[i]);
 		i++;
 	}

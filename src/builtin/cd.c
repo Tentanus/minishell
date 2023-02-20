@@ -4,13 +4,13 @@
 ** cd 
 ** Changes the current working directory.
 ** If the new_directory is not supplied, the value of the HOME shell variable
-** is used. If the shell variable CDPATH exists, it is used as a search path:
-** each directory name in CDPATH is searched for directory,
-** with alternative directory names in CDPATH separated by a colon (‘:’).
-** If directory begins with a slash, CDPATH is not used.
+** is used. 
+** If the directory change is successful, cd sets the value of the
+** PWD environment variable to the new directory name,
+** and sets the OLDPWD environment variable to the value of the
+** current working directory BEFORE the change.
+** The return status is 0 if the directory is successfully changed, non-zero otherwise.
 */
-
-// ! TO DO: 'cd ~' handelen
 
 int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 {
@@ -20,12 +20,17 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 	char	*new_working_dir = NULL;
 	int		chdir_return;
 
-	// 1. set new_working_dir
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
-		new_working_dir = get_env("HOME", our_env_var); // getenv("HOME");
+		new_working_dir = get_env("HOME", our_env_var);
+	else if (cmd->args[0][0] == '~')
+	{
+		if (cmd->args[0][1] == '/')
+			new_working_dir = ft_strjoin(get_env("HOME", our_env_var), &cmd->args[0][1]);
+		else
+			new_working_dir = &cmd->args[0][1];
+	}
 	else
 	{
-		// handle "cd -": change cwd to previous working directory OLDPWD
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
 			new_working_dir = get_env("OLDPWD", our_env_var);
@@ -34,23 +39,14 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 				minishell_error("cd: OLDPWD not set"); // throw error like bash
 				return (1);
 			}
-			// (ignore other args)
-			// print cwd! met execute_pwd() ?
 			to_print = true;
 		}
 		else
 			new_working_dir = cmd->args[0];
 	}
-
-	// 2. save current working directory into "OLDPWD=" environment variable
-	// current_working_dir = getcwd(current_working_dir, 0);
 	current_working_dir = get_env("PWD", our_env_var);
 	set_env("OLDPWD", current_working_dir, our_env_var);
 
-	//  3. change working directory PWD to new_directory
-	//  chdir() = 0 (indicating success):
-	//	the operating system updates the process's
-	//  current working directory
 	chdir_return = chdir(new_working_dir);
 	if (chdir_return != 0)
 	{
@@ -59,8 +55,6 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 	}
 	if (to_print == true)
 		execute_pwd(1); // change 1 to fd?
-
-	// 4. save new_working_dir in PWD in envp list
 	pwd = getcwd(pwd, 0);
 	set_env("PWD", pwd, our_env_var);
 	free(pwd);
@@ -68,22 +62,24 @@ int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 }
 
 /*
-** 1. SET new_working_dir:
-** - cd zonder arg: change cwd to "HOME"
-** - cd met 1 arg: change cwd to arg[0]
-** - "cd -": should take the user back to previous working directory (OLDPWD)
-** cd met arg[0][0] == '-': change cwd to previous working directory OLDPWD
-** (ignore other args), print cwd!
-** let op! old pwd does not necessarily exist
-** if arg[0][0] == '-'
 
-** 2. save current_working_dir in OLDPWD in envp list
+1. set new_working_dir:
+'cd'				: change cwd to "HOME"
+'cd -'				: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
+'cd .'				: change cwd to current working directory aka does nothing
+'cd ..'				: change cwd to directory above cwd
+'cd ~'				: change cwd to "HOME" of current user
+'cd ~/path'			: change cwd to "HOME + path" of current user
+'cd ~username'		: DOEN WE NIET
+'cd relative path'	: change cwd to relative path
+'cd absolute path'	: change cwd to absolute path
 
-** 3. CHANGE cwd met chdir()
-** change working directory PWD to new_directory
-** CHECK IF new_working_directory (arg[0]) EXISTS!!!
+2. save current working directory into "OLDPWD=" in envp list
 
-** 4. save new_working_dir in PWD in envp list
+3. change cwd to new working directory with chdir()
+? Do I need to check if new_working_directory exists or is chdir doing that?
+chdir() = 0 indicates success: the operating system updates the process's current working directory
 
-** (expanding tilde in the path)
+4. save new working directory into "PWD=" in envp list
+
 */
