@@ -1,5 +1,8 @@
 #include <minishell.h>
 
+typedef void	(*t_delimiter_func) \
+			(const char *inp, size_t *pos, const t_token_id val);
+
 t_token_id	get_char_id(const char c)
 {
 	t_token_id	val;
@@ -17,31 +20,30 @@ t_token_id	get_char_id(const char c)
 
 void	get_token_info(const char *inp, size_t *pos, t_token *node)
 {
-	const int	start_pos = *pos;
+	const int				start_pos = *pos;
+	const t_delimiter_func	func[] = {
+	[0] = &token_id_quote,
+	[1] = &token_id_quote,
+	[2] = &token_id_misc,
+	[3] = &token_id_misc,
+	[4] = &token_id_misc,
+	[5] = &token_id_misc,
+	[6] = &token_id_misc,
+	};
 
 	node->id = get_char_id(inp[(*pos)]);
-	(*pos)++;
-	if (node->id == QUOTE || node->id == DQUOTE)
-	{
-		while (inp[*pos] && node->id != get_char_id(inp[*pos]))
-			(*pos)++;
-		if (inp[*pos])
-			(*pos)++;
-	}
-	else
-		while (inp[*pos] && node->id == get_char_id(inp[*pos]))
-			(*pos)++;
+	func[node->id](inp, pos, node->id);
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 }
 
 t_token	*lexer(const char *inp)
 {
-	size_t			current_pos;
-	t_token			*top;
-	t_token			*node;
+	size_t	current_pos;
+	t_token	*top;
+	t_token	*node;
 
 	top = NULL;
-	current_pos = ft_skip_whitespace(inp);
+	current_pos = 0;
 	while (inp[current_pos])
 	{
 		node = list_token_new();
@@ -49,21 +51,33 @@ t_token	*lexer(const char *inp)
 			minishell_error("lexer/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		list_token_add_back(&top, node);
-		current_pos += ft_skip_whitespace(&inp[current_pos]);
 	}
 	return (top);
 }
 
 /*
-
-
-
-
-
-
-
-
-
+ * considering variable expansion:
+ *
+ * 		export CD="c d ef"; echo ab$CD"g"
+ * 		argv would show:
+ * 		argv[1] = "abc"
+ * 		argv[2] = "d"
+ * 		argv[3] = "efg"
+ * 		argv[4] = NULL
+ *
+ * implying some part of expansion happens before parsing or lexigng.
+ * however further testing show that the tokens that are added,
+ * show up as WORD tokens
+ *
+ * 		VAR="cat|"; <Makefile $VAR cat >>out
+ * 		bash: cat|: command not found
+ *
+ * 		bash-3.2$ VAR="cat |"; <Makefile $VAR cat >>out
+ * 		cat: |: No such file or directory
+ * 		cat: cat: No such file or directory
+ *
+ * add a jumptable for token_id_specific functions.
+ * 
 
 
 1. if end of input is recognised current token shall be delimited.

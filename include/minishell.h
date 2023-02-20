@@ -73,9 +73,12 @@ typedef struct s_cmd{
 
 void	minishell_error(const char *loc);
 
-t_token	*lexer(const char *inp);
-void	lex_free(t_token *token);
-void	get_token_info(const char *inp, size_t *pos, t_token *node);
+t_token		*lexer(const char *inp);
+void		get_token_info(const char *inp, size_t *pos, t_token *node);
+t_token_id	get_char_id(const char c);
+void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 // void	parse_input(int argc, char **argv, t_cmd *cmd);
 void	mini_parse_input(char *input, t_cmd *cmd);
@@ -95,7 +98,7 @@ void	change_pwd_oldpwd(char **envp);
 //				UTILS_TOKEN
 
 int		list_token_size(t_token *top);
-t_token *list_token_new(void);
+t_token	*list_token_new(void);
 t_token	*list_token_last(t_token *list);
 void	list_token_add_back(t_token **list, t_token *node);
 
