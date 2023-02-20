@@ -24,7 +24,6 @@
 //			E_NUMS
 
 typedef enum e_token_id {
-	UNINITIALIZED = -1,
 	QUOTE,
 	DQUOTE,
 	PIPE,
