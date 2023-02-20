@@ -46,14 +46,15 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 	const int	start_pos = *pos;
 	const t_delimiter_func	func[] = {
 	[0] = &token_id_quote,
-	[1] = &token_id_misc,
+	[1] = &token_id_quote,
 	[2] = &token_id_misc,
 	[3] = &token_id_misc,
-	[4] = &token_id_misc,
+	[5] = &token_id_space,
+	[6] = &token_id_misc,
 	};
 
 	node->id = get_token_id(inp[(*pos)]);
-	func[node->id/2](inp, pos, node->id);
+	func[node->id](inp, pos, node->id);
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 }
 
@@ -64,7 +65,7 @@ t_token	*lexer(const char *inp)
 	t_token			*node;
 
 	top = NULL;
-	current_pos = ft_skip_whitespace(inp);
+	current_pos = 0;
 	while (inp[current_pos])
 	{
 		node = list_token_new();
@@ -72,7 +73,6 @@ t_token	*lexer(const char *inp)
 			minishell_error("lexer/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		list_token_add_back(&top, node);
-		current_pos += ft_skip_whitespace(&inp[current_pos]);
 	}
 	return (top);
 }

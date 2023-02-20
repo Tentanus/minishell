@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/18 19:39:06 by mweverli      ########   odam.nl          #
+#    Updated: 2023/02/20 14:43:08 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ VER_SRC		:=	$(SRC) \
 				builtin/env_var.c			\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
+				tmp_martijn/print_utils.c	\
 				tmp_martijn/wev_main.c
 SRC			+=	main.c
 

@@ -51,20 +51,3 @@ void	list_token_add_back(t_token **list, t_token *new)
 	tmp->next = new;
 	return ;
 }
-
-// TESTING FUNCTION
-
-void	list_token_print(t_token *top)
-{
-	int			size = list_token_size(top);
-	const int	con = size;
-
-	printf("\n\t-=-  TOKEN PRINT -=-\n");
-	while (size--)
-	{
-		ft_printf("TOKEN [%d]\n\tstr:\t|%s|\n\ttoken:\t|%d|\n", (con - size), top->str, top->id);
-		top = top->next;
-	}
-	return ;
-}
-
