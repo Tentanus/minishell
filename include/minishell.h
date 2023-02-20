@@ -75,7 +75,7 @@ void	minishell_error(const char *loc);
 
 t_token		*lexer(const char *inp);
 void		get_token_info(const char *inp, size_t *pos, t_token *node);
-t_token_id	get_token_id(const char c);
+t_token_id	get_char_id(const char c);
 void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
