@@ -9,20 +9,19 @@
 ** in the format 'declare -x NAME="value"'.
 */
 
-
 void	print_export(char **envp)
 {
-	int i;
-	int j;
-	char *s;
-    
-    i = 0;
-	while(envp[i] != NULL)
+	int		i;
+	int		j;
+	char	*s;
+
+	i = 0;
+	while (envp[i] != NULL)
 	{
 		s = envp[i];
 		ft_putstr_fd("declare -x ", 1); // change 1 to fd?
 		j = 0;
-		while(ft_strncmp(&s[j], "=", 1) != 0)
+		while (ft_strncmp(&s[j], "=", 1) != 0)
 		{
 			ft_putchar_fd(s[j], 1); // change 1 to fd?
 			j++;
@@ -30,7 +29,7 @@ void	print_export(char **envp)
 		ft_putchar_fd(s[j], 1); // change 1 to fd?
 		j++;
 		ft_putchar_fd('"', 1); // change 1 to fd?
-		while(s[j] != '\0')
+		while (s[j] != '\0')
 		{
 			ft_putchar_fd(s[j], 1); // change 1 to fd?
 			j++;
@@ -39,17 +38,42 @@ void	print_export(char **envp)
 		ft_putstr_fd("\n", 1); // change 1 to fd?
 		i++;
 	}
-	// if (i == 0)
-	// 	ft_putstr_fd("(null)\n", 1); // change 1 to fd?
-    return ;
 }
 
-void	execute_export(char **envp)
+// char	*get_name(char	**args)
+// {
+// 	int		i;
+// 	char	*var;
+// 	char	*name;
+
+// 	i = 0;
+// 	var = args[0];
+// 	printf("var = %s\n", var);
+// 	while (ft_strncmp(&var[i], "=", 1) != 0)
+// 		i++;
+// 	ft_strlcpy(name, var, i);
+// 	return (name);
+// }
+
+void	execute_export(t_cmd *cmd, t_env_var *envars)
 {
-	print_export(envp);
+	// char	*name = NULL;
+	// char	*value = NULL;
 	
+	if (cmd->amount_of_args == 1) // this is the case for "export" without variables/options: that 1 arg = NULL
+	{
+		print_export(envars->our_envp);
+		return ; 
+	}
+	// else
+	// {
+	// 	name = get_name(cmd->args);
+	// 	value = get_value(cmd->args);
+	// 	printf("name = %s\n", name);
+	// 	// printf("value = %s\n", value);
+	// 	set_env(name, value, envars);
+	// }
 }
-
 
 // Notes:
 // Shell variable: VARIABLE=4

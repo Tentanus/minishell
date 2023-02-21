@@ -46,5 +46,5 @@ int	main(int argc, char **argv, char **envp)
 // !! executer opzet maken (OP PAPIER MRAZ!!!)
 
 
-
+// ?? init shell function maken:
 // ! The parent shell copies the exported variables and their values when creating the child shell!

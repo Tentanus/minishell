@@ -102,7 +102,7 @@ void	unset_env(char *name, t_env_var *envars);
 void    print_env(char **envp);
 void	set_our_envp(char **envp, t_env_var *envars);
 
-void	execute_export(char **envp);
+void	execute_export(t_cmd *cmd, t_env_var *envars);
 
 //			UTILS
 

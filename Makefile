@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/21 11:51:21 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/21 14:37:04 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,8 @@ DEP			:=	$(OBJ:%.o=%.d)
 -include include/config_test.mk
 
 ODIR		:=	$(sort $(dir $(ODIR)))
-
 READLINE_PATH	:=	lib/readline
-READLINE_LINK	:=	-Llib/readline/lib -lreadline -lncurses
+READLINE_LINK	?=	-Llib/readline/lib -lreadline -lncurses
 
 #============== LIBRARIES ===============#
 
