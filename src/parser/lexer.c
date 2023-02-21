@@ -24,9 +24,9 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 	const t_delimiter_func	func[] = {
 	[0] = &token_id_quote,
 	[1] = &token_id_quote,
-	[2] = &token_id_misc,
-	[3] = &token_id_misc,
-	[4] = &token_id_misc,
+	[2] = &token_id_pipe,
+	[3] = &token_id_great,
+	[4] = &token_id_less,
 	[5] = &token_id_misc,
 	[6] = &token_id_misc,
 	};

@@ -3,10 +3,10 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: mweverli <mweverli@student.codam.n>          +#+                      #
+#    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/20 14:43:08 by mweverli      ########   odam.nl          #
+#    Updated: 2023/02/21 18:19:10 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,22 +21,25 @@
 NAME		:=	marshell
 
 SRC			:=	\
-				lexer/lexer.c				\
-				lexer/lexer_utils.c			\
-				utils/list_token_utils.c	\
+				parser/lexer.c						\
+				parser/lexer_jmptbl_func.c			\
+				utils/list_token_utils.c			\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c		\
-				tmp_mares/parse_utils.c		\
-				builtin/builtin.c			\
-				builtin/echo.c				\
-				builtin/pwd.c				\
-				builtin/cd.c				\
-				builtin/env_var.c			\
+				tmp_mares/mini_parse.c				\
+				tmp_mares/parse_utils.c				\
+				builtin/builtin.c					\
+				builtin/echo.c						\
+				builtin/pwd.c						\
+				builtin/cd.c						\
+				builtin/env_var.c					\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/print_utils.c	\
+				parser/parser.c						\
+				parser/parser_syntax_jmptbl_func.c	\
+				\
+				tmp_martijn/print_utils.c			\
 				tmp_martijn/wev_main.c
 SRC			+=	main.c
 

@@ -24,6 +24,7 @@
 //			E_NUMS
 
 typedef enum e_token_id {
+	UNINITIALIZED = -1,
 	QUOTE,
 	DQUOTE,
 	PIPE,
@@ -71,12 +72,29 @@ typedef struct s_cmd{
 //			FUNCTIONS
 
 void	minishell_error(const char *loc);
+void	minishell_syntax_error(t_token token);
+
+//				FUNCTION: PARSER
+
+void		lexer_parser(t_minishell *mini);
+
+//				FUNCTION: SYNTAX
+
+bool	syntax_id_quote(const t_token *n_prev, const t_token *n_cur);
+bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur);
+bool	syntax_id_redir(const t_token *n_prev, const t_token *n_cur);
+bool	syntax_id_space(const t_token *n_prev, const t_token *n_cur);
+bool	syntax_id_word(const t_token *n_prev, const t_token *n_cur);
+
+//				FUNCTION: LEXER
 
 t_token		*lexer(const char *inp);
 void		get_token_info(const char *inp, size_t *pos, t_token *node);
 t_token_id	get_char_id(const char c);
 void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_great(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_less(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 // void	parse_input(int argc, char **argv, t_cmd *cmd);

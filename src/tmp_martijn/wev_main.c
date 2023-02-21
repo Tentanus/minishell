@@ -15,7 +15,6 @@ int	main(int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
  {
-	char		*input;
 	t_minishell	mini;
 
  	(void)	argv;
@@ -25,11 +24,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
  		mini.input = readline(MARSH_PROMPT);
- 		if (ft_strncmp(input, "exit", 4) == 0)
+ 		if (ft_strncmp(mini.input, "exit", 4) == 0)
 			minishell_error("EXIT AT MINISHELL");
-		printf("%s\n", input);
-		parser(&mini);
- 		free(input);
+		lexer_parser(&mini);
+ 		free(mini.input);
  	}
  	return (EXIT_SUCCESS);
 }
