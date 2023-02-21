@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/02/20 10:27:44 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/21 11:47:17 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ bool	check_builtin(char *cmd)
 		return (true);
 	if (ft_strncmp(cmd, "unset", 6) == 0)
         return(true);
-	// if (ft_strncmp(cmd, "export", 7) == 0)
-	// 	return(true);
+	if (ft_strncmp(cmd, "export", 7) == 0)
+		return(true);
 	// if (ft_strncmp(cmd, "exit", 5) == 0)
 	// 	return(true);
 	return (false);
@@ -43,8 +43,8 @@ void	execute_builtin(t_cmd *cmd, t_env_var *our_env_var)
 		print_env(our_env_var->our_envp);
 	if (ft_strncmp(cmd->simple_cmd, "unset", 6) == 0)
         unset_env(cmd->args[0], our_env_var);
-	// if (ft_strncmp(cmd->simple_cmd, "export", 7) == 0)
-		// execute_export();
+	if (ft_strncmp(cmd->simple_cmd, "export", 7) == 0)
+		execute_export(our_env_var->our_envp);
 	// if (ft_strncmp(cmd->simple_cmd, "exit", 5) == 0)
 		// execute_exit();
 	

@@ -44,3 +44,7 @@ int	main(int argc, char **argv, char **envp)
 // !!
 // !! exit builtin maken (denk aan goed free-en)
 // !! executer opzet maken (OP PAPIER MRAZ!!!)
+
+
+
+// ! The parent shell copies the exported variables and their values when creating the child shell!

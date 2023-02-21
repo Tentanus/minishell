@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/02 13:19:33 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/21 11:51:21 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ VER_SRC		:=	$(SRC) \
 				tmp_mares/parse_utils.c		\
 				builtin/cd.c				\
 				builtin/env_var.c			\
+				builtin/export.c			\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				test/wev_main.c			\

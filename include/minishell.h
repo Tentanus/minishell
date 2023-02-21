@@ -102,6 +102,8 @@ void	unset_env(char *name, t_env_var *envars);
 void    print_env(char **envp);
 void	set_our_envp(char **envp, t_env_var *envars);
 
+void	execute_export(char **envp);
+
 //			UTILS
 
 int		skip_whitespace(const char *str);
