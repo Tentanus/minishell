@@ -5,35 +5,35 @@
 int	main(int argc, char **argv, char **envp)
 {
 	// t_env_var	envars;
-	t_env_var_ll	envars;
-	t_cmd		cmd;
-	char		*input;
-	const char	prompt[] = MARES_PROMPT;
+	t_env_var_ll	*env_var_list = NULL;
+	// t_cmd		cmd;
+	// char		*input;
+	// const char	prompt[] = MARES_PROMPT;
 	(void) argc; // to silence compiler
 	(void) argv; // to silence compiler
 	(void) envp; // to silence compiler
 
 	// set_our_envp(envp, &envars);
-	if (init_env_var(envp) == 1)
+	if (init_env_var(envp, &env_var_list) == 1)
 		return (1);
-	print_linked_list(envars);
+	print_linked_list(env_var_list);
 
-	input = NULL;
-	while (1)
-	{
-		input = readline(prompt);
-		if (ft_strncmp(input, "exit", 4) == 0)
-		{
-			// free_double_array(envars.our_envp);
-			return (free(input), EXIT_SUCCESS);
-		}
-		mini_parse_input(input, &cmd);
-		if (check_builtin(cmd.simple_cmd) == true)
-			execute_builtin(&cmd, &envars);
-		free(cmd.simple_cmd);
-		free_double_array(cmd.args);
-		free(input);
-	}
+	// input = NULL;
+	// while (1)
+	// {
+	// 	input = readline(prompt);
+	// 	if (ft_strncmp(input, "exit", 4) == 0)
+	// 	{
+	// 		// free_double_array(envars.our_envp);
+	// 		return (free(input), EXIT_SUCCESS);
+	// 	}
+	// 	mini_parse_input(input, &cmd);
+	// 	if (check_builtin(cmd.simple_cmd) == true)
+	// 		execute_builtin(&cmd, &envars);
+	// 	free(cmd.simple_cmd);
+	// 	free_double_array(cmd.args);
+	// 	free(input);
+	// }
 	// system("leaks -q martest");
 	// free_double_array(envars.our_envp);
 	return (0);
