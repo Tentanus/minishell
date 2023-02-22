@@ -102,11 +102,11 @@ void	unset_env(char *name, t_env_var *envars);
 void    print_env(char **envp);
 void	set_our_envp(char **envp, t_env_var *envars);
 
-int	init_env_var(char **envp, t_env_var_ll **env_var_list);
-int	add_variable(char *env_var, t_env_var_ll **env_var_list);
-int	add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
+int		init_env_var(char **envp, t_env_var_ll **env_var_list);
+int		add_variable(char *env_var, t_env_var_ll **env_var_list);
+int		add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
 t_env_var_ll	*init_new_var(char *env_var);
-void print_linked_list(t_env_var_ll *env_var_list);
+void	print_linked_list(t_env_var_ll *env_var_list);
 
 void	execute_export(t_cmd *cmd, t_env_var *envars);
 

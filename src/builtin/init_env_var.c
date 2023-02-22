@@ -1,27 +1,40 @@
 #include <minishell.h>
 
 /*
-** this file contains function to initiate a linked linst of environment variables.
+** this file contains function to initiate
+** a linked list of environment variables.
 ** it can be used everytime a new shell or child process is initiated.
 */
 
-void print_linked_list(t_env_var_ll *env_var_list)
+void	print_linked_list(t_env_var_ll *env_var_list)
 {
-    printf("list:\n");
-    while(env_var_list != NULL)
-    {
-        printf("%s ", env_var_list->name);
+	printf("LINKED LISTOF ENV VARS:\n");
+	while (env_var_list != NULL)
+	{
+		printf("%s ", env_var_list->name);
 		printf("= ");
-        printf("%s ", env_var_list->value);
-        printf("%s\n", env_var_list->has_value ? "true" : "false");
-        env_var_list = env_var_list->next;
-    }
-    printf("\n");
+		printf("%s ", env_var_list->value);
+		printf("%s\n", env_var_list->has_value ? "true" : "false");
+		env_var_list = env_var_list->next;
+	}
+	printf("\n");
+}
+
+void	print_env_var(t_env_var_ll *env_var_list)
+{
+	while (env_var_list != NULL)
+	{
+		printf("%s", env_var_list->name);
+		printf("=");
+		printf("%s", env_var_list->value);
+		printf("\n");
+		env_var_list = env_var_list->next;
+	}
 }
 
 t_env_var_ll	*init_new_var(char *env_var)
 {
-	t_env_var_ll 	*new_var;
+	t_env_var_ll	*new_var;
 	int				i;
 
 	new_var = (t_env_var_ll *)malloc(sizeof(t_env_var_ll));
@@ -48,8 +61,9 @@ t_env_var_ll	*init_new_var(char *env_var)
 
 int	add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var)
 {
-	t_env_var_ll	*current = *env_var_list;
+	t_env_var_ll	*current;
 
+	current = *env_var_list;
 	if (*env_var_list == NULL)
 		*env_var_list = new_var;
 	else
@@ -79,7 +93,7 @@ int	add_variable(char *env_var, t_env_var_ll **env_var_list)
 int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 {
 	int	i;
-	
+
 	i = 0;
 	while (envp[i] != NULL)
 	{

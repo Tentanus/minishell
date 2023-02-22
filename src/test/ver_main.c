@@ -41,12 +41,17 @@ int	main(int argc, char **argv, char **envp)
 
 // !! TO DO:
 // !!
-// !! export function maken (#9)
+// !! environment variables als linked list opslaan
+// !! - struct maken
+// !! - linked list aanmaken
+// !! bestaande env function herschrijven naar linked list structuur
+// !! export function maken
+// !! exit builtin maken (denk aan goed free-en)
+// !!
 // !! volgorde uitvoering commands bekijken en optimaliseren
 // !! structuur functies optimaliseren en norm maken
 // !! alle env functions goed checken en naar free-en kijken
 // !!
-// !! exit builtin maken (denk aan goed free-en)
 // !! executer opzet maken (OP PAPIER MRAZ!!!)
 
 // ?? init shell function maken:
