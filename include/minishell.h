@@ -65,13 +65,13 @@ typedef struct s_env_var
 	char			**our_envp;
 }				t_env_var;
 
-// typedef struct s_env_var_ll
-// {
-// 	char				*key;
-// 	char				*value;
-// 	bool				has_value;
-// 	struct s_env_var	*next;
-// }				t_env_var_ll;
+typedef struct s_env_var_ll
+{
+	char				*name;
+	char				*value;
+	bool				has_value;
+	struct s_env_var	*next;
+}				t_env_var_ll;
 
 //			FUNCTIONS
 

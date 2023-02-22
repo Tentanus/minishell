@@ -4,7 +4,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env_var	envars;
+	// t_env_var	envars;
+	t_env_var_ll	envars;
 	t_cmd		cmd;
 	char		*input;
 	const char	prompt[] = MARES_PROMPT;
@@ -12,7 +13,10 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv; // to silence compiler
 	(void) envp; // to silence compiler
 
-	set_our_envp(envp, &envars);
+	// set_our_envp(envp, &envars);
+	if (init_env_var(envp) == 1)
+		return (1);
+	print_linked_list(envars);
 
 	input = NULL;
 	while (1)
@@ -20,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline(prompt);
 		if (ft_strncmp(input, "exit", 4) == 0)
 		{
-			free_double_array(envars.our_envp);
+			// free_double_array(envars.our_envp);
 			return (free(input), EXIT_SUCCESS);
 		}
 		mini_parse_input(input, &cmd);
@@ -31,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	// system("leaks -q martest");
-	free_double_array(envars.our_envp);
+	// free_double_array(envars.our_envp);
 	return (0);
 }
 
@@ -44,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 // !!
 // !! exit builtin maken (denk aan goed free-en)
 // !! executer opzet maken (OP PAPIER MRAZ!!!)
-
 
 // ?? init shell function maken:
 // ! The parent shell copies the exported variables and their values when creating the child shell!

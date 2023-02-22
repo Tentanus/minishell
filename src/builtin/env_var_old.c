@@ -233,7 +233,7 @@ void    print_env(char **envp)
 
 
 // 10. function for initial copy of char **envp into t_env_var *envars->our_envp
-void	set_our_envp(char **envp, t_env_var_ll *envars)
+void	set_our_envp(char **envp, t_env_var *envars)
 {
 	int		i;
 	int		size_of_array;
