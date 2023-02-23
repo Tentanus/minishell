@@ -11,7 +11,7 @@
 */
 void	print_linked_list(t_env_var_ll *env_var_list)
 {
-	printf("LINKED LISTOF ENV VARS:\n");
+	printf("LINKED LISTOF ENV VARS:\n\n");
 	while (env_var_list != NULL)
 	{
 		printf("%s ", env_var_list->name);
@@ -20,7 +20,7 @@ void	print_linked_list(t_env_var_ll *env_var_list)
 		printf("%s\n", env_var_list->has_value ? "true" : "false");
 		env_var_list = env_var_list->next;
 	}
-	printf("\n");
+	printf("\n\n");
 }
 
 /*

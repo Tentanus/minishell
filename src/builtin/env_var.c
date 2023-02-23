@@ -66,34 +66,75 @@ char	*get_env(char *name, t_env_var_ll *env_var_list)
 }
 
 // our own setenv() function: it sets a (new) environment variable
-// void	set_env(char *name, char *value, t_env_var_ll *env_var_list)
-// {
-// 	int		len_name;
+void	set_env(char *envar, t_env_var_ll **env_var_list)
+{
+	int				len_name;
+	t_env_var_ll	*new_var;
+	t_env_var_ll	*current = *env_var_list;
+	t_env_var_ll	*prev = NULL;
 
-// 	len_name = ft_strlen(name);
-// 	// MAKE NEW NODE met init_new_var();
-// 	if (env_var_exists(name, env_var_list) == true)
-// 	{
-// 		// REMOVE BY NAME:
-// 		// look for node with name
-// 		while (env_var_list->next != NULL)
-// 		{
-// 			if (ft_strncmp(env_var_list->name, name, len_name) == 0)
-// 				// delete/ free (node with variable name
-// 				// add new env_var at that node place
-// 				// make sure list is connected again
-// 			env_var_list = env_var_list->next;
-// 		}
-// 	}
-// 	if (env_var_exists(name, env_var_list) == false)
-// 	{
-// 		// ADD NODE WITH NEW VARIABLE TO END OF LIST
-// 	}
-// 	return ;
-// }
-
+	// MAKE NEW NODE
+	new_var = init_new_var(envar);
+	len_name = ft_strlen(new_var->name);
+	if (env_var_exists(new_var->name, *env_var_list) == true)
+	{
+		// REMOVE BY NAME:
+		// look for node with name
+		while (current->next != NULL && ft_strncmp(current->name, new_var->name, len_name) != 0)
+		{
+			prev = current;
+			current = current->next;
+				// delete/ free node with variable name
+				// add new env_var at that node place
+				// make sure list is connected again
+		}
+		// if node / env_var to replace is not found, return NULL (extra control)
+		if (current == NULL)
+			return ;
+		// let new_var->next point to next element in list
+		new_var->next = current->next;
+		// free old node
+		if (prev == NULL)
+			*env_var_list = new_var;
+		else
+			prev->next = new_var;
+		free(current);
+	}
+	if (env_var_exists(new_var->name, *env_var_list) == false)
+	{
+		// ADD NODE WITH NEW VARIABLE TO END OF LIST
+		add_var_to_end_list(env_var_list, new_var);
+	}
+}
 
 // function to remove environment variable (unset builtin)
+void	unset_env(char *name, t_env_var_ll **env_var_list)
+{
+	int				len_name;
+	t_env_var_ll	*current = *env_var_list;
+	t_env_var_ll	*temp_var = NULL;
+
+	len_name = ft_strlen(name);
+	printf("name = %s\n\n", name);
+	if (env_var_exists(name, *env_var_list) == true)
+	{
+		// REMOVE BY NAME:
+		// look for node with name
+		while (current->next != NULL && ft_strncmp(current->name, name, len_name) != 0)
+		{
+			current = current->next;
+		}
+		// save element we want to remove in temp pointer
+    	temp_var = current->next;
+		// set previous node's next pointer to point to the node after the node we wish to delete
+    	current->next = temp_var->next;
+    	// free temp element
+		free(temp_var);
+	}
+	else
+		return ;
+}
+
 // void	unset_env(char *name, t_env_var *envars)
 // {
 // 	char	**new_envp;

@@ -28,12 +28,17 @@ int	main(int argc, char **argv, char **envp)
 			return (free(input), EXIT_SUCCESS);
 		}
 		mini_parse_input(input, &cmd);
-		if (check_builtin(cmd.simple_cmd) == true)
-			execute_builtin(&cmd, &env_var_list);
-		printf("check envar_exists USER: = %s\n", env_var_exists("USER", env_var_list) ? "true" : "false");
-		printf("check envar_exists RANDOM: = %s\n", env_var_exists("RANDOM", env_var_list) ? "true" : "false");
-
-	// 		execute_builtin(&cmd, &envars); OLD
+		// if (check_builtin(cmd.simple_cmd) == true)
+		// 	execute_builtin(&cmd, &env_var_list);
+		// printf("check envar_exists USER: = %s\n", env_var_exists("USER", env_var_list) ? "true" : "false");
+		// printf("check envar_exists RANDOM: = %s\n", env_var_exists("RANDOM", env_var_list) ? "true" : "false");		// printf("\n");
+		print_linked_list(env_var_list);
+		set_env("HOI=hallo", &env_var_list);
+		print_linked_list(env_var_list);
+		unset_env("HOI", &env_var_list);
+		print_linked_list(env_var_list);
+	
+		// execute_builtin(&cmd, &envars); OLD
 
 	// 	free(cmd.simple_cmd);
 	// 	free_double_array(cmd.args);
