@@ -6,14 +6,15 @@ void	list_token_print(t_token *top)
 {
 	int			size = list_token_size(top);
 	const int	con = size;
-	const char	*token_name[7] = {
-		[0] = "QUOTE",
-		[1] = "DOUBLE QUOTE",
-		[2] = "PIPE",
+	const char	*token_name[8] = {
+		[0] = "PIPE",
+		[1] = "QUOTE",
+		[2] = "DOUBLE QUOTE",
 		[3] = "GREAT",
 		[4] = "LESS",
-		[5] = "SPACE",
-		[6] = "WORD"
+		[5] = "SHELL_VAR",
+		[6] = "SPACE",
+		[7] = "WORD"
 	} ;
 
 	printf("\n\t-=-  TOKEN PRINT -=-\n");

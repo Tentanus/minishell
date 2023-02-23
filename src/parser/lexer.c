@@ -6,9 +6,9 @@ typedef void	(*t_delimiter_func) \
 t_token_id	get_char_id(const char c)
 {
 	t_token_id	val;
-	const char	set_delimiters[] = "\'\"|>< ";
+	const char	set_delimiters[] = "|\'\"><$ ";
 
-	val = QUOTE;
+	val = PIPE;
 	while (val != WORD)
 	{
 		if (set_delimiters[val] == c)
@@ -22,13 +22,14 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 {
 	const int				start_pos = *pos;
 	const t_delimiter_func	func[] = {
-	[0] = &token_id_quote,
+	[0] = &token_id_pipe,
 	[1] = &token_id_quote,
-	[2] = &token_id_pipe,
+	[2] = &token_id_quote,
 	[3] = &token_id_great,
 	[4] = &token_id_less,
-	[5] = &token_id_misc,
+	[5] = &token_id_shvar,
 	[6] = &token_id_misc,
+	[7] = &token_id_misc,
 	};
 
 	node->id = get_char_id(inp[(*pos)]);

@@ -25,11 +25,12 @@
 
 typedef enum e_token_id {
 	UNINITIALIZED = -1,
+	PIPE,
 	QUOTE,
 	DQUOTE,
-	PIPE,
 	GREAT,
 	LESS,
+	SH_VAR,
 	SPACEBAR,
 	WORD
 }	t_token_id;
@@ -97,6 +98,7 @@ void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_great(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_less(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_shvar(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 // void	parse_input(int argc, char **argv, t_cmd *cmd);

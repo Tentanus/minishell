@@ -20,9 +20,9 @@ void	syntax_check(t_token *top)
 	t_token				*n_prev;
 	t_token				*n_cur;
 	const t_syntax_func	func[] = {
-	[0] = &syntax_id_quote,
+	[0] = &syntax_id_pipe,
 	[1] = &syntax_id_quote,
-	[2] = &syntax_id_pipe,
+	[2] = &syntax_id_quote,
 	[3] = &syntax_id_redir,
 	[4] = &syntax_id_redir,
 	[5] = NULL,
