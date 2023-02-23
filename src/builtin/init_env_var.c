@@ -1,11 +1,14 @@
 #include <minishell.h>
 
 /*
-** this file contains function to initiate
+** this file contains functions to initiate
 ** a linked list of environment variables.
 ** it can be used everytime a new shell or child process is initiated.
 */
 
+/*
+** print linked list of environment variables FOR TESTING!
+*/
 void	print_linked_list(t_env_var_ll *env_var_list)
 {
 	printf("LINKED LISTOF ENV VARS:\n");
@@ -20,18 +23,10 @@ void	print_linked_list(t_env_var_ll *env_var_list)
 	printf("\n");
 }
 
-void	print_env_var(t_env_var_ll *env_var_list)
-{
-	while (env_var_list != NULL)
-	{
-		printf("%s", env_var_list->name);
-		printf("=");
-		printf("%s", env_var_list->value);
-		printf("\n");
-		env_var_list = env_var_list->next;
-	}
-}
-
+/*
+** function that creates a new node containing environment variable in format of NAME=value
+** also adds bool with 'has value' = true or false for every node.
+*/
 t_env_var_ll	*init_new_var(char *env_var)
 {
 	t_env_var_ll	*new_var;
@@ -59,6 +54,10 @@ t_env_var_ll	*init_new_var(char *env_var)
 	return (new_var);
 }
 
+/*
+** function that adds a new node containing a new environment variable in format of NAME=value
+** to the end of the linked list of environment variables.
+*/
 int	add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var)
 {
 	t_env_var_ll	*current;
@@ -76,6 +75,10 @@ int	add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var)
 	return (0);
 }
 
+/*
+** function that initiates the creation of a new node containing a new environment variable in format of NAME=value
+** and calls a function to add this node to the end of the linked list of environment variables.
+*/
 int	add_variable(char *env_var, t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*new_var;
@@ -90,6 +93,9 @@ int	add_variable(char *env_var, t_env_var_ll **env_var_list)
 	return (0);
 }
 
+/*
+** function that adds a environment variable for every envp to our linked list of env vars
+*/
 int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 {
 	int	i;
@@ -101,5 +107,10 @@ int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 			return (minishell_error("fail in init_env_var"), 1);
 		i++;
 	}
+	// !!!
+	// SHLVL should be updated
+	// strncmp for 'SHLVL=' 
+	// update value += 1 using atoi and itoa
+	// think about memory when updating SHLVL from 9 to 10 etc
 	return (0);
 }

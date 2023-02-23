@@ -14,6 +14,19 @@ static void	setup(void)
 	redirect_all_std();
 }
 
+// Test(misc, failing, .init=setup)
+// {
+//     char		*input = "echo Hello, World!";
+//     t_cmd		cmd;
+
+//     mini_parse_input(input, &cmd);
+//     execute_echo(&cmd, 1);
+
+//     // ft_putstr_fd("Hello, World!", 1);
+
+//     cr_assert_stdout_eq_str("Hello, World!");
+// }
+
 Test(misc, failing, .init=setup)
 {
     char		*input = "echo Hello, World!";

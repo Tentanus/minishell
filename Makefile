@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/22 15:02:27 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/23 12:35:19 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ VER_SRC		:=	$(SRC) \
 				builtin/cd.c				\
 				builtin/env_var.c			\
 				builtin/export.c			\
-				test/ver_main.c				\
-				builtin/init_env_var.c
+				builtin/init_env_var.c		\
+				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				test/wev_main.c			\
 				lexer/lexer.c
