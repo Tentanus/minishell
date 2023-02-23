@@ -10,7 +10,7 @@ void	token_id_quote(const char *inp, size_t *pos, const t_token_id val)
 
 void	token_id_pipe(const char *inp, size_t *pos, const t_token_id val)
 {
-	int i;
+	int	i;
 
 	(void) val;
 	i = 0;
@@ -23,7 +23,7 @@ void	token_id_pipe(const char *inp, size_t *pos, const t_token_id val)
 
 void	token_id_great(const char *inp, size_t *pos, const t_token_id val)
 {
-	int i;
+	int	i;
 
 	(void) val;
 	i = 0;
@@ -36,7 +36,7 @@ void	token_id_great(const char *inp, size_t *pos, const t_token_id val)
 
 void	token_id_less(const char *inp, size_t *pos, const t_token_id val)
 {
-	int i;
+	int	i;
 
 	(void) val;
 	i = 0;

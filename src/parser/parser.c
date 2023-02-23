@@ -1,6 +1,5 @@
 #include <minishell.h>
 
-
 void	lexer_parser(t_minishell *mini)
 {
 	mini->token = lexer(mini->input);

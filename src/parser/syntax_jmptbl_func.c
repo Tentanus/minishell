@@ -9,7 +9,7 @@ bool	syntax_id_quote(const t_token *n_prev, const t_token *n_cur)
 
 bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur)
 {
-	const t_token *n_next = skip_space_token((t_token *) n_cur);
+	const t_token	*n_next = skip_space_token((t_token *) n_cur);
 
 	if (n_prev == NULL || n_next == NULL)
 		return (1);
@@ -20,7 +20,7 @@ bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur)
 
 bool	syntax_id_redir(const t_token *n_prev, const t_token *n_cur)
 {
-	const t_token *n_next = skip_space_token((t_token *) n_cur);
+	const t_token	*n_next = skip_space_token((t_token *) n_cur);
 
 	(void) n_prev;
 	if (n_next == NULL)

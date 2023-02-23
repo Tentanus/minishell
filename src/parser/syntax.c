@@ -30,10 +30,10 @@ void	syntax_check(t_token *top)
 	};
 
 	n_prev = NULL;
-	n_cur = top; 
+	n_cur = top;
 	while (n_cur != NULL)
 	{
-		if (func[n_cur->id] (n_prev, n_cur))
+		if (func[n_cur->id](n_prev, n_cur))
 			minishell_syntax_error(*n_cur);
 		n_prev = n_cur;
 		n_cur = skip_space_token(n_cur);
@@ -88,4 +88,3 @@ here_end         : WORD                     Apply rule 3
                  ;
 
    --------------------------------------------------------- */
-
