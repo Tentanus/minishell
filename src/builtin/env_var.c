@@ -42,7 +42,10 @@ bool	env_var_exists(char *name, t_env_var_ll *env_var_list)
 			return (true);
 		env_var_list = env_var_list->next;
 	}
-	return (false);
+	if (ft_strncmp(env_var_list->name, name, len_name) == 0)
+			return (true);
+	else
+		return (false);
 }
 
 // our own getenv function:
@@ -115,12 +118,11 @@ void	unset_env(char *name, t_env_var_ll **env_var_list)
 	t_env_var_ll	*temp_var = NULL;
 
 	len_name = ft_strlen(name);
-	printf("name = %s\n\n", name);
 	if (env_var_exists(name, *env_var_list) == true)
 	{
 		// REMOVE BY NAME:
 		// look for node with name
-		while (current->next != NULL && ft_strncmp(current->name, name, len_name) != 0)
+		while (current->next != NULL && ft_strncmp(current->next->name, name, len_name) != 0)
 		{
 			current = current->next;
 		}

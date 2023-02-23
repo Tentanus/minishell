@@ -89,28 +89,28 @@ bool	check_builtin(char *cmd);
 void	execute_builtin(t_cmd *cmd, t_env_var_ll **our_env_var);
 int		execute_echo(t_cmd *cmd, int fd);
 int		execute_pwd(int fd);
-int		execute_cd(t_cmd *cmd, t_env_var *env_var);
+int		execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 
-bool	get_env_var_exists(char *name); // old, making use of getenv()
+// bool	get_env_var_exists(char *name); // old, making use of getenv()
 // bool	env_var_exists(char *name, char **envp); // new
 // char	*get_env(char *name, t_env_var *envars); 
 // void	set_env(char *name, char *value, t_env_var *envars);
-int		search_for_env_index(char *name, char **envp);
-int		get_end_of_envp_list(char **envp);
-char	*make_env_var_format(char *name, char *value);
-void	set_our_envp(char **envp, t_env_var *envars);
+// int		search_for_env_index(char *name, char **envp);
+// int		get_end_of_envp_list(char **envp);
+// char	*make_env_var_format(char *name, char *value);
+// void	set_our_envp(char **envp, t_env_var *envars);
 
-bool	env_var_exists(char *name, t_env_var_ll *env_var_list);
 void	print_env(t_env_var_ll *env_var_list);
+bool	env_var_exists(char *name, t_env_var_ll *env_var_list);
 char	*get_env(char *name, t_env_var_ll *env_var_list);
 void	set_env(char *envar, t_env_var_ll **env_var_list);
 void	unset_env(char *name, t_env_var_ll **env_var_list);
 
-int		init_env_var(char **envp, t_env_var_ll **env_var_list);
-int		add_variable(char *env_var, t_env_var_ll **env_var_list);
-int		add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
+void	print_linked_list(t_env_var_ll *env_var_list); // FOR TESTING
 t_env_var_ll	*init_new_var(char *env_var);
-void	print_linked_list(t_env_var_ll *env_var_list);
+int		add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
+int		add_variable(char *env_var, t_env_var_ll **env_var_list);
+int		init_env_var(char **envp, t_env_var_ll **env_var_list);
 
 void	execute_export(t_cmd *cmd, t_env_var *envars);
 
