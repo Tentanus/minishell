@@ -80,6 +80,7 @@ void		lexer_parser(t_minishell *mini);
 
 //				FUNCTION: SYNTAX
 
+void	syntax_check(t_token *top);
 bool	syntax_id_quote(const t_token *n_prev, const t_token *n_cur);
 bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur);
 bool	syntax_id_redir(const t_token *n_prev, const t_token *n_cur);
