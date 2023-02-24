@@ -12,53 +12,53 @@
 ** The return status is 0 if the directory is successfully changed, non-zero otherwise.
 */
 
-int		execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
+char	*get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
-	char	*current_working_dir = NULL;
-	char	*pwd = NULL;
-	bool	to_print = false;
-	char	*new_working_dir = NULL;
-	int		chdir_return;
-
-    // error: bash: unset: `USER=mverbrug': not a valid identifier
+	char	*new_working_dir;
 
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
-		new_working_dir = get_env("HOME", env_var_list);
+		new_working_dir = get_env("HOME", *env_var_list);
 	else if (cmd->args[0][0] == '~')
 	{
 		if (cmd->args[0][1] == '/')
-			new_working_dir = ft_strjoin(get_env("HOME", env_var_list), &cmd->args[0][1]);
+			new_working_dir = ft_strjoin(get_env("HOME", *env_var_list), &cmd->args[0][1]);
 		else
-			new_working_dir = &cmd->args[0][1];
+			new_working_dir = get_env("HOME", *env_var_list);
 	}
 	else
 	{
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
-			new_working_dir = get_env("OLDPWD", env_var_list);
+			new_working_dir = get_env("OLDPWD", *env_var_list);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
-			{
-				minishell_error("cd: OLDPWD not set"); // throw error like bash
-				return (1);
-			}
-			to_print = true;
+				return (minishell_error("cd: OLDPWD not set"), NULL); // throw error like bash
 		}
 		else
 			new_working_dir = cmd->args[0];
 	}
-	current_working_dir = get_env("PWD", env_var_list);
-	set_env("OLDPWD", current_working_dir, env_var_list);
+	return (new_working_dir);
+}
 
-	chdir_return = chdir(new_working_dir);
-	if (chdir_return != 0)
-	{
-		minishell_error("chdir error. cd: args[0]"); // throw error like bash
-		return (1);
-	}
-	if (to_print == true)
+int	execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
+{
+	char	*current_working_dir;
+	char	*pwd;
+	char	*new_working_dir;
+
+	new_working_dir = get_new_working_dir(cmd, env_var_list);
+	if (new_working_dir == NULL)
+		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
+	// printf("new_working_dir = %s\n", new_working_dir);
+	current_working_dir = ft_strjoin("OLDPWD=", get_env("PWD", *env_var_list));
+	set_env(current_working_dir, env_var_list);
+	if (chdir(new_working_dir) != 0)
+		return (minishell_error("chdir error. cd: args[0]"), 1); // throw error like bash
+	if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		execute_pwd(1); // change 1 to fd?
-	pwd = getcwd(pwd, 0);
-	set_env("PWD", pwd, env_var_list);
+	pwd = NULL;
+	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
+	set_env(pwd, env_var_list);
+	free(current_working_dir);
 	free(pwd);
 	return (0);
 }

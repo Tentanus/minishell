@@ -60,7 +60,7 @@ char	*get_env(char *name, t_env_var_ll *env_var_list)
 	{
 		while (env_var_list->next != NULL)
 		{
-			if (ft_strncmp(env_var_list->name, name, len_name) == 0)
+			if (ft_strncmp(env_var_list->name, name, len_name + 1) == 0)
 				return (env_var_list->value);
 			env_var_list = env_var_list->next;
 		}
@@ -117,6 +117,7 @@ void	unset_env(char *name, t_env_var_ll **env_var_list)
 	t_env_var_ll	*current = *env_var_list;
 	t_env_var_ll	*temp_var = NULL;
 
+    // error: bash: unset: `USER=mverbrug': not a valid identifier
 	len_name = ft_strlen(name);
 	if (env_var_exists(name, *env_var_list) == true)
 	{
