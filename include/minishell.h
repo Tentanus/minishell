@@ -84,19 +84,27 @@ void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
-void	mini_parse_input(char *input, t_cmd *cmd);
-char	**make_double_array(int word_count);
-int		ft_word_counter(char const *s, char c);
-void	free_double_array(char **double_array);
+void		mini_parse_input(char *input, t_cmd *cmd);
+char		**make_double_array(int word_count);
+int			ft_word_counter(char const *s, char c);
+void		free_double_array(char **double_array);
 
-bool	check_builtin(char *cmd);
-void	execute_builtin(t_cmd *cmd, t_env_var_ll **our_env_var);
-int		execute_echo(t_cmd *cmd, int fd);
-int		execute_pwd(int fd);
-int		execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
+bool		check_builtin(char *cmd);
+void		execute_builtin(t_cmd *cmd, t_env_var_ll **our_env_var);
+int			execute_echo(t_cmd *cmd, int fd);
+int			execute_pwd(int fd);
+int			execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
+void		print_env(t_env_var_ll *env_var_list);
+void		unset_env(char *name, t_env_var_ll **env_var_list);
+bool		env_var_exists(char *name, t_env_var_ll *env_var_list);
+char		*get_env(char *name, t_env_var_ll *env_var_list);
+void		set_env(char *envar, t_env_var_ll **env_var_list);
+void		execute_export(t_cmd *cmd, t_env_var_ll **env_var_list);
+void		print_export(t_env_var_ll *env_var_list);
 
-// bool	get_env_var_exists(char *name); // old, making use of getenv()
-// bool	env_var_exists(char *name, char **envp); // new
+// OLD:
+// bool	get_env_var_exists(char *name); // old old, making use of getenv()
+// bool	env_var_exists(char *name, char **envp);
 // char	*get_env(char *name, t_env_var *envars); 
 // void	set_env(char *name, char *value, t_env_var *envars);
 // int		search_for_env_index(char *name, char **envp);
@@ -104,19 +112,12 @@ int		execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 // char	*make_env_var_format(char *name, char *value);
 // void	set_our_envp(char **envp, t_env_var *envars);
 
-void	print_env(t_env_var_ll *env_var_list);
-bool	env_var_exists(char *name, t_env_var_ll *env_var_list);
-char	*get_env(char *name, t_env_var_ll *env_var_list);
-void	set_env(char *envar, t_env_var_ll **env_var_list);
-void	unset_env(char *name, t_env_var_ll **env_var_list);
-
-void	print_linked_list(t_env_var_ll *env_var_list); // FOR TESTING
+void			print_linked_list(t_env_var_ll *env_var_list); // FOR TESTING
 t_env_var_ll	*init_new_var(char *env_var);
-int		add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
-int		add_variable(char *env_var, t_env_var_ll **env_var_list);
-int		init_env_var(char **envp, t_env_var_ll **env_var_list);
+int				add_var_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
+int				add_variable(char *env_var, t_env_var_ll **env_var_list);
+int				init_env_var(char **envp, t_env_var_ll **env_var_list);
 
-void	execute_export(t_cmd *cmd, t_env_var *envars);
 
 //				UTILS
 

@@ -36,20 +36,26 @@ t_env_var_ll	*init_new_var(char *env_var)
 	if (!new_var)
 		return (minishell_error("malloc fail init_new_var"), NULL);
 	i = 0;
-	while (env_var[i])
+	if (ft_strchr(env_var, '=') != NULL) 
 	{
-		if (env_var[i] == '=')
+		while (env_var[i])
 		{
-			new_var->name = ft_substr(env_var, 0, i);
-			new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var));
-			break ;
+			if (env_var[i] == '=')
+			{
+				new_var->name = ft_substr(env_var, 0, i);
+				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var));
+				break ;
+			}
+			i++;			
 		}
-		i++;
-	}
-	if (new_var->value == NULL)
-		new_var->has_value = false;
-	else
 		new_var->has_value = true;
+	}
+	else
+	{
+		new_var->name = env_var;
+		new_var->value = NULL;
+		new_var->has_value = false;
+	}
 	new_var->next = NULL;
 	return (new_var);
 }
@@ -108,9 +114,13 @@ int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 		i++;
 	}
 	// !!!
-	// SHLVL should be updated
-	// strncmp for 'SHLVL=' 
-	// update value += 1 using atoi and itoa
+	// make new function?
+	// SHLVL should be updated:
+	// loop through env_var_list and strncmp for env_var_list->name == 'SHLVL='
+	// save env_var_list->value
+	// remove node and add new node
+	// OR update current node with value += 1 (using atoi and itoa?)
 	// think about memory when updating SHLVL from 9 to 10 etc
+	// !!!
 	return (0);
 }

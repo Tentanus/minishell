@@ -13,8 +13,6 @@
 **
 ** - function to remove environment variable (unset builtin)
 **
-** - function to export variable (export)
-**
 */
 
 // function to print environment variables stored in linked list
@@ -106,11 +104,8 @@ void	set_env(char *envar, t_env_var_ll **env_var_list)
 			prev->next = new_var;
 		free(current);
 	}
-	if (env_var_exists(new_var->name, *env_var_list) == false)
-	{
-		// ADD NODE WITH NEW VARIABLE TO END OF LIST
+	else // ADD NEW NODE WITH NEW VARIABLE TO END OF LIST
 		add_var_to_end_list(env_var_list, new_var);
-	}
 }
 
 // function to remove environment variable (unset builtin)
@@ -140,36 +135,3 @@ void	unset_env(char *name, t_env_var_ll **env_var_list)
 	else
 		return ;
 }
-
-// void	unset_env(char *name, t_env_var *envars)
-// {
-// 	char	**new_envp;
-// 	int		size_of_array;
-// 	int		i;
-// 	int		j;
-
-// 	size_of_array = get_end_of_envp_list(envars->our_envp) + 1;
-// 	new_envp = (char **)malloc(size_of_array * sizeof(char *));
-// 	if (!new_envp) // protect malloc!
-// 	{
-// 		minishell_error("malloc fail unset_env");
-// 		exit(1);
-// 	}
-// 	i = 0;
-// 	j = 0;
-// 	while(envars->our_envp[i] != NULL)
-// 	{
-// 		if (i == search_for_env_index(name, envars->our_envp))
-// 			j++;
-// 		new_envp[i] = ft_strdup(envars->our_envp[j]);
-// 		i++;
-// 		j++;
-// 	}
-// 	new_envp[i] = NULL;
-// 	free_double_array(envars->our_envp);
-// 	envars->our_envp = new_envp;
-// 	return ;
-// }
-
-// function to export variable (export)
-
