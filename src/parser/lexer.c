@@ -36,7 +36,7 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 	func[node->id](inp, pos, node->id);
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 	if (node->str == NULL)
-		minishell_exit("lexer/lexer.c: get_token_info @ substr");
+		return ;
 }
 
 t_token	*lexer(const char *inp)
@@ -53,6 +53,8 @@ t_token	*lexer(const char *inp)
 		if (!node)
 			minishell_error("lexer/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
+		if (!node->str)
+			return (list_token_free(top), NULL);
 		list_token_add_back(&top, node);
 	}
 	return (top);

@@ -74,7 +74,7 @@ typedef struct s_cmd{
 //			FUNCTIONS
 
 void	minishell_error(const char *loc);
-void	minishell_syntax_error(t_token token);
+void	minishell_syntax_error(t_token *top, const char *str);
 
 //				FUNCTION: PARSER
 
@@ -84,11 +84,9 @@ void		lexer_parser(t_minishell *mini);
 
 void	syntax_check(t_token *top);
 t_token	*skip_space_token(t_token *t_cur);
-bool	syntax_id_quote(const t_token *t_prev, const t_token *t_cur);
 bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
 bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
-bool	syntax_id_space(const t_token *t_prev, const t_token *t_cur);
-bool	syntax_id_word(const t_token *t_prev, const t_token *t_cur);
+bool	syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
 
 //				FUNCTION: LEXER
 
@@ -117,10 +115,11 @@ void	change_pwd_oldpwd(char **envp);
 
 //				UTILS_TOKEN
 
-int		list_token_size(t_token *top);
+size_t	list_token_size(t_token *top);
 t_token	*list_token_new(void);
 t_token	*list_token_last(t_token *list);
 void	list_token_add_back(t_token **list, t_token *node);
+void	list_token_free(t_token *top);
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void	list_token_print(t_token *top);

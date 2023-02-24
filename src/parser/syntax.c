@@ -35,7 +35,10 @@ void	syntax_check(t_token *top)
 	while (t_cur != NULL)
 	{
 		if (func[t_cur->id](t_prev, t_cur))
-			minishell_syntax_error(*t_cur);
+		{
+			minishell_syntax_error(top, t_cur->str);
+			return ;
+		}
 		t_prev = t_cur;
 		t_cur = skip_space_token(t_cur);
 	}

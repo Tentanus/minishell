@@ -1,8 +1,8 @@
 #include <minishell.h>
 
-int	list_token_size(t_token *top)
+size_t	list_token_size(t_token *top)
 {
-	int	size;
+	size_t	size;
 
 	size = 0;
 	while (top != NULL)
@@ -28,7 +28,7 @@ t_token	*list_token_new(void)
 
 t_token	*list_token_last(t_token *list)
 {
-	int	size;
+	size_t	size;
 
 	size = list_token_size(list);
 	while (size-- > 1)
@@ -50,4 +50,19 @@ void	list_token_add_back(t_token **list, t_token *new)
 	tmp = list_token_last(*list);
 	tmp->next = new;
 	return ;
+}
+
+void	list_token_free(t_token *top)
+{
+	t_token *t_current;
+	t_token *t_tmp;
+
+	t_current = top;
+	while (t_current != NULL)
+	{
+		free(t_current->str);
+		t_tmp = t_current;
+		t_current = t_current->next;
+		free(t_tmp);
+	}
 }
