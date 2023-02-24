@@ -22,10 +22,13 @@ void	print_env(t_env_var_ll *env_var_list)
 {
 	while (env_var_list != NULL)
 	{
-		printf("%s", env_var_list->name);
-		printf("=");
-		printf("%s", env_var_list->value);
-		printf("\n");
+		if (env_var_list->has_value == true)
+		{
+			printf("%s", env_var_list->name);
+			printf("=");
+			printf("%s", env_var_list->value);
+			printf("\n");
+		}
 		env_var_list = env_var_list->next;
 	}
 }

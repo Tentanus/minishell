@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/24 12:54:42 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/02/24 13:21:06 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ NAME		:=	marshell
 SRC			:=	\
 				lexer/lexer.c				\
 				lexer/lexer_utils.c			\
-				utils/list_token_utils.c	\
+				utils/list_token_utils.c 	\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
