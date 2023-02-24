@@ -21,26 +21,13 @@ void	token_id_pipe(const char *inp, size_t *pos, const t_token_id val)
 	}
 }
 
-void	token_id_great(const char *inp, size_t *pos, const t_token_id val)
+void	token_id_redir(const char *inp, size_t *pos, const t_token_id val)
 {
 	int	i;
 
 	(void) val;
 	i = 0;
-	while (i < 3 && inp[*pos] && inp[*pos] == '>')
-	{
-		(*pos)++;
-		i++;
-	}
-}
-
-void	token_id_less(const char *inp, size_t *pos, const t_token_id val)
-{
-	int	i;
-
-	(void) val;
-	i = 0;
-	while (i < 3 && inp[*pos] && inp[*pos] == '<')
+	while (i < 3 && inp[*pos] && (inp[*pos] == '>' || inp[*pos] == '<'))
 	{
 		(*pos)++;
 		i++;
@@ -51,7 +38,7 @@ void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 {
 	(void) val;
 	(*pos)++;
-	while (inp[*pos] && get_char_id(inp[*pos]) == WORD)
+	while (inp[*pos] && ft_isalpha(inp[*pos]))
 		(*pos)++;
 }
 

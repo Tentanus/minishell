@@ -1,15 +1,15 @@
 #include <minishell.h>
 
 typedef bool	(*t_syntax_func) \
-			(const t_token *n_prev, const t_token *n_cur);
+			(const t_token *t_prev, const t_token *t_cur);
 
-t_token	*skip_space_token(t_token *n_cur)
+t_token	*skip_space_token(t_token *t_cur)
 {
 	t_token	*ret;
 
-	if (n_cur == NULL)
+	if (t_cur == NULL)
 		return (NULL);
-	ret = n_cur->next;
+	ret = t_cur->next;
 	if (ret != NULL && ret->id == SPACEBAR)
 		ret = ret->next;
 	return (ret);
@@ -17,26 +17,27 @@ t_token	*skip_space_token(t_token *n_cur)
 
 void	syntax_check(t_token *top)
 {
-	t_token				*n_prev;
-	t_token				*n_cur;
+	t_token				*t_prev;
+	t_token				*t_cur;
 	const t_syntax_func	func[] = {
 	[0] = &syntax_id_pipe,
-	[1] = &syntax_id_quote,
-	[2] = &syntax_id_quote,
+	[1] = &syntax_id_misc,
+	[2] = &syntax_id_misc,
 	[3] = &syntax_id_redir,
 	[4] = &syntax_id_redir,
-	[5] = NULL,
-	[6] = &syntax_id_word
+	[5] = &syntax_id_misc,
+	[6] = NULL,
+	[7] = &syntax_id_misc
 	};
 
-	n_prev = NULL;
-	n_cur = top;
-	while (n_cur != NULL)
+	t_prev = NULL;
+	t_cur = top;
+	while (t_cur != NULL)
 	{
-		if (func[n_cur->id](n_prev, n_cur))
-			minishell_syntax_error(*n_cur);
-		n_prev = n_cur;
-		n_cur = skip_space_token(n_cur);
+		if (func[t_cur->id](t_prev, t_cur))
+			minishell_syntax_error(*t_cur);
+		t_prev = t_cur;
+		t_cur = skip_space_token(t_cur);
 	}
 }
 

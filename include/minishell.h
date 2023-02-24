@@ -20,6 +20,7 @@
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002Maresiscoding> \001\033[0m\002"
+# define SET_DELIMETER "|\'\"><$ "
 
 //			E_NUMS
 
@@ -82,22 +83,20 @@ void		lexer_parser(t_minishell *mini);
 //				FUNCTION: SYNTAX
 
 void	syntax_check(t_token *top);
-t_token	*skip_space_token(t_token *n_cur);
-bool	syntax_id_quote(const t_token *n_prev, const t_token *n_cur);
-bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur);
-bool	syntax_id_redir(const t_token *n_prev, const t_token *n_cur);
-bool	syntax_id_space(const t_token *n_prev, const t_token *n_cur);
-bool	syntax_id_word(const t_token *n_prev, const t_token *n_cur);
+t_token	*skip_space_token(t_token *t_cur);
+bool	syntax_id_quote(const t_token *t_prev, const t_token *t_cur);
+bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
+bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
+bool	syntax_id_space(const t_token *t_prev, const t_token *t_cur);
+bool	syntax_id_word(const t_token *t_prev, const t_token *t_cur);
 
 //				FUNCTION: LEXER
 
 t_token		*lexer(const char *inp);
-void		get_token_info(const char *inp, size_t *pos, t_token *node);
 t_token_id	get_char_id(const char c);
-void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_great(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_less(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_redir(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_shvar(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 

@@ -1,38 +1,31 @@
 #include <minishell.h>
 
-bool	syntax_id_quote(const t_token *n_prev, const t_token *n_cur)
+bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
 {
-	(void) n_prev;
-	(void) n_cur;
-	return (0);
-}
+	const t_token	*t_next = skip_space_token((t_token *) t_cur);
 
-bool	syntax_id_pipe(const t_token *n_prev, const t_token *n_cur)
-{
-	const t_token	*n_next = skip_space_token((t_token *) n_cur);
-
-	if (n_prev == NULL || n_next == NULL)
+	if (t_prev == NULL || t_next == NULL)
 		return (1);
-	if (ft_strlen(n_cur->str) != 1)
+	if (ft_strlen(t_cur->str) != 1)
 		return (1);
 	return (0);
 }
 
-bool	syntax_id_redir(const t_token *n_prev, const t_token *n_cur)
+bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur)
 {
-	const t_token	*n_next = skip_space_token((t_token *) n_cur);
+	const t_token	*t_next = skip_space_token((t_token *) t_cur);
 
-	(void) n_prev;
-	if (n_next == NULL)
+	(void) t_prev;
+	if (t_next == NULL)
 		return (1);
-	if (n_next->id != WORD || ft_strlen(n_cur->str) > 2)
+	if (t_next->id != WORD || ft_strlen(t_cur->str) > 2)
 		return (1);
 	return (0);
 }
 
-bool	syntax_id_word(const t_token *n_prev, const t_token *n_cur)
+bool	syntax_id_misc(const t_token *t_prev, const t_token *t_cur)
 {
-	(void) n_prev;
-	(void) n_cur;
+	(void) t_prev;
+	(void) t_cur;
 	return (0);
 }
