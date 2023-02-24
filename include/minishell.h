@@ -24,14 +24,13 @@
 //			E_NUMS
 
 typedef enum e_token_id {
-	UNINITIALIZED,
-	PIPE,
 	QUOTE,
 	DQUOTE,
+	PIPE,
 	GREAT,
 	LESS,
-	DGREAT,
-	DLESS,
+	SPACEBAR,
+	WORD
 }	t_token_id;
 
 //			STRUCTURES
@@ -77,8 +76,12 @@ typedef struct s_env_var_ll
 
 void	minishell_error(const char *loc);
 
-t_token	*lexer(const char *inp);
-void	lex_free(t_token *token);
+t_token		*lexer(const char *inp);
+void		get_token_info(const char *inp, size_t *pos, t_token *node);
+t_token_id	get_char_id(const char c);
+void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
+void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 void	mini_parse_input(char *input, t_cmd *cmd);
 char	**make_double_array(int word_count);
@@ -114,13 +117,12 @@ int		init_env_var(char **envp, t_env_var_ll **env_var_list);
 
 void	execute_export(t_cmd *cmd, t_env_var *envars);
 
-//			UTILS
-
-int		skip_whitespace(const char *str);
+//				UTILS
 
 //				UTILS_TOKEN
 
 int		list_token_size(t_token *top);
+t_token	*list_token_new(void);
 t_token	*list_token_last(t_token *list);
 void	list_token_add_back(t_token **list, t_token *node);
 

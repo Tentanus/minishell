@@ -1,58 +1,95 @@
 #include <minishell.h>
 
-typedef struct s_token_info {
-	size_t	start;
-	size_t	end;
-}	t_token_info;
+typedef void	(*t_delimiter_func) \
+			(const char *inp, size_t *pos, const t_token_id val);
 
-/*
-static const char	*g_id_chars[] = {\
-	[END_INP] = '\0', \
-	[PIPE] = "|", \
-	[GREAT] = ">", \
-	[LESS] = "<", \
-	[CHAR_END] = ""
-};
-*/
-
-
-t_token_info	get_token_info(const char *inp)
+t_token_id	get_char_id(const char c)
 {
-	
+	t_token_id	val;
+	const char	set_delimiters[] = "\'\"|>< ";
+
+	val = QUOTE;
+	while (val != WORD)
+	{
+		if (set_delimiters[val] == c)
+			break ;
+		val++;
+	}
+	return (val);
+}
+
+void	get_token_info(const char *inp, size_t *pos, t_token *node)
+{
+	const int				start_pos = *pos;
+	const t_delimiter_func	func[] = {
+	[0] = &token_id_quote,
+	[1] = &token_id_quote,
+	[2] = &token_id_misc,
+	[3] = &token_id_misc,
+	[4] = &token_id_misc,
+	[5] = &token_id_misc,
+	[6] = &token_id_misc,
+	};
+
+	node->id = get_char_id(inp[(*pos)]);
+	func[node->id](inp, pos, node->id);
+	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
 }
 
 t_token	*lexer(const char *inp)
 {
-	int				i;
-	t_token			*top;
-	t_token			*node;
-	t_token_info	info;
+	size_t	current_pos;
+	t_token	*top;
+	t_token	*node;
 
 	top = NULL;
-	i = skip_whitespace(&str[0]);;
-	while (inp[i])
+	current_pos = 0;
+	while (inp[current_pos])
 	{
-		info = get_token_info(&inp[i]);
-		node = list_token_new(info);
+		node = list_token_new();
 		if (!node)
-			minishell_exit("lexer/lexer.c: lexer(malloc)");
+			minishell_error("lexer/lexer.c: lexer @ malloc");
+		get_token_info(inp, &current_pos, node);
 		list_token_add_back(&top, node);
-		i += skip_whitespace(&str[i]);
 	}
 	return (top);
 }
 
 /*
+ * considering variable expansion:
+ *
+ * 		export CD="c d ef"; echo ab$CD"g"
+ * 		argv would show:
+ * 		argv[1] = "abc"
+ * 		argv[2] = "d"
+ * 		argv[3] = "efg"
+ * 		argv[4] = NULL
+ *
+ * implying some part of expansion happens before parsing or lexigng.
+ * however further testing show that the tokens that are added,
+ * show up as WORD tokens
+ *
+ * 		VAR="cat|"; <Makefile $VAR cat >>out
+ * 		bash: cat|: command not found
+ *
+ * 		bash-3.2$ VAR="cat |"; <Makefile $VAR cat >>out
+ * 		cat: |: No such file or directory
+ * 		cat: cat: No such file or directory
+ *
+ * add a jumptable for token_id_specific functions.
+ * 
+
+
 1. if end of input is recognised current token shall be delimited.
 	if there is no current token END_INP shall be returned.
-
+	
 	example:
 	c ='\0'
 	=>  token delimited
 
 2. if the previous char was an operator and current char (unqouted) can be used
 	with the previous chars it shall be used as part of that operator.
-
+	
 	example:
 	c_prev = '>'
 	c = '>'
@@ -61,7 +98,7 @@ t_token	*lexer(const char *inp)
 3. if the previous char was used as part of an operator and the current char
 	cannot be used with the previous chars to form an operator,
 	the operator containing the pervious chars shall be delimited.
-
+	
 	example:
 	c_prev = ">>"
 	c = 'a'
@@ -70,7 +107,7 @@ t_token	*lexer(const char *inp)
 4. if the current char is backslash '\', single-quote ''', double-quote '"' and
 	it is unquited, it shall affect quoting for subsequent characters
 	upto the end of the quoted
-
+	
 	example:
 	echo ""'$PATH'""
 	=> doesn't expland PATH since both double quotes close and single quotes
@@ -84,7 +121,7 @@ t_token	*lexer(const char *inp)
 
 5. if the currrent character is an unquoted '$', the shell will identify
 	the start of any candidates for parameter-expansion.
-
+	
 	not quite sure what an example is of this.
 	example:
 	echo $P"AT"H

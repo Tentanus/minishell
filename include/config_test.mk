@@ -1,4 +1,3 @@
-
 VOBJ		:=	$(VER_SRC:%.c=$(OBJ_DIR)/%.o)
 WOBJ		:=	$(WEV_SRC:%.c=$(OBJ_DIR)/%.o)
 
