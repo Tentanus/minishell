@@ -1,8 +1,11 @@
 #include <minishell.h>
 
-t_token	*expand_current_token(t_token *t_previous, t_token t_current)
+t_token	*expand_shell_var(t_token *t_previous, t_token t_current)
 {
-	
+	t_token	*t_return;
+
+	t_return = NULL;
+
 }
 
 t_token	*expander(t_token *t_input)
@@ -17,8 +20,10 @@ t_token	*expander(t_token *t_input)
 	t_return = NULL;
 	while (t_current != NULL)
 	{
-		if (t_current->id == SH_VAR || t_current->id == DQUOTE)
-			t_node = expand_current_token(t_previous, t_current);
+		if (t_current->id == SH_VAR)
+			t_node = expand_shell_var(t_previous, t_current);
+		else if (t_current->id == DQUOTE)
+			t_node = expand_quote(t_previous, t_current);
 		else
 			t_node = list_token_cpy_node(t_current);
 		if (!t_node)

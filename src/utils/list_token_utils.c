@@ -42,7 +42,7 @@ t_token	*list_token_cpy_node(t_token *t_node)
 
 	if (!t_node)
 		return (NULL);
-	t_return = list_token_new;
+	t_return = list_token_new();
 	t_return->id = t_node->id;
 	t_return->str = ft_strdup(t_node->str);
 	if (t_return->str == NULL)
