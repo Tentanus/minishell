@@ -38,7 +38,7 @@ void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 {
 	(void) val;
 	(*pos)++;
-	while (inp[*pos] && ft_isalpha(inp[*pos]))
+	while (inp[*pos] && ft_isalnum(inp[*pos]))
 		(*pos)++;
 }
 
