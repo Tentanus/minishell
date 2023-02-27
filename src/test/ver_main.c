@@ -22,11 +22,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline(prompt);
-		if (ft_strncmp(input, "exit", 4) == 0)
-		{
-			// free_double_array(envars.our_envp); OLD
-			return (free(input), EXIT_SUCCESS);
-		}
+		// if (ft_strncmp(input, "exit", 4) == 0)
+		// {
+		// 	// free_double_array(envars.our_envp); OLD
+		// 	return (free(input), EXIT_SUCCESS);
+		// }
 		mini_parse_input(input, &cmd);
 		if (check_builtin(cmd.simple_cmd) == true)
 			execute_builtin(&cmd, &env_var_list);

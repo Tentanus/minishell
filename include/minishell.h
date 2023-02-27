@@ -101,6 +101,8 @@ char		*get_env(char *name, t_env_var_ll *env_var_list);
 void		set_env(char *envar, t_env_var_ll **env_var_list);
 void		execute_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void		print_export(t_env_var_ll *env_var_list);
+void		execute_exit(t_cmd *cmd);
+
 
 // OLD:
 // bool	get_env_var_exists(char *name); // old old, making use of getenv()

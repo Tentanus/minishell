@@ -46,7 +46,7 @@ t_env_var_ll	*init_new_var(char *env_var)
 				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var));
 				break ;
 			}
-			i++;			
+			i++;
 		}
 		new_var->has_value = true;
 	}
@@ -100,6 +100,28 @@ int	add_variable(char *env_var, t_env_var_ll **env_var_list)
 }
 
 /*
+** function that updates environment variable "SHLVL" in list of environment variables
+*/
+void update_SHLVL(t_env_var_ll **env_var_list)
+{
+	t_env_var_ll	*current = *env_var_list;
+
+	int	value = 0;
+	while (current != NULL)
+	{
+		if (ft_strncmp("SHLVL", current->name, 6) == 0)
+		{
+			// printf("%s ", current->name);
+			// printf("current->value %s \n", current->value);
+			value = ft_atoi(current->value) + 1;
+			current->value = ft_itoa(value); // ! malloc in ft_itoa
+			// printf("new current->value %s \n", current->value);
+		}
+		current = current->next;
+	}
+}
+
+/*
 ** function that adds a environment variable for every envp to our linked list of env vars
 */
 int	init_env_var(char **envp, t_env_var_ll **env_var_list)
@@ -113,14 +135,7 @@ int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 			return (minishell_error("fail in init_env_var"), 1);
 		i++;
 	}
-	// !!!
-	// make new function?
-	// SHLVL should be updated:
-	// loop through env_var_list and strncmp for env_var_list->name == 'SHLVL='
-	// save env_var_list->value
-	// remove node and add new node
-	// OR update current node with value += 1 (using atoi and itoa?)
-	// think about memory when updating SHLVL from 9 to 10 etc
-	// !!!
+	if (env_var_exists("SHLVL", *env_var_list) == true)
+		update_SHLVL(env_var_list);
 	return (0);
 }
