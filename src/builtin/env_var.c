@@ -12,8 +12,9 @@
 ** - our own setenv function: it sets a (new) environment variable
 **
 ** - function to remove environment variable (unset builtin)
-**
 */
+
+// TODO group functions en verander naam
 
 // function to print environment variables stored in linked list
 void	print_env(t_env_var_ll *env_var_list)
@@ -36,17 +37,14 @@ bool	env_var_exists(char *name, t_env_var_ll *env_var_list)
 {
 	int	len_name;
 
-	len_name = ft_strlen(name);
-	while (env_var_list->next != NULL)
+	len_name = ft_strlen(name) + 1;
+	while (env_var_list != NULL)
 	{
 		if (ft_strncmp(env_var_list->name, name, len_name) == 0)
 			return (true);
 		env_var_list = env_var_list->next;
 	}
-	if (ft_strncmp(env_var_list->name, name, len_name) == 0)
-			return (true);
-	else
-		return (false);
+	return (false);
 }
 
 // our own getenv function:
@@ -56,17 +54,24 @@ char	*get_env(char *name, t_env_var_ll *env_var_list)
 {
 	int		len_name;
 
-	len_name = ft_strlen(name);
+	len_name = ft_strlen(name) + 1;
 	if (env_var_exists(name, env_var_list) == true)
 	{
-		while (env_var_list->next != NULL)
+		while (env_var_list != NULL)
 		{
-			if (ft_strncmp(env_var_list->name, name, len_name + 1) == 0)
+			if (ft_strncmp(env_var_list->name, name, len_name) == 0)
 				return (env_var_list->value);
 			env_var_list = env_var_list->next;
 		}
 	}
 	return (NULL);
+}
+
+void	env_var_free_node(t_env_var_ll *env_var_list)
+{
+	free(env_var_list->name);
+	free(env_var_list->value);
+	free(env_var_list);
 }
 
 // our own setenv() function: it sets a (new) environment variable
@@ -79,7 +84,7 @@ void	set_env(char *envar, t_env_var_ll **env_var_list)
 
 	// MAKE NEW NODE
 	new_var = init_new_var(envar);
-	len_name = ft_strlen(new_var->name);
+	len_name = ft_strlen(new_var->name) + 1;
 	if (env_var_exists(new_var->name, *env_var_list) == true)
 	{
 		// REMOVE BY NAME:
@@ -93,8 +98,8 @@ void	set_env(char *envar, t_env_var_ll **env_var_list)
 				// make sure list is connected again
 		}
 		// if node / env_var to replace is not found, return NULL (extra control)
-		if (current == NULL)
-			return ;
+		// if (current == NULL)
+		// 	return ;
 		// let new_var->next point to next element in list
 		new_var->next = current->next;
 		// free old node
@@ -102,11 +107,14 @@ void	set_env(char *envar, t_env_var_ll **env_var_list)
 			*env_var_list = new_var;
 		else
 			prev->next = new_var;
-		free(current);
+		env_var_free_node(current);
 	}
 	else // ADD NEW NODE WITH NEW VARIABLE TO END OF LIST
 		add_var_to_end_list(env_var_list, new_var);
 }
+// TODO rewrite functie voor set_env en unset_env
+// TODO zonder bool met direct loopen met strncmp en als die niet gevonden wordt,
+// TODO dán automatisch add_var_to_end_list
 
 // function to remove environment variable (unset builtin)
 void	unset_env(char *name, t_env_var_ll **env_var_list)
@@ -130,7 +138,7 @@ void	unset_env(char *name, t_env_var_ll **env_var_list)
 		// set previous node's next pointer to point to the node after the node we wish to delete
     	current->next = temp_var->next;
     	// free temp element
-		free(temp_var);
+		env_var_free_node(temp_var);
 	}
 	else
 		return ;

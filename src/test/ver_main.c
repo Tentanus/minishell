@@ -23,15 +23,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline(prompt);
 		// if (ft_strncmp(input, "exit", 4) == 0)
-		// {
-		// 	// free_double_array(envars.our_envp); OLD
 		// 	return (free(input), EXIT_SUCCESS);
-		// }
 		mini_parse_input(input, &cmd);
 		if (check_builtin(cmd.simple_cmd) == true)
 			execute_builtin(&cmd, &env_var_list);
-
-	
 		// execute_builtin(&cmd, &envars); OLD
 
 	// 	free(cmd.simple_cmd);
@@ -45,15 +40,9 @@ int	main(int argc, char **argv, char **envp)
 
 // !! TO DO:
 // !!
-// !! cd herschrijven naar linked list structuur
-// !! export function herschrijven en verder maken
-// !! exit builtin maken (denk aan goed free-en)
+// !! executer opzet maken (OP PAPIER MRAZ!!!)
 // !!
 // !! volgorde uitvoering commands bekijken en optimaliseren
 // !! structuur functies optimaliseren en norm maken
 // !! alle env functions goed checken en naar free-en kijken
 // !!
-// !! executer opzet maken (OP PAPIER MRAZ!!!)
-
-// ?? init shell function maken:
-// ! The parent shell copies the exported variables and their values when creating the child shell!

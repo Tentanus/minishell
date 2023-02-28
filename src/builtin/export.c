@@ -15,7 +15,7 @@ void	print_export(t_env_var_ll *env_var_list)
 {
 	while (env_var_list != NULL)
 	{
-		ft_putstr_fd("declare -x ", 1); // change 1 to fd?
+		ft_putstr_fd("declare -x ", 1);
 		if (env_var_list->value != NULL)
 			printf("%s=\"%s\"\n", env_var_list->name, env_var_list->value);
 		else

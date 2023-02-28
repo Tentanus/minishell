@@ -7,11 +7,15 @@
 
 void	execute_exit(t_cmd *cmd)
 {	
+	ft_putstr_fd("exit\n", 2); // change fd?
 	if (cmd->amount_of_args > 1)
-		ft_putstr_fd("too many arguments\n", 1); // change fd? // minishell_error?
+		ft_putstr_fd("too many arguments\n", 2); // change fd? // minishell_error?
 	else
-	{
-		ft_putstr_fd("exit\n", 1); // change fd?
 		exit(errno);
-	}
 }
+
+// exit builtin in aanvullen:
+// verschil maken tussen exit voor meerdere commands vs voor één command?
+// errno/exit code?
+// free-en?
+// SHLVL shell updaten naar -= ?

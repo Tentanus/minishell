@@ -4,6 +4,9 @@
 ** this file contains functions to initiate
 ** a linked list of environment variables.
 ** it can be used everytime a new shell or child process is initiated.
+**
+** Whenever a new chill shell is created, the parent shell copies the
+** exported variables and their values.
 */
 
 /*
@@ -43,7 +46,8 @@ t_env_var_ll	*init_new_var(char *env_var)
 			if (env_var[i] == '=')
 			{
 				new_var->name = ft_substr(env_var, 0, i);
-				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var));
+				// printf("whaddup\n");
+				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
 				break ;
 			}
 			i++;
@@ -137,5 +141,14 @@ int	init_env_var(char **envp, t_env_var_ll **env_var_list)
 	}
 	if (env_var_exists("SHLVL", *env_var_list) == true)
 		update_SHLVL(env_var_list);
+	unset_env("OLDPWD", env_var_list);
 	return (0);
 }
+
+
+// initializing env_var / shell:
+// - (check) copy env_var from envp
+// - (check) update update_SHLVL
+// - (check) unset env_var OLDPWD
+// ! TO DO: update env_var '_', see link:
+// https://unix.stackexchange.com/questions/436615/when-is-an-environment-variable-of-a-bash-shell
