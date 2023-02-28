@@ -16,5 +16,5 @@ void	minishell_syntax_error(t_token *top, const char *token)
 	ft_putstr_fd("marsh: syntax error near unexpected token '", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
-	list_token_free(top);
+	list_token_free_list(top);
 }

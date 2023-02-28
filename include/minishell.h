@@ -80,6 +80,10 @@ void	minishell_syntax_error(t_token *top, const char *str);
 
 void		lexer_parser(t_minishell *mini);
 
+//				FUNCTION: EXPANDER 
+
+t_token	*expander(t_token *t_input);
+
 //				FUNCTION: SYNTAX
 
 void	syntax_check(t_token *top);
@@ -115,11 +119,12 @@ void	change_pwd_oldpwd(char **envp);
 
 //				UTILS_TOKEN
 
-size_t	list_token_size(t_token *top);
+size_t	list_token_size(t_token *t_top);
 t_token	*list_token_new(void);
-t_token	*list_token_last(t_token *list);
+t_token	*list_token_cpy_node(t_token *t_node);
+t_token	*list_token_last(t_token *t_list);
 void	list_token_add_back(t_token **list, t_token *node);
-void	list_token_free(t_token *top);
+void	list_token_free_list(t_token *top);
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void	list_token_print(t_token *top);

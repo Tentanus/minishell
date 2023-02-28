@@ -66,7 +66,7 @@ void	list_token_add_back(t_token **list, t_token *new)
 	return ;
 }
 
-void	list_token_free(t_token *t_list)
+void	list_token_free_list(t_token *t_list)
 {
 	t_token *t_current;
 	t_token *t_tmp;
