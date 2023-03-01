@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/27 10:43:20 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/03/01 14:51:21 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,16 @@ VER_SRC		:=	$(SRC) \
 				tmp_mares/mini_parse.c		\
 				tmp_mares/parse_utils.c		\
 				builtin/builtin.c			\
-				builtin/echo.c				\
-				builtin/pwd.c				\
 				builtin/cd.c				\
-				builtin/env_var.c			\
-				builtin/export.c			\
-				builtin/init_env_var.c		\
+				builtin/echo.c				\
+				builtin/env.c				\
 				builtin/exit.c				\
+				builtin/export.c			\
+				builtin/pwd.c				\
+				builtin/unset.c				\
+				executor/env_var_list.c		\
+				executor/env_var.c			\
+				executor/init_shell.c		\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				tmp_martijn/print_utils.c	\

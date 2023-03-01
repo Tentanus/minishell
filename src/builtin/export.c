@@ -27,9 +27,9 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 void	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 {	
 	if (cmd->amount_of_args == 1) // this is the case for "export" without variables/options: that 1 arg = NULL
-		print_export(*env_var_list);
+		builtin_export_print_export(*env_var_list);
 	else
-		set_env(cmd->args[0], env_var_list);
+		env_var_set_env(cmd->args[0], env_var_list);
 }
 
 

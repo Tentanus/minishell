@@ -59,7 +59,7 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 	t_env_var_ll	*current = *env_var_list;
 	t_env_var_ll	*prev = NULL;
 
-	new_var = init_new_var(envar);
+	new_var = env_var_init_new_var_node(envar);
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)
 	{
@@ -76,5 +76,5 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 		prev = current;
 		current = current->next;
 	}
-	add_var_to_end_list(env_var_list, new_var);
+	env_var_add_to_end_list(env_var_list, new_var);
 }

@@ -78,11 +78,11 @@ typedef struct s_env_var_ll
 void	minishell_error(const char *loc);
 
 //				FUNCTIONS: LEXER
-t_token		*lexer(const char *inp);
-t_token_id	get_char_id(const char c);
-void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_space(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
+t_token			*lexer(const char *inp);
+t_token_id		get_char_id(const char c);
+void			token_id_quote(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_space(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 //				FUNCTION: SYNTAX
 
@@ -93,7 +93,7 @@ void			get_token_info(const char *inp, size_t *pos, t_token *node);
 
 //				FUNCTIONS: BUILTINS
 bool			builtin_check(char *cmd);
-void			builtin_execute(t_cmd *cmd, t_env_var_ll **our_env_var);
+void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_echo(t_cmd *cmd, int fd);
 bool			builtin_echo_is_n_option(char *str);
 int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
@@ -130,18 +130,16 @@ char			**make_double_array(int word_count);
 int				ft_word_counter(char const *s, char c);
 void			free_double_array(char **double_array);
 
-
 //					UTILS
 
 //					UTILS_TOKEN
-
-int			list_token_size(t_token *top);
-t_token		*list_token_new(void);
-t_token		*list_token_last(t_token *list);
-void		list_token_add_back(t_token **list, t_token *node);
+int				list_token_size(t_token *top);
+t_token			*list_token_new(void);
+t_token			*list_token_last(t_token *list);
+void			list_token_add_back(t_token **list, t_token *node);
 
 //					TEST FUNCTIONS (CAN BE REMOVED)
-void		list_token_print(t_token *top);
+void			list_token_print(t_token *top);
 
 
 #endif

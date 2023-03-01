@@ -4,7 +4,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	// t_env_var	envars; // OLD
 	t_env_var_ll	*env_var_list = NULL;
 	t_cmd		cmd;
 	char		*input;
@@ -13,7 +12,6 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv; // to silence compiler
 	(void) envp; // to silence compiler
 
-	// set_our_envp(envp, &envars); OLD
 	if (init_shell(envp, &env_var_list) == 1)
 		return (1);
 	// print_linked_list(env_var_list);
@@ -22,19 +20,14 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline(prompt);
-		// if (ft_strncmp(input, "exit", 4) == 0)
-		// 	return (free(input), EXIT_SUCCESS);
 		mini_parse_input(input, &cmd);
-		if (check_builtin(cmd.simple_cmd) == true)
-			execute_builtin(&cmd, &env_var_list);
-		// execute_builtin(&cmd, &envars); OLD
-
+		if (builtin_check(cmd.simple_cmd) == true)
+			builtin_execute(&cmd, &env_var_list);
 	// 	free(cmd.simple_cmd);
 	// 	free_double_array(cmd.args);
 		free(input);
 	}
 	// system("leaks -q martest");
-	// free_double_array(envars.our_envp); OLD
 	return (0);
 }
 

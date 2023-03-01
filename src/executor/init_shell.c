@@ -18,11 +18,11 @@ int	init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*new_var;
 
-	new_var = init_new_var(env_var);
+	new_var = env_var_init_new_var_node(env_var);
 	if (!new_var)
 		return (minishell_error("fail in add_variables"), 1);
 	// positie van var in list?
-	add_var_to_end_list(env_var_list, new_var);
+	env_var_add_to_end_list(env_var_list, new_var);
 	// print_linked_list(env_var_list);
 	// of add_var_to_list();
 	return (0);
@@ -79,7 +79,7 @@ void	init_shell_set_underscore(t_env_var_ll **env_var_list)
 	new_path = ft_strjoin("_=", "./martest"); // change to 'marshell'?
 	if (!new_path)
 		return (minishell_error("malloc error new_path in set_underscore"));
-	set_env(new_path, env_var_list);
+	env_var_set_env(new_path, env_var_list);
 	free(new_path);
 }
 
@@ -94,14 +94,14 @@ int	init_shell(char **envp, t_env_var_ll **env_var_list)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		if (add_variable(envp[i], env_var_list) == 1)
+		if (init_shell_add_env_vars(envp[i], env_var_list) == 1)
 			return (minishell_error("fail in init_env_var"), 1);
 		i++;
 	}
 	if (env_var_exists("SHLVL", *env_var_list) == true)
-		update_SHLVL(env_var_list);
-	unset_env("OLDPWD", env_var_list);
-	set_underscore(env_var_list);
+		init_shell_update_SHLVL(env_var_list);
+	builtin_unset("OLDPWD", env_var_list);
+	init_shell_set_underscore(env_var_list);
 	return (0);
 }
 
