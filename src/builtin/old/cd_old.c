@@ -12,57 +12,51 @@
 ** The return status is 0 if the directory is successfully changed, non-zero otherwise.
 */
 
-char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
+int	execute_cd(t_cmd *cmd, t_env_var *our_env_var)
 {
-	char	*new_working_dir;
+	char	*current_working_dir = NULL;
+	char	*pwd = NULL;
+	bool	to_print = false;
+	char	*new_working_dir = NULL;
+	int		chdir_return;
 
 	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
-		new_working_dir = env_var_get_env("HOME", *env_var_list);
+		new_working_dir = get_env("HOME", our_env_var);
 	else if (cmd->args[0][0] == '~')
 	{
 		if (cmd->args[0][1] == '/')
-			new_working_dir = ft_strjoin(env_var_get_env("HOME", *env_var_list), &cmd->args[0][1]);
+			new_working_dir = ft_strjoin(get_env("HOME", our_env_var), &cmd->args[0][1]);
 		else
-			new_working_dir = env_var_get_env("HOME", *env_var_list);
+			new_working_dir = &cmd->args[0][1];
 	}
 	else
 	{
 		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
 		{
-			new_working_dir = env_var_get_env("OLDPWD", *env_var_list);
+			new_working_dir = get_env("OLDPWD", our_env_var);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
-				return (minishell_error("cd: OLDPWD not set"), NULL); // throw error like bash
+			{
+				minishell_error("cd: OLDPWD not set"); // throw error like bash
+				return (1);
+			}
+			to_print = true;
 		}
 		else
 			new_working_dir = cmd->args[0];
 	}
-	return (new_working_dir);
-}
+	current_working_dir = get_env("PWD", our_env_var);
+	set_env("OLDPWD", current_working_dir, our_env_var);
 
-int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
-{
-	char	*current_working_dir;
-	char	*pwd;
-	char	*new_working_dir;
-
-	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
-	if (new_working_dir == NULL)
-		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
-	// printf("new_working_dir = %s\n", new_working_dir);
-	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
-	if (!current_working_dir)
-		return (minishell_error("malloc error current_working_dir in execute_cd"), 1);
-	env_var_set_env(current_working_dir, env_var_list);
-	if (chdir(new_working_dir) != 0)
-		return (minishell_error("chdir error. cd: args[0]"), 1); // throw error like bash
-	if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
-		builtin_pwd(1); // change 1 to fd?
-	pwd = NULL;
-	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
-	if (!pwd)
-		return (minishell_error("malloc error pwd in execute_cd"), 1);
-	env_var_set_env(pwd, env_var_list);
-	free(current_working_dir);
+	chdir_return = chdir(new_working_dir);
+	if (chdir_return != 0)
+	{
+		minishell_error("chdir error. cd: args[0]"); // throw error like bash
+		return (1);
+	}
+	if (to_print == true)
+		execute_pwd(1); // change 1 to fd?
+	pwd = getcwd(pwd, 0);
+	set_env("PWD", pwd, our_env_var);
 	free(pwd);
 	return (0);
 }

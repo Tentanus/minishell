@@ -1,24 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   parse_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/01/25 15:47:46 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/02/08 14:19:55 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+void	free_double_array(char **double_array)
+{
+	int	i;
+
+	i = 0;
+	while (double_array[i] != NULL)
+	{
+		free(double_array[i]);
+		i++;
+	}
+	free(double_array);
+	return ;
+}
+
 char	**make_double_array(int word_count)
 {
 	char	**result;
+	int		i;
 
-	result = malloc((word_count + 1) * sizeof(char *));
+	i = 0;
+	result = (char **)malloc((word_count + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
+	while (i < word_count)
+	{
+		result[i] = (char *)malloc(1024 * sizeof(char));
+		if (!result[i])
+			return (NULL);
+		i++;
+	}
 	return (result);
 }
 

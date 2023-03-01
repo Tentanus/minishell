@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/02/20 14:43:08 by mweverli      ########   odam.nl          #
+#    Updated: 2023/03/01 14:51:21 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,17 +23,23 @@ NAME		:=	marshell
 SRC			:=	\
 				lexer/lexer.c				\
 				lexer/lexer_utils.c			\
-				utils/list_token_utils.c	\
+				utils/list_token_utils.c 	\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
 				tmp_mares/mini_parse.c		\
 				tmp_mares/parse_utils.c		\
 				builtin/builtin.c			\
-				builtin/echo.c				\
-				builtin/pwd.c				\
 				builtin/cd.c				\
-				builtin/env_var.c			\
+				builtin/echo.c				\
+				builtin/env.c				\
+				builtin/exit.c				\
+				builtin/export.c			\
+				builtin/pwd.c				\
+				builtin/unset.c				\
+				executor/env_var_list.c		\
+				executor/env_var.c			\
+				executor/init_shell.c		\
 				test/ver_main.c
 WEV_SRC		:=	$(SRC) \
 				tmp_martijn/print_utils.c	\
@@ -48,9 +54,8 @@ DEP			:=	$(OBJ:%.o=%.d)
 -include include/config_test.mk
 
 ODIR		:=	$(sort $(dir $(ODIR)))
-
 READLINE_PATH	:=	lib/readline
-READLINE_LINK	:=	-Llib/readline/lib -lreadline -lncurses
+READLINE_LINK	?=	-Llib/readline/lib -lreadline -lncurses
 
 #============== LIBRARIES ===============#
 
@@ -78,7 +83,7 @@ $(NAME): LIB $(OBJ)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
-	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
+	@$(COMPILE) $(INCLUDE) -g -MMD -o $@ -c $<
 	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFL)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
 
@@ -121,4 +126,3 @@ $(READLINE_PATH):
 
 lclean:
 	@make -C $(DIR_LIBFT) fclean
-
