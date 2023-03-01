@@ -6,13 +6,13 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/02/27 12:08:33 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/03/01 12:15:16 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	check_builtin(char *cmd)
+bool	builtin_check(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 5) == 0) // echo.c
 		return (true);
@@ -31,7 +31,7 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
-void	execute_builtin(t_cmd *cmd, t_env_var_ll **env_var_list)
+void	builtin_execute(t_cmd *cmd, t_env_var_ll **our_env_var)
 {
 	if (ft_strncmp(cmd->simple_cmd, "echo", 5) == 0)
 		execute_echo(cmd, 1);

@@ -5,7 +5,7 @@
 ** 
 */
 
-void	execute_exit(t_cmd *cmd)
+void	builtin_exit(t_cmd *cmd)
 {	
 	ft_putstr_fd("exit\n", 2); // change fd?
 	if (cmd->amount_of_args > 1)

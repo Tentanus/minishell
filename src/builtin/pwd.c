@@ -8,7 +8,7 @@
 ** or an invalid option is supplied.
 */
 
-int	execute_pwd(int fd)
+int	builtin_pwd(int fd)
 {
 	char	*cwd;
 

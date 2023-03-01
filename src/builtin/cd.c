@@ -12,7 +12,7 @@
 ** The return status is 0 if the directory is successfully changed, non-zero otherwise.
 */
 
-char	*get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
+char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*new_working_dir;
 
@@ -39,7 +39,7 @@ char	*get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 	return (new_working_dir);
 }
 
-int	execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
+int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*current_working_dir;
 	char	*pwd;
@@ -50,6 +50,8 @@ int	execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
 	// printf("new_working_dir = %s\n", new_working_dir);
 	current_working_dir = ft_strjoin("OLDPWD=", get_env("PWD", *env_var_list));
+	if (!current_working_dir)
+		return (minishell_error("malloc error current_working_dir in execute_cd"), 1);
 	set_env(current_working_dir, env_var_list);
 	if (chdir(new_working_dir) != 0)
 		return (minishell_error("chdir error. cd: args[0]"), 1); // throw error like bash
@@ -57,6 +59,8 @@ int	execute_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 		execute_pwd(1); // change 1 to fd?
 	pwd = NULL;
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
+	if (!pwd)
+		return (minishell_error("malloc error pwd in execute_cd"), 1);
 	set_env(pwd, env_var_list);
 	free(current_working_dir);
 	free(pwd);

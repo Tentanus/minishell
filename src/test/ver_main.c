@@ -14,7 +14,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) envp; // to silence compiler
 
 	// set_our_envp(envp, &envars); OLD
-	if (init_env_var(envp, &env_var_list) == 1)
+	if (init_shell(envp, &env_var_list) == 1)
 		return (1);
 	// print_linked_list(env_var_list);
 
