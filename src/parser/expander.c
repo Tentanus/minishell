@@ -1,13 +1,19 @@
 #include <minishell.h>
 
-void	expander_append_tokens(t_token *t_previous, t_token *t_next, \
+void	expander_token(t_token *t_previous, t_token *t_next, \
 		t_token *t_list)
 {
-	(void) t_previous;
 	(void) t_next;
-	(void) t_list;
-//	if (t_previous->id == WORD)
-//		append_tokens
+	char	*str_previous;
+	char	*str_next;
+	if (t_previous->id == WORD)
+	{
+		str_previous = t_previous->str;
+		str_next = *t_list->str;
+		expander
+		*t_list = list_token_free_node(*t_list);
+		
+	}
 }
 
 t_token	*expander_shell_var(t_token *t_previous, t_token *t_current)
@@ -31,7 +37,7 @@ t_token	*expander_shell_var(t_token *t_previous, t_token *t_current)
 		i++;
 	}
 	free(cpp_split);
-	expander_append_tokens(t_previous, t_current->next, t_return);
+	expander_append_tokens(t_previous, t_current->next, &t_return);
 	return (t_return);
 }
 /*

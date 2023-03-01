@@ -123,6 +123,7 @@ size_t	list_token_size(t_token *t_top);
 t_token	*list_token_new(void);
 t_token	*list_token_cpy_node(t_token *t_node);
 t_token	*list_token_last(t_token *t_list);
+t_token	*list_token_free_node(t_token *t_list);
 void	list_token_add_back(t_token **list, t_token *node);
 void	list_token_free_list(t_token *top);
 

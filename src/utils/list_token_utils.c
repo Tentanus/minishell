@@ -66,17 +66,26 @@ void	list_token_add_back(t_token **list, t_token *new)
 	return ;
 }
 
+t_token	*list_token_free_node(t_token *t_node)
+{
+	t_token *t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	free(t_node->str);
+	free(t_node);
+	return (t_tmp);
+}
+
 void	list_token_free_list(t_token *t_list)
 {
 	t_token *t_current;
-	t_token *t_tmp;
 
+	if (t_list == NULL)
+		return ;
 	t_current = t_list;
 	while (t_current != NULL)
-	{
-		free(t_current->str);
-		t_tmp = t_current;
-		t_current = t_current->next;
-		free(t_tmp);
-	}
+		t_current = list_token_free_node(t_current);
+	return ;
 }
