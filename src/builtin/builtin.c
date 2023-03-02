@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/03/01 14:42:26 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/03/02 17:06:46 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ bool	builtin_check(char *cmd)
 		return (true);
 	if (ft_strncmp(cmd, "cd", 3) == 0) // cd.c
 		return (true);
-	if (ft_strncmp(cmd, "env", 4) == 0) // env_var.c
+	if (ft_strncmp(cmd, "env", 4) == 0) // env.c
 		return (true);
-	if (ft_strncmp(cmd, "unset", 6) == 0) // env_var.c
+	if (ft_strncmp(cmd, "unset", 6) == 0) // unset.c
         return(true);
 	if (ft_strncmp(cmd, "export", 7) == 0) // export.c
 		return(true);
-	if (ft_strncmp(cmd, "exit", 5) == 0)
+	if (ft_strncmp(cmd, "exit", 5) == 0) // exit.c
 		return(true);
 	return (false);
 }
