@@ -8,7 +8,7 @@
 ** If -n is specified, the trailing newline is suppressed.
 */
 
-bool	is_n_option(char *str)
+bool	builtin_echo_is_n_option(char *str)
 {
 	int	i;
 	int	len;
@@ -29,15 +29,15 @@ bool	is_n_option(char *str)
 		return (false);
 }
 
-int	execute_echo(t_cmd *cmd, int fd)
+int		builtin_echo(t_cmd *cmd, int fd)
 {
 	int	i;
 	int	n_option;
 
 	i = 0;
 	n_option = 0;
-	// fix seg fault for 'echo -n' command
-	while (is_n_option(cmd->args[i]) == true)
+	// fix seg fault for 'echo -n' command without other args
+	while (builtin_echo_is_n_option(cmd->args[i]) == true)
 	{
 		n_option = 1;
 		i++;

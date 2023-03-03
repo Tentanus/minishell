@@ -8,7 +8,7 @@
 ** or an invalid option is supplied.
 */
 
-int	execute_pwd(int fd)
+int	builtin_pwd(int fd)
 {
 	char	*cwd;
 
@@ -18,6 +18,7 @@ int	execute_pwd(int fd)
 	{
 		ft_putstr_fd(cwd, fd);
 		ft_putstr_fd("\n", fd);
+		free(cwd);
 	}
 	else
 	{

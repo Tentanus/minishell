@@ -8,19 +8,19 @@ OBJ_DIR		:=	OBJ
 SRC_DIR		:=	src
 INC_DIR		:=	include
 LIB_DIR		:=	lib
-BREW_DIR	:=	$(shell brew --prefix)
+# BREW_DIR	:=	$(shell brew --prefix)
 
 #============= COMPILATION ==============#
 
-CC			:=	gcc
+# CC			:=	gcc
 
 ifdef DEBUG
-	CFL		:=	-Wall -Werror -Wextra -g -fsanitize=address
+	CFLAGS		?=	-Wall -Werror -Wextra -g -fsanitize=address
 else
-	CFL		:=	-Wall -Werror -Wextra
+	CFLAGS		?=	-Wall -Werror -Wextra
 endif
 
-COMPILE		:=	$(CC) $(CFL)
+COMPILE		:=	$(CC) $(CFLAGS)
 
 #========================================#
 #============ MISCELLANEOUS =============#
