@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline(prompt);
 		mini_parse_input(input, &cmd);
-		if (builtin_check(cmd.simple_cmd) == true)
+		if (builtin_check(cmd.cmd) == true)
 			builtin_execute(&cmd, &env_var_list);
 	// 	free(cmd.simple_cmd);
 	// 	free_double_array(cmd.args);
