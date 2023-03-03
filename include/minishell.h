@@ -53,17 +53,12 @@ typedef struct s_minishell
 
 typedef struct s_cmd
 {
-	char			*simple_cmd;
+	char			*cmd;
 	char			**args;
 	int				amount_of_args;
 //	t_redir			*redir;
 	struct s_cmd	*next;
 }				t_cmd;
-
-typedef struct s_env_var
-{
-	char			**our_envp;
-}				t_env_var;
 
 typedef struct s_env_var_ll
 {
