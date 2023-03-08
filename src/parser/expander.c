@@ -1,22 +1,5 @@
 #include <minishell.h>
 
-void	expander_token(t_token *t_previous, t_token *t_next, \
-		t_token *t_list)
-{
-	char	*str_previous;
-	char	*str_next;
-
-	(void) t_next;
-	if (t_previous->id == WORD)
-	{
-		str_previous = t_previous->str;
-		str_next = *t_list->str;
-		
-		*t_list = list_token_free_node(*t_list);
-		
-	}
-}
-
 t_token	*expander_shell_var(t_token *t_previous, t_token *t_current)
 {
 	t_token	*t_return;
@@ -26,7 +9,7 @@ t_token	*expander_shell_var(t_token *t_previous, t_token *t_current)
 
 	t_return = NULL;
 	i = 0;
-	cpp_split = ft_split(get_env(t_current->str + 1), ' ');
+	cpp_split = ft_split(env_var_get_env(t_current->str), ' ');
 	if (!cpp_split)
 		return (NULL);
 	while (cpp_split[i] != NULL)
@@ -40,19 +23,47 @@ t_token	*expander_shell_var(t_token *t_previous, t_token *t_current)
 		i++;
 	}
 	free(cpp_split);
-	expander_append_tokens(t_previous, t_current->next, &t_return);
 	return (t_return);
 }
 
-/*
-	if (t_previous->id == WORD)
-//		t_return = t_return->next;
-//		t_tmp = t_return;
-//		t_tmp->next = NULL;
-		list_token_append&remove(t_previous, t_return);
-	if (t_current->next->id == DQUOTE)
-		list_token_add_quotes
-*/
+void	expander_remove_quotes(t_token *t_node)
+{
+	char	*str;
+
+	str = t_node->str;
+	if (t_node->id == QUOTE)
+		t_node->str = ft_strtrim(t_node->str, "\'");
+	else if (t_node->id == DQUOTE)
+		t_node->str = ft_strtrim(t_node->str, "\"");
+	free(str);
+	return ;
+}
+
+t_token	*expander_quote(t_token *t_previous, t_token *t_current)
+{
+	t_token	*t_node;
+
+	expander_remove_quotes(t_current);
+	if (t_current->str == NULL)
+		return (NULL);
+	if (t_current->id == QUOTE)
+		return (list_token_cpy_node(t_current));
+	
+}
+
+t_token	*expander_token_append(t_token *t_previous, t_token **t_list)
+{
+	t_token	*t_return;
+
+	if (t_previous->id != QUOTE && t_previous->id != DQUOTE && \
+			t_previous->id != WORD)
+		return (*t_list);
+	t_previous->str = ft_strjoin_fs1(t_previous->str, (*t_list)->str);
+	if (t_previous->str == NULL)
+		return (list_token_free_list(*t_list), NULL);
+	t_return = list_token_free_node(*t_list);
+	return (t_return);
+}
 
 t_token	*expander(t_token *t_input)
 {
@@ -67,10 +78,11 @@ t_token	*expander(t_token *t_input)
 	{
 		if (t_current->id == SH_VAR)
 			t_node = expander_shell_var(t_previous, t_current);
-		else if (t_current->id == DQUOTE)
+		else if (t_current->id == DQUOTE || t_current->id == QUOTE)
 			t_node = expander_quote(t_previous, t_current);
 		else
 			t_node = list_token_cpy_node(t_current);
+		t_node = expander_token_append(t_previous, &t_node);
 		if (!t_node)
 			return (list_token_free_list(t_input), \
 					list_token_free_list(t_return), NULL);

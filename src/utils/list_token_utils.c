@@ -28,10 +28,9 @@ t_token	*list_token_new(void)
 
 t_token	*list_token_last(t_token *list)
 {
-	size_t	size;
-
-	size = list_token_size(list);
-	while (size-- > 1)
+	if (list == NULL)
+		return (NULL);
+	while (list->next != NULL)
 		list = list->next;
 	return (list);
 }
@@ -50,18 +49,18 @@ t_token	*list_token_cpy_node(t_token *t_node)
 	return (t_return);
 }
 
-void	list_token_add_back(t_token **list, t_token *new)
+void	list_token_add_back(t_token **t_list, t_token *new)
 {
 	t_token	*tmp;
 
 	if (!new)
 		return ;
-	else if (!(*list))
+	else if (!(*t_list))
 	{
-		*list = new;
+		*t_list = new;
 		return ;
 	}
-	tmp = list_token_last(*list);
+	tmp = list_token_last(*t_list);
 	tmp->next = new;
 	return ;
 }
@@ -73,7 +72,8 @@ t_token	*list_token_free_node(t_token *t_node)
 	if (t_node == NULL)
 		return (NULL);
 	t_tmp = t_node->next;
-	free(t_node->str);
+	if (t_node->str != NULL)
+		free(t_node->str);
 	free(t_node);
 	return (t_tmp);
 }
