@@ -15,7 +15,7 @@ t_token	*skip_space_token(t_token *t_cur)
 	return (ret);
 }
 
-void	syntax_check(t_token *top)
+t_token	*syntax(t_token *top)
 {
 	t_token				*t_prev;
 	t_token				*t_cur;
@@ -36,12 +36,12 @@ void	syntax_check(t_token *top)
 	{
 		if (func[t_cur->id](t_prev, t_cur))
 		{
-			minishell_syntax_error(top, t_cur->str);
-			return ;
+			return (t_cur);
 		}
 		t_prev = t_cur;
 		t_cur = skip_space_token(t_cur);
 	}
+	return (NULL);
 }
 
 /* -------------------------------------------------------

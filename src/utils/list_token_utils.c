@@ -19,20 +19,20 @@ t_token	*list_token_new(void)
 
 	new = malloc(sizeof(t_token) * 1);
 	if (!new)
-		minishell_error("utils/list_token_utils.c: list_token_new @ malloc");
+		return (NULL);
 	new->next = NULL;
 	new->id = UNINITIALIZED;
 	new->str = NULL;
 	return (new);
 }
 
-t_token	*list_token_last(t_token *list)
+t_token	*list_token_last(t_token *t_list)
 {
-	if (list == NULL)
+	if (t_list == NULL)
 		return (NULL);
-	while (list->next != NULL)
-		list = list->next;
-	return (list);
+	while (t_list->next != NULL)
+		t_list = t_list->next;
+	return (t_list);
 }
 
 t_token	*list_token_cpy_node(t_token *t_node)
@@ -42,6 +42,8 @@ t_token	*list_token_cpy_node(t_token *t_node)
 	if (!t_node)
 		return (NULL);
 	t_return = list_token_new();
+	if (!t_return)
+		return (NULL);
 	t_return->id = t_node->id;
 	t_return->str = ft_strdup(t_node->str);
 	if (t_return->str == NULL)

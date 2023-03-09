@@ -48,6 +48,7 @@ typedef struct s_token
 typedef struct s_minishell
 {
 	t_token	*token;
+	t_token	*syntax;
 	char	**envp;
 	char	*input;
 	int		status;
@@ -61,11 +62,6 @@ typedef struct s_cmd
 //	t_redir			*redir;
 	struct s_cmd	*next;
 }				t_cmd;
-
-typedef struct s_env_var
-{
-	char			**our_envp;
-}				t_env_var;
 
 typedef struct s_env_var_ll
 {
@@ -86,11 +82,12 @@ void		lexer_parser(t_minishell *mini);
 
 //				FUNCTION: EXPANDER 
 
-t_token		*expander(t_token *t_input);
+t_token		*expander(t_token *t_input, t_env_var_ll *env_var_list);
 
 //				FUNCTION: SYNTAX
 
-void		syntax_check(t_token *top);
+t_token		*syntax(t_token *top);
+
 t_token		*skip_space_token(t_token *t_cur);
 bool		syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
 bool		syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
@@ -99,6 +96,7 @@ bool		syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
 //				FUNCTION: LEXER
 
 t_token		*lexer(const char *inp);
+
 t_token_id	get_char_id(const char c);
 void		token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
 void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);

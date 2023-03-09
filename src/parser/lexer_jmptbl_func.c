@@ -38,9 +38,21 @@ void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 {
 	(void) val;
 	(*pos)++;
+	if (inp[*pos] == '?' || inp[*pos] == '$')
+	{
+		(*pos)++;
+		return ;
+	}
 	while (inp[*pos] && ft_isalnum(inp[*pos]))
 		(*pos)++;
 }
+
+/*
+ * if $$$
+ * tokenizer will give
+ *   [0]	$$
+ *   [1]	$
+ */
 
 void	token_id_misc(const char *inp, size_t *pos, const t_token_id val)
 {
