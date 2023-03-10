@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/09 21:03:24 by mweverli      ########   odam.nl          #
+#    Updated: 2023/03/10 21:05:23 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRC			:=	\
 				parser/lexer.c						\
 				parser/lexer_jmptbl_func.c			\
 				utils/list_token_utils.c			\
+				executor/env_var.c					\
+				executor/env_var_list.c		\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
@@ -37,8 +39,6 @@ VER_SRC		:=	$(SRC) \
 				builtin/export.c			\
 				builtin/pwd.c				\
 				builtin/unset.c				\
-				executor/env_var_list.c		\
-				executor/env_var.c			\
 				executor/init_shell.c		\
 				test/ver_main.c
 

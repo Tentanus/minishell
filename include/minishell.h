@@ -25,7 +25,7 @@
 //			E_NUMS
 
 typedef enum e_token_id {
-	UNINITIALIZED = -1,
+	TOKEN = -1,
 	PIPE,
 	QUOTE,
 	DQUOTE,
@@ -36,6 +36,14 @@ typedef enum e_token_id {
 	WORD
 }	t_token_id;
 
+typedef enum e_redir_id {
+	REDIR = -1,
+	IN,
+	HERE,
+	OUT,
+	APP
+}	t_redir_id;
+
 //			STRUCTURES
 
 typedef struct s_token
@@ -44,6 +52,13 @@ typedef struct s_token
 	char			*str;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_redir
+{
+	t_redir_id		redir;
+	char			*file;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_minishell
 {
@@ -59,7 +74,7 @@ typedef struct s_cmd
 	char			*simple_cmd;
 	char			**args;
 	int				amount_of_args;
-//	t_redir			*redir;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -78,7 +93,7 @@ void		minishell_syntax_error(t_token *top, const char *str);
 
 //				FUNCTION: PARSER
 
-void		lexer_parser(t_minishell *mini);
+void		complexer(t_minishell *mini);
 
 //				FUNCTION: EXPANDER 
 

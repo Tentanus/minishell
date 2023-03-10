@@ -1,15 +1,23 @@
 #include <minishell.h>
 
-void	expander_get_shell_var(const char *str, const int pos, char *van_name)
+t_token	*expander_shell_var_spacer(char *str)
 {
-	const int	start_pos = pos + 1;
-	int			i;
-	char		*ret;
+	t_token	*t_return;
+	t_token	*t_node;
 
-	i = 0;
-	token_id_shvar(&str[pos], &i, SH_VAR);
-	ft_strlcpy(var_name, &str[start_pos], i);
-	return ;
+	t_node = list_token_new();
+	if (!t_node)
+		return (NULL);
+	t_node->id = WORD;
+	t_node->str = str;
+	list_token_add_back(&t_return, t_node);
+	t_node = list_token_new();
+	if (!t_node)
+		return (list_token_free_list(t_return), NULL);
+	t_node->id = SPACE;
+	t_node->str = NULL;
+	list_token_add_back(&t_return, t_node);
+	return (t_return);
 }
 
 t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
@@ -28,11 +36,9 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 		return (NULL);
 	while (cpp_split[i] != NULL)
 	{
-		t_node = list_token_new();
+		t_node = expander_shell_var_spacer(cpp_split[i]);
 		if (!t_node)
 			return (list_token_free_list(t_return), NULL);
-		t_node->id = WORD;
-		t_node->str = cpp_split[i];
 		list_token_add_back(&t_return, t_node);
 		i++;
 	}
@@ -42,30 +48,44 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 
 void	expander_remove_quotes(t_token *t_node)
 {
-	char	*str;
+	char			*str;
+	const size_t	len = ft_strlen(t_node->str);
 
+	if (len < 2)
+		return ;
 	str = t_node->str;
-	if (t_node->id == QUOTE)
-		t_node->str = ft_strtrim(t_node->str, "\'");
-	else if (t_node->id == DQUOTE)
-		t_node->str = ft_strtrim(t_node->str, "\"");
-	free(str);
+	ft_memmove(str, str + 1, len);
+	ft_memmove(&str[len - 2], &str[len - 1], 1);
 	return ;
 }
 
 int	expander_inject_var(t_token *t_current, const int pos, \
 		t_env_var_ll *env_var_list)
 {
-	int		len;
-	char	var_name[1000];
-	char	*var_value;
+	size_t	len_sh_expand;
+	size_t	len_sh_var;
+	char	*sh_expand;
+	char	*sh_var;
+	char	*new_token_str;
 
-	len = 0;
-	expander_get_shell_var(t_current->str, i, var_name);
-	var_value = env_var_get_env(var_name, env_var_list);
-
-	
-	return (len);
+	len_sh_var = 0;
+	token_id_shvar((t_current->str) + pos, &len_sh_var, 0);
+	sh_var = ft_substr(t_current->str, pos + 1, len_sh_var - 1);
+	if (!sh_var)
+		return (-1);
+	sh_expand = env_var_get_env(sh_var, env_var_list);
+	len_sh_expand = ft_strlen(sh_expand);
+	new_token_str = malloc(sizeof(char) * (ft_strlen(t_current->str) - \
+				len_sh_var + len_sh_expand + 1));
+	if (!new_token_str)
+		return (-1);
+	ft_strlcpy(new_token_str, t_current->str, pos);
+	ft_strlcat(new_token_str, sh_expand, len_sh_expand);
+	ft_strlcat(new_token_str, &(t_current->str)[pos + len_sh_expand], pos);
+	free(sh_var);
+	free(t_current->str);
+	t_current->str = new_token_str;
+	return (len_sh_expand);
 }
 
 /*
@@ -76,8 +96,8 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 
 t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 {
-	int	i;
-	char	*var;
+	int		i;
+	int		tmp;
 
 	expander_remove_quotes(t_current);
 	if (t_current->str == NULL)
@@ -87,25 +107,18 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	i = 0;
 	while (t_current->str[i])
 	{
+		printf("|%s|\n", t_current->str);
 		if (t_current->str[i] == '$')
-			expander_inject_var(t_current, &i);
+		{
+			tmp = expander_inject_var(t_current, i, env_var_list);
+			if (tmp < 0)
+				return (NULL);
+			i += tmp;
+		}
 		else
 			i++;
 	}
-}
-
-t_token	*expander_token_append(t_token *t_previous, t_token **t_list)
-{
-	t_token	*t_return;
-
-	if (t_previous->id != QUOTE && t_previous->id != DQUOTE && \
-			t_previous->id != WORD)
-		return (*t_list);
-	t_previous->str = ft_strjoin_fs1(t_previous->str, (*t_list)->str);
-	if (t_previous->str == NULL)
-		return (list_token_free_list(*t_list), NULL);
-	t_return = list_token_free_node(*t_list);
-	return (t_return);
+	return (list_token_cpy_node(t_current));
 }
 
 t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
@@ -125,7 +138,6 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 			t_node = expander_quote(t_current, env_var_list);
 		else
 			t_node = list_token_cpy_node(t_current);
-		t_node = expander_token_append(t_previous, &t_node);
 		if (!t_node)
 			return (list_token_free_list(t_input), \
 					list_token_free_list(t_return), NULL);

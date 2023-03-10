@@ -21,7 +21,7 @@ t_token	*list_token_new(void)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	new->id = UNINITIALIZED;
+	new->id = TOKEN;
 	new->str = NULL;
 	return (new);
 }
@@ -48,6 +48,7 @@ t_token	*list_token_cpy_node(t_token *t_node)
 	t_return->str = ft_strdup(t_node->str);
 	if (t_return->str == NULL)
 		return (free(t_return), NULL);
+	t_return->next = NULL;
 	return (t_return);
 }
 
