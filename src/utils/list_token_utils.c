@@ -68,7 +68,7 @@ void	list_token_add_back(t_token **t_list, t_token *new)
 	return ;
 }
 
-t_token	*list_token_free_node(t_token *t_node)
+t_token	*list_token_free_node_str(t_token *t_node)
 {
 	t_token *t_tmp;
 
@@ -81,7 +81,18 @@ t_token	*list_token_free_node(t_token *t_node)
 	return (t_tmp);
 }
 
-void	list_token_free_list(t_token *t_list)
+t_token	*list_token_free_node(t_token *t_node)
+{
+	t_token *t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	free(t_node);
+	return (t_tmp);
+}
+
+void	list_token_free_list(t_token *t_list, t_token * (*f)(t_token *))
 {
 	t_token *t_current;
 
@@ -89,6 +100,6 @@ void	list_token_free_list(t_token *t_list)
 		return ;
 	t_current = t_list;
 	while (t_current != NULL)
-		t_current = list_token_free_node(t_current);
+		t_current = f(t_current);
 	return ;
 }

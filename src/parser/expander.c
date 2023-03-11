@@ -13,7 +13,7 @@ t_token	*expander_shell_var_spacer(char *str)
 	list_token_add_back(&t_return, t_node);
 	t_node = list_token_new();
 	if (!t_node)
-		return (list_token_free_list(t_return), NULL);
+		return (list_token_free_list(t_return, list_token_free_node_str), NULL);
 	t_node->id = SPACE;
 	t_node->str = NULL;
 	list_token_add_back(&t_return, t_node);
@@ -38,7 +38,8 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 	{
 		t_node = expander_shell_var_spacer(cpp_split[i]);
 		if (!t_node)
-			return (list_token_free_list(t_return), NULL);
+			return (list_token_free_list(t_return, list_token_free_node_str), \
+					NULL);
 		list_token_add_back(&t_return, t_node);
 		i++;
 	}
@@ -139,13 +140,14 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 		else
 			t_node = list_token_cpy_node(t_current);
 		if (!t_node)
-			return (list_token_free_list(t_input), \
-					list_token_free_list(t_return), NULL);
+			return (list_token_free_list(t_input, list_token_free_node_str), \
+					list_token_free_list(t_return, list_token_free_node_str), \
+					NULL);
 		list_token_add_back(&t_return, t_node);
 		t_previous = list_token_last(t_return);
 		t_current = t_current->next;
 	}
-	list_token_free_list(t_input);
+	list_token_free_list(t_input, list_token_free_node_str);
 	return (t_return);
 }
 

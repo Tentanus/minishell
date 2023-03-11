@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/10 21:05:23 by mweverli      ########   odam.nl          #
+#    Updated: 2023/03/11 14:02:02 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
+				parser/complexer.c					\
 				parser/parser.c						\
 				parser/syntax_jmptbl_func.c			\
 				parser/syntax.c						\

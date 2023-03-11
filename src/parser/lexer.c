@@ -54,7 +54,7 @@ t_token	*lexer(const char *inp)
 			minishell_error("parser/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		if (!node->str)
-			return (list_token_free_list(top), NULL);
+			return (list_token_free_list(top, list_token_free_node_str), NULL);
 		list_token_add_back(&top, node);
 	}
 	return (top);

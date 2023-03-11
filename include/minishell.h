@@ -88,46 +88,51 @@ typedef struct s_env_var_ll
 
 //				FUNCTIONS
 
-void		minishell_error(const char *loc);
-void		minishell_syntax_error(t_token *top, const char *str);
+void			minishell_error(const char *loc);
+void			minishell_syntax_error(t_token *top, const char *str);
 
-//				FUNCTION: PARSER
+//		FUNCTION: COMPLEX
 
-void		complexer(t_minishell *mini);
+void			complexer(t_minishell *mini);
 
-//				FUNCTION: EXPANDER 
+//			FUNCTION: LEXER
 
-t_token		*expander(t_token *t_input, t_env_var_ll *env_var_list);
+t_token			*lexer(const char *inp);
+
+t_token_id		get_char_id(const char c);
+void			token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_quote(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_redir(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_shvar(const char *inp, size_t *pos, const t_token_id val);
+void			token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 //				FUNCTION: SYNTAX
 
-t_token		*syntax(t_token *top);
+t_token			*syntax(t_token *top);
 
-t_token		*skip_space_token(t_token *t_cur);
-bool		syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
-bool		syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
-bool		syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
+t_token			*skip_space_token(t_token *t_cur);
+bool			syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
+bool			syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
+bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
 
-//				FUNCTION: LEXER
+//				FUNCTION: EXPANDER 
 
-t_token		*lexer(const char *inp);
+t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 
-t_token_id	get_char_id(const char c);
-void		token_id_pipe(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_quote(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_redir(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_shvar(const char *inp, size_t *pos, const t_token_id val);
-void		token_id_misc(const char *inp, size_t *pos, const t_token_id val);
+//				FUNCTION: PARSER
 
-//				UTILS_TOKEN
+void			parser(t_minishell *mini);
 
-size_t		list_token_size(t_token *t_top);
-t_token		*list_token_new(void);
-t_token		*list_token_cpy_node(t_token *t_node);
-t_token		*list_token_last(t_token *t_list);
-t_token		*list_token_free_node(t_token *t_list);
-void		list_token_add_back(t_token **list, t_token *node);
-void		list_token_free_list(t_token *top);
+//					UTILS_TOKEN
+
+size_t			list_token_size(t_token *t_top);
+t_token			*list_token_new(void);
+t_token			*list_token_cpy_node(t_token *t_node);
+t_token			*list_token_last(t_token *t_list);
+t_token			*list_token_free_node(t_token *t_list);
+t_token			*list_token_free_node_str(t_token *t_list);
+void			list_token_add_back(t_token **list, t_token *node);
+void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void		list_token_print(t_token *top);
