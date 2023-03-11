@@ -60,6 +60,15 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
+typedef struct s_cmd
+{
+	char			*simple_cmd;
+	char			**args;
+	int				amount_of_args;
+	t_redir			*redir;
+	struct s_cmd	*next;
+}					t_cmd;
+
 typedef struct s_minishell
 {
 	t_token	*token;
@@ -68,15 +77,6 @@ typedef struct s_minishell
 	char	*input;
 	int		status;
 }	t_minishell;
-
-typedef struct s_cmd
-{
-	char			*simple_cmd;
-	char			**args;
-	int				amount_of_args;
-	t_redir			*redir;
-	struct s_cmd	*next;
-}				t_cmd;
 
 typedef struct s_env_var_ll
 {
