@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/11 14:02:02 by mweverli      ########   odam.nl          #
+#    Updated: 2023/03/11 19:20:51 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ $(NAME): LIB $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
 	@$(COMPILE) $(INCLUDE) -g -MMD -o $@ -c $<
-	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFL)), debug (-g))\t$(notdir $<)\
+	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFLAGS)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
 
 $(ODIR):
