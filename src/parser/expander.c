@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-t_token	*expander_shell_var_spacer(char *str)
+t_token	*expander_shell_var_spacer(char *str, char *end)
 {
 	t_token	*t_return;
 	t_token	*t_node;
@@ -11,6 +11,8 @@ t_token	*expander_shell_var_spacer(char *str)
 	t_node->id = WORD;
 	t_node->str = str;
 	list_token_add_back(&t_return, t_node);
+	if (end == NULL)
+		return (t_return);
 	t_node = list_token_new();
 	if (!t_node)
 		return (list_token_free_list(t_return, list_token_free_node_str), NULL);
@@ -36,7 +38,7 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 		return (NULL);
 	while (cpp_split[i] != NULL)
 	{
-		t_node = expander_shell_var_spacer(cpp_split[i]);
+		t_node = expander_shell_var_spacer(cpp_split[i], cpp_split[i + 1]);
 		if (!t_node)
 			return (list_token_free_list(t_return, list_token_free_node_str), \
 					NULL);
@@ -88,12 +90,6 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 	t_current->str = new_token_str;
 	return (len_sh_expand);
 }
-
-/*
- * make int i a size_t to give the starting position of the shellvariable
- *
- * also look over all the functions in this file to see if it makes sense
- */
 
 t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 {

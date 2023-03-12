@@ -16,6 +16,9 @@ void	complexer(t_minishell *mini)
 	printf("\t -=- END SYNTAX -=-\n");
 //	mini->token = expander(mini->token);
 	printf("\t -=- END EXPANDER -=-\n");
+	if (appender(mini->token) == false)
+		return (list_token_free_list(mini->token, list_token_free_node_str));
+	printf("\t -=- END APPENDER -=-\n");
 //	parser(mini);
 	printf("\t -=- END PARSER -=-\n");
 	list_token_free_list(mini->token, list_token_free_node_str);
