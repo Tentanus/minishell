@@ -7,10 +7,10 @@ t_token	*skip_space_token(t_token *t_cur)
 {
 	t_token	*ret;
 
-	if (t_cur == NULL)
+	if (t_cur == NULL || t_cur->next == NULL)
 		return (NULL);
 	ret = t_cur->next;
-	if (ret != NULL && ret->id == SPACEBAR)
+	if (ret->id == SPACEBAR)
 		ret = ret->next;
 	return (ret);
 }
@@ -19,15 +19,16 @@ t_token	*syntax(t_token *top)
 {
 	t_token				*t_prev;
 	t_token				*t_cur;
-	const t_syntax_func	func[] = {
-	[0] = &syntax_id_pipe,
-	[1] = &syntax_id_misc,
+	const t_syntax_func	func[9] = {
+	[0] = NULL,
+	[1] = &syntax_id_pipe,
 	[2] = &syntax_id_misc,
-	[3] = &syntax_id_redir,
+	[3] = &syntax_id_misc,
 	[4] = &syntax_id_redir,
-	[5] = &syntax_id_misc,
-	[6] = NULL,
-	[7] = &syntax_id_misc
+	[5] = &syntax_id_redir,
+	[6] = &syntax_id_misc,
+	[7] = NULL,
+	[8] = &syntax_id_misc
 	};
 
 	t_prev = NULL;
@@ -35,9 +36,7 @@ t_token	*syntax(t_token *top)
 	while (t_cur != NULL)
 	{
 		if (func[t_cur->id](t_prev, t_cur))
-		{
 			return (t_cur);
-		}
 		t_prev = t_cur;
 		t_cur = skip_space_token(t_cur);
 	}

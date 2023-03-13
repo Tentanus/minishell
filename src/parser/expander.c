@@ -67,6 +67,7 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 {
 	size_t	len_sh_expand;
 	size_t	len_sh_var;
+	size_t	len_new_str;
 	char	*sh_expand;
 	char	*sh_var;
 	char	*new_token_str;
@@ -77,15 +78,15 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 	if (!sh_var)
 		return (-1);
 	sh_expand = env_var_get_env(sh_var, env_var_list);
+	free(sh_var);
 	len_sh_expand = ft_strlen(sh_expand);
-	new_token_str = malloc(sizeof(char) * (ft_strlen(t_current->str) - \
-				len_sh_var + len_sh_expand + 1));
+	len_new_str = ft_strlen(t_current->str) - len_sh_var + len_sh_expand;
+	new_token_str = malloc(sizeof(char) * (len_new_str + 1));
 	if (!new_token_str)
 		return (-1);
 	ft_strlcpy(new_token_str, t_current->str, pos);
 	ft_strlcat(new_token_str, sh_expand, len_sh_expand);
-	ft_strlcat(new_token_str, &(t_current->str)[pos + len_sh_expand], pos);
-	free(sh_var);
+	ft_strlcat(new_token_str, &(t_current->str)[pos + len_sh_var], len_new_str);
 	free(t_current->str);
 	t_current->str = new_token_str;
 	return (len_sh_expand);
@@ -104,7 +105,6 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	i = 0;
 	while (t_current->str[i])
 	{
-		printf("|%s|\n", t_current->str);
 		if (t_current->str[i] == '$')
 		{
 			tmp = expander_inject_var(t_current, i, env_var_list);

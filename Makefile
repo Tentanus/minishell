@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/11 19:20:51 by mweverli      ########   odam.nl          #
+#    Updated: 2023/03/13 10:21:54 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,6 @@
 NAME		:=	marshell
 
 SRC			:=	\
-				parser/lexer.c						\
-				parser/lexer_jmptbl_func.c			\
 				utils/list_token_utils.c			\
 				executor/env_var.c					\
 				executor/env_var_list.c		\
@@ -43,11 +41,14 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
+				parser/appender.c					\
 				parser/complexer.c					\
-				parser/parser.c						\
-				parser/syntax_jmptbl_func.c			\
-				parser/syntax.c						\
 				parser/expander.c					\
+				parser/lexer.c						\
+				parser/lexer_jmptbl_func.c			\
+				parser/parser.c						\
+				parser/syntax.c						\
+				parser/syntax_jmptbl_func.c			\
 				tmp_martijn/print_utils.c			\
 				tmp_martijn/wev_main.c
 

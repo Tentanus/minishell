@@ -20,12 +20,12 @@
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002Maresiscoding> \001\033[0m\002"
-# define SET_DELIMETER "|\'\"><$ "
+# define SET_DELIMETER "-|\'\"><$ "
 
 //			E_NUMS
 
 typedef enum e_token_id {
-	TOKEN = -1,
+	TOKEN = 0,
 	PIPE,
 	QUOTE,
 	DQUOTE,
@@ -37,7 +37,7 @@ typedef enum e_token_id {
 }	t_token_id;
 
 typedef enum e_redir_id {
-	REDIR = -1,
+	REDIR = 0,
 	IN,
 	HERE,
 	OUT,
@@ -73,6 +73,7 @@ typedef struct s_minishell
 {
 	t_token	*token;
 	t_token	*syntax;
+	t_cmd	cmd_list;
 	char	**envp;
 	char	*input;
 	int		status;
@@ -118,6 +119,10 @@ bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
 //				FUNCTION: EXPANDER 
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
+
+//				FUNCTION: APPENDER
+
+bool			appender(t_token *t_list);
 
 //				FUNCTION: PARSER
 
