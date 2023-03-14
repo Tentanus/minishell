@@ -77,6 +77,7 @@ t_token	*list_token_free_node_str(t_token *t_node)
 	t_tmp = t_node->next;
 	if (t_node->str != NULL)
 		free(t_node->str);
+	t_node->str = NULL;
 	free(t_node);
 	return (t_tmp);
 }
