@@ -5,26 +5,26 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_env_var_ll	*env_var_list = NULL;
-	t_cmd		cmd;
-	char		*input;
-	const char	prompt[] = MARES_PROMPT;
+	t_cmd			cmd;
+	char			*input;
+	const char		prompt[] = MARES_PROMPT;
 	(void) argc; // to silence compiler
 	(void) argv; // to silence compiler
 	(void) envp; // to silence compiler
+	// t_cmd			*cmd_table = NULL; // ! for complex command and executor!
 
 	if (init_shell(envp, &env_var_list) == 1)
 		return (1);
-	// print_linked_list(env_var_list);
 
 	input = NULL;
 	while (1)
 	{
 		input = readline(prompt);
 		mini_parse_input(input, &cmd);
+		// TODO: 2 lines hieronder uitcommenten executor() callen
 		if (builtin_check(cmd.cmd) == true)
 			builtin_execute(&cmd, &env_var_list);
-	// 	free(cmd.simple_cmd);
-	// 	free_double_array(cmd.args);
+		// executor(&cmd_table, &env_var_list); // ! for complex command and executor!
 		free(input);
 	}
 	// system("leaks -q martest");
