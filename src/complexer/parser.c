@@ -2,20 +2,6 @@
 
 typedef t_token*	(*t_parser_func)(t_cmd *cmd_node, t_token *t_current);
 
-t_token	*parser_get_next_block(t_token *t_current)
-{
-	t_token	*t_previous;
-
-	if (t_current == NULL)
-		return (NULL);
-	while (t_current != NULL || t_previous->id != PIPE)
-	{
-		t_previous = t_current;
-		t_current = t_current->next;
-	}
-	return (t_current);
-}
-
 size_t	parser_get_arg(t_token *t_current)
 {
 	size_t	arg_ret;
@@ -29,32 +15,31 @@ size_t	parser_get_arg(t_token *t_current)
 			t_current->id == WORD)
 			arg_ret++;
 		if (t_current->id == GREAT || t_current->id == LESS)
-			t_current = t_current->next;
-		else if (t_current->next->id == SPACEBAR)
-			t_current = t_current->next;
-		t_current = t_current->next;
+			t_current = list_token_skip_space(t_current);
+		t_current = list_token_skip_space(t_current);
 	}
 	return (arg_ret);
 }
 
-t_token	*parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
+bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 {
+	const size_t		n_arg = parser_get_arg(t_current);
 	const t_parser_func	func[9] = {
-		[0] = NULL,
-		[1] = parser_id_pipe,
-		[2] = parser_id_,
-		[3] = parser_id_,
-		[4] = parser_id_,
-		[5] = parser_id_,
-		[6] = parser_id_,
-		[7] = parser_id_,
-		[8] = parser_id_,
+	[0] = NULL,
+	[1] = parser_id_pipe,
+	[2] = NULL,
+	[3] = NULL,
+	[4] = NULL,
+	[5] = NULL,
+	[6] = NULL,
+	[7] = NULL,
+	[8] = NULL,
 	};
 
-	cmd_node->args = malloc(sizeof(char *) * (parser_get_arg(t_current) + 1));
+	cmd_node->args = malloc(sizeof(char *) * (n_arg + 1));
 	if (!cmd_node->args)
 		return (false);
-	cmd_node->args[n_args] = NULL;
+	cmd_node->args[n_arg] = NULL;
 	while (t_current != NULL)
 	{
 		t_current = func[t_current->id](cmd_node, t_current);
@@ -62,17 +47,6 @@ t_token	*parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 			return (list_cmd_free_node(cmd_node), false);
 	}
 	return (true);
-}
-
-t_token	*parser_pipe_next(t_token *t_current)
-{
-	if (t_current == NULL)
-		return (NULL);
-	while (t_current != NULL || t_current->id != PIPE)
-		t_current = t_current->next;
-	if (t_current == NULL)
-		return (NULL);
-	return (t_current->next);
 }
 
 t_cmd	*parser(t_token *t_list)
@@ -94,7 +68,7 @@ t_cmd	*parser(t_token *t_list)
 					list_cmd_free_list(cmd_return), \
 					NULL);
 		list_cmd_add_back(&cmd_return, cmd_node);
-		t_current = parser_pipe_next(t_current);
+		t_current = list_token_skip_pipe(t_current);
 	}
 	list_token_free_list(t_list, list_token_free_node);
 	return (cmd_return);

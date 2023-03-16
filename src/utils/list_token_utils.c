@@ -1,18 +1,5 @@
 #include <minishell.h>
 
-size_t	list_token_size(t_token *t_list)
-{
-	size_t	size;
-
-	size = 0;
-	while (t_list != NULL)
-	{
-		t_list = t_list->next;
-		size++;
-	}
-	return (size);
-}
-
 t_token	*list_token_new(void)
 {
 	t_token	*new;
@@ -68,9 +55,39 @@ void	list_token_add_back(t_token **t_list, t_token *new)
 	return ;
 }
 
+//	NAVIGATION FUNCTIONS
+
+t_token	*list_token_skip_space(t_token *t_current)
+{
+	t_token	*t_return;
+
+	if (t_current == NULL || t_current->next == NULL)
+		return (NULL);
+	t_return = t_current->next;
+	if (t_return->id == SPACEBAR)
+		t_return = t_return->next;
+	return (t_return);
+}
+
+t_token	*list_token_skip_pipe(t_token *t_current)
+{
+	t_token	*t_previous;
+
+	if (t_current == NULL)
+		return (NULL);
+	while (t_current != NULL || t_previous->id != PIPE)
+	{
+		t_previous = t_current;
+		t_current = t_current->next;
+	}
+	return (t_current);
+}
+
+//	FREE FUNCTIONS
+
 t_token	*list_token_free_node_str(t_token *t_node)
 {
-	t_token *t_tmp;
+	t_token	*t_tmp;
 
 	if (t_node == NULL)
 		return (NULL);
@@ -84,7 +101,7 @@ t_token	*list_token_free_node_str(t_token *t_node)
 
 t_token	*list_token_free_node(t_token *t_node)
 {
-	t_token *t_tmp;
+	t_token	*t_tmp;
 
 	if (t_node == NULL)
 		return (NULL);
@@ -93,9 +110,9 @@ t_token	*list_token_free_node(t_token *t_node)
 	return (t_tmp);
 }
 
-void	list_token_free_list(t_token *t_list, t_token * (*f)(t_token *))
+void	list_token_free_list(t_token *t_list, t_token *(*f) (t_token *))
 {
-	t_token *t_current;
+	t_token	*t_current;
 
 	if (t_list == NULL)
 		return ;

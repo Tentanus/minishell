@@ -72,7 +72,7 @@ typedef struct s_minishell
 {
 	t_token	*token;
 	t_token	*syntax;
-	t_cmd	cmd_list;
+	t_cmd	*cmd_list;
 	char	**envp;
 	char	*input;
 	int		status;
@@ -125,21 +125,43 @@ bool			appender(t_token *t_list);
 
 //				FUNCTION: PARSER
 
-void			parser(t_minishell *mini);
+t_cmd			*parser(t_token *t_list);
+
+t_token	*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
 
 //					UTILS_TOKEN
 
-size_t			list_token_size(t_token *t_top);
 t_token			*list_token_new(void);
 t_token			*list_token_cpy_node(t_token *t_node);
 t_token			*list_token_last(t_token *t_list);
+t_token			*list_token_skip_space(t_token *t_current);
+t_token			*list_token_skip_pipe(t_token *t_current);
+void			list_token_add_back(t_token **list, t_token *node);
+
+void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
 t_token			*list_token_free_node(t_token *t_list);
 t_token			*list_token_free_node_str(t_token *t_list);
-void			list_token_add_back(t_token **list, t_token *node);
-void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
+
+//					UTILS_CMD
+
+t_cmd			*list_cmd_new(void);
+t_cmd			*list_cmd_last(t_cmd *t_list);
+void			list_cmd_add_back(t_cmd **cmd_list, t_cmd *cmd_node);
+
+void			list_cmd_free_list(t_cmd *cmd_list);
+t_cmd			*list_cmd_free_node(t_cmd *cmd_node);
+
+//					UTILS_REDIR
+
+
+t_redir	*list_redir_new(void);
+void	list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
+
+void	list_redir_free_list(t_redir *redir_list);
+t_redir	*list_redir_free_node(t_redir *redir_node);
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
-void		list_token_print(t_token *top);
+void			list_token_print(t_token *top);
 
 //				FUNCTIONS: BUILTINS
 bool			builtin_check(char *cmd);

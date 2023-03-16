@@ -3,18 +3,6 @@
 typedef bool	(*t_syntax_func) \
 			(const t_token *t_prev, const t_token *t_cur);
 
-t_token	*skip_space_token(t_token *t_cur)
-{
-	t_token	*ret;
-
-	if (t_cur == NULL || t_cur->next == NULL)
-		return (NULL);
-	ret = t_cur->next;
-	if (ret->id == SPACEBAR)
-		ret = ret->next;
-	return (ret);
-}
-
 t_token	*syntax(t_token *top)
 {
 	t_token				*t_prev;
@@ -38,7 +26,7 @@ t_token	*syntax(t_token *top)
 		if (func[t_cur->id](t_prev, t_cur))
 			return (t_cur);
 		t_prev = t_cur;
-		t_cur = skip_space_token(t_cur);
+		t_cur = list_token_skip_space(t_cur);
 	}
 	return (NULL);
 }

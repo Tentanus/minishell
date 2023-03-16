@@ -14,19 +14,13 @@ bool	non_app_token(t_token *t_node)
 	return (false);
 }
 
-/* 
- * great example why enums should start with an actual value instead of having
- * PIPE start at 0...
- * this could've gone so wrong if i'd put in a NULL pointer and wanted to check
- * id = PIPE
- */
-
 bool	append_tokens(t_token *t_previous, t_token *t_current)
 {
 	t_previous->str = ft_strjoin_fs1(t_previous->str, t_current->str);
 	if (!t_previous->str)
 		return (false);
 	t_previous->next = list_token_free_node(t_current);
+	t_previous->id = WORD;
 	return (true);
 }
 
