@@ -56,9 +56,24 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**args;
 	int				amount_of_args;
-	// t_redir			*redir;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }				t_cmd;
+
+typedef enum e_redir_id {
+	REDIR = 0,
+	IN,
+	HERE,
+	OUT,
+	APP
+}	t_redir_id;
+
+typedef struct s_redir
+{
+	t_redir_id		redir;
+	char			*file;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_env_var_ll
 {
