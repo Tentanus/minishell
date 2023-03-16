@@ -6,6 +6,7 @@ void	complexer(t_minishell *mini)
 	if (mini->token == NULL)
 		minishell_error("tokenization error");
 	printf("\t-=- END LEXER -=-\n");
+	list_token_print(mini->token);
 	mini->syntax = syntax(mini->token);
 	if (mini->syntax)
 	{
@@ -19,7 +20,7 @@ void	complexer(t_minishell *mini)
 		return (list_token_free_list(mini->token, list_token_free_node_str));
 	list_token_print(mini->token);
 	printf("\t-=- END APPENDER -=-\n");
-//	parser(mini);
+	mini->cmd_list = parser(mini->token);
 	printf("\t-=- END PARSER -=-\n");
 	list_token_free_list(mini->token, list_token_free_node_str);
 }

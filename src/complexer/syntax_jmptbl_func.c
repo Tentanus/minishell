@@ -2,7 +2,7 @@
 
 bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
 {
-	const t_token	*t_next = skip_space_token((t_token *) t_cur);
+	const t_token	*t_next = list_token_skip_space((t_token *) t_cur);
 
 	if (t_prev == NULL || t_next == NULL)
 		return (1);
@@ -13,7 +13,7 @@ bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
 
 bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur)
 {
-	const t_token	*t_next = skip_space_token((t_token *) t_cur);
+	const t_token	*t_next = list_token_skip_space((t_token *) t_cur);
 
 	(void) t_prev;
 	if (t_next == NULL)
