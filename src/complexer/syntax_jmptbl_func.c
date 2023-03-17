@@ -8,6 +8,8 @@ bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
 		return (1);
 	if (ft_strlen(t_cur->str) != 1)
 		return (1);
+	if (t_prev->id == PIPE || t_next->id == PIPE)
+		return (1);
 	return (0);
 }
 

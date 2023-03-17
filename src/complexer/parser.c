@@ -29,11 +29,11 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	[1] = parser_id_pipe,
 	[2] = NULL,
 	[3] = NULL,
-	[4] = NULL,
-	[5] = NULL,
+	[4] = parser_id_redir,
+	[5] = parser_id_redir,
 	[6] = NULL,
-	[7] = NULL,
-	[8] = NULL,
+	[7] = parser_id_space,
+	[8] = parser_id_word
 	};
 
 	cmd_node->args = malloc(sizeof(char *) * (n_arg + 1));

@@ -21,6 +21,7 @@ t_redir	*list_redir_last(t_redir *redir_list)
 		redir_list = redir_list->next;
 	return (redir_list);
 }
+
 void	list_redir_add_back(t_redir **redir_list, t_redir *redir_node)
 {
 	t_redir	*redir_tmp;
