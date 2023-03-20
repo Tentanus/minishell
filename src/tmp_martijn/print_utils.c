@@ -37,15 +37,14 @@ void	list_cmd_print(t_cmd *cmd_list)
 	int			size = list_cmd_size( cmd_list);
 	const int	con = size;
 
-	ft_printf("\n\t-=-  PRINT CMD LIST -=-\n");
-	   printf("\t-=-  %02d NODES -=-\n", size);
+	printf("\nPRINT CMD LIST\t %02d NODES\n", size);
 	while (cmd_list != NULL)
 	{
-		   printf("CMD NODE [%02d]", (con - size));
-		ft_printf("PATH:\t%s\n", cmd_list->simple_cmd);
+		ft_printf("| CMD NODE [%d]:\n", (con - --size));
 		print_cpp_array((const char **)cmd_list->args);
 		list_redir_print(cmd_list->redir);
 		cmd_list = cmd_list->next;
+		ft_printf("|______________________\n\n");
 	}
 	ft_printf("\n\t-=- PRINT FINISHED -=-\n");
 }
@@ -60,11 +59,16 @@ void	list_redir_print(t_redir *redir_list)
 		[4] = "APPEND"
 	} ;
 
-	ft_printf("PRINT REDIRECTIONS\n");
+	if (redir_list == NULL)
+	{
+		ft_printf("| NO REDIRECTIONS\n");
+		return ;
+	}
+	ft_printf("| REDIRECTIONS:\n");
 	while (redir_list != NULL)
 	{
-		ft_printf("TYPE:\t%s [%d]\n", redir_name[redir_list->redir], redir_list->redir);
-		ft_printf("file:\t%s\n", redir_list->file);
+		ft_printf("|\tTYPE [%d]:\t%s\n", redir_list->redir, redir_name[redir_list->redir]);
+		ft_printf("|\tFILE:\t%s\n", redir_list->file);
 		redir_list = redir_list->next;
 	}
 }
@@ -73,9 +77,12 @@ void	print_cpp_array(const char **arg)
 {
 	size_t i = 0;
 
-	printf("ARGUMENTS\n");
+	printf("| ARGUMENTS:\n");
 	while (arg[i] != NULL)
-		printf("arg [%02zu]:\t%s\n", i, arg[i]);
+	{
+		printf("|\targ [%02zu]:\t%s\n", i, arg[i]);
+		i++;
+	}
 }
 
 size_t	list_token_size(t_token *t_list)

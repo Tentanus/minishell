@@ -19,7 +19,7 @@ bool	append_tokens(t_token *t_previous, t_token *t_current)
 	t_previous->str = ft_strjoin_fs1(t_previous->str, t_current->str);
 	if (!t_previous->str)
 		return (false);
-	t_previous->next = list_token_free_node(t_current);
+	t_previous->next = list_token_free_node_str(t_current);
 	t_previous->id = WORD;
 	return (true);
 }

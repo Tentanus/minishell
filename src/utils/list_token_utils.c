@@ -75,10 +75,12 @@ t_token	*list_token_skip_pipe(t_token *t_current)
 
 	if (t_current == NULL)
 		return (NULL);
-	while (t_current != NULL || t_previous->id != PIPE)
+	while (t_current != NULL)
 	{
 		t_previous = t_current;
 		t_current = t_current->next;
+		if (t_previous->id == PIPE)
+			break ;
 	}
 	return (t_current);
 }
@@ -99,6 +101,19 @@ t_token	*list_token_free_node_str(t_token *t_node)
 	return (t_tmp);
 }
 
+t_token	*list_token_free_node_non_word(t_token *t_node)
+{
+	t_token	*t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	if (t_node->id != WORD && t_node->id != QUOTE && t_node->id != DQUOTE) // remove check for QUOTE & DQUOTE when expander is implemented
+		free(t_node->str);
+	free(t_node);
+	return (t_tmp);
+}
+
 t_token	*list_token_free_node(t_token *t_node)
 {
 	t_token	*t_tmp;
@@ -112,12 +127,9 @@ t_token	*list_token_free_node(t_token *t_node)
 
 void	list_token_free_list(t_token *t_list, t_token *(*f) (t_token *))
 {
-	t_token	*t_current;
-
 	if (t_list == NULL)
 		return ;
-	t_current = t_list;
-	while (t_current != NULL)
-		t_current = f(t_current);
+	while (t_list != NULL)
+		t_list = f(t_list);
 	return ;
 }

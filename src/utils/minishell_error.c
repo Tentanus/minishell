@@ -11,10 +11,14 @@ void	minishell_error(const char *loc)
 	exit(errno);
 }
 
-void	minishell_syntax_error(t_token *top, const char *token)
+void	minishell_syntax_error(const char *token)
 {
 	ft_putstr_fd("marsh: syntax error near unexpected token '", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
-	list_token_free_list(top, list_token_free_node_str);
+}
+
+void	minishell_quote_error(void)
+{
+	ft_putendl_fd("marsh: unclosed quotes", 2);
 }

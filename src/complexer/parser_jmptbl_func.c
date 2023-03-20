@@ -38,7 +38,7 @@ t_token	*parser_id_redir(t_cmd *cmd_node, t_token *t_current)
 		return (NULL);
 	}
 	redir_node->redir = redir_identification(t_current->str);
-	redir_node->file = t_current->str;
+	redir_node->file = t_file->str;
 	list_redir_add_back(&(cmd_node->redir), redir_node);
 	return (list_token_skip_space(t_file));
 }

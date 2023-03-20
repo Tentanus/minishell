@@ -49,17 +49,20 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 	return (t_return);
 }
 
-void	expander_remove_quotes(t_token *t_node)
+bool	expander_remove_quotes(t_token *t_node)
 {
 	char			*str;
 	const size_t	len = ft_strlen(t_node->str);
 
-	if (len < 2)
-		return ;
 	str = t_node->str;
+	if (len < 2 || str[0] != str[len - 1])
+	{
+		minishell_quote_error();
+		return (true);
+	}
 	ft_memmove(str, str + 1, len);
 	ft_memmove(&str[len - 2], &str[len - 1], 1);
-	return ;
+	return (false);
 }
 
 int	expander_inject_var(t_token *t_current, const int pos, \
@@ -97,8 +100,7 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	int		i;
 	int		tmp;
 
-	expander_remove_quotes(t_current);
-	if (t_current->str == NULL)
+	if (t_current->str == NULL || expander_remove_quotes(t_current))
 		return (NULL);
 	if (t_current->id == QUOTE)
 		return (list_token_cpy_node(t_current));
@@ -123,7 +125,6 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 	t_token	*t_return;
 	t_token	*t_current;
 	t_token	*t_node;
-	t_token	*t_previous;
 
 	t_return = NULL;
 	t_current = t_input;
@@ -140,7 +141,6 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 					list_token_free_list(t_return, list_token_free_node_str), \
 					NULL);
 		list_token_add_back(&t_return, t_node);
-		t_previous = list_token_last(t_return);
 		t_current = t_current->next;
 	}
 	list_token_free_list(t_input, list_token_free_node_str);

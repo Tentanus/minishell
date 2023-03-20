@@ -89,7 +89,8 @@ typedef struct s_env_var_ll
 //				FUNCTIONS
 
 void			minishell_error(const char *loc);
-void			minishell_syntax_error(t_token *top, const char *str);
+void			minishell_syntax_error(const char *str);
+void			minishell_quote_error(void);
 
 //		FUNCTION: COMPLEX
 
@@ -143,6 +144,7 @@ void			list_token_add_back(t_token **list, t_token *node);
 
 void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
 t_token			*list_token_free_node(t_token *t_list);
+t_token			*list_token_free_node_non_word(t_token *t_list);
 t_token			*list_token_free_node_str(t_token *t_list);
 
 //					UTILS_CMD
@@ -165,6 +167,7 @@ t_redir	*list_redir_free_node(t_redir *redir_node);
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void			list_token_print(t_token *top);
+void			list_cmd_print(t_cmd *cmd_list);
 
 //				FUNCTIONS: BUILTINS
 bool			builtin_check(char *cmd);

@@ -9,7 +9,7 @@ size_t	parser_get_arg(t_token *t_current)
 	arg_ret = 0;
 	if (t_current == NULL)
 		return (0);
-	while (t_current != NULL || t_current->id != PIPE)
+	while (t_current != NULL && t_current->id != PIPE)
 	{
 		if (t_current->id == QUOTE || t_current->id == DQUOTE || \
 			t_current->id == WORD)
@@ -27,8 +27,8 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	const t_parser_func	func[9] = {
 	[0] = NULL,
 	[1] = parser_id_pipe,
-	[2] = NULL,
-	[3] = NULL,
+	[2] = parser_id_word,	//Can be removed once expander works
+	[3] = parser_id_word,	//Can be removed once expander works
 	[4] = parser_id_redir,
 	[5] = parser_id_redir,
 	[6] = NULL,
@@ -36,10 +36,9 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	[8] = parser_id_word
 	};
 
-	cmd_node->args = malloc(sizeof(char *) * (n_arg + 1));
+	cmd_node->args = ft_calloc(sizeof(char *), (n_arg + 1));
 	if (!cmd_node->args)
 		return (false);
-	cmd_node->args[n_arg] = NULL;
 	while (t_current != NULL)
 	{
 		t_current = func[t_current->id](cmd_node, t_current);
@@ -70,7 +69,7 @@ t_cmd	*parser(t_token *t_list)
 		list_cmd_add_back(&cmd_return, cmd_node);
 		t_current = list_token_skip_pipe(t_current);
 	}
-	list_token_free_list(t_list, list_token_free_node);
+	list_token_free_list(t_list, list_token_free_node_non_word);
 	return (cmd_return);
 }
 

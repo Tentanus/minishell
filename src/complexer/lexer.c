@@ -56,6 +56,7 @@ t_token	*lexer(const char *inp)
 		get_token_info(inp, &current_pos, node);
 		if (!node->str)
 			return (list_token_free_list(top, list_token_free_node_str), NULL);
+//		ft_printf("str:\t%s\n", node->str);
 		list_token_add_back(&top, node);
 	}
 	return (top);

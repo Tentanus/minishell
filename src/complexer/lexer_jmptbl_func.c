@@ -5,7 +5,8 @@ void	token_id_quote(const char *inp, size_t *pos, const t_token_id val)
 	(*pos)++;
 	while (inp[*pos] && val != get_char_id(inp[*pos]))
 		(*pos)++;
-	(*pos)++;
+	if (inp[*pos])
+		(*pos)++;
 }
 
 void	token_id_pipe(const char *inp, size_t *pos, const t_token_id val)

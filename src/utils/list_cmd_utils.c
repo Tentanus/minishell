@@ -45,7 +45,7 @@ void	free_cpp_array(char **arr)
 
 	i = 0;
 	while (arr[i] != NULL)
-		free(arr[i]);
+		free(arr[i++]);
 	free(arr);
 	return ;
 }
@@ -54,7 +54,7 @@ t_cmd	*list_cmd_free_node(t_cmd *cmd_node)
 {
 	t_cmd	*cmd_tmp = cmd_node->next;
 
-	if (cmd_node->simple_cmd != cmd_node->args[0])
+	if (cmd_node->simple_cmd != NULL) 
 		free(cmd_node->simple_cmd);
 	cmd_node->simple_cmd = NULL;
 	if (cmd_node->args != NULL)
@@ -63,17 +63,16 @@ t_cmd	*list_cmd_free_node(t_cmd *cmd_node)
 	if (cmd_node->redir != NULL)
 		list_redir_free_list(cmd_node->redir);
 	cmd_node->redir = NULL;
+	free(cmd_node);
 	return (cmd_tmp);
 }
 
 void	list_cmd_free_list(t_cmd *cmd_list)
 {
-	t_cmd	*cmd_current;
 
 	if (cmd_list == NULL)
 		return ;
-	cmd_current = cmd_list;
-	while (cmd_current != NULL)
-		cmd_current = list_cmd_free_node(cmd_current);
+	while (cmd_list != NULL)
+		cmd_list = list_cmd_free_node(cmd_list);
 	return ;
 }
