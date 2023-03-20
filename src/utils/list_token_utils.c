@@ -1,53 +1,135 @@
 #include <minishell.h>
 
-int	list_token_size(t_token *top)
-{
-	int	size;
-
-	size = 0;
-	while (top != NULL)
-	{
-		top = top->next;
-		size++;
-	}
-	return (size);
-}
-
 t_token	*list_token_new(void)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token) * 1);
 	if (!new)
-		minishell_error("utils/list_token_utils.c: list_token_new @ malloc");
+		return (NULL);
 	new->next = NULL;
-	new->id = UNINITIALIZED;
+	new->id = TOKEN;
 	new->str = NULL;
 	return (new);
 }
 
-t_token	*list_token_last(t_token *list)
+t_token	*list_token_last(t_token *t_list)
 {
-	int	size;
-
-	size = list_token_size(list);
-	while (size-- > 1)
-		list = list->next;
-	return (list);
+	if (t_list == NULL)
+		return (NULL);
+	while (t_list->next != NULL)
+		t_list = t_list->next;
+	return (t_list);
 }
 
-void	list_token_add_back(t_token **list, t_token *new)
+t_token	*list_token_cpy_node(t_token *t_node)
+{
+	t_token	*t_return;
+
+	if (!t_node)
+		return (NULL);
+	t_return = list_token_new();
+	if (!t_return)
+		return (NULL);
+	t_return->id = t_node->id;
+	t_return->str = ft_strdup(t_node->str);
+	if (t_return->str == NULL)
+		return (free(t_return), NULL);
+	t_return->next = NULL;
+	return (t_return);
+}
+
+void	list_token_add_back(t_token **t_list, t_token *new)
 {
 	t_token	*tmp;
 
 	if (!new)
 		return ;
-	else if (!(*list))
+	else if (!(*t_list))
 	{
-		*list = new;
+		*t_list = new;
 		return ;
 	}
-	tmp = list_token_last(*list);
+	tmp = list_token_last(*t_list);
 	tmp->next = new;
+	return ;
+}
+
+//	NAVIGATION FUNCTIONS
+
+t_token	*list_token_skip_space(t_token *t_current)
+{
+	t_token	*t_return;
+
+	if (t_current == NULL || t_current->next == NULL)
+		return (NULL);
+	t_return = t_current->next;
+	if (t_return->id == SPACEBAR)
+		t_return = t_return->next;
+	return (t_return);
+}
+
+t_token	*list_token_skip_pipe(t_token *t_current)
+{
+	t_token	*t_previous;
+
+	if (t_current == NULL)
+		return (NULL);
+	while (t_current != NULL)
+	{
+		t_previous = t_current;
+		t_current = t_current->next;
+		if (t_previous->id == PIPE)
+			break ;
+	}
+	return (t_current);
+}
+
+//	FREE FUNCTIONS
+
+t_token	*list_token_free_node_str(t_token *t_node)
+{
+	t_token	*t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	if (t_node->str != NULL)
+		free(t_node->str);
+	t_node->str = NULL;
+	free(t_node);
+	return (t_tmp);
+}
+
+t_token	*list_token_free_node_non_word(t_token *t_node)
+{
+	t_token	*t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	if (t_node->id != WORD && t_node->id != QUOTE && t_node->id != DQUOTE) // remove check for QUOTE & DQUOTE when expander is implemented
+		free(t_node->str);
+	free(t_node);
+	return (t_tmp);
+}
+
+t_token	*list_token_free_node(t_token *t_node)
+{
+	t_token	*t_tmp;
+
+	if (t_node == NULL)
+		return (NULL);
+	t_tmp = t_node->next;
+	free(t_node);
+	return (t_tmp);
+}
+
+void	list_token_free_list(t_token *t_list, t_token *(*f) (t_token *))
+{
+	if (t_list == NULL)
+		return ;
+	while (t_list != NULL)
+		t_list = f(t_list);
 	return ;
 }

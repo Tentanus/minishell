@@ -1,39 +1,43 @@
 #include <minishell.h>
 
 typedef void	(*t_delimiter_func) \
-			(const char *inp, size_t *pos, const t_token_id val);
+			(const char *inp, size_t *pos, const t_token_id value);
 
 t_token_id	get_char_id(const char c)
 {
-	t_token_id	val;
-	const char	set_delimiters[] = "\'\"|>< ";
+	t_token_id	value;
+	const char	set_delimiters[] = SET_DELIMETER;
 
-	val = QUOTE;
-	while (val != WORD)
+	value = PIPE;
+	while (value != WORD)
 	{
-		if (set_delimiters[val] == c)
+		if (set_delimiters[value] == c)
 			break ;
-		val++;
+		value++;
 	}
-	return (val);
+	return (value);
 }
 
 void	get_token_info(const char *inp, size_t *pos, t_token *node)
 {
 	const int				start_pos = *pos;
-	const t_delimiter_func	func[] = {
-	[0] = &token_id_quote,
-	[1] = &token_id_quote,
-	[2] = &token_id_misc,
-	[3] = &token_id_misc,
-	[4] = &token_id_misc,
-	[5] = &token_id_misc,
-	[6] = &token_id_misc,
+	const t_delimiter_func	func[9] = {
+	[0] = NULL,
+	[1] = &token_id_pipe,
+	[2] = &token_id_quote,
+	[3] = &token_id_quote,
+	[4] = &token_id_redir,
+	[5] = &token_id_redir,
+	[6] = &token_id_shvar,
+	[7] = &token_id_misc,
+	[8] = &token_id_misc,
 	};
 
 	node->id = get_char_id(inp[(*pos)]);
 	func[node->id](inp, pos, node->id);
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
+	if (node->str == NULL)
+		return ;
 }
 
 t_token	*lexer(const char *inp)
@@ -48,8 +52,11 @@ t_token	*lexer(const char *inp)
 	{
 		node = list_token_new();
 		if (!node)
-			minishell_error("lexer/lexer.c: lexer @ malloc");
+			minishell_error("parser/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
+		if (!node->str)
+			return (list_token_free_list(top, list_token_free_node_str), NULL);
+//		ft_printf("str:\t%s\n", node->str);
 		list_token_add_back(&top, node);
 	}
 	return (top);
