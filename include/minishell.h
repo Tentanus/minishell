@@ -82,7 +82,6 @@ typedef struct s_minishell
 	t_token			*syntax;
 	t_cmd			*cmd_list;
 	t_env_var_ll	*env_list;
-	char			**envp;
 	char			*input;
 	int				status;
 }	t_minishell;
