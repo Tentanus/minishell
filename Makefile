@@ -3,10 +3,10 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: mweverli <mweverli@student.codam.n>          +#+                      #
+#    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/16 15:06:28 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/03/20 09:32:17 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,30 +21,40 @@
 NAME		:=	marshell
 
 SRC			:=	\
-				lexer/lexer.c				\
-				lexer/lexer_utils.c			\
-				utils/list_token_utils.c 	\
+				executor/env_var.c					\
+				executor/env_var_list.c		\
+				utils/list_token_utils.c			\
+				utils/list_cmd_utils.c				\
+				utils/list_redir_utils.c			\
 				utils/minishell_error.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c				\
-				tmp_mares/parse_utils.c				\
-				builtin/builtin.c					\
-				builtin/cd.c						\
-				builtin/echo.c						\
-				builtin/env.c						\
-				builtin/exit.c						\
-				builtin/export.c					\
-				builtin/pwd.c						\
-				builtin/unset.c						\
-				env_var_init_shell/env_var_list.c	\
-				env_var_init_shell/env_var.c		\
-				env_var_init_shell/init_shell.c		\
-				executor/executor.c					\
+				tmp_mares/mini_parse.c		\
+				tmp_mares/parse_utils.c		\
+				builtin/builtin.c			\
+				builtin/cd.c				\
+				builtin/echo.c				\
+				builtin/env.c				\
+				builtin/exit.c				\
+				builtin/export.c			\
+				builtin/pwd.c				\
+				builtin/unset.c				\
+				executor/init_shell.c		\
 				test/ver_main.c
+
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/print_utils.c	\
+				complexer/appender.c					\
+				complexer/complexer.c					\
+				complexer/expander.c					\
+				complexer/lexer.c						\
+				complexer/lexer_jmptbl_func.c			\
+				complexer/parser.c						\
+				complexer/parser_jmptbl_func.c			\
+				complexer/syntax.c						\
+				complexer/syntax_jmptbl_func.c			\
+				tmp_martijn/print_utils.c			\
 				tmp_martijn/wev_main.c
+
 SRC			+=	main.c
 
 SRC			:=	$(SRC:%=$(SRC_DIR)/%)
@@ -64,7 +74,7 @@ LIBFT		:=	libft
 DIR_LIBFT	:=	$(LIB_DIR)/$(LIBFT)
 LIB_LIBFT	:=	$(DIR_LIBFT)/$(LIBFT).a
 
-LIB_LIST	:=	$(READLINE_LINK) \
+LIB_LIST	:=	$(READLINE_LINK)	\
 				$(LIB_LIBFT)
 
 #=========== FLAGS & INCLUDES ===========#
@@ -80,12 +90,12 @@ INCLUDE		:=	-I$(INC_DIR) \
 all: $(NAME)
 
 $(NAME): LIB $(OBJ) 
-	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(OBJ) -o $(NAME)
+	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIB_LIST) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
-	@$(COMPILE) $(INCLUDE) -g -MMD -o $@ -c $<
-	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFL)), debug (-g))\t$(notdir $<)\
+	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
+	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFLAGS)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
 
 $(ODIR):
@@ -93,7 +103,7 @@ $(ODIR):
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)$(BOLD)CLEANING $(NAME)$(RESET)"
+	@echo "$(RED)$(BOLD)\tCLEANING $(NAME)$(RESET)"
 
 fclean: clean 
 	@rm -f $(NAME)
