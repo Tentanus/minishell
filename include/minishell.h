@@ -68,16 +68,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct s_minishell
-{
-	t_token	*token;
-	t_token	*syntax;
-	t_cmd	*cmd_list;
-	char	**envp;
-	char	*input;
-	int		status;
-}	t_minishell;
-
 typedef struct s_env_var_ll
 {
 	char				*name;
@@ -85,6 +75,17 @@ typedef struct s_env_var_ll
 	bool				has_value;
 	struct s_env_var_ll	*next;
 }				t_env_var_ll;
+
+typedef struct s_minishell
+{
+	t_token			*token;
+	t_token			*syntax;
+	t_cmd			*cmd_list;
+	t_env_var_ll	*env_list;
+	char			**envp;
+	char			*input;
+	int				status;
+}	t_minishell;
 
 //				FUNCTIONS
 
@@ -184,7 +185,7 @@ void			builtin_env(t_env_var_ll *env_var_list);
 void			builtin_exit(t_cmd *cmd);
 
 //				FUNCTIONS: INIT SHELL
-int				init_shell(char **envp, t_env_var_ll **env_var_list);
+int				init_shell(char **envp, t_minishell *mini);
 void			init_shell_set_underscore(t_env_var_ll **env_var_list);
 void			init_shell_update_SHLVL(t_env_var_ll **env_var_list);
 int				init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list);
