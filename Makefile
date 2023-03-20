@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/20 09:32:17 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/03/20 11:16:08 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,25 +21,26 @@
 NAME		:=	marshell
 
 SRC			:=	\
-				executor/env_var.c					\
-				executor/env_var_list.c		\
+				env_var_init_shell/env_var.c		\
+				env_var_init_shell/env_var_list.c	\
+				env_var_init_shell/init_shell.c		\
 				utils/list_token_utils.c			\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
-				utils/minishell_error.c
+				utils/minishell_error.c				\
+				builtin/builtin.c					\
+				builtin/env.c						\
+				builtin/pwd.c						\
+				builtin/echo.c						\
+				builtin/cd.c						\
+				builtin/unset.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c		\
-				tmp_mares/parse_utils.c		\
-				builtin/builtin.c			\
-				builtin/cd.c				\
-				builtin/echo.c				\
-				builtin/env.c				\
-				builtin/exit.c				\
-				builtin/export.c			\
-				builtin/pwd.c				\
-				builtin/unset.c				\
-				executor/init_shell.c		\
+				tmp_mares/mini_parse.c			\
+				tmp_mares/parse_utils.c			\
+				builtin/builtin.c				\
+				builtin/exit.c					\
+				builtin/export.c				\
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
