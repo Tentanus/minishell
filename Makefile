@@ -74,7 +74,7 @@ LIBFT		:=	libft
 DIR_LIBFT	:=	$(LIB_DIR)/$(LIBFT)
 LIB_LIBFT	:=	$(DIR_LIBFT)/$(LIBFT).a
 
-LIB_LIST	:=	$(READLINE_LINK) \
+LIB_LIST	:=	$(READLINE_LINK)	\
 				$(LIB_LIBFT)
 
 #=========== FLAGS & INCLUDES ===========#
@@ -90,11 +90,11 @@ INCLUDE		:=	-I$(INC_DIR) \
 all: $(NAME)
 
 $(NAME): LIB $(OBJ) 
-	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(OBJ) -o $(NAME)
+	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIB_LIST) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
-	@$(COMPILE) $(INCLUDE) -g -MMD -o $@ -c $<
+	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
 	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFLAGS)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
 
@@ -103,7 +103,7 @@ $(ODIR):
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)$(BOLD)CLEANING $(NAME)$(RESET)"
+	@echo "$(RED)$(BOLD)\tCLEANING $(NAME)$(RESET)"
 
 fclean: clean 
 	@rm -f $(NAME)

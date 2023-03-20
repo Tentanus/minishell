@@ -11,7 +11,7 @@ V: LIB $(VOBJ)
 	./martest
 
 W: LIB $(WOBJ)
-	@$(COMPILE) $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(WOBJ) -o martest
+	@$(COMPILE) $(INCLUDE) $(READLINE_LINK) $(WOBJ) $(LIB_LIST) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
 
 Vebug: clean
