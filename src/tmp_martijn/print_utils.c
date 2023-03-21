@@ -9,7 +9,7 @@ void	list_redir_print(t_redir *redir_list);
 
 void	list_token_print(t_token *top)
 {
-	int			size = list_token_size((void *) top);
+	int			size = list_token_size(top);
 	const int	con = size;
 	const char	*token_name[9] = {
 		[0] = "TOKEN",
@@ -23,7 +23,7 @@ void	list_token_print(t_token *top)
 		[8] = "WORD"
 	} ;
 
-	printf("\n\t-=-  TOKEN PRINT -=-\n");
+	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
 	while (size--)
 	{
 		printf("TOKEN [%02d]\tid:  %s [%d]\n\t\tstr: |%s|\n", (con - size),  token_name[top->id], top->id, top->str);

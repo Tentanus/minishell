@@ -7,7 +7,7 @@ t_token	*parser_id_pipe(t_cmd *cmd_node, t_token *t_current)
 	return (NULL);
 }
 
-t_redir_id redir_identification(const char *str)
+t_redir_id	redir_identification(const char *str)
 {
 	if (str == NULL)
 		return (0);
@@ -28,8 +28,8 @@ t_redir_id redir_identification(const char *str)
 
 t_token	*parser_id_redir(t_cmd *cmd_node, t_token *t_current)
 {
-	t_token	*t_file = list_token_skip_space(t_current);
-	t_redir	*redir_node;
+	const t_token	*t_file = list_token_skip_space(t_current);
+	t_redir			*redir_node;
 
 	redir_node = list_redir_new();
 	if (!redir_node)
@@ -46,8 +46,9 @@ t_token	*parser_id_redir(t_cmd *cmd_node, t_token *t_current)
 t_token	*parser_id_word(t_cmd *cmd_node, t_token *t_current)
 {
 	size_t	i;
-	char	**arr = cmd_node->args;
+	char	**arr;
 
+	arr = cmd_node->args;
 	i = 0;
 	while (arr[i] != NULL)
 		i++;

@@ -15,7 +15,7 @@ LIB_DIR		:=	lib
 CC			:=	gcc
 
 ifdef DEBUG
-	CFLAGS		:=	-Wall -Werror -Wextra -g -fsanitize=address
+	CFLAGS		:=	-Wall -Werror -Wextra -g3 -fsanitize=address
 else
 	CFLAGS		:=	-Wall -Werror -Wextra
 endif

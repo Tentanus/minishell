@@ -3,24 +3,33 @@
 typedef bool	(*t_syntax_func) \
 			(const t_token *t_prev, const t_token *t_cur);
 
+t_token	*syntax_non_space(t_token *t_list)
+{
+	if (t_list == NULL)
+		return (NULL);
+	if (t_list->id == SPACEBAR)
+		return (t_list->next);
+	return (t_list);
+}
+
 t_token	*syntax(t_token *top)
 {
 	t_token				*t_prev;
 	t_token				*t_cur;
 	const t_syntax_func	func[9] = {
 	[0] = NULL,
-	[1] = &syntax_id_pipe,
-	[2] = &syntax_id_misc,
-	[3] = &syntax_id_misc,
-	[4] = &syntax_id_redir,
-	[5] = &syntax_id_redir,
-	[6] = &syntax_id_misc,
+	[1] = syntax_id_pipe,
+	[2] = syntax_id_misc,
+	[3] = syntax_id_misc,
+	[4] = syntax_id_redir,
+	[5] = syntax_id_redir,
+	[6] = syntax_id_misc,
 	[7] = NULL,
-	[8] = &syntax_id_misc
+	[8] = syntax_id_misc
 	};
 
 	t_prev = NULL;
-	t_cur = top;
+	t_cur = syntax_non_space(top);
 	while (t_cur != NULL)
 	{
 		if (func[t_cur->id](t_prev, t_cur))
@@ -30,6 +39,8 @@ t_token	*syntax(t_token *top)
 	}
 	return (NULL);
 }
+
+// if only space tokens are given wat to do?
 
 /* -------------------------------------------------------
    The grammar symbols

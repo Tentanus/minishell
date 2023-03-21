@@ -128,10 +128,10 @@ bool			appender(t_token *t_list);
 
 t_cmd			*parser(t_token *t_list);
 
-t_token	*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
-t_token	*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
-t_token	*parser_id_word(t_cmd *cmd_node, t_token *t_current);
-t_token	*parser_id_space(t_cmd *cmd_node, t_token *t_current);
+t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
+t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
+t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
+t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 //					UTILS_TOKEN
 
@@ -158,12 +158,11 @@ t_cmd			*list_cmd_free_node(t_cmd *cmd_node);
 
 //					UTILS_REDIR
 
+t_redir			*list_redir_new(void);
+void			list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
 
-t_redir	*list_redir_new(void);
-void	list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
-
-void	list_redir_free_list(t_redir *redir_list);
-t_redir	*list_redir_free_node(t_redir *redir_node);
+void			list_redir_free_list(t_redir *redir_list);
+t_redir			*list_redir_free_node(t_redir *redir_node);
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void			list_token_print(t_token *top);
