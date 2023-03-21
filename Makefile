@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/21 14:33:05 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/03/21 16:01:56 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,24 +35,22 @@ SRC			:=	\
 				builtin/cd.c						\
 				builtin/export.c					\
 				builtin/exit.c						\
-				builtin/unset.c
+				builtin/unset.c						\
+				complexer/appender.c				\
+				complexer/complexer.c				\
+				complexer/expander.c				\
+				complexer/lexer.c					\
+				complexer/lexer_jmptbl_func.c		\
+				complexer/parser.c					\
+				complexer/parser_jmptbl_func.c		\
+				complexer/syntax.c					\
+				complexer/syntax_jmptbl_func.c		\
+				tmp_martijn/print_utils.c
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c				\
-				tmp_mares/parse_utils.c				\
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
-				complexer/appender.c					\
-				complexer/complexer.c					\
-				complexer/expander.c					\
-				complexer/lexer.c						\
-				complexer/lexer_jmptbl_func.c			\
-				complexer/parser.c						\
-				complexer/parser_jmptbl_func.c			\
-				complexer/syntax.c						\
-				complexer/syntax_jmptbl_func.c			\
-				tmp_martijn/print_utils.c				\
 				tmp_martijn/wev_main.c
 
 SRC			+=	main.c

@@ -104,8 +104,6 @@ int	init_shell(char **envp, t_minishell *mini)
 	builtin_unset("OLDPWD", &env_var_list);
 	init_shell_set_underscore(&env_var_list);
 	mini->env_list = env_var_list;
-
-	// builtin_env(mini->env_list);
 	return (0);
 }
 
