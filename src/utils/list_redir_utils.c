@@ -40,8 +40,9 @@ void	list_redir_add_back(t_redir **redir_list, t_redir *redir_node)
 
 t_redir	*list_redir_free_node(t_redir *redir_node)
 {
-	const t_redir	*redir_tmp = redir_node->next;
+	t_redir	*redir_tmp;
 
+	redir_tmp = redir_node->next;
 	if (redir_node->file != NULL)
 		free(redir_node->file);
 	free(redir_node);

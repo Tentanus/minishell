@@ -21,21 +21,31 @@
 NAME		:=	marshell
 
 SRC			:=	\
+				builtin/builtin.c					\
+				builtin/cd.c						\
+				builtin/echo.c						\
+				builtin/env.c						\
+				builtin/exit.c						\
+				builtin/export.c					\
+				builtin/pwd.c						\
+				builtin/unset.c						\
+				complexer/appender.c				\
+				complexer/complexer.c				\
+				complexer/expander.c				\
+				complexer/lexer.c					\
+				complexer/lexer_jmptbl_func.c		\
+				complexer/parser.c					\
+				complexer/parser_jmptbl_func.c		\
+				complexer/syntax.c					\
+				complexer/syntax_jmptbl_func.c		\
 				env_var_init_shell/env_var.c		\
 				env_var_init_shell/env_var_list.c	\
 				env_var_init_shell/init_shell.c		\
-				utils/list_token_utils.c			\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
+				utils/list_token_utils.c			\
 				utils/minishell_error.c				\
-				builtin/builtin.c					\
-				builtin/env.c						\
-				builtin/pwd.c						\
-				builtin/echo.c						\
-				builtin/cd.c						\
-				builtin/export.c					\
-				builtin/exit.c						\
-				builtin/unset.c
+				utils/print_utils.c					\
 
 VER_SRC		:=	$(SRC) \
 				tmp_mares/mini_parse.c				\
@@ -43,16 +53,6 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
-				complexer/appender.c					\
-				complexer/complexer.c					\
-				complexer/expander.c					\
-				complexer/lexer.c						\
-				complexer/lexer_jmptbl_func.c			\
-				complexer/parser.c						\
-				complexer/parser_jmptbl_func.c			\
-				complexer/syntax.c						\
-				complexer/syntax_jmptbl_func.c			\
-				tmp_martijn/print_utils.c				\
 				tmp_martijn/wev_main.c
 
 SRC			+=	main.c
@@ -64,24 +64,24 @@ DEP			:=	$(OBJ:%.o=%.d)
 -include $(DEP)
 -include include/config_test.mk
 
-ODIR		:=	$(sort $(dir $(ODIR)))
+ODIR			:=	$(sort $(dir $(ODIR)))
 READLINE_PATH	:=	lib/readline
-READLINE_LINK	?=	-Llib/readline/lib -lreadline -lncurses
+READLINE_LINK	:=	-Llib/readline/lib -lreadline -lncurses
 
 #============== LIBRARIES ===============#
 
-LIBFT		:=	libft
-DIR_LIBFT	:=	$(LIB_DIR)/$(LIBFT)
-LIB_LIBFT	:=	$(DIR_LIBFT)/$(LIBFT).a
+LIBFT			:=	libft
+DIR_LIBFT		:=	$(LIB_DIR)/$(LIBFT)
+LIB_LIBFT		:=	$(DIR_LIBFT)/$(LIBFT).a
 
-LIB_LIST	:=	$(READLINE_LINK)	\
-				$(LIB_LIBFT)
+LIB_LIST		:=	$(READLINE_LINK)	\
+					$(LIB_LIBFT)
 
 #=========== FLAGS & INCLUDES ===========#
 
-INCLUDE		:=	-I$(INC_DIR) \
-				-I$(DIR_LIBFT)/include \
-				-I$(READLINE_PATH)/include
+INCLUDE			:=	-I$(INC_DIR) \
+					-I$(DIR_LIBFT)/include \
+					-I$(READLINE_PATH)/include
 
 #========================================#
 #============== RECIPIES  ===============#

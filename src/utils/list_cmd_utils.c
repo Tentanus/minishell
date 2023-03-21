@@ -41,8 +41,9 @@ void	list_cmd_add_back(t_cmd **cmd_list, t_cmd *cmd_node)
 
 t_cmd	*list_cmd_free_node(t_cmd *cmd_node)
 {
-	const t_cmd	*cmd_tmp = cmd_node->next;
+	t_cmd	*cmd_tmp;
 
+	cmd_tmp = cmd_node->next;
 	if (cmd_node->simple_cmd != NULL)
 		free(cmd_node->simple_cmd);
 	cmd_node->simple_cmd = NULL;
