@@ -26,8 +26,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
  		mini.input = readline(MARSH_PROMPT);
- 		if (ft_strncmp(mini.input, "exit", 4) == 0)
-			minishell_error("EXIT AT MINISHELL");
+ 		// if (ft_strncmp(mini.input, "exit", 4) == 0)
+		// 	minishell_error("EXIT AT MINISHELL");
 		complexer(&mini);
 		// TO TEST:
 		if (builtin_check(mini.cmd_list->args[0]) == true)
