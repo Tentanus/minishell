@@ -1,32 +1,22 @@
-void execute()
+
+
+void    execute_cmd()
 {
-    int i = 0;
-    int pid;
-    int number_of_commands;
-    while (i < number_of_commands)
-    {
-        pid = fork();
-        if (pid < 0)
-        {
-            minishell_error("fork fail"); 
-            return ;
-        }
-        if (pid == 0) // child process
-        {
-            execve(path_to_cmd, cmd, envp); 
-            minishell_error("execve");
-            exit(1);
-        }
-        // Parent process
-        i++;
-    }
-    //  wait for last command/process to finish
-    // only if & (background) was not set
-    if (!background)
-        waitpid(pid, NULL);
+    // we are in child process
+    execve(path_to_cmd, cmd, envp);
+    perror(“execve”);
+    exit(1);
 }
 
-void redirect_and_execute_cmd()
+void    handle_pipe()
+{
+   	int	fd_pipe[2];
+    
+    if (pipe(fd_pipe) == -1)
+        exit_message("Pipe failed\n", 1);
+}
+
+void handle_redirect()
 {
     // PARENT
     // stdin and stdout (fd 0 and 1) will be modified in the parent 
@@ -78,18 +68,7 @@ void redirect_and_execute_cmd()
         // now both stdin and stdout have been redirected to either a file or a pipe
         close(fd_out); // fd_out is closed as it is no longer needed
 
-        // create child process and execute (code below OR see execute() function above):
-        // note that input and output redirections for current command are already set
-        int pid = fork(); // child process inherits redirected fds
-        if (pid < 0)
-            // throw error and return;
-        if (pid == 0) // child process
-        {
-            execve(path_to_cmd, cmd, envp);
-            handle execve fail: error message and exit();
-        }
-
-        i++; // iterate over cmds in command table
+        // ? HERE execute cmd?
     }
 
     // restore defaults for input and output for parent
@@ -104,9 +83,61 @@ void redirect_and_execute_cmd()
     if (!background)
         waitpid(pid, NULL);
 
+
     // * still need to set up stderror redirection (fd 2). 
     // * make sure that stderr of ALL simple commands will be send to the same place!
+}
 
-    // Built-in functions in parent process
-    // Call built-in function in executor instead of forking.
+/*
+	executor() is the executing part of our minishell.
+    It is fully based on the command table
+    as is outputed by the lexer, parser and expander.
+    Builtin commands are executed in parent process.
+    Non-builtin commands are executed in child process after forking.
+*/
+
+void    executor()
+{
+    while (cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
+    {
+        if (cmd.redir != NULL) // check for redirect // ? WAAR MOET DIT?
+            handle_redirect();
+        if (cmd.next != NULL) // check for pipes
+            handle_pipe(); // create pipe to connect input and output of cmds
+        if (builtin_check(cmd.cmd) == true) // check for builtin
+            builtin_execute(&cmd, &env_var_list); // execute builtin in parent
+        else // if cmd is not a builtin
+        {
+            pid = fork(); // create child process
+            if (pid < 0)
+                return (perror("fork fail"));
+            if (pid == 0) // let child process execute cmd
+                execute_cmd();
+        }
+        cmd = cmd->next; // move to next node in linked list
+    }
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_env_var_ll	*env_var_list = NULL;
+	t_cmd		    cmd;
+	char		    *input;
+	(void) argc; // to silence compiler
+	(void) argv; // to silence compiler
+	(void) envp; // to silence compiler
+    int             pid;
+
+	if (init_shell(envp, &env_var_list) == 1)
+		return (1);
+
+	input = NULL;
+	while (1)
+	{
+		input = readline(prompt);
+		mini_parse_input(input, &cmd);
+        executor();
+		free(input);
+	}
+	return (0);
 }

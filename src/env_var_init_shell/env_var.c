@@ -59,6 +59,8 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 	t_env_var_ll	*current = *env_var_list;
 	t_env_var_ll	*prev = NULL;
 
+	if (!envar)
+		return ;
 	new_var = env_var_init_new_var_node(envar);
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)

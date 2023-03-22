@@ -11,8 +11,10 @@ void	builtin_unset(char *name, t_env_var_ll **env_var_list)
 	t_env_var_ll	*current = *env_var_list;
 	t_env_var_ll	*temp_var = NULL;
 
+	if (!name)
+		return ;
 	len_name = ft_strlen(name);
-	while (current != NULL)
+	while (current != NULL && current->next != NULL)
 	{
 		if (ft_strncmp(current->next->name, name, len_name) == 0)
 		{

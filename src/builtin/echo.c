@@ -34,7 +34,7 @@ int		builtin_echo(t_cmd *cmd, int fd)
 	int	i;
 	int	n_option;
 
-	i = 0;
+	i = 1;
 	n_option = 0;
 	// fix seg fault for 'echo -n' command without other args
 	while (builtin_echo_is_n_option(cmd->args[i]) == true)
@@ -42,10 +42,10 @@ int		builtin_echo(t_cmd *cmd, int fd)
 		n_option = 1;
 		i++;
 	}
-	while (i < cmd->amount_of_args)
+	while (cmd->args[i] != NULL)
 	{
 		ft_putstr_fd(cmd->args[i], fd);
-		if (i != (cmd->amount_of_args - 1))
+		if (cmd->args[i + 1] != NULL)
 			ft_putchar_fd(' ', fd);
 		i++;
 	}

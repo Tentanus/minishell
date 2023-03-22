@@ -16,54 +16,66 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*new_working_dir;
 
-	if (cmd->amount_of_args == 1) // this is the case for "cd" without path: that 1 arg = NULL
+	new_working_dir = (char *)malloc(sizeof(char));
+	if (cmd->args[1] == NULL) // this is the case for "cd" without path: that 1 arg = NULL
 		new_working_dir = env_var_get_env("HOME", *env_var_list);
-	else if (cmd->args[0][0] == '~')
+	else if (cmd->args[1][0] == '~')
 	{
-		if (cmd->args[0][1] == '/')
-			new_working_dir = ft_strjoin(env_var_get_env("HOME", *env_var_list), &cmd->args[0][1]);
+		if (cmd->args[1][1] == '/')
+			new_working_dir = ft_strjoin(env_var_get_env("HOME", *env_var_list), &cmd->args[1][1]);
 		else
 			new_working_dir = env_var_get_env("HOME", *env_var_list);
 	}
 	else
 	{
-		if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
+		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
 		{
+			// printf("KOM IK HIER?\n");
 			new_working_dir = env_var_get_env("OLDPWD", *env_var_list);
+			printf("#1 new_working_dir = %s\n", new_working_dir);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
 				return (minishell_error("cd: OLDPWD not set"), NULL); // throw error like bash
 		}
 		else
-			new_working_dir = cmd->args[0];
+			new_working_dir = cmd->args[1];
 	}
+	printf("#2 new_working_dir = %s\n\n", new_working_dir);
 	return (new_working_dir);
 }
 
 int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
-	char	*current_working_dir;
+	char	*current_working_dir = NULL;
 	char	*pwd;
 	char	*new_working_dir;
 
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
+	printf("#3 new_working_dir = %s\n", new_working_dir);
 	if (new_working_dir == NULL)
 		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
-	// printf("new_working_dir = %s\n", new_working_dir);
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
+	printf("#4 new_working_dir = %s\n", new_working_dir);
 	if (!current_working_dir)
 		return (minishell_error("malloc error current_working_dir in execute_cd"), 1);
+	printf("#5 new_working_dir = %s\n", new_working_dir);
 	env_var_set_env(current_working_dir, env_var_list);
+	printf("#6 new_working_dir = %s\n", new_working_dir);
 	if (chdir(new_working_dir) != 0)
-		return (minishell_error("chdir error. cd: args[0]"), 1); // throw error like bash
-	if (ft_strncmp(&cmd->args[0][0], "-", 2) == 0)
-		builtin_pwd(1); // change 1 to fd?
+		return (minishell_error("CHDIR ERROR. cd: NEEDS FIXES!"), 1); // throw error like bash
+	free(current_working_dir);
+	free(new_working_dir);
+	if (cmd->args[1] != NULL)
+	{
+		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
+			builtin_pwd(1); // change 1 to fd?
+	}
 	pwd = NULL;
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
 	if (!pwd)
 		return (minishell_error("malloc error pwd in execute_cd"), 1);
 	env_var_set_env(pwd, env_var_list);
-	free(current_working_dir);
 	free(pwd);
+
 	return (0);
 }
 
@@ -71,9 +83,9 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 
 1. set new_working_dir:
 'cd'				: change cwd to "HOME"
-'cd -'				: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
+! 'cd -' ERRORS		: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
 'cd .'				: change cwd to current working directory aka does nothing
-'cd ..'				: change cwd to directory above cwd
+'cd ..'				: change cwd to directory 'above' cwd
 'cd ~'				: change cwd to "HOME" of current user
 'cd ~/path'			: change cwd to "HOME + path" of current user
 'cd ~username'		: DOEN WE NIET
@@ -83,7 +95,6 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 2. save current working directory into "OLDPWD=" in envp list
 
 3. change cwd to new working directory with chdir()
-? Do I need to check if new_working_directory exists or is chdir doing that?
 chdir() = 0 indicates success: the operating system updates the process's current working directory
 
 4. save new working directory into "PWD=" in envp list

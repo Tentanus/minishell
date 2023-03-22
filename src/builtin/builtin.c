@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/03/03 12:08:12 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/03/21 14:29:04 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ bool	builtin_check(char *cmd)
 
 void	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
-	if (ft_strncmp(cmd->cmd, "echo", 5) == 0)
+	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		builtin_echo(cmd, 1);
-	if (ft_strncmp(cmd->cmd, "pwd", 4) == 0)
+	if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		builtin_pwd(1);
-	if (ft_strncmp(cmd->cmd, "cd", 3) == 0)
+	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		builtin_cd(cmd, env_var_list);
-	if (ft_strncmp(cmd->cmd, "env", 4) == 0)
+	if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		builtin_env(*env_var_list);
-	if (ft_strncmp(cmd->cmd, "unset", 6) == 0)
-        builtin_unset(cmd->args[0], env_var_list);
-	if (ft_strncmp(cmd->cmd, "export", 7) == 0)
+	if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
+        builtin_unset(cmd->args[1], env_var_list);
+	if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		builtin_export(cmd, env_var_list);
-	if (ft_strncmp(cmd->cmd, "exit", 5) == 0)
+	if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 		builtin_exit(cmd);
 }

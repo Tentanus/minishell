@@ -87,21 +87,25 @@ void	init_shell_set_underscore(t_env_var_ll **env_var_list)
 /*
 ** function that adds a environment variable for every envp to our linked list of env vars
 */
-int	init_shell(char **envp, t_env_var_ll **env_var_list)
+int	init_shell(char **envp, t_minishell *mini)
 {
+	t_env_var_ll	*env_var_list = NULL;
 	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		if (init_shell_add_env_vars(envp[i], env_var_list) == 1)
+		if (init_shell_add_env_vars(envp[i], &env_var_list) == 1)
 			return (minishell_error("fail in init_env_var"), 1);
 		i++;
 	}
-	if (env_var_exists("SHLVL", *env_var_list) == true)
-		init_shell_update_SHLVL(env_var_list);
-	builtin_unset("OLDPWD", env_var_list);
-	init_shell_set_underscore(env_var_list);
+	if (env_var_exists("SHLVL", env_var_list) == true)
+		init_shell_update_SHLVL(&env_var_list);
+	builtin_unset("OLDPWD", &env_var_list);
+	init_shell_set_underscore(&env_var_list);
+	mini->env_list = env_var_list;
+
+	// builtin_env(mini->env_list);
 	return (0);
 }
 

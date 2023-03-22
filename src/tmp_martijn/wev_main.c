@@ -15,23 +15,24 @@ int	main(int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
  {
-	char		*input;
-	t_token		*top;
+	t_minishell		mini;
 
  	(void)	argv;
 	(void)	envp;
  	if (argc > 1)
 		return (EXIT_FAILURE);
+	if (init_shell(envp, &mini) == 1)
+		return (1);
 	while (1)
 	{
- 		input = readline(MARSH_PROMPT);
- 		if (ft_strncmp(input, "exit", 4) == 0)
+		mini.input = readline(MARSH_PROMPT);
+		if (ft_strncmp(mini.input, "exit", 4) == 0)
 			minishell_error("EXIT AT MINISHELL");
-		printf("%s\n", input);
-		top = lexer(input);
-	list_token_print(top);
- 		free(input);
-
+		complexer(&mini);
+		// TO TEST:
+//		if (builtin_check(mini.cmd_list->args[0]) == true)
+//			builtin_execute(mini.cmd_list, &mini.env_list);
+ 		free(mini.input);
  	}
  	return (EXIT_SUCCESS);
 }
