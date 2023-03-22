@@ -62,7 +62,6 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char			*simple_cmd;
 	char			**args;
 	t_redir			*redir;
 	struct s_cmd	*next;

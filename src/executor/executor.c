@@ -24,8 +24,10 @@ char	*get_path_to_cmd(t_minishell *mini)
 
 	i = 0;
 	tmp = NULL;
-	path_complete = env_var_get_env("PATH", mini->env_list);
-	sub_paths = ft_split(path_complete, ':');
+	path_complete = env_var_get_env("PATH", mini->env_list); // TODO handle PATH does not exist!
+	if (path_complete == NULL)
+        minishell_error("PATH does not exist");
+    sub_paths = ft_split(path_complete, ':');
 	if (!sub_paths)
 		exit(127);
 	cmd = ft_strjoin("/", mini->cmd_list->args[0]);
@@ -49,134 +51,69 @@ void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
     char    *path_to_cmd;
 
     // we are in child process
-	// find paths?
     path_to_cmd = get_path_to_cmd(&mini);
     execve(path_to_cmd, cmd->args, mini->env_list);
     return (minishell_error("execve non_builtin_execute"));
 }
 
-void OLD_handle_redirect()
+/*
+	Handles (input and output) redirection
+*/
+
+void handle_redirect(t_cmd *cmd)
 {
-    // store current stdin and stdout into two new fds using dup():
-    int fd_in_tmp = dup(0);
-    int fd_out_tmp = dup(1);
-    
-    // set initial input:
-    int fd_in;
-    // check if there is input redirection
-    if (infile)
-        fd_in = open(infile, O_RDONLY); // if so: open infile and save it in fd_in
-    else
-        fd_in = dup(fd_in_tmp); // if not: create fd_in that points to default input
-    // fd_in will now be file descriptor that has the input of the command line
-    // it can be closed without affecting the parent shell program
+    int     fd;
+	t_redir *redirect;
 
-    int fd_out;
-
-	dup2(fd_in, 0); // redirect standard input to come from fd_in:
-	// any read from stdin will come from file pointed to by fd_in.
-	close(fd_in);
-
-	// check if there is a output file redirection like command > outfile
-	if (outfile)
-		fd_out = open(outfile); // if so: open outfile and save it in fd_out
-	else
-		fd_out = dup(fd_out_tmp); // if not: create fd_out that points to default output
-        
-	// NOTE: for these simple commands, output is pipe, not a file!
-	// create new pipe
-	int fd_pipe[2];
-	pipe(fd_pipe);
-	fd_out = fd_pipe[1]; // to write
-	fd_in = fd_pipe[0]; // to read !!! this makes input fd_in of the next simple command
-
-    // redirect output:
-    dup2(fd_out, 1); // redirect stdout to go to the file object pointed to by fd_out
-    // now both stdin and stdout have been redirected to either a file or a pipe
-    close(fd_out); // fd_out is closed as it is no longer needed
-
-    // restore defaults for input and output for parent
-    dup2(fd_in_tmp, 0);
-    dup2(fd_out_tmp, 1);
-    // close temorary fds
-    close(fd_in_tmp);
-    close(fd_out_tmp);
-    // * still need to set up stderror redirection (fd 2). 
-    // * make sure that stderr of ALL simple commands will be send to the same place!
+	redirect = cmd->redir;
+    while(redirect->next != NULL)
+    {
+        // handle input redirection
+        if (redirect->redir == IN) // check if there is input redirection
+        {
+            fd = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd
+            if (fd < 0)
+                return (minishell_error("failed to open input file"));
+            if (dup2(fd, STDIN_FILENO) == -1) // redirect stdin to fd
+                return (minishell_error("Dup error stdinput < - > infile\n"));
+            close(fd);
+        }
+        // handle output redirection
+        else if (redirect->redir == OUT) // check if there is output redirection
+        {
+            fd = open(redirect->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open outfile and save it in fd
+            if (fd < 0)
+                return (minishell_error("failed to open output file"));
+            if (dup2(fd, STDOUT_FILENO) == -1) // redirect stdout to fd
+                return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
+            close(fd);
+        }
+        // handle append redirection
+        else if (redirect->redir == APP) // check if there is append redirection
+        {
+            fd = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd
+            if (fd < 0)
+                return (minishell_error("failed to open append file"));
+            if (dup2(fd, STDOUT_FILENO) == -1) // redirect stdout to fd
+                return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
+            close(fd);
+        }
+        redirect = redirect->next;
+    }
 }
 
-void handle_redirect()
+/*
+	Sets up pipe for inter-process communication
+*/
+void set_up_pipe(int *fd_pipe)
 {
-    int     fd_in;
-    int     fd_out;
-    int     fd_err;
-
-    // handle input redirection
-    if (redirect->redir == IN) // check if there is input redirection
-    {
-        fd_in = open(cmd->redir->file, O_RDONLY); // if so: open infile and save it in fd_in
-        if (fd_in < 0)
-            return (perror("failed to open input file"));
-    }
-    else
-    {
-        dup2(fd_in, STDIN_FILENO); // redirect stdin to fd_in
-	    close(fd_in);
-    }
-
-    // handle output redirection
-    if (redirect->redir == OUT) // check if there is output redirection
-    {
-        fd_out = open(cmd->redir->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open outfile and save it in fd_out
-        if (fd_out < 0)
-            return (perror("failed to open output file"));
-    }
-    else
-    {
-        dup2(fd_out, STDOUT_FILENO); // redirect stdout to fd_out
-	    close(fd_out);
-    }
-
-    // handle error redirection // ? is this even necessary ?
-    if (redirect->redir == ERROR) // check if there is error redirection
-    {
-        fd_err = open(cmd->redir->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open error output file and save it in fd_err
-        if (fd_err < 0)
-            return (perror("failed to open error output file"));
-    }
-    else
-    {
-        dup2(fd_err, STDERR_FILENO); // redirect stdout to fd_err
-	    close(fd_err);
-    }
-
-	// NOTE: for these simple commands, output is pipe, not a file!
-	// create new pipe
-	int fd_pipe[2];
-	pipe(fd_pipe);
-	fd_out = fd_pipe[1]; // to write
-	fd_in = fd_pipe[0]; // to read !!! this makes input fd_in of the next simple command
-
-    // redirect output:
-    dup2(fd_out, 1); // redirect stdout to go to the file object pointed to by fd_out
-    // now both stdin and stdout have been redirected to either a file or a pipe
-    close(fd_out); // fd_out is closed as it is no longer needed
-}
-
-void set_up_pipe()
-{
-    int fd_pipe[2];
-
     if (pipe(fd_pipe) < 0)
-        return (perror("Pipe failed"));
-
-    close(fd_pipe[0]); // Close unused read end of pipe
-    dup2(fd_pipe[1], STDOUT_FILENO); // Redirect stdout to write end of pipe
+        return (minishell_error("Pipe failed"));
+	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1) // Redirect stdout to write end of pipe
+        return (minishell_error("dup2 error for write end of pipe"));
     close(fd_pipe[1]); // Close write end of pipe
-
-    // CMD uitvoeren
-
-    dup2(fd_pipe[0], STDIN_FILENO); // Redirect stdin to read end of pipe
+	if (dup2(fd_pipe[0], STDIN_FILENO) == -1) // Redirect stdin to read end of pipe
+        return (minishell_error("dup2 error for read end of pipe"));
     close(fd_pipe[0]); // Close read end of pipe
 }
 
@@ -191,33 +128,34 @@ void set_up_pipe()
 
 void	executor(t_minishell *mini)
 {
-	t_cmd	    *current_cmd = mini->cmd_list;
+	t_cmd	    *current_cmd;
+    int			fd_pipe[2];
 	pid_t		pid;
+    int         status;
 
+	current_cmd = mini->cmd_list;
 	while (current_cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
     {
         if (current_cmd->args[0] != NULL) // check if cmd is not empty
         {
-            // TODO pipe(), fd's and closing of fd's!
             if (current_cmd->next != NULL) // more than 1 cmd!
-                set_up_pipe();
+                set_up_pipe(fd_pipe);
             if (current_cmd->redir != NULL) // check for redirect // ? WAAR MOET DIT?
-                handle_redirect();
+                handle_redirect(&current_cmd);
             if (builtin_check(mini->cmd_list->args[0]) == true)// check for builtin
                 builtin_execute(mini->cmd_list, &mini->env_list); // execute builtin in parent
             else // if cmd is non-builtin
             {
                 pid = fork(); // create child process
                 if (pid < 0)
-                    return (perror("fork fail"));
+                    return (minishell_error("fork fail"));
                 if (pid == 0) // let child process execute cmd
-                    non_builtin_execute();
+                    non_builtin_execute(&current_cmd, &mini);
                 else
                 {
                     // parent must wait for last command/ child process to finish before printing to shell prompt
-                    int	status;
                     if (waitpid(pid, &status, 0) < 0)
-                        return (perror("waitpid"));
+                        return (minishell_error("waitpid error"));
                 }
             }
         }
