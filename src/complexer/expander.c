@@ -1,24 +1,30 @@
 #include <minishell.h>
 
-t_token	*expander_shell_var_spacer(char *str, char *end)
+t_token	*expander_shell_var_spacer(char *str, char *next_str)
 {
 	t_token	*t_return;
 	t_token	*t_node;
 
+	t_return = NULL;
 	t_node = list_token_new();
 	if (!t_node)
 		return (NULL);
 	t_node->id = WORD;
 	t_node->str = str;
-	list_token_add_back(&t_return, t_node);
-	if (end == NULL)
+	t_return = t_node;
+	if (next_str == NULL)
 		return (t_return);
 	t_node = list_token_new();
 	if (!t_node)
-		return (list_token_free_list(t_return, list_token_free_node_str), NULL);
-	t_node->id = SPACE;
-	t_node->str = NULL;
-	list_token_add_back(&t_return, t_node);
+		return (list_token_free_node(t_return), \
+				NULL);
+	t_node->id = SPACEBAR;
+	t_node->str = ft_strdup(" ");
+	if (!(t_node->str))
+		return (list_token_free_node(t_return), \
+				list_token_free_node(t_node), \
+				NULL);
+	t_return->next = t_node;
 	return (t_return);
 }
 
@@ -41,7 +47,7 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 		t_node = expander_shell_var_spacer(cpp_split[i], cpp_split[i + 1]);
 		if (!t_node)
 			return (list_token_free_list(t_return, list_token_free_node_str), \
-					NULL);
+					ft_free_split(cpp_split), NULL);
 		list_token_add_back(&t_return, t_node);
 		i++;
 	}
@@ -49,7 +55,7 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 	return (t_return);
 }
 
-bool	expander_remove_quotes(t_token *t_node)
+bool	expander_remove_check_quotes(t_token *t_node)
 {
 	char			*str;
 	const size_t	len = ft_strlen(t_node->str);
@@ -82,14 +88,14 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 	sh_expand = env_var_get_env(sh_var, env_var_list);
 	free(sh_var);
 	len_sh_expand = ft_strlen(sh_expand);
-	new_token_str = malloc(sizeof(char) * \
+	new_token_str = ft_calloc(sizeof(char), \
 			((ft_strlen(t_current->str) - len_sh_var + len_sh_expand) + 1));
 	if (!new_token_str)
 		return (-1);
-	ft_strlcpy(new_token_str, t_current->str, pos);
-	ft_strlcat(new_token_str, sh_expand, len_sh_expand);
+	ft_strlcpy(new_token_str, t_current->str, pos + 1);
+	ft_strlcat(new_token_str, sh_expand, pos + len_sh_expand + 1);
 	ft_strlcat(new_token_str, &(t_current->str)[pos + len_sh_var], \
-			(ft_strlen(t_current->str) - len_sh_var + len_sh_expand));
+			(ft_strlen(t_current->str) - len_sh_var + len_sh_expand + 1));
 	free(t_current->str);
 	t_current->str = new_token_str;
 	return (len_sh_expand);
@@ -97,22 +103,22 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 
 t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 {
-	int		i;
+	size_t	i;
 	int		tmp;
 
-	if (t_current->str == NULL || expander_remove_quotes(t_current))
+	if (t_current->str == NULL || expander_remove_check_quotes(t_current))
 		return (NULL);
 	if (t_current->id == QUOTE)
 		return (list_token_cpy_node(t_current));
 	i = 0;
-	while (t_current->str[i])
+	while ((t_current->str)[i])
 	{
-		if (t_current->str[i] == '$')
+		if ((t_current->str)[i] == '$')
 		{
 			tmp = expander_inject_var(t_current, i, env_var_list);
 			if (tmp < 0)
 				return (NULL);
-			i += tmp;
+			i += (size_t) tmp;
 		}
 		else
 			i++;

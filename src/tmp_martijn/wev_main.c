@@ -25,13 +25,13 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
- 		mini.input = readline(MARSH_PROMPT);
- 		// if (ft_strncmp(mini.input, "exit", 4) == 0)
-		// 	minishell_error("EXIT AT MINISHELL");
+		mini.input = readline(MARSH_PROMPT);
+		if (ft_strncmp(mini.input, "exit", 4) == 0)
+			minishell_error("EXIT AT MINISHELL");
 		complexer(&mini);
 		// TO TEST:
-		if (builtin_check(mini.cmd_list->args[0]) == true)
-			builtin_execute(mini.cmd_list, &mini.env_list);
+//		if (builtin_check(mini.cmd_list->args[0]) == true)
+//			builtin_execute(mini.cmd_list, &mini.env_list);
  		free(mini.input);
  	}
  	return (EXIT_SUCCESS);

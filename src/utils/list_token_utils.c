@@ -91,9 +91,9 @@ t_token	*list_token_free_node_str(t_token *t_node)
 {
 	t_token	*t_tmp;
 
+	t_tmp = t_node->next;
 	if (t_node == NULL)
 		return (NULL);
-	t_tmp = t_node->next;
 	if (t_node->str != NULL)
 		free(t_node->str);
 	t_node->str = NULL;
@@ -105,9 +105,9 @@ t_token	*list_token_free_node_non_word(t_token *t_node)
 {
 	t_token	*t_tmp;
 
+	t_tmp = t_node->next;
 	if (t_node == NULL)
 		return (NULL);
-	t_tmp = t_node->next;
 	if (t_node->id != WORD && t_node->id != QUOTE && t_node->id != DQUOTE) // remove check for QUOTE & DQUOTE when expander is implemented
 		free(t_node->str);
 	free(t_node);
@@ -118,9 +118,9 @@ t_token	*list_token_free_node(t_token *t_node)
 {
 	t_token	*t_tmp;
 
+	t_tmp = t_node->next;
 	if (t_node == NULL)
 		return (NULL);
-	t_tmp = t_node->next;
 	free(t_node);
 	return (t_tmp);
 }
