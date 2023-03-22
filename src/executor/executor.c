@@ -1,12 +1,58 @@
 #include <minishell.h>
 
-void    non_builtin_execute()
+char	*free_and_return(char *cmd, char **sub_paths, char *tmp)
 {
+	free(cmd);
+	free_double_array(sub_paths);
+	return (tmp);
+}
+
+/*
+	get_path_to_cmd() makes all possible subpaths+cmds
+	and checks if accessibility of the (path to) cmd.
+	If accessible path is found, this path is returned.
+	If not, null string is returned.
+*/
+
+char	*get_path_to_cmd(t_minishell *mini)
+{
+	char	*path_complete;
+    char	**sub_paths;
+    char    *cmd;
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = NULL;
+	path_complete = env_var_get_env("PATH", mini->env_list);
+	sub_paths = ft_split(path_complete, ':');
+	if (!sub_paths)
+		exit(127);
+	cmd = ft_strjoin("/", mini->cmd_list->args[0]);
+	if (!cmd)
+		exit(127);
+	while (sub_paths[i] != NULL)
+	{
+		tmp = ft_strjoin(sub_paths[i], cmd);
+		if (!tmp)
+			exit(127);
+		if (access(tmp, X_OK) == 0)
+			return (free_and_return(cmd, sub_paths, tmp));
+		free(tmp);
+		i++;
+	}
+	return (free_and_return(cmd, sub_paths, tmp));
+}
+
+void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
+{
+    char    *path_to_cmd;
+
     // we are in child process
 	// find paths?
-    execve(path_to_cmd, cmd, envp);
-    perror(“execve”);
-    exit(1);
+    path_to_cmd = get_path_to_cmd(&mini);
+    execve(path_to_cmd, cmd->args, mini->env_list);
+    return (minishell_error("execve non_builtin_execute"));
 }
 
 void OLD_handle_redirect()

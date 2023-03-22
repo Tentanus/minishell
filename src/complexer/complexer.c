@@ -22,7 +22,7 @@ void	complexer(t_minishell *mini)
 	mini->cmd_list = parser(mini->token);
 	mini->token = NULL;
 	// printf("\t-=- END PARSER -=-\n");
-	// list_cmd_print(mini->cmd_list);
+	list_cmd_print(mini->cmd_list);
 	// list_cmd_free_list(mini->cmd_list); // remove once testing complexer is finished
 }
 
