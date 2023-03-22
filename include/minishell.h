@@ -157,18 +157,12 @@ void			list_cmd_free_list(t_cmd *cmd_list);
 t_cmd			*list_cmd_free_node(t_cmd *cmd_node);
 
 //				FUNCTION: UTILS_REDIR
+t_redir			*list_redir_new(void);
+void			list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
+void			list_redir_free_list(t_redir *redir_list);
+t_redir			*list_redir_free_node(t_redir *redir_node);
 
-
-t_redir	*list_redir_new(void);
-void	list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
-
-void	list_redir_free_list(t_redir *redir_list);
-t_redir	*list_redir_free_node(t_redir *redir_node);
-
-//		TEST FUNCTIONS (CAN BE REMOVED)
-void			list_token_print(t_token *top);
-void			list_cmd_print(t_cmd *cmd_list);
-
+//				FUNCTION: BUILTIN
 bool			builtin_check(char *cmd);
 void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_echo(t_cmd *cmd, int fd);
@@ -213,6 +207,5 @@ void			free_double_array(char **double_array);
 
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);
-
 
 #endif

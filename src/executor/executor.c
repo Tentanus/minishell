@@ -9,7 +9,6 @@ void    non_builtin_execute()
     exit(1);
 }
 
-
 void OLD_handle_redirect()
 {
     // store current stdin and stdout into two new fds using dup():
