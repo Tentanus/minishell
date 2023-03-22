@@ -144,22 +144,22 @@ void set_up_pipe()
     Non-builtin commands are executed in child process after forking.
 */
 
-void	executor(t_cmd **cmd_table, t_env_var_ll **env_var_list)
+void	executor(t_minishell *mini)
 {
-	t_cmd	    *cmd = *cmd_table;
+	t_cmd	    *current_cmd = mini->cmd_list;
 	pid_t		pid;
 
-	while (cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
+	while (current_cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
     {
-        if (cmd->cmd != NULL) // check if cmd is not empty
+        if (current_cmd->args[0] != NULL) // check if cmd is not empty
         {
             // TODO pipe(), fd's and closing of fd's!
-            if (cmd->next != NULL) // more than 1 cmd!
+            if (current_cmd->next != NULL) // more than 1 cmd!
                 set_up_pipe();
-            if (cmd->redir != NULL) // check for redirect // ? WAAR MOET DIT?
+            if (current_cmd->redir != NULL) // check for redirect // ? WAAR MOET DIT?
                 handle_redirect();
-            if (builtin_check(cmd->cmd) == true) // check for builtin
-                builtin_execute(&cmd, &env_var_list); // execute builtin in parent
+            if (builtin_check(mini->cmd_list->args[0]) == true)// check for builtin
+                builtin_execute(mini->cmd_list, &mini->env_list); // execute builtin in parent
             else // if cmd is non-builtin
             {
                 pid = fork(); // create child process
@@ -176,12 +176,10 @@ void	executor(t_cmd **cmd_table, t_env_var_ll **env_var_list)
                 }
             }
         }
-        cmd = cmd->next; // move to next node in linked list
+        current_cmd = current_cmd->next; // move to next node in linked list
     }
 	// TODO if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
 }
-
-
 
 // !
 // ! In this example, we first iterate over each command in the linked list, and for each command,
