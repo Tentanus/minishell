@@ -133,6 +133,10 @@ t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
+//				HERE_DOC
+
+void			here_doc(t_cmd *cmd_list);
+
 //					UTILS_TOKEN
 
 t_token			*list_token_new(void);

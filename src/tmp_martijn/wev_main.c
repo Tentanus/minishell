@@ -26,9 +26,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		mini.input = readline(MARSH_PROMPT);
-		if (ft_strncmp(mini.input, "exit", 4) == 0)
+		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
 			minishell_error("EXIT AT MINISHELL");
 		complexer(&mini);
+		here_doc(mini.cmd_list);
+		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
 		// TO TEST:
 //		if (builtin_check(mini.cmd_list->args[0]) == true)
 //			builtin_execute(mini.cmd_list, &mini.env_list);
