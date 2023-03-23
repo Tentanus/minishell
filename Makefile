@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/22 12:43:23 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/03/23 11:55:15 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC			:=	\
 				utils/print_utils.c					\
 
 VER_SRC		:=	$(SRC) \
+				executor/executor.c					\
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \

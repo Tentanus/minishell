@@ -1,60 +1,61 @@
 #include <minishell.h>
 
-char	*free_and_return(char *cmd, char **sub_paths, char *tmp)
-{
-	free(cmd);
-	free_double_array(sub_paths);
-	return (tmp);
-}
+// char	*free_and_return(char *cmd, char **sub_paths, char *tmp)
+// {
+// 	free(cmd);
+// 	free_double_array(sub_paths);
+// 	return (tmp);
+// }
 
-/*
-	get_path_to_cmd() makes all possible subpaths+cmds
-	and checks if accessibility of the (path to) cmd.
-	If accessible path is found, this path is returned.
-	If not, null string is returned.
-*/
+// /*
+// 	get_path_to_cmd() makes all possible subpaths+cmds
+// 	and checks if accessibility of the (path to) cmd.
+// 	If accessible path is found, this path is returned.
+// 	If not, null string is returned.
+// */
 
-char	*get_path_to_cmd(t_minishell *mini)
-{
-	char	*path_complete;
-    char	**sub_paths;
-    char    *cmd;
-	int		i;
-	char	*tmp;
+// char	*get_path_to_cmd(t_minishell *mini)
+// {
+// 	char	*path_complete;
+//     char	**sub_paths;
+//     char    *cmd;
+// 	int		i;
+// 	char	*tmp;
 
-	i = 0;
-	tmp = NULL;
-	path_complete = env_var_get_env("PATH", mini->env_list); // TODO handle PATH does not exist!
-	if (path_complete == NULL)
-        minishell_error("PATH does not exist");
-    sub_paths = ft_split(path_complete, ':');
-	if (!sub_paths)
-		exit(127);
-	cmd = ft_strjoin("/", mini->cmd_list->args[0]);
-	if (!cmd)
-		exit(127);
-	while (sub_paths[i] != NULL)
-	{
-		tmp = ft_strjoin(sub_paths[i], cmd);
-		if (!tmp)
-			exit(127);
-		if (access(tmp, X_OK) == 0)
-			return (free_and_return(cmd, sub_paths, tmp));
-		free(tmp);
-		i++;
-	}
-	return (free_and_return(cmd, sub_paths, tmp));
-}
+// 	i = 0;
+// 	tmp = NULL;
+// 	path_complete = env_var_get_env("PATH", mini->env_list); // TODO handle PATH does not exist!
+// 	if (path_complete == NULL)
+//         minishell_error("PATH does not exist");
+//     sub_paths = ft_split(path_complete, ':');
+// 	if (!sub_paths)
+// 		exit(127);
+// 	cmd = ft_strjoin("/", mini->cmd_list->args[0]);
+// 	if (!cmd)
+// 		exit(127);
+// 	while (sub_paths[i] != NULL)
+// 	{
+// 		tmp = ft_strjoin(sub_paths[i], cmd);
+// 		if (!tmp)
+// 			exit(127);
+// 		if (access(tmp, X_OK) == 0)
+// 			return (free_and_return(cmd, sub_paths, tmp));
+// 		free(tmp);
+// 		i++;
+// 	}
+// 	return (free_and_return(cmd, sub_paths, tmp));
+// }
 
-void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
-{
-    char    *path_to_cmd;
+// void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
+// {
+//     char    *path_to_cmd;
 
-    // we are in child process
-    path_to_cmd = get_path_to_cmd(&mini);
-    execve(path_to_cmd, cmd->args, mini->env_list);
-    return (minishell_error("execve non_builtin_execute"));
-}
+//     // we are in child process
+//     path_to_cmd = get_path_to_cmd(mini);
+//     execve(path_to_cmd, cmd->args, mini->env_list);
+//     execve(path_to_cmd, cmd->args, envp);
+//     return (minishell_error("execve non_builtin_execute"));
+// }
 
 /*
 	Handles (input and output) redirection
@@ -62,7 +63,7 @@ void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
 
 void handle_redirect(t_cmd *cmd)
 {
-    int     fd;
+    int     fd_file;
 	t_redir *redirect;
 
 	redirect = cmd->redir;
@@ -71,33 +72,33 @@ void handle_redirect(t_cmd *cmd)
         // handle input redirection
         if (redirect->redir == IN) // check if there is input redirection
         {
-            fd = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd
-            if (fd < 0)
+            fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
+            if (fd_file < 0)
                 return (minishell_error("failed to open input file"));
-            if (dup2(fd, STDIN_FILENO) == -1) // redirect stdin to fd
+            if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
                 return (minishell_error("Dup error stdinput < - > infile\n"));
-            close(fd);
+            close(fd_file);
         }
         // handle output redirection
         else if (redirect->redir == OUT) // check if there is output redirection
         {
-            fd = open(redirect->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open outfile and save it in fd
-            if (fd < 0)
+            fd_file = open(redirect->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open outfile and save it in fd_file
+            if (fd_file < 0)
                 return (minishell_error("failed to open output file"));
-            if (dup2(fd, STDOUT_FILENO) == -1) // redirect stdout to fd
+            if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
                 return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
-            close(fd);
+            close(fd_file);
         }
         // handle append redirection
-        else if (redirect->redir == APP) // check if there is append redirection
-        {
-            fd = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd
-            if (fd < 0)
-                return (minishell_error("failed to open append file"));
-            if (dup2(fd, STDOUT_FILENO) == -1) // redirect stdout to fd
-                return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
-            close(fd);
-        }
+        // else if (redirect->redir == APP) // check if there is append redirection
+        // {
+        //     fd_file = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
+        //     if (fd_file < 0)
+        //         return (minishell_error("failed to open append file"));
+        //     if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
+        //         return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
+        //     close(fd_file);
+        // }
         redirect = redirect->next;
     }
 }
@@ -141,17 +142,17 @@ void	executor(t_minishell *mini)
             if (current_cmd->next != NULL) // more than 1 cmd!
                 set_up_pipe(fd_pipe);
             if (current_cmd->redir != NULL) // check for redirect // ? WAAR MOET DIT?
-                handle_redirect(&current_cmd);
+                handle_redirect(current_cmd);
             if (builtin_check(mini->cmd_list->args[0]) == true)// check for builtin
                 builtin_execute(mini->cmd_list, &mini->env_list); // execute builtin in parent
-            else // if cmd is non-builtin
+            else if (builtin_check(mini->cmd_list->args[0]) == false) // if cmd is non-builtin
             {
                 pid = fork(); // create child process
                 if (pid < 0)
                     return (minishell_error("fork fail"));
-                if (pid == 0) // let child process execute cmd
-                    non_builtin_execute(&current_cmd, &mini);
-                else
+                // if (pid == 0) // let child process execute cmd
+                //     non_builtin_execute(current_cmd, mini);
+                if (pid > 0)
                 {
                     // parent must wait for last command/ child process to finish before printing to shell prompt
                     if (waitpid(pid, &status, 0) < 0)
@@ -164,6 +165,15 @@ void	executor(t_minishell *mini)
 	// TODO if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
 }
 
+// if (pid == 0) // let child process execute cmd
+//     non_builtin_execute(current_cmd, mini);
+// else
+// {
+//     // parent must wait for last command/ child process to finish before printing to shell prompt
+//     if (waitpid(pid, &status, 0) < 0)
+//         return (minishell_error("waitpid error"));
+// }
+    
 // !
 // ! In this example, we first iterate over each command in the linked list, and for each command,
 // ! we set up the appropriate input/output file descriptors based on any redirection specified

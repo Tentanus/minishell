@@ -5,7 +5,7 @@ void	complexer(t_minishell *mini)
 	mini->token = lexer(mini->input);
 	if (mini->token == NULL)
 		minishell_error("tokenization error");
-	// printf("\t-=- END LEXER -=-\n");
+	//printf("\t-=- END LEXER -=-\n");
 	mini->syntax = syntax(mini->token);
 	if (mini->syntax)
 	{

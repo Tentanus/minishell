@@ -2,10 +2,16 @@
 
 // mini main by Maresiskoning
 
+void test(void)
+{
+	system("leaks -q martest");
+}
+
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
+	atexit(test);
  	(void)	argv; // to silence compiler
 	(void)	envp; // to silence compiler
  	if (argc > 1)
@@ -21,10 +27,10 @@ int	main(int argc, char **argv, char **envp)
 		if (builtin_check(mini.cmd_list->args[0]) == true)
 			builtin_execute(mini.cmd_list, &mini.env_list);
 		// EXECUTOR:
-		// executor();
+		// executor(&mini);
  		free(mini.input);
  	}
-	// system("leaks -q martest");
+	
  	return (EXIT_SUCCESS);
 }
 

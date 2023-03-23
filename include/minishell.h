@@ -193,7 +193,7 @@ char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
 
 // 				FUNCTION: EXECUTOR
-
+void			executor(t_minishell *mini);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 

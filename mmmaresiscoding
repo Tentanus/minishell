@@ -1,0 +1,429 @@
+[1;32mmaresiscoding> [0m-=- END LEXER -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	LEXER
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END SYNTAX -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	SYNTAX
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0mPRINT CMD LIST 01 NODES
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	PRINT
+|	arg [01]:	CMD
+|	arg [02]:	LIST
+|	arg [03]:	01
+|	arg [04]:	NODES
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m| CMD NODE [1]:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| ARGUMENTS:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [00]:mmaresiscoding
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| REDIRECTIONS:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|TYPE [3]:OUTPUT
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|FILE:mhoi
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|______________________
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m-=- PRINT FINISHED -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	PRINT
+|	arg [02]:	FINISHED
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0mmmaresiscoding> m-=- END LEXER -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	mmaresiscoding
+|	arg [01]:	END
+|	arg [02]:	LEXER
+|	arg [03]:	-=-
+| REDIRECTIONS:
+|	TYPE [3]:	OUTPUT
+|	FILE:	m-=-
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END LEXER -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	LEXER
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END SYNTAX -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	SYNTAX
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0mPRINT CMD LIST 01 NODES
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	PRINT
+|	arg [01]:	CMD
+|	arg [02]:	LIST
+|	arg [03]:	01
+|	arg [04]:	NODES
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m| CMD NODE [1]:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| ARGUMENTS:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [00]:-=-
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [01]:END
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [02]:LEXER
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [03]:-=-
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| NO REDIRECTIONS
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|______________________
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m-=- PRINT FINISHED -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	PRINT
+|	arg [02]:	FINISHED
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0mmmaresiscoding> m-=- END SYNTAX -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	mmaresiscoding
+|	arg [01]:	END
+|	arg [02]:	SYNTAX
+|	arg [03]:	-=-
+| REDIRECTIONS:
+|	TYPE [3]:	OUTPUT
+|	FILE:	m-=-
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END LEXER -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	LEXER
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END SYNTAX -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	SYNTAX
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0mPRINT CMD LIST 01 NODES
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	PRINT
+|	arg [01]:	CMD
+|	arg [02]:	LIST
+|	arg [03]:	01
+|	arg [04]:	NODES
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m| CMD NODE [1]:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| ARGUMENTS:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [00]:-=-
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [01]:END
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [02]:SYNTAX
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [03]:-=-
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| NO REDIRECTIONS
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|______________________
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m-=- PRINT FINISHED -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	PRINT
+|	arg [02]:	FINISHED
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0mmmaresiscoding> m
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	mmaresiscoding
+| REDIRECTIONS:
+|	TYPE [3]:	OUTPUT
+|	FILE:	m
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0mmmaresiscoding> mPRINT CMD LIST 01 NODES
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	mmaresiscoding
+|	arg [01]:	CMD
+|	arg [02]:	LIST
+|	arg [03]:	01
+|	arg [04]:	NODES
+| REDIRECTIONS:
+|	TYPE [3]:	OUTPUT
+|	FILE:	mPRINT
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END LEXER -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	LEXER
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m-=- END SYNTAX -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	END
+|	arg [02]:	SYNTAX
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0mPRINT CMD LIST 01 NODES
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	PRINT
+|	arg [01]:	CMD
+|	arg [02]:	LIST
+|	arg [03]:	01
+|	arg [04]:	NODES
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0m| CMD NODE [1]:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| ARGUMENTS:
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [00]:PRINT
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [01]:CMD
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [02]:LIST
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [03]:01
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|arg [04]:NODES
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m| NO REDIRECTIONS
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m|______________________
+	-=- END LEXER -=-
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m
+[1;32mmaresiscoding> [0m-=- PRINT FINISHED -=-
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 01 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	-=-
+|	arg [01]:	PRINT
+|	arg [02]:	FINISHED
+|	arg [03]:	-=-
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
+[1;32mmaresiscoding> [0mmmaresiscoding> m| CMD NODE [1]:
+	-=- END LEXER -=-
+	-=- END SYNTAX -=-
+
+PRINT CMD LIST	 02 NODES
+| CMD NODE [1]:
+| ARGUMENTS:
+|	arg [00]:	mmaresiscoding
+| REDIRECTIONS:
+|	TYPE [3]:	OUTPUT
+|	FILE:	m
+|______________________
+
+| CMD NODE [2]:
+| ARGUMENTS:
+|	arg [00]:	CMD
+|	arg [01]:	NODE
+|	arg [02]:	[1]:
+| NO REDIRECTIONS
+|______________________
+
+
+	-=- PRINT FINISHED -=-
