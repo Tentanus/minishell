@@ -135,7 +135,7 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 //				HERE_DOC
 
-void			here_doc(t_cmd *cmd_list);
+void			here_doc_input(t_cmd *cmd_list);
 
 //					UTILS_TOKEN
 
