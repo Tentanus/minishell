@@ -71,23 +71,36 @@ bool	expander_remove_check_quotes(t_token *t_node)
 	return (false);
 }
 
+char	*expander_get_shell_var(const char *str, const int pos, \
+		size_t *len_sh_var, t_env_var_ll *env_var_list)
+{
+	char	*str_ret;
+	char	*sh_var;
+
+	*len_sh_var = 0;
+	token_id_shvar(str + pos, len_sh_var, 0);
+	sh_var = ft_substr(str, pos + 1, *len_sh_var - 1);
+	if (!sh_var)
+		return (NULL);
+	str_ret = env_var_get_env(sh_var, env_var_list);
+	free(sh_var);
+	return (str_ret);
+}
+
 int	expander_inject_var(t_token *t_current, const int pos, \
 		t_env_var_ll *env_var_list)
 {
 	size_t	len_sh_expand;
 	size_t	len_sh_var;
 	char	*sh_expand;
-	char	*sh_var;
 	char	*new_token_str;
 
-	len_sh_var = 0;
-	token_id_shvar((t_current->str) + pos, &len_sh_var, 0);
-	sh_var = ft_substr(t_current->str, pos + 1, len_sh_var - 1);
-	if (!sh_var)
-		return (-1);
-	sh_expand = env_var_get_env(sh_var, env_var_list);
-	free(sh_var);
-	len_sh_expand = ft_strlen(sh_expand);
+	sh_expand = expander_get_shell_var(t_current->str, pos, &len_sh_var, \
+			env_var_list);
+	if (!sh_expand)
+		len_sh_expand = 0;
+	else
+		len_sh_expand = ft_strlen(sh_expand);
 	new_token_str = ft_calloc(sizeof(char), \
 			((ft_strlen(t_current->str) - len_sh_var + len_sh_expand) + 1));
 	if (!new_token_str)
@@ -136,6 +149,7 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 	t_current = t_input;
 	while (t_current != NULL)
 	{
+		printf("%d %s\n", t_current->id, t_current->str);
 		if (t_current->id == SH_VAR)
 			t_node = expander_shell_var(t_current, env_var_list);
 		else if (t_current->id == DQUOTE || t_current->id == QUOTE)

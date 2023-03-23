@@ -120,7 +120,7 @@ t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
-bool			appender(t_token *t_list);
+bool			appender(t_minishell *mini);
 
 //				FUNCTION: PARSER
 

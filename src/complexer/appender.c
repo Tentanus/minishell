@@ -9,15 +9,28 @@ bool	app_token(t_token *t_node)
 		t_node->id == QUOTE)
 		return (true);
 	return (false);
-}
+}/*
+t_token	*app_remove_empty_token(t_token *t_list)
+{
+	t_token	*t_current;
+	t_token	*t_top;
 
-bool	appender(t_token *t_list)
+	if (t_list == NULL)
+		return (NULL);
+	t_top = t_list;
+		
+	}
+
+}
+*/
+bool	appender(t_minishell *mini)
 {
 	t_token	*t_current;
 	t_token	*t_previous;
 
-	t_current = t_list;
+	t_current = mini->token;
 	t_previous = NULL;
+//	mini->token = app_remove_empty(mini->token);
 	while (t_current != NULL)
 	{
 		if (app_token(t_previous) && app_token(t_current))
