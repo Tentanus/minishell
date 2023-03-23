@@ -52,8 +52,8 @@
 
 //     // we are in child process
 //     path_to_cmd = get_path_to_cmd(mini);
-//     execve(path_to_cmd, cmd->args, mini->env_list);
-//     execve(path_to_cmd, cmd->args, envp);
+//     // execve(path_to_cmd, cmd->args, mini->env_list);
+//     // execve(path_to_cmd, cmd->args, envp);
 //     return (minishell_error("execve non_builtin_execute"));
 // }
 
@@ -67,28 +67,34 @@ void handle_redirect(t_cmd *cmd)
 	t_redir *redirect;
 
 	redirect = cmd->redir;
-    while(redirect->next != NULL)
+    while(redirect != NULL)
     {
-        // handle input redirection
-        if (redirect->redir == IN) // check if there is input redirection
-        {
-            fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
-            if (fd_file < 0)
-                return (minishell_error("failed to open input file"));
-            if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
-                return (minishell_error("Dup error stdinput < - > infile\n"));
-            close(fd_file);
-        }
-        // handle output redirection
-        else if (redirect->redir == OUT) // check if there is output redirection
-        {
-            fd_file = open(redirect->file, O_WRONLY | O_TRUNC | O_CREAT, 0644); // if so: open outfile and save it in fd_file
-            if (fd_file < 0)
-                return (minishell_error("failed to open output file"));
-            if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
-                return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
-            close(fd_file);
-        }
+		// handle input redirection
+		if (redirect->redir == IN) // check if there is input redirection
+		{
+			fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
+			if (fd_file < 0)
+				return (minishell_error("failed to open input file"));
+			if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
+				return (minishell_error("Dup error stdinput < - > infile\n"));
+			// close(fd_file);
+		}
+		// handle output redirection
+		else if (redirect->redir == OUT) // check if there is output redirection
+		{
+			// printf("BLA2\n");
+			fd_file = open(redirect->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
+			// printf("BLA3\n");
+			if (fd_file < 0 || (access(redirect->file, W_OK) != 0))
+				return (minishell_error("failed to open output file"));
+			// printf("BLA4\n");
+			// printf("fd_file = %i\n", fd_file);
+			if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
+				return (minishell_error("Dup error stdoutput < - > outfile\n"));
+			close(fd_file);
+			// printf("BLA5\n");
+			// if (fd_file == 0 || fd_file == 1)
+		}
         // handle append redirection
         // else if (redirect->redir == APP) // check if there is append redirection
         // {
@@ -133,32 +139,37 @@ void	executor(t_minishell *mini)
     int			fd_pipe[2];
 	pid_t		pid;
     int         status;
+	int			tmp_fd; // only needed for builtins/cmds executed by parent?
 
 	current_cmd = mini->cmd_list;
 	while (current_cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
     {
         if (current_cmd->args[0] != NULL) // check if cmd is not empty
         {
+			tmp_fd = dup(1); // ! TAKE A LOOK AT THIS!
             if (current_cmd->next != NULL) // more than 1 cmd!
                 set_up_pipe(fd_pipe);
             if (current_cmd->redir != NULL) // check for redirect // ? WAAR MOET DIT?
                 handle_redirect(current_cmd);
             if (builtin_check(mini->cmd_list->args[0]) == true)// check for builtin
                 builtin_execute(mini->cmd_list, &mini->env_list); // execute builtin in parent
-            else if (builtin_check(mini->cmd_list->args[0]) == false) // if cmd is non-builtin
+			else if (builtin_check(mini->cmd_list->args[0]) == false) // if cmd is non-builtin
             {
                 pid = fork(); // create child process
                 if (pid < 0)
                     return (minishell_error("fork fail"));
                 // if (pid == 0) // let child process execute cmd
                 //     non_builtin_execute(current_cmd, mini);
-                if (pid > 0)
+                else
                 {
                     // parent must wait for last command/ child process to finish before printing to shell prompt
                     if (waitpid(pid, &status, 0) < 0)
                         return (minishell_error("waitpid error"));
                 }
             }
+			// ! TAKE A LOOK AT THIS:
+			dup2(tmp_fd, 1);
+			close(tmp_fd);
         }
         current_cmd = current_cmd->next; // move to next node in linked list
     }

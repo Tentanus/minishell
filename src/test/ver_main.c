@@ -11,7 +11,7 @@ int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
-	atexit(test);
+	// atexit(test);
  	(void)	argv; // to silence compiler
 	(void)	envp; // to silence compiler
  	if (argc > 1)
@@ -24,11 +24,11 @@ int	main(int argc, char **argv, char **envp)
 		complexer(&mini);
 		// TODO: 2 lines hieronder uitcommenten executor() callen
 		// TO TEST:
-		if (builtin_check(mini.cmd_list->args[0]) == true)
-			builtin_execute(mini.cmd_list, &mini.env_list);
+		// if (builtin_check(mini.cmd_list->args[0]) == true)
+		// 	builtin_execute(mini.cmd_list, &mini.env_list);
 		// EXECUTOR:
-		// executor(&mini);
- 		free(mini.input);
+		executor(&mini);
+ 		// free(mini.input);
  	}
 	
  	return (EXIT_SUCCESS);
