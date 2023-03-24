@@ -124,7 +124,7 @@ bool			appender(t_minishell *mini);
 
 //				FUNCTION: PARSER
 
-t_cmd			*parser(t_token *t_list);
+t_cmd			*parser(t_minishell *mini);
 t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
@@ -144,6 +144,7 @@ t_token			*list_token_skip_space(t_token *t_current);
 t_token			*list_token_skip_pipe(t_token *t_current);
 void			list_token_add_back(t_token **list, t_token *node);
 void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
+void			list_token_free_last(t_token *t_list, t_token *(*f)(t_token *));
 t_token			*list_token_free_node(t_token *t_list);
 t_token			*list_token_free_node_non_word(t_token *t_list);
 t_token			*list_token_free_node_str(t_token *t_list);

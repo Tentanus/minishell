@@ -48,28 +48,28 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	return (true);
 }
 
-t_cmd	*parser(t_token *t_list)
+t_cmd	*parser(t_minishell *mini)
 {
 	t_token	*t_current;
 	t_cmd	*cmd_node;
 	t_cmd	*cmd_return;
 
-	t_current = t_list;
+	t_current = mini->token;
 	cmd_return = NULL;
 	while (t_current != NULL)
 	{
 		cmd_node = list_cmd_new();
 		if (!cmd_node)
-			return (list_token_free_list(t_list, list_token_free_node_str), \
+			return (list_token_free_list(mini->token, list_token_free_node_str), \
 					NULL);
 		if (parser_fill_cmd_node(cmd_node, t_current) == false) //subfunction should free cmd_node
-			return (list_token_free_list(t_list, list_token_free_node_str), \
+			return (list_token_free_list(mini->token, list_token_free_node_str), \
 					list_cmd_free_list(cmd_return), \
 					NULL);
 		list_cmd_add_back(&cmd_return, cmd_node);
 		t_current = list_token_skip_pipe(t_current);
 	}
-	list_token_free_list(t_list, list_token_free_node_non_word);
+	list_token_free_list(mini->token, list_token_free_node_non_word);
 	return (cmd_return);
 }
 
