@@ -16,7 +16,6 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*new_working_dir;
 
-	// new_working_dir = (char *)malloc(sizeof(char));
 	if (cmd->args[1] == NULL) // this is the case for "cd" without path: that 1 arg = NULL
 		new_working_dir = env_var_get_env("HOME", *env_var_list);
 	else if (cmd->args[1][0] == '~')
@@ -50,16 +49,12 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	char	*new_working_dir;
 
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
-	printf("#3 new_working_dir = %s\n", new_working_dir);
 	if (new_working_dir == NULL)
 		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
-	printf("#4 new_working_dir = %s\n", new_working_dir);
 	if (!current_working_dir)
 		return (minishell_error("malloc error current_working_dir in execute_cd"), 1);
-	printf("#5 new_working_dir = %s\n", new_working_dir);
 	env_var_set_env(current_working_dir, env_var_list);
-	printf("#6 new_working_dir = %s\n", new_working_dir);
 	if (chdir(new_working_dir) != 0)
 		return (minishell_error("CHDIR ERROR. cd: NEEDS FIXES!"), 1); // throw error like bash
 	free(current_working_dir);
@@ -67,7 +62,7 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (cmd->args[1] != NULL)
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
-			builtin_pwd(1); // change 1 to fd?
+			builtin_pwd(1);
 	}
 	pwd = NULL;
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
@@ -82,7 +77,7 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 
 1. set new_working_dir:
 'cd'				: change cwd to "HOME"
-! 'cd -' ERRORS		: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
+'cd -' ERRORS		: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
 'cd .'				: change cwd to current working directory aka does nothing
 'cd ..'				: change cwd to directory 'above' cwd
 'cd ~'				: change cwd to "HOME" of current user

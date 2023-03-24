@@ -23,12 +23,9 @@ int	main(int argc, char **argv, char **envp)
  		mini.input = readline(MARES_PROMPT);
 		complexer(&mini);
 		// TODO: 2 lines hieronder uitcommenten executor() callen
-		// TO TEST:
-		// if (builtin_check(mini.cmd_list->args[0]) == true)
-		// 	builtin_execute(mini.cmd_list, &mini.env_list);
 		// EXECUTOR:
 		executor(&mini);
- 		// free(mini.input);
+ 		free(mini.input);
  	}
 	
  	return (EXIT_SUCCESS);
