@@ -84,3 +84,52 @@ int	env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var)
 	new_var->next = NULL;
 	return (0);
 }
+
+size_t	env_var_size_has_value(t_env_var_ll *env_list)
+{
+	size_t	ret_size;
+
+	ret_size = 0;
+	while (env_list != NULL)
+	{
+		if (env_list->has_value)
+			ret_size++;
+		env_list = env_list->next;
+	}
+	return (ret_size);
+}
+
+char	*env_var_make_cp(const t_env_var_ll *env_node)
+{
+	char	*ret;
+
+	ret = ft_calloc(sizeof(char), (ft_strlen(env_node->name) + \
+				ft_strlen(env_node->value) + 2));
+	ft_strlcat(ret, env_node->name, ft_strlen(env_node->name) + 1);
+	ft_strlcat(ret, "=", ft_strlen(ret) + 2);
+	ft_strlcat(ret, env_node->value, ft_strlen(ret) + ft_strlen(env_node->value) + 1);
+	return (ret);
+}
+
+char	**env_var_to_cpp(t_env_var_ll *env_list)
+{
+	t_env_var_ll	*env_current;
+	char			**env_ret;
+	size_t			i;
+
+	env_current = env_list;
+	env_ret = ft_calloc(sizeof(char *), (env_var_size_has_value(env_list) + 1));
+	if (!env_ret)
+		return (NULL);
+	i = 0;
+	while (env_current != NULL)
+	{
+		if (env_current->has_value)
+		{
+			env_ret[i] = env_var_make_cp(env_current);
+			i++;
+		}
+		env_current = env_current->next;
+	}
+	return (env_ret);
+}
