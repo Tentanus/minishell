@@ -151,22 +151,6 @@ void    handle_builtin(t_cmd *cmd, t_minishell *mini)
 }
 
 /*
-	Sets up pipe for inter-process communication
-*/
-void set_up_pipe(int *fd_pipe)
-{
-    if (pipe(fd_pipe) < 0)
-        return (minishell_error("Pipe failed"));
-	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1) // Redirect stdout to write end of pipe
-        return (minishell_error("dup2 error for write end of pipe"));
-    close(fd_pipe[1]); // Close write end of pipe
-	if (dup2(fd_pipe[0], STDIN_FILENO) == -1) // Redirect stdin to read end of pipe
-        return (minishell_error("dup2 error for read end of pipe"));
-    close(fd_pipe[0]); // Close read end of pipe
-}
-
-
-/*
 	execute_single_command() executes the command.
 	For every command, redirection is handled.
     Builtin commands are executed in parent process.
@@ -204,10 +188,27 @@ void    execute_single_command(t_minishell *mini)
     }
 }
 
+/*
+	Sets up pipe for inter-process communication
+*/
+void set_up_pipe(int *fd_pipe)
+{
+    if (pipe(fd_pipe) < 0)
+        return (minishell_error("Pipe failed"));
+	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1) // Redirect stdout to write end of pipe
+        return (minishell_error("dup2 error for write end of pipe"));
+    if (close(fd_pipe[1]) == -1) // Close write end of pipe
+		return (minishell_error("close fd_pipe[1] error"));
+	if (dup2(fd_pipe[0], STDIN_FILENO) == -1) // Redirect stdin to read end of pipe
+        return (minishell_error("dup2 error for read end of pipe"));
+    if (close(fd_pipe[0]) == -1) // Close read end of pipe
+		return (minishell_error("close fd_pipe[0] error"));
+}
+
 void    execute_multiple_commands(t_minishell *mini)
 {
     t_cmd       *current_cmd;
-    // int         fd_pipe[2];
+    int         fd_pipe[2];
 	pid_t       pid;
     int         status;
 	int         tmp_fd; // only needed for builtins/cmds executed by parent?
@@ -217,8 +218,11 @@ void    execute_multiple_commands(t_minishell *mini)
     {
         if (current_cmd->args[0] != NULL) // check if cmd is not empty
         {
-            // if (current_cmd->next != NULL) // there's a command coming after this current one
-            //     set_up_pipe(fd_pipe);
+            if (current_cmd->next != NULL) // there's a command coming after this current one
+			{
+				if (pipe(fd_pipe) < 0)
+        			return (minishell_error("Pipe failed"));
+			}
 			pid = fork(); // create child process
 			if (pid < 0)
 				return (minishell_error("fork fail"));
