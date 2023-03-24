@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-t_token	*expander_shell_var_spacer(char *str, char *next_str)
+t_token	*expander_shell_var_spacer(char *str)
 {
 	t_token	*t_return;
 	t_token	*t_node;
@@ -12,18 +12,14 @@ t_token	*expander_shell_var_spacer(char *str, char *next_str)
 	t_node->id = WORD;
 	t_node->str = str;
 	t_return = t_node;
-	if (next_str == NULL)
-		return (t_return);
 	t_node = list_token_new();
 	if (!t_node)
-		return (list_token_free_node(t_return), \
-				NULL);
+		return (list_token_free_node(t_return), NULL);
 	t_node->id = SPACEBAR;
 	t_node->str = ft_strdup(" ");
 	if (!(t_node->str))
 		return (list_token_free_node(t_return), \
-				list_token_free_node(t_node), \
-				NULL);
+				list_token_free_node(t_node), NULL);
 	t_return->next = t_node;
 	return (t_return);
 }
@@ -32,26 +28,27 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 {
 	t_token	*t_return;
 	t_token	*t_node;
-	char	**cpp_split;
-	char	*var;
+	char	**split;
 	size_t	i;
 
 	t_return = NULL;
 	i = 0;
-	var = t_current->str + 1;
-	cpp_split = ft_split(env_var_get_env(var, env_var_list), ' ');
-	if (!cpp_split)
+	split = ft_split(env_var_get_env((t_current->str + 1), env_var_list), ' ');
+	if (!split)
 		return (NULL);
-	while (cpp_split[i] != NULL)
+	while (split[i] != NULL)
 	{
-		t_node = expander_shell_var_spacer(cpp_split[i], cpp_split[i + 1]);
+		t_node = expander_shell_var_spacer(split[i]);
 		if (!t_node)
 			return (list_token_free_list(t_return, list_token_free_node_str), \
-					ft_free_split(cpp_split), NULL);
+					ft_free_split(split), NULL);
 		list_token_add_back(&t_return, t_node);
 		i++;
 	}
-	free(cpp_split);
+	free(split);
+	if (i == 0)
+		return (list_token_new());
+	list_token_free_last(t_return, list_token_free_node);
 	return (t_return);
 }
 
@@ -71,23 +68,36 @@ bool	expander_remove_check_quotes(t_token *t_node)
 	return (false);
 }
 
+char	*expander_get_shell_var(const char *str, const int pos, \
+		size_t *len_sh_var, t_env_var_ll *env_var_list)
+{
+	char	*str_ret;
+	char	*sh_var;
+
+	*len_sh_var = 0;
+	token_id_shvar(str + pos, len_sh_var, 0);
+	sh_var = ft_substr(str, pos + 1, *len_sh_var - 1);
+	if (!sh_var)
+		return (NULL);
+	str_ret = env_var_get_env(sh_var, env_var_list);
+	free(sh_var);
+	return (str_ret);
+}
+
 int	expander_inject_var(t_token *t_current, const int pos, \
 		t_env_var_ll *env_var_list)
 {
 	size_t	len_sh_expand;
 	size_t	len_sh_var;
 	char	*sh_expand;
-	char	*sh_var;
 	char	*new_token_str;
 
-	len_sh_var = 0;
-	token_id_shvar((t_current->str) + pos, &len_sh_var, 0);
-	sh_var = ft_substr(t_current->str, pos + 1, len_sh_var - 1);
-	if (!sh_var)
-		return (-1);
-	sh_expand = env_var_get_env(sh_var, env_var_list);
-	free(sh_var);
-	len_sh_expand = ft_strlen(sh_expand);
+	sh_expand = expander_get_shell_var(t_current->str, pos, &len_sh_var, \
+			env_var_list);
+	if (!sh_expand)
+		len_sh_expand = 0;
+	else
+		len_sh_expand = ft_strlen(sh_expand);
 	new_token_str = ft_calloc(sizeof(char), \
 			((ft_strlen(t_current->str) - len_sh_var + len_sh_expand) + 1));
 	if (!new_token_str)
