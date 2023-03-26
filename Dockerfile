@@ -1,18 +1,18 @@
-FROM ubuntu:latest
+FROM debian:latest
 
-ENV CC=clang CFLAGS="-Wall -Wextra -g -fsanitize=address" LDFLAGS="-lreadline" READLINE_LINK=""
+ENV CC="gcc" CFLAGS="-Wall -Wextra -Werror" LDFLAGS="-lreadline" READLINE_LINK=""
 
-RUN apt-get update && \
-    apt-get install vim \
-    libcriterion-dev \
-    make \
-    clang \
-    valgrind \
-    libreadline-dev \
-    strace \
-    lldb \
-    -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /usr/lib/local/lib/python3.10 && \
-    ln -s /usr/lib/llvm-14/lib/python3.10/dist-packages /usr/lib/local/lib/python3.10/dist-packages
+RUN apt-get -y update && \
+	apt-get install \
+	vim \
+	make \
+	git \
+	lldb \
+	valgrind \
+	libcriterion-dev \
+	libreadline-dev \
+	strace \
+	-y
+
+#   docker run -it -v ~/files/marshell:/marsh [image_tag/image_ID]
+#
