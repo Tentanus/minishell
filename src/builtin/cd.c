@@ -29,16 +29,16 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
 		{
-			printf("KOM IK HIER?\n");
+			// printf("KOM IK HIER?\n");
 			new_working_dir = ft_strdup(env_var_get_env("OLDPWD", *env_var_list));
-			printf("#1 new_working_dir = %s\n", new_working_dir);
+			// printf("#1 new_working_dir = %s\n", new_working_dir);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
 				return (minishell_error("cd: OLDPWD not set"), NULL); // throw error like bash
 		}
 		else
 			new_working_dir = cmd->args[1];
 	}
-	printf("#2 new_working_dir = %s\n\n", new_working_dir);
+	// printf("#2 new_working_dir = %s\n\n", new_working_dir);
 	return (new_working_dir);
 }
 
