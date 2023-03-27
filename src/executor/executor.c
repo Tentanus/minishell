@@ -105,7 +105,7 @@ void handle_redirect(t_cmd *cmd)
 				return (minishell_error("failed to open input file"));
 			if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
 				return (minishell_error("Dup error stdinput < - > infile\n"));
-			// close(fd_file);
+			close(fd_file);
 		}
 		// handle output redirection
 		else if (redirect->redir == OUT) // check if there is output redirection
@@ -115,7 +115,7 @@ void handle_redirect(t_cmd *cmd)
 				return (minishell_error("failed to open output file"));
 			if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
 				return (minishell_error("Dup error stdoutput < - > outfile\n"));
-			// close(fd_file);
+			close(fd_file);
 		}
         // handle append redirection
         // else if (redirect->redir == APP) // check if there is append redirection
@@ -180,13 +180,13 @@ void handle_input(t_cmd *cmd)
     }
 }
 
-void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
+void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 {
     char    *path_to_cmd;
 	char	**env_list;
 
-	// if (cmd->redir != NULL) // check for redirect
-    //     handle_redirect(cmd);
+	if (cmd->redir != NULL) // check for redirect
+        handle_redirect(cmd);
     path_to_cmd = get_path_to_cmd(mini);
 	env_list = env_vars_to_envp(mini->env_list);
     execve(path_to_cmd, cmd->args, env_list);
@@ -195,9 +195,14 @@ void    non_builtin_execute(t_cmd *cmd, t_minishell *mini)
 
 void    handle_builtin(t_cmd *cmd, t_minishell *mini)
 {
+	// int tmp_fd;
+
+	// tmp_fd = dup(1);
 	if (cmd->redir != NULL) // check for redirect
 		handle_redirect(cmd);
 	builtin_execute(cmd, &mini->env_list); // execute builtin in parent
+	// dup2(tmp_fd, 1);
+	// close(tmp_fd);
 }
 
 /*
@@ -221,8 +226,8 @@ void    execute_multiple_commands(t_minishell *mini)
 {
     t_cmd       *current_cmd;
     int         fd_pipe[2];
-	int			input_fd;
-	int			output_fd;
+	int			input_fd = 0;
+	// int			output_fd;
 	pid_t       pid;
     int         status;
 
@@ -249,8 +254,6 @@ void    execute_multiple_commands(t_minishell *mini)
 		// }
 
 
-
-
 		if (builtin_check(current_cmd->args[0]) == false)  // if command is not builtin
 		{
 			pid = fork(); // create child process
@@ -271,7 +274,7 @@ void    execute_multiple_commands(t_minishell *mini)
 					if (close(fd_pipe[0]) == -1) // Close read end of pipe
 						return (minishell_error("close fd_pipe[0] error"));
 				}
-				non_builtin_execute(current_cmd, mini);
+				handle_non_builtin(current_cmd, mini);
 			}
 			else
 			{
@@ -294,39 +297,40 @@ void    execute_single_command(t_minishell *mini)
 {
     t_cmd       *current_cmd;
 	pid_t       pid;
-    int         status;
-	int			tmp_fd;
+	// int			status;
 
 	current_cmd = mini->cmd_list;
-	if (current_cmd->args[0] != NULL) // check if cmd is not empty
-    {
-        tmp_fd = dup(1);
-		if (builtin_check(current_cmd->args[0]) == true) // check for builtin
-		{
-			printf("single command BUILTIN\n");
-			// if (current_cmd->redir != NULL) // check for redirect
-			// 	handle_redirect(current_cmd);
-			// builtin_execute(current_cmd, &mini->env_list); // execute builtin in parent
-			handle_builtin(current_cmd, mini);
-		}
-        else if (builtin_check(current_cmd->args[0]) == false) // if cmd is non-builtin
-		{
-			printf("single command non-builtin\n");
-			pid = fork(); // create child process
-			if (pid < 0)
-				return (minishell_error("fork fail"));
-			if (pid == 0) // let child process execute cmd
-				non_builtin_execute(current_cmd, mini);
-			else
-			{
-				// parent must wait for last command/ child process to finish before printing to shell prompt
-				if (waitpid(pid, &status, 0) < 0)
-					return (minishell_error("waitpid error"));
-			}
-		}
+	if (current_cmd->redir != NULL && current_cmd->args == NULL) // if redirect but cmd is empty
+	{
+		handle_redirect(current_cmd); // handle redirect
+		printf("NO CMD!\n");
+		return ;
+	}
+	if (builtin_check(current_cmd->args[0]) == true) // let parent process execute builtin cmd
+	{
+		printf("single command BUILTIN\n");
+		int tmp_fd;
+		tmp_fd = dup(1);
+		handle_builtin(current_cmd, mini);
 		dup2(tmp_fd, 1);
 		close(tmp_fd);
-    }
+		return ;
+	}
+	else
+	{
+		printf("single command non-builtin\n");
+		pid = fork(); // create child process
+		if (pid < 0)
+			return (minishell_error("fork fail"));
+		if (pid == 0) // let child process execute non-builtin cmd
+			handle_non_builtin(current_cmd, mini);
+		// else
+		// {
+			// parent must wait for child process to finish before printing to shell prompt
+		// 	if (waitpid(pid, &status, 0) < 0)
+		// 		return (minishell_error("waitpid error"));
+		// }
+	}
 }
 
 /*
