@@ -22,6 +22,11 @@
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
 # define SET_DELIMETER "-|\'\"><$ "
 
+# define ERROR -1
+# define SUCCESS 0
+# define READ 0
+# define WRITE 1
+
 //			E_NUMS
 
 typedef enum e_token_id {
