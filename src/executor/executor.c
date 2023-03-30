@@ -180,8 +180,8 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
     char    *path_to_cmd;
 	char	**env_list;
 
-	// if (cmd->redir != NULL) // check for redirect
-    //     handle_redirect(cmd);
+	if (cmd->redir != NULL) // check for redirect
+        handle_redirect(cmd);
     path_to_cmd = get_path_to_cmd(mini);
 	env_list = env_vars_to_envp(mini->env_list);
     execve(path_to_cmd, cmd->args, env_list);
@@ -252,74 +252,74 @@ int	handle_input_redirect(t_cmd *cmd)
 	return (dup_fds(fd_file, STDIN_FILENO)); // redirect stdin to fd_file
 }
 
-int	handle_output_redirect(t_cmd *cmd)
-{
-	int		fd_file = 0;
+// int	handle_output_redirect(t_cmd *cmd)
+// {
+// 	int		fd_file = 0;
 
-	// handle output redirection
-	if (cmd->next != NULL) // there's a command coming after this current one
-		return (dup_fds(fd_pipe[WRITE], STDOUT_FILENO)); // Redirect stdout to write end of pipe
-	if (cmd->redir == NULL) // check for redirect
-		return (dup_fds(fd_file, STDOUT_FILENO));
-    while(cmd->redir != NULL)
-    {
-		if (cmd->redir->redir == OUT) // check if there is output redirection
-		{
-			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
-			if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
-				return (minishell_error("failed to open output file"), ERROR);
-		}
-		// handle APPEND redirection
-		// if (cmd->redir->redir == APP) // check if there is append redirection
-		// {
-		// 	fd_file = open(cmd->redir->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
-		// 	if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
-		// 		return (minishell_error("failed to open append file"), ERROR);
-		// }
-		cmd->redir = cmd->redir->next;
-    }
-	return (dup_fds(fd_file, STDOUT_FILENO)); // redirect stdout to fd_file
-}
+// 	// handle output redirection
+// 	if (cmd->next != NULL) // there's a command coming after this current one
+// 		return (dup_fds(fd_pipe[WRITE], STDOUT_FILENO)); // Redirect stdout to write end of pipe
+// 	if (cmd->redir == NULL) // check for redirect
+// 		return (dup_fds(fd_file, STDOUT_FILENO));
+//     while(cmd->redir != NULL)
+//     {
+// 		if (cmd->redir->redir == OUT) // check if there is output redirection
+// 		{
+// 			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
+// 			if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
+// 				return (minishell_error("failed to open output file"), ERROR);
+// 		}
+// 		// handle APPEND redirection
+// 		// if (cmd->redir->redir == APP) // check if there is append redirection
+// 		// {
+// 		// 	fd_file = open(cmd->redir->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
+// 		// 	if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
+// 		// 		return (minishell_error("failed to open append file"), ERROR);
+// 		// }
+// 		cmd->redir = cmd->redir->next;
+//     }
+// 	return (dup_fds(fd_file, STDOUT_FILENO)); // redirect stdout to fd_file
+// }
 
-void    execute_multiple_commands(t_minishell *mini)
-{
-    t_cmd       *current_cmd;
-    int         fd_pipe[2];
-	pid_t       pid;
-    int         status;
+// void    execute_multiple_commands(t_minishell *mini)
+// {
+//     t_cmd       *current_cmd;
+//     int         fd_pipe[2];
+// 	pid_t       pid;
+//     int         status;
 
-	current_cmd = mini->cmd_list;
-    while (current_cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
-    {
-		if (pipe(fd_pipe) < 0) // set up pipe
-        	return (minishell_error("Pipe failed"));
-		pid = fork(); // fork to create child process
-		if (pid < 0)
-			return (minishell_error("fork fail"));
-		if (pid == 0) // let child process execute cmd
-		{
-			handle_input_redirect(current_cmd);
-			handle_output_redirect(current_cmd);
-			if (builtin_check(current_cmd->args[0]) == true) // if command is builtin
-			{
-				printf("\n\nmultiple commands BUILTIN command = %s\n\n", current_cmd->args[0]);
-				builtin_execute(current_cmd, &mini->env_list); // execute builtin
-			}
-			if (builtin_check(current_cmd->args[0]) == false)  // if command is not builtin
-			{
-				printf("\n\nmultiple commands non-builtin command = %s\n\n", current_cmd->args[0]);
-				handle_non_builtin(current_cmd, mini);
-			}
-		}
-		else // parent process
-		{
-			// parent must wait for last command/ child process to finish before printing to shell prompt
-			if (waitpid(pid, &status, 0) < 0)
-				return (minishell_error("waitpid error"));
-		}
-        current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
-	}
-}
+// 	current_cmd = mini->cmd_list;
+//     while (current_cmd != NULL) // loop through linked list s_cmd made of t_cmd's:
+//     {
+// 		if (pipe(fd_pipe) < 0) // set up pipe
+//         	return (minishell_error("Pipe failed"));
+// 		pid = fork(); // fork to create child process
+// 		if (pid < 0)
+// 			return (minishell_error("fork fail"));
+// 		if (pid == 0) // let child process execute cmd
+// 		{
+// 			handle_input_redirect(current_cmd);
+// 			handle_output_redirect(current_cmd);
+// 			if (builtin_check(current_cmd->args[0]) == true) // if command is builtin
+// 			{
+// 				printf("\n\nmultiple commands BUILTIN command = %s\n\n", current_cmd->args[0]);
+// 				builtin_execute(current_cmd, &mini->env_list); // execute builtin
+// 			}
+// 			if (builtin_check(current_cmd->args[0]) == false)  // if command is not builtin
+// 			{
+// 				printf("\n\nmultiple commands non-builtin command = %s\n\n", current_cmd->args[0]);
+// 				handle_non_builtin(current_cmd, mini);
+// 			}
+// 		}
+// 		else // parent process
+// 		{
+// 			// parent must wait for last command/ child process to finish before printing to shell prompt
+// 			if (waitpid(pid, &status, 0) < 0)
+// 				return (minishell_error("waitpid error"));
+// 		}
+//         current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
+// 	}
+// }
 
 /*
 	execute_single_command() executes the command.
@@ -331,23 +331,35 @@ void    execute_single_command(t_minishell *mini)
 {
     t_cmd       *current_cmd;
 	pid_t       pid;
-	// int			status;
+	int			status;
+	int tmp_fd_in;
+	int tmp_fd_out;
+
 
 	current_cmd = mini->cmd_list;
-	// if (current_cmd->redir != NULL) // also handle redirect if cmd is empty (&& current_cmd->args == NULL)
-	// {
-	// 	handle_redirect(current_cmd); // handle redirect
-	// 	printf("current_cmd->redir != NULL\n");
-	// 	return ;
-	// }
+	if (current_cmd->redir != NULL && current_cmd->args[0] == NULL) // also handle redirect if cmd is empty (&& current_cmd->args == NULL)
+	{
+		tmp_fd_in = dup(0);
+		tmp_fd_out = dup(1);
+		fprintf(stderr, "HALLO current_cmd->redir != NULL\n");
+		handle_redirect(current_cmd); // handle redirect
+		dup2(tmp_fd_in, 0);
+		dup2(tmp_fd_out, 1);
+		close(tmp_fd_in);
+		close(tmp_fd_out);
+		return ;
+	}
+	printf("\n\nout of if statement\n\n");
 	if (builtin_check(current_cmd->args[0]) == true) // let parent process execute builtin cmd
 	{
 		printf("single command BUILTIN\n");
-		// int tmp_fd;
-		// tmp_fd = dup(1);
+		tmp_fd_in = dup(0);
+		tmp_fd_out = dup(1);
 		handle_builtin(current_cmd, mini);
-		// dup2(tmp_fd, 1);
-		// close(tmp_fd);
+		dup2(tmp_fd_in, 0);
+		dup2(tmp_fd_out, 1);
+		close(tmp_fd_in);
+		close(tmp_fd_out);// int tmp_fd;
 		return ;
 	}
 	else
@@ -358,12 +370,12 @@ void    execute_single_command(t_minishell *mini)
 			return (minishell_error("fork fail"));
 		if (pid == 0) // let child process execute non-builtin cmd
 			handle_non_builtin(current_cmd, mini);
-		// else
-		// {
+		else
+		{
 			// parent must wait for child process to finish before printing to shell prompt
-		// 	if (waitpid(pid, &status, 0) < 0)
-		// 		return (minishell_error("waitpid error"));
-		// }
+			if (waitpid(pid, &status, 0) < 0)
+				return (minishell_error("waitpid error"));
+		}
 	}
 }
 
@@ -385,13 +397,24 @@ void	executor(t_minishell *mini)
 		printf("single command\n");
         execute_single_command(mini);
 	}
-    else
-	{
-		printf("multiple commands\n");
-        execute_multiple_commands(mini);
-	}
+    // else
+	// {
+	// 	printf("multiple commands\n");
+    //     execute_multiple_commands(mini);
+	// }
 	// TODO 1. save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
 }
+
+/*
+NOTES:
+dup2(old_fd, new_fd):
+The dup2() function duplicates the old file descriptor to the new (standard) file descriptor,
+which means that any subsequent write to the new_fd (standard output) will actually write to old_fd (the file).
+if (dup2(old_fd, new_fd) == -1) // redirect from old_fd to new_fd
+	return (ERROR and close(new_fd))
+
+The close() function must close the file descriptor that was returned by open().
+*/
 
 // !
 // ! In this example, we first iterate over each command in the linked list, and for each command,

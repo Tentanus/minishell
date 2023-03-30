@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		// EXECUTOR:
 		executor(&mini);
  		free(mini.input);
+		mini.input = NULL;
  	}
 	
  	return (EXIT_SUCCESS);
