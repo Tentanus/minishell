@@ -321,6 +321,15 @@ int	handle_input_redirect(t_cmd *cmd)
 // 	}
 // }
 
+void    set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
+{
+    dup2(tmp_fd_in, 0);
+	dup2(tmp_fd_out, 1);
+	close(tmp_fd_in);
+	close(tmp_fd_out);
+}
+
+
 /*
 	execute_single_command() executes the command.
 	For every command, redirection is handled.
@@ -332,34 +341,29 @@ void    execute_single_command(t_minishell *mini)
     t_cmd       *current_cmd;
 	pid_t       pid;
 	int			status;
-	int tmp_fd_in;
-	int tmp_fd_out;
-
+	int         tmp_fd_in = 0;
+	int         tmp_fd_out = 0;
 
 	current_cmd = mini->cmd_list;
-	if (current_cmd->redir != NULL && current_cmd->args[0] == NULL) // also handle redirect if cmd is empty (&& current_cmd->args == NULL)
+	if (current_cmd->args[0] == NULL) // also handle redirect if cmd is empty (&& current_cmd->args == NULL)
 	{
+		printf("no command yes redirection");
 		tmp_fd_in = dup(0);
 		tmp_fd_out = dup(1);
-		fprintf(stderr, "HALLO current_cmd->redir != NULL\n");
-		handle_redirect(current_cmd); // handle redirect
-		dup2(tmp_fd_in, 0);
-		dup2(tmp_fd_out, 1);
-		close(tmp_fd_in);
-		close(tmp_fd_out);
+        if (current_cmd->redir != NULL)
+        	handle_redirect(current_cmd); // handle redirect
+		set_back_std_fd(tmp_fd_in, tmp_fd_out);
 		return ;
 	}
-	printf("\n\nout of if statement\n\n");
 	if (builtin_check(current_cmd->args[0]) == true) // let parent process execute builtin cmd
 	{
 		printf("single command BUILTIN\n");
 		tmp_fd_in = dup(0);
 		tmp_fd_out = dup(1);
-		handle_builtin(current_cmd, mini);
-		dup2(tmp_fd_in, 0);
-		dup2(tmp_fd_out, 1);
-		close(tmp_fd_in);
-		close(tmp_fd_out);// int tmp_fd;
+		if (current_cmd->redir != NULL)
+        	handle_redirect(current_cmd); // handle redirect
+        handle_builtin(current_cmd, mini);
+		set_back_std_fd(tmp_fd_in, tmp_fd_out);
 		return ;
 	}
 	else

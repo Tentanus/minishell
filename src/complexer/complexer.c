@@ -19,7 +19,7 @@ void	complexer(t_minishell *mini)
 	if (appender(mini) == false)
 		return (list_token_free_list(mini->token, list_token_free_node_str));
 	// printf("\t-=- END APPENDER -=-\n");
-	mini->cmd_list = parser(mini->token);
+	mini->cmd_list = parser(mini);
 	mini->token = NULL;
 	// printf("\t-=- END PARSER -=-\n");
 	list_cmd_print(mini->cmd_list);
