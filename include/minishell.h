@@ -124,11 +124,11 @@ t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
-bool			appender(t_token *t_list);
+bool			appender(t_minishell *mini);
 
 //				FUNCTION: PARSER
 
-t_cmd			*parser(t_token *t_list);
+t_cmd			*parser(t_minishell *mini);
 t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
@@ -147,7 +147,9 @@ t_token			*list_token_last(t_token *t_list);
 t_token			*list_token_skip_space(t_token *t_current);
 t_token			*list_token_skip_pipe(t_token *t_current);
 void			list_token_add_back(t_token **list, t_token *node);
+
 void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
+void			list_token_free_last(t_token *t_list, t_token *(*f)(t_token *));
 t_token			*list_token_free_node(t_token *t_list);
 t_token			*list_token_free_node_non_word(t_token *t_list);
 t_token			*list_token_free_node_str(t_token *t_list);
@@ -157,16 +159,23 @@ t_token			*list_token_free_node_str(t_token *t_list);
 t_cmd			*list_cmd_new(void);
 t_cmd			*list_cmd_last(t_cmd *t_list);
 void			list_cmd_add_back(t_cmd **cmd_list, t_cmd *cmd_node);
+
 void			list_cmd_free_list(t_cmd *cmd_list);
 t_cmd			*list_cmd_free_node(t_cmd *cmd_node);
 
 //				FUNCTION: UTILS_REDIR
+
 t_redir			*list_redir_new(void);
 void			list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
+
 void			list_redir_free_list(t_redir *redir_list);
 t_redir			*list_redir_free_node(t_redir *redir_node);
 
-//				FUNCTION: BUILTIN
+
+//		TEST FUNCTIONS (CAN BE REMOVED)
+void			list_token_print(t_token *top);
+void			list_cmd_print(t_cmd *cmd_list);
+
 bool			builtin_check(char *cmd);
 void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_echo(t_cmd *cmd, int fd);
@@ -196,6 +205,7 @@ int				env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_va
 bool			env_var_exists(char *name, t_env_var_ll *env_var_list);
 char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
+char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR
 void			executor(t_minishell *mini);
