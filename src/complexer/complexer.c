@@ -5,7 +5,6 @@ void	complexer(t_minishell *mini)
 	mini->token = lexer(mini->input);
 	if (mini->token == NULL)
 		minishell_error("tokenization error");
-	printf("\t-=- END LEXER -=-\n");
 	mini->syntax = syntax(mini->token);
 	if (mini->syntax)
 	{
@@ -13,19 +12,13 @@ void	complexer(t_minishell *mini)
 		list_token_free_list(mini->token, list_token_free_node_str);
 		return ;
 	}
-	printf("\t-=- END SYNTAX -=-\n");
 	mini->token = expander(mini->token, mini->env_list);
-	printf("\t-=- END EXPANDER -=-\n");
-//	list_token_print(mini->token);
 	if (appender(mini) == false)
 		return (list_token_free_list(mini->token, list_token_free_node_str));
-	printf("\t-=- END APPENDER -=-\n");
-	list_token_print(mini->token);
 	mini->cmd_list = parser(mini);
 	mini->token = NULL;
-	printf("\t-=- END PARSER -=-\n");
 	list_cmd_print(mini->cmd_list);
-	list_cmd_free_list(mini->cmd_list); // remove once testing complexer is finished
+//	list_cmd_free_list(mini->cmd_list); // remove once testing complexer is finished
 }
 
 /* IF mini->syntax contains a token the syntax has encountered a error at this
