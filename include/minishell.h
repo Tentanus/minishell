@@ -177,17 +177,17 @@ void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);
 
 bool			builtin_check(char *cmd);
-void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_echo(t_cmd *cmd, int fd);
 bool			builtin_echo_is_n_option(char *str);
 int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 char			*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
-void			builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void			builtin_export_print_export(t_env_var_ll *env_var_list);
-void			builtin_unset(char *name, t_env_var_ll **env_var_list);
-void			builtin_env(t_env_var_ll *env_var_list);
-void			builtin_exit(t_cmd *cmd);
+int				builtin_unset(char *name, t_env_var_ll **env_var_list);
+int				builtin_env(t_env_var_ll *env_var_list);
+int				builtin_exit(t_cmd *cmd);
 
 //				FUNCTION: INIT SHELL
 

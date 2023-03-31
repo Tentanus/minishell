@@ -50,13 +50,13 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
 	if (new_working_dir == NULL)
-		return (minishell_error("error with new_working_dir in execute_cd"), 1); // throw error like bash
+		return (minishell_error("error with new_working_dir in execute_cd"), ERROR); // throw error like bash
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
 	if (!current_working_dir)
-		return (minishell_error("malloc error current_working_dir in execute_cd"), 1);
+		return (minishell_error("malloc error current_working_dir in execute_cd"), ERROR);
 	env_var_set_env(current_working_dir, env_var_list);
 	if (chdir(new_working_dir) != 0)
-		return (minishell_error("CHDIR ERROR. cd: NEEDS FIXES!"), 1); // throw error like bash
+		return (minishell_error("CHDIR ERROR. cd: NEEDS FIXES!"), ERROR); // throw error like bash
 	free(current_working_dir);
 	free(new_working_dir);
 	if (cmd->args[1] != NULL)
@@ -67,10 +67,10 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	pwd = NULL;
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
 	if (!pwd)
-		return (minishell_error("malloc error pwd in execute_cd"), 1);
+		return (minishell_error("malloc error pwd in execute_cd"), ERROR);
 	env_var_set_env(pwd, env_var_list);
 	free(pwd);
-	return (0);
+	return (SUCCESS);
 }
 
 /*
