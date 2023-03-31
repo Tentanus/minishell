@@ -22,7 +22,7 @@ RUN apt-get -y update \
 && \
 	rm -rf /var/lib/apt/lists/*
 
-ADD docker_config/.vimrc .vimrc
+ADD docker_config/.vimrc /root/.vimrc
 
 #	to build image:
 #	docker build ./ -f docker_config/Dockerfile
