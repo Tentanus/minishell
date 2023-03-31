@@ -1,39 +1,5 @@
 #include <minishell.h>
 
-// ! NOT MY CODE!
-int count_env_vars(t_env_var_ll *head)
-{
-    int count = 0;
-    t_env_var_ll *current = head;
-    while (current != NULL) {
-        count++;
-        current = current->next;
-    }
-    return count;
-}
-
-char **env_vars_to_envp(t_env_var_ll *head)
-{
-    int i = 0;
-    t_env_var_ll *current = head;
-    char **envp = malloc(sizeof(char *) * (count_env_vars(head) + 1));
-
-    while (current != NULL) {
-        if (current->has_value) {
-            envp[i] = malloc(strlen(current->name) + strlen(current->value) + 2);
-            sprintf(envp[i], "%s=%s", current->name, current->value);
-        } else {
-            envp[i] = malloc(strlen(current->name) + 1);
-            sprintf(envp[i], "%s=", current->name);
-        }
-        current = current->next;
-        i++;
-    }
-    envp[i] = NULL;
-    return envp;
-}
-// ! NOT MY CODE!
-
 char	*free_and_return(char *cmd, char **sub_paths, char *tmp)
 {
 	free(cmd);
@@ -183,7 +149,7 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (cmd->redir != NULL) // check for redirect
         handle_redirect(cmd);
     path_to_cmd = get_path_to_cmd(mini);
-	env_list = env_vars_to_envp(mini->env_list);
+	env_list = env_var_to_cpp(mini->env_list);
     execve(path_to_cmd, cmd->args, env_list);
     return (minishell_error("execve non_builtin_execute"));
 }
@@ -196,8 +162,8 @@ void    handle_builtin(t_cmd *cmd, t_minishell *mini)
 	if (cmd->redir != NULL) // check for redirect
 		handle_redirect(cmd);
 	builtin_execute(cmd, &mini->env_list); // execute builtin in parent
-	dup2(tmp_fd, 1);
-	close(tmp_fd);
+	// dup2(tmp_fd, 1);
+	// close(tmp_fd);
 }
 
 /*
@@ -330,6 +296,23 @@ void    set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
 }
 
 
+void	execute_child(t_cmd *current_cmd, t_minishell *mini)
+{
+	pid_t       pid;
+	int			status;
+
+	pid = fork(); // create child process
+	if (pid < 0)
+		return (minishell_error("fork fail"));
+	if (pid == 0) // let child process execute non-builtin cmd
+		handle_non_builtin(current_cmd, mini);
+	else // parent must wait for child process to finish before printing to shell prompt
+	{
+		if (waitpid(pid, &status, 0) < 0)
+			return (minishell_error("waitpid error"));
+	}
+}
+
 /*
 	execute_single_command() executes the command.
 	For every command, redirection is handled.
@@ -338,58 +321,38 @@ void    set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
 */
 void    execute_single_command(t_minishell *mini)
 {
-    t_cmd       *current_cmd;
-	pid_t       pid;
-	int			status;
-	int         tmp_fd_in = 0;
-	int         tmp_fd_out = 0;
+    t_cmd	*current_cmd;
+	int		tmp_fd_in = 0;
+	int		tmp_fd_out = 0;
 
 	current_cmd = mini->cmd_list;
-	if (current_cmd->args[0] == NULL) // also handle redirect if cmd is empty (&& current_cmd->args == NULL)
+	tmp_fd_in = dup(0);
+	tmp_fd_out = dup(1);
+	if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
+		handle_redirect(current_cmd);
+	if (current_cmd->args[0] == NULL) // if cmd is empty, set back std fds and return
 	{
-		printf("no command yes redirection");
-		tmp_fd_in = dup(0);
-		tmp_fd_out = dup(1);
-        if (current_cmd->redir != NULL)
-        	handle_redirect(current_cmd); // handle redirect
-		set_back_std_fd(tmp_fd_in, tmp_fd_out);
-		return ;
+		fprintf(stderr, "no command yes redirection\n");
+		return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 	}
-	if (builtin_check(current_cmd->args[0]) == true) // let parent process execute builtin cmd
+	if (builtin_check(current_cmd->args[0]) == true) // if cmd is builtin, let parent process execute cmd immediately
 	{
-		printf("single command BUILTIN\n");
-		tmp_fd_in = dup(0);
-		tmp_fd_out = dup(1);
-		if (current_cmd->redir != NULL)
-        	handle_redirect(current_cmd); // handle redirect
-        handle_builtin(current_cmd, mini);
-		set_back_std_fd(tmp_fd_in, tmp_fd_out);
-		return ;
+		fprintf(stderr, "single command BUILTIN\n");
+		builtin_execute(current_cmd, &mini->env_list);
 	}
-	else
+	set_back_std_fd(tmp_fd_in, tmp_fd_out);
+	if (builtin_check(current_cmd->args[0]) == false) // if cmd non-builtin, fork and let child process execute cmd
 	{
-		printf("single command non-builtin\n");
-		pid = fork(); // create child process
-		if (pid < 0)
-			return (minishell_error("fork fail"));
-		if (pid == 0) // let child process execute non-builtin cmd
-			handle_non_builtin(current_cmd, mini);
-		else
-		{
-			// parent must wait for child process to finish before printing to shell prompt
-			if (waitpid(pid, &status, 0) < 0)
-				return (minishell_error("waitpid error"));
-		}
+		fprintf(stderr, "single command non-builtin\n");
+		execute_child(current_cmd, mini);
 	}
 }
+
 
 /*
 	executor() is the executing part of our minishell.
     It is fully based on the command table
-    as is outputed by the lexer, parser and expander.
-	For every command, redirection is handled.
-    Builtin commands are executed in parent process.
-    Non-builtin commands are executed in child process after forking.
+    as is outputed by the complexer (lexer, parser and expander).
 */
 
 void	executor(t_minishell *mini)
