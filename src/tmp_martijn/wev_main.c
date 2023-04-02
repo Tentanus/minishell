@@ -1,28 +1,17 @@
 #include <minishell.h>
-/*
+
 int	main(int argc, char **argv, char **envp)
 {
-	(void) envp;
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	printf("|%s|\n", argv[1]);
-	ft_str_reduce_char(argv[1], ' ');
-	printf("|%s|\n", argv[1]);
-
-	return (EXIT_SUCCESS);
-}
-*/
-
-int	main(int argc, char **argv, char **envp)
- {
 	t_minishell		mini;
 
- 	(void)	argv;
+	(void)	argv;
 	(void)	envp;
- 	if (argc > 1)
+	if (argc > 1)
 		return (EXIT_FAILURE);
 	if (init_shell(envp, &mini) == 1)
 		return (1);
+	mini.cmd_list = NULL;
+	mini.input= NULL;
 	while (1)
 	{
 		mini.input = readline(MARSH_PROMPT);
@@ -30,9 +19,15 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("exiting marshell\n");
 			exit(EXIT_SUCCESS);
-		}	
+		}
 		complexer(&mini);
- 		free(mini.input);
- 	}
- 	return (EXIT_SUCCESS);
+		if (mini.cmd_list != NULL)
+		{
+			list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
+			mini.cmd_list = NULL;
+		}
+		free(mini.input);
+		mini.input = NULL;
+	}
+	return (EXIT_SUCCESS);
 }
