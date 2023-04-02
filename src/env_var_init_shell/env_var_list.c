@@ -22,8 +22,14 @@ void	print_linked_list(t_env_var_ll *env_var_list)
 */
 void	env_var_free_node(t_env_var_ll *env_var_list)
 {
-	free(env_var_list->name);
-	free(env_var_list->value);
+	char	*tmp;
+
+	tmp = env_var_list->name;
+	env_var_list->name = NULL;
+	free(tmp);
+	tmp = env_var_list->value;
+	env_var_list->value = NULL;
+	free(tmp);
 	free(env_var_list);
 }
 
