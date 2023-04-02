@@ -27,11 +27,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		mini.input = readline(MARSH_PROMPT);
 		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
-			minishell_error("EXIT AT MINISHELL");
+		{
+			printf("exiting marshell\n");
+			exit(EXIT_SUCCESS);
+		}	
 		complexer(&mini);
-		// TO TEST:
-//		if (builtin_check(mini.cmd_list->args[0]) == true)
-//			builtin_execute(mini.cmd_list, &mini.env_list);
  		free(mini.input);
  	}
  	return (EXIT_SUCCESS);
