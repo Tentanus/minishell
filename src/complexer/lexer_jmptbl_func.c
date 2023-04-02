@@ -24,11 +24,12 @@ void	token_id_pipe(const char *inp, size_t *pos, const t_token_id val)
 
 void	token_id_redir(const char *inp, size_t *pos, const t_token_id val)
 {
-	int	i;
+	const char	c = inp[*pos];
+	int			i;
 
 	(void) val;
 	i = 0;
-	while (i < 3 && inp[*pos] && (inp[*pos] == '>' || inp[*pos] == '<'))
+	while (i < 3 && inp[*pos] && inp[*pos] == c)
 	{
 		(*pos)++;
 		i++;
