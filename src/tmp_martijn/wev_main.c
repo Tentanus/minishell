@@ -27,7 +27,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		mini.input = readline(MARSH_PROMPT);
 		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
-			minishell_error("EXIT AT MINISHELL");
+		{
+			printf("exiting marshell\n");
+			exit(EXIT_SUCCESS);
+		}	
 		complexer(&mini);
 		here_doc_input(mini.cmd_list);
 		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished

@@ -13,11 +13,10 @@ LIB_DIR		:=	lib
 #============= COMPILATION ==============#
 
 CC			:=	gcc
+CFLAGS		?=	-Wall -Werror -Wextra
 
 ifdef DEBUG
-	CFLAGS		:=	-Wall -Werror -Wextra -g3 -fsanitize=address
-else
-	CFLAGS		:=	-Wall -Werror -Wextra
+	CFLAGS		+=	-g3 -fsanitize=address
 endif
 
 COMPILE		:=	$(CC) $(CFLAGS)
