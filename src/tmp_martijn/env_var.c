@@ -34,23 +34,23 @@ void	env_var_setenv(char *envar, t_env_var_ll **env_var_list)
 	if (!envar || env_var_list)
 		return ;
 	prev = NULL;
-	t_env_var_ll *env_current = *env_var_list;
+	env_current = *env_var_list;
 	env_node = list_env_fill_new(envar);
 	len_name = ft_strlen(env_node->name) + 1;
-	while (current != NULL)
+	while (env_current != NULL)
 	{
-		if (ft_strncmp(current->name, env_node->name, len_name) == 0)
+		if (ft_strncmp(env_current->name, env_node->name, len_name) == 0)
 		{
-			env_node->next = current->next;
+			env_node->next = env_current->next;
 			if (prev == NULL)
 				*env_var_list = env_node;
 			else
 				prev->next = env_node;
-			env_var_free_node(current);
+			env_var_free_node(env_current);
 			return ;
 		}
-		prev = current;
-		current = current->next;
+		prev = env_current;
+		env_current = env_current->next;
 	}
 	env_var_add_to_end_list(env_var_list, env_node);
 }

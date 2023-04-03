@@ -96,6 +96,17 @@ void			minishell_quote_error(void);
 
 void			complexer(t_minishell *mini);
 
+//				FUNCTION: TEST ENV
+
+void			env_var_setenv(char *envar, t_env_var_ll **env_var_list);
+char			*env_var_getenv(char *name, t_env_var_ll *env_var_list);
+int				init_env(char **envp, t_minishell *mini);
+void			list_env_free_node(t_env_var_ll *env_node);
+void			list_env_free_list(t_env_var_ll *env_list);
+t_env_var_ll	*list_env_get_node(char *name, t_env_var_ll *env_list);
+t_env_var_ll	*list_env_fill_new(char *env_str);
+int				list_env_add_back(t_env_var_ll **env_list, t_env_var_ll *env_node);
+
 //				FUNCTION: LEXER
 
 t_token			*lexer(const char *inp);
@@ -170,6 +181,8 @@ t_redir			*list_redir_free_node(t_redir *redir_node);
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);
+
+//				FUNCTION: BUILTINS
 
 bool			builtin_check(char *cmd);
 void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);

@@ -1,6 +1,54 @@
 #include <minishell.h>
 
 /*
+** function to free content and node in env_var_list
+*/
+//void	env_var_free_node(t_env_var_ll *env_var_list)
+void	list_env_free_node(t_env_var_ll *env_node)
+{
+	char	*tmp;
+
+	tmp = env_node->name;
+	env_node->name = NULL;
+	free(tmp);
+	tmp = env_node->value;
+	env_node->value = NULL;
+	free(tmp);
+	free(env_node);
+}
+
+void	list_env_free_list(t_env_var_ll *env_list)
+{
+	t_env_var_ll	*env_tmp;
+
+	if (env_list == NULL)
+		return ;
+	while (env_list)
+	{
+		env_tmp = env_list->next;
+		list_env_free_node(env_list);
+		env_list = env_tmp;
+	}
+	return ;
+}
+
+t_env_var_ll	*list_env_get_node(char *name, t_env_var_ll *env_list)
+{
+	size_t	len_name;
+
+	if (!name || !env_list)
+		return (NULL);
+	len_name = ft_strlen(name) + 1;
+	while (env_list != NULL)
+	{
+		if (ft_strncmp(env_list->name, name, len_name) == 0)
+			return (env_list);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+/*
  * fucntion to create a new env node that has all values set to NULL
  */
 t_env_var_ll	*list_env_new(void)
@@ -18,23 +66,6 @@ t_env_var_ll	*list_env_new(void)
 }
 
 /*
-** function to free content and node in env_var_list
-*/
-void	env_var_free_node(t_env_var_ll *env_var_list)
-void	list_env_free_node(t_env_var_ll *env_var_list)
-{
-	char	*tmp;
-
-	tmp = env_var_list->name;
-	env_var_list->name = NULL;
-	free(tmp);
-	tmp = env_var_list->value;
-	env_var_list->value = NULL;
-	free(tmp);
-	free(env_var_list);
-}
-
-/*
 ** function that creates a new node containing environment variable in format of NAME=value
 ** also adds bool with 'has value' = true or false for every node.
 */
@@ -49,6 +80,7 @@ t_env_var_ll	*list_env_fill_new(char *env_str)
 	env_node = list_env_new();
 	if (!env_node)
 		return (NULL);
+	i = 0;
 	while (env_str[i] && env_str[i] != '=')
 		i++;
 	env_node->name = ft_substr(env_str, 0, i);
@@ -96,7 +128,7 @@ size_t	list_env_size(t_env_var_ll *env_list)
 {
 	size_t	ret_size;
 
-	if (env_list = NULL)
+	if (env_list == NULL)
 		return (0);
 	ret_size = 0;
 	while (env_list != NULL)
@@ -133,7 +165,7 @@ char	**list_env_convert_list_cpp(t_env_var_ll *env_list)
 	size_t			i;
 
 	env_current = env_list;
-	env_ret = ft_calloc(sizeof(char *), (env_var_size_has_value(env_list) + 1));
+	env_ret = ft_calloc(sizeof(char *), (list_env_size(env_list) + 1));
 	if (!env_ret)
 		return (NULL);
 	i = 0;
@@ -141,7 +173,7 @@ char	**list_env_convert_list_cpp(t_env_var_ll *env_list)
 	{
 		if (env_current->has_value)
 		{
-			env_ret[i] = env_var_make_cp(env_current);
+			env_ret[i] = list_env_convert_node_str(env_current);
 			i++;
 		}
 		env_current = env_current->next;
