@@ -5,16 +5,18 @@ ODIR		:=	$(OBJ) \
 				$(VOBJ) \
 				$(WOBJ)
 
+OS			:=	$(shell uname)
+
 V: LIB $(VOBJ)
 	@$(COMPILE) -g3 $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(VOBJ) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARES TEST COMPILED |$(RESET)"
 	./martest
 
 W: LIB $(WOBJ)
-ifndef __LINUX__
-	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIST) $(READLINE_LINK) -o martest
+ifeq ($(OS), Darwin)
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(READLINE_LINK) -o martest
 else
-	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS) -o PROBLEM
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS) -o martest
 endif
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
 

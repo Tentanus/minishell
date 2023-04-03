@@ -30,6 +30,8 @@ ADD docker_config/.vimrc /root/.vimrc
 #	to run docker container:
 #	docker run -it --rm -v ~/files/marshell:/marsh [image_tag/image_ID]
 #
+#	to run valgrind:
+#	valgrind --leak-check=full --show-leak-kinds=all --suppressions=[SUPPRESSIONFILE.supp] [EXE]
 #
 #		apt-get -y update && \
 #		apt-get install \
