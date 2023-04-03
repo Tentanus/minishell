@@ -15,8 +15,14 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		mini.input = readline(MARSH_PROMPT);
+		if (mini.input)
+		{
+			if (ft_strncmp(mini.input, "", 1))
+				add_history(mini.input);
+		}
 		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
 		{
+			clear_history();
 			printf("exiting marshell\n");
 			exit(EXIT_SUCCESS);
 		}
