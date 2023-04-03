@@ -12,9 +12,9 @@ V: LIB $(VOBJ)
 
 W: LIB $(WOBJ)
 ifndef __LINUX__
-	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS)  -o $(NAME)
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIST) $(READLINE_LINK) -o martest
 else
-	@$(COMPILE) $(INCLUDE) $(READLINE_LINK) $(WOBJ) $(LIB_LIST) -o martest
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS) -o PROBLEM
 endif
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
 
