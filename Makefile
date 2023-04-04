@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/26 18:26:42 by mweverli      ########   odam.nl          #
+#    Updated: 2023/04/03 19:02:41 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,11 +116,6 @@ debug:
 	@$(MAKE) DEBUG=1
 
 rebug: fclean debug
-
-#=========== TESTING RECIPIES ===========#
-
-info: 
-	$(info $(ODIR))
 
 #========================================#
 #============== LIBRARIES ===============#
