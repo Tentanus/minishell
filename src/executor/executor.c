@@ -110,9 +110,6 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 
 int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 {
-	// int tmp_fd;
-
-	// tmp_fd = dup(1);
 	if (cmd->redir != NULL) // check for redirect
 		handle_redirect(cmd);
 	if (builtin_check(cmd->args[0]) == true)
@@ -122,8 +119,6 @@ int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 	}
 	else
 		return (ERROR);
-	// dup2(tmp_fd, 1);
-	// close(tmp_fd);
 }
 void    set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
 {
@@ -167,6 +162,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 	// 	return (minishell_error("waitpid error"), -1);
 	return (pid);
 }
+
 void execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev_read_end)
 {
 	close(fd_pipe[READ]); // close the read end of the pipe
@@ -198,7 +194,7 @@ void    execute_multiple_commands(t_minishell *mini)
 	int			prev_read_end;
 	int			tmp_fd_in;
 	int			count_childs = 0;
-	
+
 	tmp_fd_in = dup(STDIN_FILENO);
 	prev_read_end = STDIN_FILENO; // initialize the read end of the first pipe to standard input
 	current_cmd = mini->cmd_list;
@@ -211,22 +207,18 @@ void    execute_multiple_commands(t_minishell *mini)
 		if (pid < 0)
 			return (minishell_error("fork fail"));
 		if (pid == 0) // let child process execute cmd
-		{
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
-		}
 		printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		close(fd_pipe[WRITE]); // close the write end of the current pipe
 		close(prev_read_end); // close the read end of the previous pipe
 		prev_read_end = dup(fd_pipe[READ]); // save the read end of the current pipe for the next iteration
 		close(fd_pipe[READ]); // close the read end of the pipe
-		// parent must wait for last command/ child process to finish before printing to shell prompt
-		// if (waitpid(pid, &status, 0) < 0)
-		// 	return (minishell_error("waitpid error"));
 		current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
 	}
 	// last command in the pipeline
 	pid = execute_last_cmd(mini, current_cmd, prev_read_end);
-	// wait functie
+	// wait functie:
+	// parent must wait for last command/ child process to finish before printing to shell prompt
 	if (waitpid(pid, &status, 0) < 0)
 		return (minishell_error("waitpid error"));
 	while (count_childs > 0)
@@ -234,7 +226,6 @@ void    execute_multiple_commands(t_minishell *mini)
 		wait(NULL);
 		count_childs--;
 	}
-	// set_back_std_fd(tmp_fd_in, tmp_fd_out);
 	dup2(tmp_fd_in, 0);
 	close(tmp_fd_in);
 }
@@ -265,31 +256,27 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 */
 void    execute_single_command(t_minishell *mini)
 {
-    t_cmd	*current_cmd;
-	int		tmp_fd_in = 0;
-	int		tmp_fd_out = 0;
+	t_cmd	*current_cmd;
+	int		tmp_fd_in;
+	int		tmp_fd_out;
 
 	current_cmd = mini->cmd_list;
 	tmp_fd_in = dup(0);
 	tmp_fd_out = dup(1);
-	if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
-		handle_redirect(current_cmd);
 	if (current_cmd->args[0] == NULL) // if cmd is empty, set back std fds and return
 	{
-		fprintf(stderr, "no command yes redirection\n");
+		fprintf(stderr, "\n\ncommand = EMPTY\n");
+		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
+		{
+			fprintf(stderr, "no command yes redirection\n");
+			handle_redirect(current_cmd);
+		}
 		return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 	}
-	if (builtin_check(current_cmd->args[0]) == true) // if cmd is builtin, let parent process execute cmd immediately
-	{
-		fprintf(stderr, "single command BUILTIN\n");
-		builtin_execute(current_cmd, &mini->env_list);
-	}
-	set_back_std_fd(tmp_fd_in, tmp_fd_out);
-	if (builtin_check(current_cmd->args[0]) == false) // if cmd non-builtin, fork and let child process execute cmd
-	{
-		fprintf(stderr, "single command non-builtin\n");
-		execute_single_child(current_cmd, mini);
-	}
+	fprintf(stderr, "\n\ncommand = %s\n", current_cmd->args[0]);
+	if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
+		execute_single_child(current_cmd, mini); // handle redirect and execute non builtin
+	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 }
 
 /*
