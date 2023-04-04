@@ -27,11 +27,8 @@ int	main(int argc, char **argv, char **envp)
 			exit(EXIT_SUCCESS);
 		}
 		complexer(&mini);
-		if (mini.cmd_list != NULL)
-		{
-			list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
-			mini.cmd_list = NULL;
-		}
+		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
+		mini.cmd_list = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}
