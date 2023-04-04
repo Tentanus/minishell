@@ -18,13 +18,26 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	if (init_shell(envp, &mini) == 1)
 		return (1);
+	mini.cmd_list = NULL;
+	mini.input= NULL;
 	while (1)
 	{
  		mini.input = readline(MARES_PROMPT);
+		if (mini.input)
+		{
+			if (ft_strncmp(mini.input, "", 1))
+				add_history(mini.input);
+		}
+		if (mini.input == NULL)
+		{
+			clear_history();
+			printf("exiting marshell\n");
+			exit(EXIT_SUCCESS);
+		}
 		complexer(&mini);
-		// TODO: 2 lines hieronder uitcommenten executor() callen
-		// EXECUTOR:
 		executor(&mini);
+		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
+		mini.cmd_list = NULL;
  		free(mini.input);
 		mini.input = NULL;
  	}

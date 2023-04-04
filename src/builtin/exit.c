@@ -11,7 +11,10 @@ int	builtin_exit(t_cmd *cmd)
 	if (cmd->args[1] != NULL)
 		return (ft_putstr_fd("too many arguments\n", 2), ERROR); // change fd? // minishell_error?
 	else
+	{
+		clear_history();
 		return (exit(errno), SUCCESS);
+	}
 }
 
 // exit builtin in aanvullen:
