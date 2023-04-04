@@ -56,7 +56,7 @@ void handle_redirect(t_cmd *cmd)
 	t_redir *redirect;
 
 	redirect = cmd->redir;
-    while(redirect != NULL)
+    while (redirect != NULL)
     {
 		// handle input redirection
 		if (redirect->redir == IN) // check if there is input redirection
@@ -133,18 +133,18 @@ void    set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
 	close(tmp_fd_out);
 }
 
-void	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
+pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 {
 	pid_t       pid;
-    int         status;
 
 	pid = fork(); // fork to create child process
 	if (pid < 0)
-		return (minishell_error("fork fail"));
+		return (minishell_error("fork fail"), -1);
 	if (pid == 0) // let child process execute cmd
 	{
 		dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
 		close(prev_read_end);
+		//sleep(10);
 		if (current_cmd->args[0] != NULL) // if cmd is not empty
 		{
 			fprintf(stderr, "\n\nexecuting LAST command = %s\n", current_cmd->args[0]);
@@ -159,11 +159,34 @@ void	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 		}
 		exit(EXIT_SUCCESS); // TODO change exit code
 	}
+	printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 	close(prev_read_end);
 	// close(STDOUT_FILENO);
-	// parent must wait for last command/ child process to finish before printing to shell prompt
-	if (waitpid(pid, &status, 0) < 0)
-		return (minishell_error("waitpid error"));
+	// // parent must wait for last command/ child process to finish before printing to shell prompt
+	// if (waitpid(pid, &status, 0) < 0)
+	// 	return (minishell_error("waitpid error"), -1);
+	return (pid);
+}
+void execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev_read_end)
+{
+	close(fd_pipe[READ]); // close the read end of the pipe
+	dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
+	dup2(fd_pipe[WRITE], STDOUT_FILENO); // duplicate the write end of the current pipe to standard output
+	close(fd_pipe[WRITE]); // close the write end of the pipe
+	//sleep(10);
+	if (current_cmd->args[0] != NULL) // if cmd is not empty
+	{
+		fprintf(stderr, "\n\nnon-last command = %s\n", current_cmd->args[0]);
+		if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
+			handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
+	}
+	else // if cmd is empty
+	{
+		fprintf(stderr, "\n\nnon-last command = EMPTY\n");
+		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
+			handle_redirect(current_cmd);
+	}
+	exit(EXIT_SUCCESS); // TODO change exit code
 }
 
 void    execute_multiple_commands(t_minishell *mini)
@@ -173,17 +196,15 @@ void    execute_multiple_commands(t_minishell *mini)
 	pid_t       pid;
     int         status;
 	int			prev_read_end;
-
-	int		tmp_fd_in = 0;
-	int		tmp_fd_out = 0;
-
-	tmp_fd_in = dup(0);
-	tmp_fd_out = dup(1);
-
+	int			tmp_fd_in;
+	int			count_childs = 0;
+	
+	tmp_fd_in = dup(STDIN_FILENO);
 	prev_read_end = STDIN_FILENO; // initialize the read end of the first pipe to standard input
 	current_cmd = mini->cmd_list;
     while (current_cmd->next != NULL) // loop through linked list s_cmd made of t_cmd's, if current_cmd is not last cmd:
     {
+		count_childs++;
 		if (pipe(fd_pipe) < 0) // set up pipe
 			return (minishell_error("Pipe failed"));
 		pid = fork(); // fork to create child process
@@ -191,40 +212,35 @@ void    execute_multiple_commands(t_minishell *mini)
 			return (minishell_error("fork fail"));
 		if (pid == 0) // let child process execute cmd
 		{
-			close(fd_pipe[READ]); // close the read end of the pipe
-			dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
-			dup2(fd_pipe[WRITE], STDOUT_FILENO); // duplicate the write end of the current pipe to standard output
-			close(fd_pipe[WRITE]); // close the write end of the pipe
-			if (current_cmd->args[0] != NULL) // if cmd is not empty
-			{
-				fprintf(stderr, "\n\nnon-last command = %s\n", current_cmd->args[0]);
-				if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
-					handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
-			}
-			else // if cmd is empty
-			{
-				fprintf(stderr, "\n\nnon-last command = EMPTY\n");
-				if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
-					handle_redirect(current_cmd);
-			}
-			exit(EXIT_SUCCESS); // TODO change exit code
+			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
 		}
+		printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		close(fd_pipe[WRITE]); // close the write end of the current pipe
 		close(prev_read_end); // close the read end of the previous pipe
 		prev_read_end = dup(fd_pipe[READ]); // save the read end of the current pipe for the next iteration
 		close(fd_pipe[READ]); // close the read end of the pipe
 		// parent must wait for last command/ child process to finish before printing to shell prompt
-		if (waitpid(pid, &status, 0) < 0)
-			return (minishell_error("waitpid error"));
+		// if (waitpid(pid, &status, 0) < 0)
+		// 	return (minishell_error("waitpid error"));
 		current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
 	}
 	// last command in the pipeline
-	execute_last_cmd(mini, current_cmd, prev_read_end);
-	set_back_std_fd(tmp_fd_in, tmp_fd_out);
+	pid = execute_last_cmd(mini, current_cmd, prev_read_end);
+	// wait functie
+	if (waitpid(pid, &status, 0) < 0)
+		return (minishell_error("waitpid error"));
+	while (count_childs > 0)
+	{
+		wait(NULL);
+		count_childs--;
+	}
+	// set_back_std_fd(tmp_fd_in, tmp_fd_out);
+	dup2(tmp_fd_in, 0);
+	close(tmp_fd_in);
 }
 
 
-void	execute_child(t_cmd *current_cmd, t_minishell *mini)
+void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 {
 	pid_t       pid;
 	int			status;
@@ -272,7 +288,7 @@ void    execute_single_command(t_minishell *mini)
 	if (builtin_check(current_cmd->args[0]) == false) // if cmd non-builtin, fork and let child process execute cmd
 	{
 		fprintf(stderr, "single command non-builtin\n");
-		execute_child(current_cmd, mini);
+		execute_single_child(current_cmd, mini);
 	}
 }
 
