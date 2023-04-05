@@ -149,7 +149,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 		else // if cmd is empty
 		{
 			fprintf(stderr, "\n\nexecuting LAST command = EMPTY\n");
-			if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
+			if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 				handle_redirect(current_cmd);
 		}
 		exit(EXIT_SUCCESS); // TODO change exit code
@@ -179,7 +179,7 @@ void execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 	else // if cmd is empty
 	{
 		fprintf(stderr, "\n\nnon-last command = EMPTY\n");
-		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty 
+		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 			handle_redirect(current_cmd);
 	}
 	exit(EXIT_SUCCESS); // TODO change exit code
@@ -226,6 +226,7 @@ void    execute_multiple_commands(t_minishell *mini)
 		wait(NULL);
 		count_childs--;
 	}
+	// dit is een testje xoxoxxo
 	dup2(tmp_fd_in, 0);
 	close(tmp_fd_in);
 }
@@ -317,7 +318,7 @@ The close() function must close the file descriptor that was returned by open().
 // ! In this example, we first iterate over each command in the linked list, and for each command,
 // ! we set up the appropriate input/output file descriptors based on any redirection specified
 // ! in the command.
-// ! If the command is a built-in command, we execute it in the parent process using the 
+// ! If the command is a built-in command, we execute it in the parent process using the
 // ! execute_builtin() function.
 // ! If the command is not a built-in command, we create a pipe for inter-process communication,
 // ! and then fork a child process to execute the command using the execute_command() function,
