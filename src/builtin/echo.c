@@ -51,5 +51,5 @@ int		builtin_echo(t_cmd *cmd, int fd)
 	}
 	if (n_option == 0)
 		ft_putchar_fd('\n', fd);
-	return (0);
+	return (SUCCESS);
 }
