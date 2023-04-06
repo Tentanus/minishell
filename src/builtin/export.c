@@ -23,6 +23,8 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 		env_var_list = env_var_list->next;
 	}
 }
+// TODO export met lege variabele:
+// TODO not a valid identifier
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 {	

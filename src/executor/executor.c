@@ -27,12 +27,21 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 	path_complete = env_var_get_env("PATH", mini->env_list); // TODO handle PATH does not exist!
 	if (path_complete == NULL)
         minishell_error("PATH does not exist");
-    sub_paths = ft_split(path_complete, ':');
+	if (!current_cmd->args[0])
+        minishell_error("cmd does not exist");
+    if (ft_strncmp(current_cmd->args[0], "./", 2) == 0) // command is absolute path
+	{
+		if (access(current_cmd->args[0], X_OK) == 0)
+			return (current_cmd->args[0]);
+		else
+			return (minishell_error(current_cmd->args[0]), NULL);
+	}
+	sub_paths = ft_split(path_complete, ':');
 	if (!sub_paths)
-		exit(127);
+		minishell_error("split subpaths error");
 	cmd = ft_strjoin("/", current_cmd->args[0]);
 	if (!cmd)
-		exit(127);
+		minishell_error("strjoin PATH/ error");
 	while (sub_paths[i] != NULL)
 	{
 		tmp = ft_strjoin(sub_paths[i], cmd);
