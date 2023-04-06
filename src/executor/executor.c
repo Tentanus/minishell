@@ -192,15 +192,16 @@ void    execute_multiple_commands(t_minishell *mini)
 	pid_t       pid;
     int         status;
 	int			prev_read_end;
-	int			tmp_fd_in;
+	// int			tmp_fd_in;
 	int			count_childs = 0;
 
-	tmp_fd_in = dup(STDIN_FILENO);
+	// tmp_fd_in = dup(STDIN_FILENO);
 	prev_read_end = STDIN_FILENO; // initialize the read end of the first pipe to standard input
 	current_cmd = mini->cmd_list;
     while (current_cmd->next != NULL) // loop through linked list s_cmd made of t_cmd's, if current_cmd is not last cmd:
     {
 		count_childs++;
+		// handle heredoc
 		if (pipe(fd_pipe) < 0) // set up pipe
 			return (minishell_error("Pipe failed"));
 		pid = fork(); // fork to create child process
@@ -210,7 +211,9 @@ void    execute_multiple_commands(t_minishell *mini)
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
 		printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		close(fd_pipe[WRITE]); // close the write end of the current pipe
-		close(prev_read_end); // close the read end of the previous pipe
+		// close prev_read_end only if heredoc
+		if (prev_read_end != 0)
+			close(prev_read_end); // close the read end of the previous pipe
 		prev_read_end = dup(fd_pipe[READ]); // save the read end of the current pipe for the next iteration
 		close(fd_pipe[READ]); // close the read end of the pipe
 		current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
@@ -226,9 +229,8 @@ void    execute_multiple_commands(t_minishell *mini)
 		wait(NULL);
 		count_childs--;
 	}
-	// dit is een testje xoxoxxo
-	dup2(tmp_fd_in, 0);
-	close(tmp_fd_in);
+	// dup2(tmp_fd_in, 0);
+	// close(tmp_fd_in);
 }
 
 
