@@ -17,7 +17,7 @@ void	complexer(t_minishell *mini)
 		return (list_token_free_list(mini->token, list_token_free_node_str));
 	mini->cmd_list = parser(mini);
 	mini->token = NULL;
-	list_cmd_print(mini->cmd_list);
+	// list_cmd_print(mini->cmd_list);
 }
 
 /* IF mini->syntax contains a token the syntax has encountered a error at this

@@ -103,7 +103,7 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	env_list = env_var_to_cpp(mini->env_list);
 	// printf("cmd->args[0] = %s\n", cmd->args[0]);
 	// printf("path_to_cmd = %s\n", path_to_cmd);
-	fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
+	// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
     execve(path_to_cmd, cmd->args, env_list);
     return (minishell_error("execve non_builtin_execute"));
 }
@@ -114,7 +114,7 @@ int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 		handle_redirect(cmd);
 	if (builtin_check(cmd->args[0]) == true)
 	{
-		fprintf(stderr, "executing builtin command = %s\n\n", cmd->args[0]);
+		// fprintf(stderr, "executing builtin command = %s\n\n", cmd->args[0]);
 		return (builtin_execute(cmd, &mini->env_list)); // execute builtin in parent
 	}
 	else
@@ -142,19 +142,19 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 		//sleep(10);
 		if (current_cmd->args[0] != NULL) // if cmd is not empty
 		{
-			fprintf(stderr, "\n\nexecuting LAST command = %s\n", current_cmd->args[0]);
+			// fprintf(stderr, "\n\nexecuting LAST command = %s\n", current_cmd->args[0]);
 			if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
 				handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 		}
 		else // if cmd is empty
 		{
-			fprintf(stderr, "\n\nexecuting LAST command = EMPTY\n");
+			// fprintf(stderr, "\n\nexecuting LAST command = EMPTY\n");
 			if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 				handle_redirect(current_cmd);
 		}
 		exit(EXIT_SUCCESS); // TODO change exit code
 	}
-	printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
+	// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 	close(prev_read_end);
 	// close(STDOUT_FILENO);
 	// // parent must wait for last command/ child process to finish before printing to shell prompt
@@ -172,13 +172,13 @@ void execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 	//sleep(10);
 	if (current_cmd->args[0] != NULL) // if cmd is not empty
 	{
-		fprintf(stderr, "\n\nnon-last command = %s\n", current_cmd->args[0]);
+		// fprintf(stderr, "\n\nnon-last command = %s\n", current_cmd->args[0]);
 		if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
 			handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 	}
 	else // if cmd is empty
 	{
-		fprintf(stderr, "\n\nnon-last command = EMPTY\n");
+		// fprintf(stderr, "\n\nnon-last command = EMPTY\n");
 		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 			handle_redirect(current_cmd);
 	}
@@ -209,7 +209,7 @@ void    execute_multiple_commands(t_minishell *mini)
 			return (minishell_error("fork fail"));
 		if (pid == 0) // let child process execute cmd
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
-		printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
+		// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		close(fd_pipe[WRITE]); // close the write end of the current pipe
 		// close prev_read_end only if heredoc
 		if (prev_read_end != 0)
@@ -268,15 +268,15 @@ void    execute_single_command(t_minishell *mini)
 	tmp_fd_out = dup(1);
 	if (current_cmd->args[0] == NULL) // if cmd is empty, set back std fds and return
 	{
-		fprintf(stderr, "\n\ncommand = EMPTY\n");
+		// fprintf(stderr, "\n\ncommand = EMPTY\n");
 		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 		{
-			fprintf(stderr, "no command yes redirection\n");
+			// fprintf(stderr, "no command yes redirection\n");
 			handle_redirect(current_cmd);
 		}
 		return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 	}
-	fprintf(stderr, "\n\ncommand = %s\n", current_cmd->args[0]);
+	// fprintf(stderr, "\n\ncommand = %s\n", current_cmd->args[0]);
 	if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
 		execute_single_child(current_cmd, mini); // handle redirect and execute non builtin
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
@@ -294,12 +294,12 @@ void	executor(t_minishell *mini)
 		return ;
 	if (mini->cmd_list->next == NULL) // only one cmd!
 	{
-		printf("single command\n");
+		// printf("single command\n");
         execute_single_command(mini);
 	}
     else
 	{
-		printf("multiple commands\n");
+		// printf("multiple commands\n");
         execute_multiple_commands(mini);
 	}
 	// TODO 1. save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
