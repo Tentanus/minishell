@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/03/31 15:37:03 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/04/07 15:22:15 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 		return (builtin_exit(cmd));
 	return (ERROR);
+}
+
+int	handle_builtin(t_cmd *cmd, t_minishell *mini)
+{
+	if (cmd->redir != NULL) // check for redirect
+		handle_redirect(cmd);
+	if (builtin_check(cmd->args[0]) == true)
+	{
+		// fprintf(stderr, "executing builtin command = %s\n\n", cmd->args[0]);
+		return (builtin_execute(cmd, &mini->env_list)); // execute builtin in parent
+	}
+	else
+		return (ERROR);
 }

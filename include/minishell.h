@@ -208,6 +208,12 @@ void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
 char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR
+void			set_back_std_fd(int tmp_fd_in, int tmp_fd_out);
+void			handle_redirect(t_cmd *cmd);
+void			execute_single_command(t_minishell *mini);
+void			execute_multiple_commands(t_minishell *mini);
+int				handle_builtin(t_cmd *cmd, t_minishell *mini);
+void			handle_non_builtin(t_cmd *cmd, t_minishell *mini);
 void			executor(t_minishell *mini);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)

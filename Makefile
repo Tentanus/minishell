@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/04 10:26:39 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/04/07 16:03:53 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ SRC			:=	\
 
 VER_SRC		:=	$(SRC) \
 				executor/executor.c					\
+				executor/execute_multiple_cmds.c	\
+				executor/execute_single_cmd.c		\
+				executor/execute_non_builtin.c		\
 				tmp_mares/parse_utils.c				\
 				test/ver_main.c
 
