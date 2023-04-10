@@ -7,24 +7,13 @@ char	*free_and_return(char *cmd, char **sub_paths, char *path_cmd)
 	return (path_cmd);
 }
 
-char	*find_path(char	*path_complete, t_cmd *current_cmd)
+char	*find_path(char	**sub_paths, char *cmd)
 {
-	char	**sub_paths;
-	char	*cmd;
 	char	*path_cmd;
 	int		i;
 
 	i = 0;
 	path_cmd = NULL;
-	sub_paths = ft_split(path_complete, ':'); // ! MALLOC
-	if (!sub_paths)
-		minishell_error("Error in split subpaths");
-	cmd = ft_strjoin("/", current_cmd->args[0]); // ! MALLOC
-	if (!cmd)
-	{
-		free_double_array(sub_paths);
-		minishell_error("Error in strjoin \"/\" + cmd");
-	}
 	while (sub_paths[i] != NULL)
 	{
 		path_cmd = ft_strjoin(sub_paths[i], cmd); // ! MALLOC
@@ -51,20 +40,31 @@ char	*find_path(char	*path_complete, t_cmd *current_cmd)
 char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 {
 	char	*path_complete;
+	char	*cmd;
+	char	**sub_paths;
 
 	path_complete = env_var_get_env("PATH", mini->env_list);
 	if (path_complete == NULL) // if PATH does not exist
 		minishell_error("PATH does not exist");
 	if (!current_cmd->args[0]) // if cmd does not exist
 		minishell_error("cmd does not exist");
-	if (ft_strncmp(current_cmd->args[0], "./", 2) == 0) // if cmd starts with ./
+	if (ft_strncmp(current_cmd->args[0], "./", 2) == 0 || ft_strncmp(current_cmd->args[0], "/", 1) == 0 ) // if cmd starts with ./
 	{
 		if (access(current_cmd->args[0], X_OK) == 0)
 			return (current_cmd->args[0]);
 		else
 			return (minishell_error(current_cmd->args[0]), NULL);
 	}
-	return (find_path(path_complete, current_cmd));
+	cmd = ft_strjoin("/", current_cmd->args[0]); // ! MALLOC
+	if (!cmd)
+		minishell_error("Error in strjoin \"/\" + cmd");
+	sub_paths = ft_split(path_complete, ':'); // ! MALLOC
+	if (!sub_paths)
+	{
+		free(cmd);
+		minishell_error("Error in split subpaths");
+	}
+	return (find_path(sub_paths, cmd));
 }
 
 void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
@@ -75,12 +75,14 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (cmd->redir != NULL) // check for redirect
 		handle_redirect(cmd);
 	path_to_cmd = get_path_to_cmd(mini, cmd);
-	// if (!path_to_cmd) // ! moet dit erin of handlet execve dit?
-		// minishell_error("get_path_to_cmd error");
-	env_list = env_var_to_cpp(mini->env_list);
-	// printf("cmd->args[0] = %s\n", cmd->args[0])
-	// printf("path_to_cmd = %s\n", path_to_cmd);
-	// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
-	execve(path_to_cmd, cmd->args, env_list);
-	return (minishell_error("execve non_builtin_execute"));
+	if (path_to_cmd != NULL)
+	{
+		env_list = env_var_to_cpp(mini->env_list);
+		// printf("cmd->args[0] = %s\n", cmd->args[0])
+		// printf("path_to_cmd = %s\n", path_to_cmd);
+		// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
+		if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
+			return (minishell_error_exit(cmd->args[0]));
+		// return (minishell_error("execve non_builtin_execute"));
+	}
 }
