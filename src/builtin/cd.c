@@ -49,19 +49,19 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	char	*new_working_dir;
 
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
-	printf("new working dir = %s\n", new_working_dir);
+	// printf("new working dir = %s\n", new_working_dir);
 	if (new_working_dir == NULL)
 		return (minishell_error("error with new_working_dir in execute_cd"), ERROR); // throw error like bash
-	printf("env_var_get_env(PWD, *env_var_list) = %s\n", env_var_get_env("PWD", *env_var_list));
+	// printf("env_var_get_env(PWD, *env_var_list) = %s\n", env_var_get_env("PWD", *env_var_list));
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
-	printf("current_working_dir = %s\n", current_working_dir);
+	// printf("current_working_dir = %s\n", current_working_dir);
 	if (!current_working_dir)
 		return (minishell_error("malloc error current_working_dir in execute_cd"), ERROR);
 	env_var_set_env(current_working_dir, env_var_list);
 	if (chdir(new_working_dir) != 0)
-		return (minishell_error("CHDIR ERROR. cd: NEEDS FIXES!"), ERROR); // throw error like bash
-	free(current_working_dir);
-	free(new_working_dir);
+		return (minishell_cd_error(cmd->args[0], cmd->args[1]), SUCCESS); // throw error like bash
+	// free(current_working_dir);
+	// free(new_working_dir);
 	if (cmd->args[1] != NULL)
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)

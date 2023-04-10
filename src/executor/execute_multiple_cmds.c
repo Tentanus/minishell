@@ -13,6 +13,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 		close(prev_read_end);
 		if (current_cmd->args[0] != NULL) // if cmd is not empty
 		{
+			printf("\nREALLY?\n\n");
 			// fprintf(stderr, "\n\nexecuting LAST command = %s\n", current_cmd->args[0]);
 			if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
 				handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
@@ -40,6 +41,7 @@ void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 	if (current_cmd->args[0] != NULL) // if cmd is not empty
 	{
 		// fprintf(stderr, "\n\nnon-last command = %s\n", current_cmd->args[0]);
+		printf("\n\nOF HIER?\n\n");
 		if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
 			handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 	}

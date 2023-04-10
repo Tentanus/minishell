@@ -92,7 +92,9 @@ typedef struct s_minishell
 
 //				FUNCTIONS
 
+int				minishell_cd_error(const char *cmd, const char *arg);
 void			minishell_error(const char *loc);
+void			minishell_error_exit(const char *loc);
 void			minishell_syntax_error(const char *str);
 void			minishell_quote_error(void);
 
