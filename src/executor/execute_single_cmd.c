@@ -11,21 +11,14 @@ void	set_back_std_fd(int tmp_fd_in, int tmp_fd_out)
 void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 {
 	pid_t	pid;
-	int		status;
 
-	pid = fork(); // create child process
+	pid = fork();
 	if (pid < 0)
 		return (minishell_error("fork fail"));
-	if (pid == 0) // let child process execute non-builtin cmd
-	{
-		printf("\n\nof toch deze?\n\n");
+	if (pid == 0)
 		handle_non_builtin(current_cmd, mini);
-	}
-	else // parent must wait for child process to finish before printing to shell prompt
-	{
-		if (waitpid(pid, &status, 0) < 0)
-			return (minishell_error("waitpid error"));
-	}
+	else
+		wait_function(pid, 0);
 }
 
 /*
@@ -43,21 +36,15 @@ void	execute_single_command(t_minishell *mini)
 	int		tmp_fd_in;
 	int		tmp_fd_out;
 
-	current_cmd = mini->cmd_list;
 	tmp_fd_in = dup(0);
 	tmp_fd_out = dup(1);
-	if (current_cmd->args[0] == NULL) // if cmd is empty, set back std fds and return
+	current_cmd = mini->cmd_list;
+	if (current_cmd->args[0] == NULL) // even if cmd is empty:
 	{
-		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
-		{
-			// fprintf(stderr, "no command yes redirection\n");
-			handle_redirect(current_cmd);
-		}
-		return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
+		if (current_cmd->redir != NULL) // always handle redirections
+			handle_redirect(current_cmd); // fprintf(stderr, "no command yes redirection\n");
 	}
-	// fprintf(stderr, "\n\ncommand = %s\n", current_cmd->args[0]);
-	// printf("return of handle_builtin =  %i\n", handle_builtin(current_cmd, mini));
-	if (handle_builtin(current_cmd, mini) != SUCCESS) // if command is builtin, it's executed
-		execute_single_child(current_cmd, mini); // handle redirect and execute non builtin
+	else if (handle_builtin(current_cmd, mini) != SUCCESS)
+		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 }

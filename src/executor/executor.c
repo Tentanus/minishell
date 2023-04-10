@@ -1,5 +1,20 @@
 #include <minishell.h>
 
+void	wait_function(pid_t pid, int count_childs)
+{
+    int	status;
+
+	// TODO Wait functie: save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
+	// parent must wait for last command/ child process to finish before printing to shell prompt
+	if (waitpid(pid, &status, 0) < 0)
+		return (minishell_error("waitpid error"));
+	while (count_childs > 0)
+	{
+		wait(NULL);
+		count_childs--;
+	}
+}
+
 /*
 	Handles (input and output) redirection.
 	Loops through ALL the redirections which are stored
@@ -9,42 +24,28 @@
 void	handle_redirect(t_cmd *cmd)
 {
 	int		fd_file;
-	t_redir	*redirect;
 
-	redirect = cmd->redir;
-	while (redirect != NULL)
+	while (cmd->redir != NULL)
 	{
-		// handle input redirection
-		if (redirect->redir == IN) // check if there is input redirection
+		if (cmd->redir->redir == IN)
 		{
-			fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
+			fd_file = open(cmd->redir->file, O_RDONLY);
 			if (fd_file < 0)
 				return (minishell_error("failed to open input file"));
-			if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
+			if (dup2(fd_file, STDIN_FILENO) == -1)
 				return (minishell_error("Dup error stdinput < - > infile\n"));
 			close(fd_file);
 		}
-		// handle output redirection
-		else if (redirect->redir == OUT) // check if there is output redirection
+		else if (cmd->redir->redir == OUT)
 		{
-			fd_file = open(redirect->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
-			if (fd_file < 0 || (access(redirect->file, W_OK) != 0))
+			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_RDWR, 0644);
+			if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
 				return (minishell_error("failed to open output file"));
-			if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
+			if (dup2(fd_file, STDOUT_FILENO) == -1)
 				return (minishell_error("Dup error stdoutput < - > outfile\n"));
 			close(fd_file);
 		}
-        // handle append redirection
-        // else if (redirect->redir == APP) // check if there is append redirection
-        // {
-        //     fd_file = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
-        //     if (fd_file < 0)
-        //         return (minishell_error("failed to open append file"));
-        //     if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
-        //         return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
-        //     close(fd_file);
-        // }
-		redirect = redirect->next;
+		cmd->redir = cmd->redir->next;
 	}
 }
 
@@ -52,26 +53,16 @@ void	handle_redirect(t_cmd *cmd)
 	executor() is the executing part of our minishell.
     It is fully based on the command table
     as is outputed by the complexer (lexer, parser and expander).
-	It first checks if complex command exists of one simple command or multiple simple commands.
+	It first checks if complex command exists of
+	one simple command or multiple simple commands.
 */
 
 void	executor(t_minishell *mini)
 {
 	if (!mini->cmd_list)
 		return ;
-	if (mini->cmd_list->next == NULL) // only one cmd!
+	if (mini->cmd_list->next == NULL)
 		execute_single_command(mini);
 	else
 		execute_multiple_commands(mini);
 }
-
-/*
-NOTES:
-dup2(old_fd, new_fd):
-The dup2() function duplicates the old file descriptor to the new (standard) file descriptor,
-which means that any subsequent write to the new_fd (standard output) will actually write to old_fd (the file).
-if (dup2(old_fd, new_fd) == -1) // redirect from old_fd to new_fd
-	return (ERROR and close(new_fd))
-
-The close() function must close the file descriptor that was returned by open().
-*/
