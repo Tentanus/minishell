@@ -4,15 +4,15 @@ void	wait_function(pid_t pid, int count_childs)
 {
     int	status;
 
-	// TODO Wait functie: save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
-	// parent must wait for last command/ child process to finish before printing to shell prompt
-	if (waitpid(pid, &status, 0) < 0)
+	if (waitpid(pid, &status, 0) < 0) // let parent wait for last executed command/process, specified with pid
 		return (minishell_error("waitpid error"));
-	while (count_childs > 0)
+	while (count_childs > 0) // wait for all child processes
 	{
 		wait(NULL);
 		count_childs--;
 	}
+	// if (WIFEXITED(status)) // if last cmd exited normally
+	// 	exit (WEXITSTATUS(status)); // exit with exit status of last command
 }
 
 /*
