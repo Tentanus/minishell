@@ -30,8 +30,8 @@ void	handle_redirect(t_cmd *cmd)
 		if (cmd->redir->redir == IN)
 		{
 			fd_file = open(cmd->redir->file, O_RDONLY);
-			if (fd_file < 0)
-				return (minishell_error("failed to open input file"));
+			if (fd_file < 0 || (access(cmd->redir->file, R_OK) != 0))
+				return (minishell_error_exit(cmd->redir->file));
 			if (dup2(fd_file, STDIN_FILENO) == -1)
 				return (minishell_error("Dup error stdinput < - > infile\n"));
 			close(fd_file);
@@ -40,7 +40,7 @@ void	handle_redirect(t_cmd *cmd)
 		{
 			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 			if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
-				return (minishell_error("failed to open output file"));
+				return (minishell_error_exit(cmd->redir->file));
 			if (dup2(fd_file, STDOUT_FILENO) == -1)
 				return (minishell_error("Dup error stdoutput < - > outfile\n"));
 			close(fd_file);
