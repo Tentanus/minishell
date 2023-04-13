@@ -81,3 +81,4 @@ else if (redirect->redir == APP) // check if there is append redirection
 	close(fd_file);
 }
 ``
+

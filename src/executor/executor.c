@@ -38,7 +38,7 @@ void	handle_redirect(t_cmd *cmd)
 		}
 		else if (cmd->redir->redir == OUT)
 		{
-			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_RDWR, 0644);
+			fd_file = open(cmd->redir->file, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 			if (fd_file < 0 || (access(cmd->redir->file, W_OK) != 0))
 				return (minishell_error("failed to open output file"));
 			if (dup2(fd_file, STDOUT_FILENO) == -1)
