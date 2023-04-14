@@ -25,8 +25,9 @@ int	redir_id_input(const char *file, int fd)
 
 int	redir_id_here(const char *file, int fd)
 {
+	(void) file;
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (child_redir_error(file), errno);
+		return (child_redir_error("HERE_DOC"), errno);
 	close(fd);
 	return (0);
 }
@@ -64,12 +65,13 @@ void handle_redirect(t_redir *redir_cur)
 	[4] = redir_id_append
 	};
 
-	while (redir_list != NULL)
+	error = 0;
+	while (redir_cur != NULL)
 	{
-		error = func[redir_list->redir] \
-				((const char *)redir_list->file, redir_list->fd);
+		error = func[redir_cur->redir] \
+				((const char *)redir_cur->file, redir_cur->fd);
 		if (error)
-			exit(EXIT_FAILURE);
-		redir_list = redir_list->next;
+			exit(error);
+		redir_cur = redir_cur->next;
 	}
 }

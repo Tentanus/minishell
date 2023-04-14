@@ -60,10 +60,12 @@ t_cmd	*parser(t_minishell *mini)
 	{
 		cmd_node = list_cmd_new();
 		if (!cmd_node)
-			return (list_token_free_list(mini->token, list_token_free_node_str), \
+			return (list_token_free_list(mini->token, \
+						list_token_free_node_str), \
 					NULL);
 		if (parser_fill_cmd_node(cmd_node, t_current) == false) //subfunction should free cmd_node
-			return (list_token_free_list(mini->token, list_token_free_node_str), \
+			return (list_token_free_list(mini->token, \
+						list_token_free_node_str), \
 					list_cmd_free_list(cmd_return), \
 					NULL);
 		list_cmd_add_back(&cmd_return, cmd_node);

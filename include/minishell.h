@@ -18,7 +18,7 @@
 
 //			MACROS
 
-# define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
+# define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
 # define SET_DELIMETER "-|\'\"><$ "
 
@@ -142,7 +142,9 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 //				HERE_DOC
 
-void			here_doc_input(t_cmd *cmd_list);
+void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
+void			close_here_doc(t_cmd *cmd_list);
+void			handle_redirect(t_redir *redir_cur);
 
 //					UTILS_TOKEN
 

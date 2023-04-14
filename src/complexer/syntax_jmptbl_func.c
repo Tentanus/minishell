@@ -22,7 +22,10 @@ bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur)
 		return (1);
 	if (ft_strlen(t_cur->str) > 2)
 		return (1);
-	if (!(t_next->id == WORD || t_next->id == QUOTE))
+	if (!(t_next->id == WORD || \
+		t_next->id == QUOTE || \
+		t_next->id == DQUOTE || \
+		t_next->id == SH_VAR))
 		return (1);
 	return (0);
 }
