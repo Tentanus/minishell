@@ -53,7 +53,10 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/here_doc.c				\
+				tmp_mares/parse_utils.c				\
+				executor/executor.c					\
+				executor/here_doc.c					\
+				executor/redir.c					\
 				tmp_martijn/wev_main.c
 
 SRC			+=	main.c

@@ -77,15 +77,15 @@ int	ft_word_counter(char const *s, char c)
 */
 void set_up_pipe(int *fd_pipe)
 {
-    if (pipe(fd_pipe) < 0)
-        return (minishell_error("Pipe failed"));
+	if (pipe(fd_pipe) < 0)
+		return (minishell_error("Pipe failed"));
 	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1) // Redirect stdout to write end of pipe
-        return (minishell_error("dup2 error for write end of pipe"));
-    if (close(fd_pipe[1]) == -1) // Close write end of pipe
+		return (minishell_error("dup2 error for write end of pipe"));
+	if (close(fd_pipe[1]) == -1) // Close write end of pipe
 		return (minishell_error("close fd_pipe[1] error"));
 	if (dup2(fd_pipe[0], STDIN_FILENO) == -1) // Redirect stdin to read end of pipe
-        return (minishell_error("dup2 error for read end of pipe"));
-    if (close(fd_pipe[0]) == -1) // Close read end of pipe
+		return (minishell_error("dup2 error for read end of pipe"));
+	if (close(fd_pipe[0]) == -1) // Close read end of pipe
 		return (minishell_error("close fd_pipe[0] error"));
 }
 
