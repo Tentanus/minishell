@@ -1,9 +1,11 @@
 #include <minishell.h>
 
-bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
+bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list)
 {
 	const t_token	*t_next = list_token_skip_space((t_token *) t_cur);
 
+	(void) env_list;
 	if (t_prev == NULL || t_next == NULL)
 		return (1);
 	if (ft_strlen(t_cur->str) != 1)
@@ -13,7 +15,21 @@ bool	syntax_id_pipe(const t_token *t_prev, const t_token *t_cur)
 	return (0);
 }
 
-bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur)
+bool	syntax_id_redir_shvar(const t_token *t_next, t_env_var_ll *env_list)
+{
+	size_t	len;
+	char	*sh_var;
+
+	sh_var = expander_get_shell_var(t_next->str, 0, &len, env_list);
+	if (!sh_var)
+		return (1);
+	if (ft_strchr(sh_var, ' '))
+		return (1);
+	return (0);
+}
+
+bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list)
 {
 	const t_token	*t_next = list_token_skip_space((t_token *) t_cur);
 
@@ -27,12 +43,17 @@ bool	syntax_id_redir(const t_token *t_prev, const t_token *t_cur)
 		t_next->id == DQUOTE || \
 		t_next->id == SH_VAR))
 		return (1);
+	if (t_next->id == SH_VAR)
+		if (syntax_id_redir_shvar(t_next, env_list))
+			return (1);
 	return (0);
 }
 
-bool	syntax_id_misc(const t_token *t_prev, const t_token *t_cur)
+bool	syntax_id_misc(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list)
 {
 	(void) t_prev;
 	(void) t_cur;
+	(void) env_list;
 	return (0);
 }

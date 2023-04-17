@@ -113,15 +113,20 @@ void			token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 //				FUNCTION: SYNTAX
 
-t_token			*syntax(t_token *top);
+t_token			*syntax(t_token *top, t_env_var_ll *env_list);
 t_token			*skip_space_token(t_token *t_cur);
-bool			syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
+bool			syntax_id_pipe(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_redir(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur, \
+		t_env_var_ll *env_list);
 
 //				FUNCTION: EXPANDER 
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
+char			*expander_get_shell_var(const char *str, const int pos, \
+		size_t *len_sh_var, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
