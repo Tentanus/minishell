@@ -2,9 +2,6 @@
 
 typedef int	(*t_redir_func)(const char *file, int fd);
 
-/*
-	Handles (input and output) redirection
-*/
 void	child_redir_error(const char *file)
 {
 	ft_putstr_fd(file, 2);
@@ -39,7 +36,7 @@ int	redir_id_output(const char *file, int fd)
 		return (child_redir_error(file), errno);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (child_redir_error(file), errno);
-	close(fd);
+close(fd);
 	return (0);
 }
 
@@ -54,7 +51,7 @@ int	redir_id_append(const char *file, int fd)
 	return (0);
 }
 
-void handle_redirect(t_redir *redir_cur)
+void	handle_redirect(t_redir *redir_cur)
 {
 	int					error;
 	const t_redir_func	func[5] = {
