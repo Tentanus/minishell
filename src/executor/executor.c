@@ -64,10 +64,10 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 
 int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 {
-	if (cmd->redir != NULL) // check for redirect
-		handle_redirect(cmd->redir);
 	if (builtin_check(cmd->args[0]) == true)
 	{
+		if (cmd->redir != NULL) // check for redirect
+			handle_redirect(cmd->redir);
 		// fprintf(stderr, "executing builtin command = %s\n\n", cmd->args[0]);
 		return (builtin_execute(cmd, &mini->env_list)); // execute builtin in parent
 	}
@@ -246,7 +246,7 @@ void	executor(t_minishell *mini)
 {
 	if (!mini->cmd_list)
 		return ;
-	handle_here(cmd_list);
+	handle_here_doc(mini->cmd_list, mini->env_list);
 	if (mini->cmd_list->next == NULL) // only one cmd!
 	{
 		// printf("single command\n");
@@ -257,6 +257,7 @@ void	executor(t_minishell *mini)
 		// printf("multiple commands\n");
 		execute_multiple_commands(mini);
 	}
+	close_here_doc(mini->cmd_list);
 	// TODO 1. save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
 }
 

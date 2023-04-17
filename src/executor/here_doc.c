@@ -76,7 +76,6 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 
 void	close_here_doc(t_cmd *cmd_list)
 {
-	printf("CLOSING HERE's\n");
 	t_redir	*redir_node;
 
 	while (cmd_list != NULL)
