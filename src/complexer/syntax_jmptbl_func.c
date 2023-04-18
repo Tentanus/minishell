@@ -22,12 +22,7 @@ bool	syntax_id_redir_shvar(t_token *t_next, t_env_var_ll *env_list)
 
 	sh_var = expander_get_shell_var(t_next->str, 0, &len, env_list);
 	if (!sh_var)
-	{
-		t_next->id = WORD;
-		free(t_next->str);
-		t_next->str = ft_strdup("");
-		return (0);
-	}
+		return (1);
 	if (ft_strchr(sh_var, ' '))
 		return (1);
 	return (0);
