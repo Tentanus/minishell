@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-typedef bool	(*t_syntax_func) (const t_token *t_prev, const t_token *t_cur, \
+typedef bool	(*t_syntax_func) (t_token *t_prev, t_token *t_cur, \
 		t_env_var_ll *env_list);
 
 t_token	*syntax_non_space(t_token *t_list)
