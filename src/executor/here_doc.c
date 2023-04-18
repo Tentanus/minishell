@@ -82,7 +82,10 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 			return (-1);
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
+		{
+			free(line);
 			break ;
+		}
 		line = ft_strjoin_fs1(line, "\n");
 		write(pipe_fd[1], line, ft_strlen(line));
 		free(line);
