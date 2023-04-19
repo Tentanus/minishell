@@ -18,11 +18,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 				handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 		}
 		else // if cmd is empty
-		{
-			// fprintf(stderr, "\n\nexecuting LAST command = EMPTY\n");
-			if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
-				handle_redirect(current_cmd);
-		}
+				handle_redirect(current_cmd->redir, redir_error_exit);
 		exit(EXIT_SUCCESS); // TODO change exit code
 	}
 	// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
@@ -43,11 +39,7 @@ void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 			handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 	}
 	else // if cmd is empty
-	{
-		// fprintf(stderr, "\n\nnon-last command = EMPTY\n");
-		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
-			handle_redirect(current_cmd);
-	}
+		handle_redirect(current_cmd->redir, redir_error_exit);
 	exit(EXIT_SUCCESS); // TODO change exit code
 }
 
@@ -76,7 +68,6 @@ void	execute_multiple_commands(t_minishell *mini)
 	while (current_cmd->next != NULL) // loop through linked list s_cmd made of t_cmd's, if current_cmd is not last cmd:
 	{
 		count_childs++;
-		// ? handle heredoc
 		if (pipe(fd_pipe) < 0)
 			return (minishell_error("Pipe fail"));
 		pid = fork();

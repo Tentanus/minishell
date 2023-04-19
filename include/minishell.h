@@ -128,7 +128,7 @@ bool			syntax_id_misc(t_token *t_prev, t_token *t_cur, \
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 char			*expander_get_shell_var(const char *str, const int pos, \
-		size_t *len_sh_var, t_env_var_ll *env_var_list);
+				size_t *len_sh_var, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
@@ -142,16 +142,14 @@ t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
-t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
-t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
-t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
-t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
-
 //				HERE_DOC
 
 void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
-void			handle_redirect(t_redir *redir_cur);
+void			handle_redirect(t_redir *redir_cur, void (error)(const char *));
+
+void			redir_error_exit(const char *file);
+void			redir_error(const char *file);
 
 //					UTILS_TOKEN
 
@@ -184,7 +182,6 @@ void			list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
 
 void			list_redir_free_list(t_redir *redir_list);
 t_redir			*list_redir_free_node(t_redir *redir_node);
-
 
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void			list_token_print(t_token *top);
@@ -222,9 +219,9 @@ void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
 char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR
+
 void			wait_function(pid_t pid, int count_childs);
 void			set_back_std_fd(int tmp_fd_in, int tmp_fd_out);
-void			handle_redirect(t_cmd *cmd);
 void			execute_single_command(t_minishell *mini);
 void			execute_multiple_commands(t_minishell *mini);
 int				handle_builtin(t_cmd *cmd, t_minishell *mini);

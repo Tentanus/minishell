@@ -72,8 +72,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	char	*path_to_cmd;
 	char	**env_list;
 
-	if (cmd->redir != NULL) // check for redirect
-		handle_redirect(cmd);
+	handle_redirect(cmd->redir, redir_error_exit);
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	if (path_to_cmd != NULL)
 	{
