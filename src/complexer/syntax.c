@@ -1,7 +1,7 @@
 #include <minishell.h>
 
-typedef bool	(*t_syntax_func) \
-			(const t_token *t_prev, const t_token *t_cur);
+typedef bool	(*t_syntax_func) (t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
 
 t_token	*syntax_non_space(t_token *t_list)
 {
@@ -12,7 +12,7 @@ t_token	*syntax_non_space(t_token *t_list)
 	return (t_list);
 }
 
-t_token	*syntax(t_token *top)
+t_token	*syntax(t_token *top, t_env_var_ll *env_list)
 {
 	t_token				*t_prev;
 	t_token				*t_cur;
@@ -32,7 +32,7 @@ t_token	*syntax(t_token *top)
 	t_cur = syntax_non_space(top);
 	while (t_cur != NULL)
 	{
-		if (func[t_cur->id](t_prev, t_cur))
+		if (func[t_cur->id](t_prev, t_cur, env_list))
 			return (t_cur);
 		t_prev = t_cur;
 		t_cur = list_token_skip_space(t_cur);

@@ -18,7 +18,7 @@
 
 //			MACROS
 
-# define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
+# define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
 # define SET_DELIMETER "-|\'\"><$ "
 
@@ -61,6 +61,7 @@ typedef struct s_token
 typedef struct s_redir
 {
 	t_redir_id		redir;
+	int				fd;
 	char			*file;
 	struct s_redir	*next;
 }					t_redir;
@@ -112,15 +113,20 @@ void			token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 //				FUNCTION: SYNTAX
 
-t_token			*syntax(t_token *top);
+t_token			*syntax(t_token *top, t_env_var_ll *env_list);
 t_token			*skip_space_token(t_token *t_cur);
-bool			syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
+bool			syntax_id_pipe(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_redir(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_misc(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
 
 //				FUNCTION: EXPANDER 
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
+char			*expander_get_shell_var(const char *str, const int pos, \
+		size_t *len_sh_var, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
@@ -138,6 +144,12 @@ t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
+
+//				HERE_DOC
+
+void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
+void			close_here_doc(t_cmd *cmd_list);
+void			handle_redirect(t_redir *redir_cur);
 
 //					UTILS_TOKEN
 

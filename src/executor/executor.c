@@ -46,59 +46,13 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 	return (free_and_return(cmd, sub_paths, tmp));
 }
 
-
-/*
-	Handles (input and output) redirection
-*/
-void handle_redirect(t_cmd *cmd)
-{
-    int     fd_file;
-	t_redir *redirect;
-
-	redirect = cmd->redir;
-    while (redirect != NULL)
-    {
-		// handle input redirection
-		if (redirect->redir == IN) // check if there is input redirection
-		{
-			fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
-			if (fd_file < 0)
-				return (minishell_error("failed to open input file"));
-			if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
-				return (minishell_error("Dup error stdinput < - > infile\n"));
-			close(fd_file);
-		}
-		// handle output redirection
-		else if (redirect->redir == OUT) // check if there is output redirection
-		{
-			fd_file = open(redirect->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
-			if (fd_file < 0 || (access(redirect->file, W_OK) != 0))
-				return (minishell_error("failed to open output file"));
-			if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
-				return (minishell_error("Dup error stdoutput < - > outfile\n"));
-			close(fd_file);
-		}
-        // handle append redirection
-        // else if (redirect->redir == APP) // check if there is append redirection
-        // {
-        //     fd_file = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
-        //     if (fd_file < 0)
-        //         return (minishell_error("failed to open append file"));
-        //     if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
-        //         return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
-        //     close(fd_file);
-        // }
-        redirect = redirect->next;
-    }
-}
-
 void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 {
     char    *path_to_cmd;
 	char	**env_list;
 
 	if (cmd->redir != NULL) // check for redirect
-        handle_redirect(cmd);
+        handle_redirect(cmd->redir);
     path_to_cmd = get_path_to_cmd(mini, cmd);
 	env_list = env_var_to_cpp(mini->env_list);
 	// printf("cmd->args[0] = %s\n", cmd->args[0]);
@@ -110,10 +64,10 @@ void    handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 
 int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 {
-	if (cmd->redir != NULL) // check for redirect
-		handle_redirect(cmd);
 	if (builtin_check(cmd->args[0]) == true)
 	{
+		if (cmd->redir != NULL) // check for redirect
+			handle_redirect(cmd->redir);
 		// fprintf(stderr, "executing builtin command = %s\n\n", cmd->args[0]);
 		return (builtin_execute(cmd, &mini->env_list)); // execute builtin in parent
 	}
@@ -150,7 +104,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 		{
 			// fprintf(stderr, "\n\nexecuting LAST command = EMPTY\n");
 			if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
-				handle_redirect(current_cmd);
+				handle_redirect(current_cmd->redir);
 		}
 		exit(EXIT_SUCCESS); // TODO change exit code
 	}
@@ -180,7 +134,7 @@ void execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 	{
 		// fprintf(stderr, "\n\nnon-last command = EMPTY\n");
 		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
-			handle_redirect(current_cmd);
+			handle_redirect(current_cmd->redir);
 	}
 	exit(EXIT_SUCCESS); // TODO change exit code
 }
@@ -272,7 +226,7 @@ void    execute_single_command(t_minishell *mini)
 		if (current_cmd->redir != NULL) // always handle redirections, even if cmd is empty
 		{
 			// fprintf(stderr, "no command yes redirection\n");
-			handle_redirect(current_cmd);
+			handle_redirect(current_cmd->redir);
 		}
 		return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 	}
@@ -290,18 +244,20 @@ void    execute_single_command(t_minishell *mini)
 
 void	executor(t_minishell *mini)
 {
-    if (!mini->cmd_list)
+	if (!mini->cmd_list)
 		return ;
+	handle_here_doc(mini->cmd_list, mini->env_list);
 	if (mini->cmd_list->next == NULL) // only one cmd!
 	{
 		// printf("single command\n");
-        execute_single_command(mini);
+	execute_single_command(mini);
 	}
-    else
+	else
 	{
 		// printf("multiple commands\n");
-        execute_multiple_commands(mini);
+		execute_multiple_commands(mini);
 	}
+	close_here_doc(mini->cmd_list);
 	// TODO 1. save pids and wait for pid here / if (WIFEXITED(status)) -> exit(WEXITSTATUS(status));
 }
 
