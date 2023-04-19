@@ -9,6 +9,7 @@ t_redir	*list_redir_new(void)
 		return (NULL);
 	redir_node->redir = REDIR;
 	redir_node->file = NULL;
+	redir_node->fd = -1;
 	redir_node->next = NULL;
 	return (redir_node);
 }

@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/03 20:38:43 by mweverli      ########   odam.nl          #
+#    Updated: 2023/04/19 14:29:39 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ SRC			:=	\
 				complexer/parser_jmptbl_func.c		\
 				complexer/syntax.c					\
 				complexer/syntax_jmptbl_func.c		\
+				executor/executor.c					\
+				executor/here_doc.c					\
+				executor/redir.c					\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
@@ -45,13 +48,15 @@ SRC			:=	\
 				utils/print_utils.c					\
 
 VER_SRC		:=	$(SRC) \
+				tmp_mares/parse_utils.c				\
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/wev_main.c				\
 				tmp_martijn/env_var.c				\
 				tmp_martijn/init_env.c				\
-				tmp_martijn/list_env_utils.c
+				tmp_martijn/list_env_utils.c		\
+				tmp_mares/parse_utils.c				\
+				tmp_martijn/wev_main.c
 
 SRC			+=	main.c
 

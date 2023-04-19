@@ -25,5 +25,5 @@ int	builtin_pwd(int fd)
 		minishell_error("pwd error");
 		return (1);
 	}
-	return (0);
+	return (SUCCESS);
 }

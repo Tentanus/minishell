@@ -29,7 +29,7 @@ t_redir_id	redir_identification(const char *str)
 t_token	*parser_id_redir(t_cmd *cmd_node, t_token *t_current)
 {
 	t_token	*t_file;
-	t_redir			*redir_node;
+	t_redir	*redir_node;
 
 	t_file = list_token_skip_space(t_current);
 	redir_node = list_redir_new();

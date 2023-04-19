@@ -2,29 +2,46 @@
 
 // mini main by Maresiskoning
 
+void test(void)
+{
+	system("leaks -q martest");
+}
+
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
+	// atexit(test);
  	(void)	argv; // to silence compiler
 	(void)	envp; // to silence compiler
  	if (argc > 1)
 		return (EXIT_FAILURE);
 	if (init_shell(envp, &mini) == 1)
 		return (1);
+	mini.cmd_list = NULL;
+	mini.input= NULL;
 	while (1)
 	{
  		mini.input = readline(MARES_PROMPT);
+		if (mini.input)
+		{
+			if (ft_strncmp(mini.input, "", 1))
+				add_history(mini.input);
+		}
+		if (mini.input == NULL)
+		{
+			clear_history();
+			printf("exiting marshell\n");
+			exit(EXIT_SUCCESS);
+		}
 		complexer(&mini);
-		// TODO: 2 lines hieronder uitcommenten executor() callen
-		// TO TEST:
-		if (builtin_check(mini.cmd_list->args[0]) == true)
-			builtin_execute(mini.cmd_list, &mini.env_list);
-		// EXECUTOR:
-		// executor();
+		executor(&mini);
+		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
+		mini.cmd_list = NULL;
  		free(mini.input);
+		mini.input = NULL;
  	}
-	// system("leaks -q martest");
+	
  	return (EXIT_SUCCESS);
 }
 

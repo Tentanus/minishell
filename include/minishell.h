@@ -18,9 +18,14 @@
 
 //			MACROS
 
-# define MARSH_PROMPT "\001\033[1;32m\002marsh-0.1> \001\033[0m\002"
+# define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
 # define SET_DELIMETER "-|\'\"><$ "
+
+# define ERROR -1
+# define SUCCESS 0
+# define READ 0
+# define WRITE 1
 
 //			E_NUMS
 
@@ -56,13 +61,13 @@ typedef struct s_token
 typedef struct s_redir
 {
 	t_redir_id		redir;
+	int				fd;
 	char			*file;
 	struct s_redir	*next;
 }					t_redir;
 
 typedef struct s_cmd
 {
-	char			*simple_cmd;
 	char			**args;
 	t_redir			*redir;
 	struct s_cmd	*next;
@@ -119,15 +124,20 @@ void			token_id_misc(const char *inp, size_t *pos, const t_token_id val);
 
 //				FUNCTION: SYNTAX
 
-t_token			*syntax(t_token *top);
+t_token			*syntax(t_token *top, t_env_var_ll *env_list);
 t_token			*skip_space_token(t_token *t_cur);
-bool			syntax_id_pipe(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_redir(const t_token *t_prev, const t_token *t_cur);
-bool			syntax_id_misc(const t_token *t_prev, const t_token *t_cur);
+bool			syntax_id_pipe(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_redir(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
+bool			syntax_id_misc(t_token *t_prev, t_token *t_cur, \
+		t_env_var_ll *env_list);
 
 //				FUNCTION: EXPANDER 
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
+char			*expander_get_shell_var(const char *str, const int pos, \
+		size_t *len_sh_var, t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
@@ -145,6 +155,12 @@ t_token			*parser_id_pipe(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_redir(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_word(t_cmd *cmd_node, t_token *t_current);
 t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
+
+//				HERE_DOC
+
+void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
+void			close_here_doc(t_cmd *cmd_list);
+void			handle_redirect(t_redir *redir_cur);
 
 //					UTILS_TOKEN
 
@@ -178,6 +194,7 @@ void			list_redir_add_back(t_redir **redir_list, t_redir *redir_node);
 void			list_redir_free_list(t_redir *redir_list);
 t_redir			*list_redir_free_node(t_redir *redir_node);
 
+
 //		TEST FUNCTIONS (CAN BE REMOVED)
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);
@@ -185,17 +202,17 @@ void			list_cmd_print(t_cmd *cmd_list);
 //				FUNCTION: BUILTINS
 
 bool			builtin_check(char *cmd);
-void			builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_echo(t_cmd *cmd, int fd);
 bool			builtin_echo_is_n_option(char *str);
 int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 char			*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
-void			builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void			builtin_export_print_export(t_env_var_ll *env_var_list);
-void			builtin_unset(char *name, t_env_var_ll **env_var_list);
-void			builtin_env(t_env_var_ll *env_var_list);
-void			builtin_exit(t_cmd *cmd);
+int				builtin_unset(char *name, t_env_var_ll **env_var_list);
+int				builtin_env(t_env_var_ll *env_var_list);
+int				builtin_exit(t_cmd *cmd);
 
 //				FUNCTION: INIT SHELL
 
@@ -216,7 +233,7 @@ void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
 char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR
-
+void			executor(t_minishell *mini);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 
@@ -229,6 +246,5 @@ void			free_double_array(char **double_array);
 
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);
-
 
 #endif
