@@ -16,6 +16,14 @@ W: LIB $(WOBJ)
 	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(READLINE_LINK) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
 
+Wdock: LIB $(WOBJ)
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS) -o martest
+	@echo "$(GREEN)$(BOLD)| Docker Test complete |$(RESET)"
+
+Vdock: LIB $(VOBJ)
+	@$(COMPILE) $(INCLUDE) $(VOBJ) $(LIB_LIBFT) $(LDFLAGS) -o martest
+	@echo "$(GREEN)$(BOLD)| Docker Test complete |$(RESET)"
+
 Vebug: clean
 	@$(MAKE) V DEBUG=1
 
