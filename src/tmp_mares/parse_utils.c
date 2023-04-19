@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/04/04 11:49:48 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/04/13 12:21:09 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_word_counter(char const *s, char c)
 /*
 	Sets up pipe for inter-process communication
 */
-void set_up_pipe(int *fd_pipe)
+void OLD_set_up_pipe(int *fd_pipe)
 {
 	if (pipe(fd_pipe) < 0)
 		return (minishell_error("Pipe failed"));
@@ -89,7 +89,7 @@ void set_up_pipe(int *fd_pipe)
 		return (minishell_error("close fd_pipe[0] error"));
 }
 
-int	dup_fds(int fd, int std_fd)
+int	OLD_dup_fds(int fd, int std_fd)
 {
 	if (fd == std_fd)
 		return SUCCESS;
@@ -102,7 +102,7 @@ int	dup_fds(int fd, int std_fd)
 /*
 	Handles output (redirection)
 */
-void handle_output(t_cmd *cmd)
+void OLD_handle_output(t_cmd *cmd)
 {
     int     fd_file;
 	t_redir *redirect;
@@ -127,7 +127,7 @@ void handle_output(t_cmd *cmd)
 /*
 	Handles input (redirection)
 */
-void handle_input(t_cmd *cmd)
+void OLD_handle_input(t_cmd *cmd)
 {
     int     fd_file;
 	t_redir *redirect;
@@ -150,13 +150,13 @@ void handle_input(t_cmd *cmd)
 }
 
 
-int	handle_input_redirect(t_cmd *cmd)
+int	OLD_handle_input_redirect(t_cmd *cmd)
 {
 	int	fd_file = 0;
 
 	// handle input redirection
 	if (cmd->redir == NULL) // if there's no file redirection
-		return (dup_fds(fd_file, STDIN_FILENO)); // redirect stdin to fd_file
+		return (OLD_dup_fds(fd_file, STDIN_FILENO)); // redirect stdin to fd_file
 	while(cmd->redir != NULL)
 	{
 		if (cmd->redir->redir == IN) // check if there is input file redirection
@@ -172,10 +172,10 @@ int	handle_input_redirect(t_cmd *cmd)
 		// }
 		cmd->redir = cmd->redir->next;
 	}
-	return (dup_fds(fd_file, STDIN_FILENO)); // redirect stdin to fd_file
+	return (OLD_dup_fds(fd_file, STDIN_FILENO)); // redirect stdin to fd_file
 }
 
-// int	handle_output_redirect(t_cmd *cmd)
+// int	OLD_handle_output_redirect(t_cmd *cmd)
 // {
 // 	int		fd_file = 0;
 
