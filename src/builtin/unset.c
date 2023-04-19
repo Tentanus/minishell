@@ -5,14 +5,14 @@
 */
 
 // function to remove environment variable (unset builtin)
-void	builtin_unset(char *name, t_env_var_ll **env_var_list)
+int	builtin_unset(char *name, t_env_var_ll **env_var_list)
 {
 	int				len_name;
 	t_env_var_ll	*current = *env_var_list;
 	t_env_var_ll	*temp_var = NULL;
 
 	if (!name)
-		return ;
+		return (ERROR);
 	len_name = ft_strlen(name);
 	while (current != NULL && current->next != NULL)
 	{
@@ -21,9 +21,9 @@ void	builtin_unset(char *name, t_env_var_ll **env_var_list)
 			temp_var = current->next;
 			current->next = temp_var->next;
 			env_var_free_node(temp_var);
-			return ;
+			return (SUCCESS);
 		}
 		current = current->next;
 	}
-	return ;
+	return (SUCCESS); // variable name not found thus not unset!
 }

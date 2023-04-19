@@ -1,38 +1,37 @@
 #include <minishell.h>
-/*
+
 int	main(int argc, char **argv, char **envp)
 {
-	(void) envp;
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	printf("|%s|\n", argv[1]);
-	ft_str_reduce_char(argv[1], ' ');
-	printf("|%s|\n", argv[1]);
-
-	return (EXIT_SUCCESS);
-}
-*/
-
-int	main(int argc, char **argv, char **envp)
- {
 	t_minishell		mini;
 
- 	(void)	argv;
+	(void)	argv;
 	(void)	envp;
- 	if (argc > 1)
+	if (argc > 1)
 		return (EXIT_FAILURE);
 	if (init_shell(envp, &mini) == 1)
 		return (1);
+	mini.cmd_list = NULL;
+	mini.input= NULL;
 	while (1)
 	{
 		mini.input = readline(MARSH_PROMPT);
-		if (ft_strncmp(mini.input, "exit", 4) == 0)
-			minishell_error("EXIT AT MINISHELL");
+		if (mini.input)
+		{
+			if (ft_strncmp(mini.input, "", 1))
+				add_history(mini.input);
+		}
+		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
+		{
+			clear_history();
+			printf("exiting marshell\n");
+			exit(EXIT_SUCCESS);
+		}
 		complexer(&mini);
-		// TO TEST:
-//		if (builtin_check(mini.cmd_list->args[0]) == true)
-//			builtin_execute(mini.cmd_list, &mini.env_list);
- 		free(mini.input);
- 	}
- 	return (EXIT_SUCCESS);
+		executor(&mini);
+		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
+		mini.cmd_list = NULL;
+		free(mini.input);
+		mini.input = NULL;
+	}
+	return (EXIT_SUCCESS);
 }

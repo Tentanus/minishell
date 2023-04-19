@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/03/21 14:33:05 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/04/04 10:26:39 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,11 +48,15 @@ SRC			:=	\
 				utils/print_utils.c					\
 
 VER_SRC		:=	$(SRC) \
-				tmp_mares/mini_parse.c				\
+				executor/executor.c					\
 				tmp_mares/parse_utils.c				\
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
+				tmp_mares/parse_utils.c				\
+				executor/executor.c					\
+				executor/here_doc.c					\
+				executor/redir.c					\
 				tmp_martijn/wev_main.c
 
 SRC			+=	main.c
@@ -117,11 +121,6 @@ debug:
 	@$(MAKE) DEBUG=1
 
 rebug: fclean debug
-
-#=========== TESTING RECIPIES ===========#
-
-info: 
-	$(info $(ODIR))
 
 #========================================#
 #============== LIBRARIES ===============#
