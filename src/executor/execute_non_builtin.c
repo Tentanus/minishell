@@ -3,7 +3,7 @@
 char	*free_and_return(char *cmd, char **sub_paths, char *path_cmd)
 {
 	free(cmd);
-	free_double_array(sub_paths);
+	ft_free_split(sub_paths);
 	return (path_cmd);
 }
 
