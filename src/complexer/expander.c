@@ -33,7 +33,7 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 
 	t_return = NULL;
 	i = 0;
-	split = ft_split(env_var_get_env((t_current->str + 1), env_var_list), ' ');
+	split = ft_split(env_var_getenv((t_current->str + 1), env_var_list), ' ');
 	if (!split)
 		return (NULL);
 	while (split[i] != NULL)
@@ -79,7 +79,7 @@ char	*expander_get_shell_var(const char *str, const int pos, \
 	sh_var = ft_substr(str, pos + 1, *len_sh_var - 1);
 	if (!sh_var)
 		return (NULL);
-	str_ret = env_var_get_env(sh_var, env_var_list);
+	str_ret = env_var_getenv(sh_var, env_var_list);
 	free(sh_var);
 	return (str_ret);
 }

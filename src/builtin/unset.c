@@ -20,7 +20,7 @@ int	builtin_unset(char *name, t_env_var_ll **env_var_list)
 		{
 			temp_var = current->next;
 			current->next = temp_var->next;
-			env_var_free_node(temp_var);
+			list_env_free_node(temp_var);
 			return (SUCCESS);
 		}
 		current = current->next;

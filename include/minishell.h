@@ -113,6 +113,7 @@ void			list_env_free_list(t_env_var_ll *env_list);
 t_env_var_ll	*list_env_get_node(char *name, t_env_var_ll *env_list);
 t_env_var_ll	*list_env_fill_new(char *env_str);
 int				list_env_add_back(t_env_var_ll **env_list, t_env_var_ll *env_node);
+char			**list_env_convert_list_cpp(t_env_var_ll *env_list);
 
 //				FUNCTION: LEXER
 
@@ -229,7 +230,6 @@ int				env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_va
 bool			env_var_exists(char *name, t_env_var_ll *env_var_list);
 char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
-char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR
 

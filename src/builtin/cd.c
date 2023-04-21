@@ -17,20 +17,20 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 	char	*new_working_dir;
 
 	if (cmd->args[1] == NULL) // this is the case for "cd" without path: that 1 arg = NULL
-		new_working_dir = env_var_get_env("HOME", *env_var_list);
+		new_working_dir = env_var_getenv("HOME", *env_var_list);
 	else if (cmd->args[1][0] == '~')
 	{
 		if (cmd->args[1][1] == '/')
-			new_working_dir = ft_strjoin(env_var_get_env("HOME", *env_var_list), &cmd->args[1][1]);
+			new_working_dir = ft_strjoin(env_var_getenv("HOME", *env_var_list), &cmd->args[1][1]);
 		else
-			new_working_dir = env_var_get_env("HOME", *env_var_list);
+			new_working_dir = env_var_getenv("HOME", *env_var_list);
 	}
 	else
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
 		{
 			// printf("KOM IK HIER?\n");
-			new_working_dir = ft_strdup(env_var_get_env("OLDPWD", *env_var_list));
+			new_working_dir = ft_strdup(env_var_getenv("OLDPWD", *env_var_list));
 			// printf("#1 new_working_dir = %s\n", new_working_dir);
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
 				return (minishell_error("cd: OLDPWD not set"), NULL); // TODO make sure not to exit shell completely (but throw error like bash)
@@ -53,11 +53,11 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (new_working_dir == NULL)
 		return (minishell_error("error with new_working_dir in execute_cd"), ERROR); // throw error like bash
 	// printf("env_var_get_env(PWD, *env_var_list) = %s\n", env_var_get_env("PWD", *env_var_list));
-	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));
+	current_working_dir = ft_strjoin("OLDPWD=", env_var_getenv("PWD", *env_var_list));
 	// printf("current_working_dir = %s\n", current_working_dir);
 	if (!current_working_dir)
 		return (minishell_error("malloc error current_working_dir in execute_cd"), ERROR);
-	env_var_set_env(current_working_dir, env_var_list);
+	env_var_setenv(current_working_dir, env_var_list);
 	if (chdir(new_working_dir) != 0)
 		return (minishell_cd_error(cmd->args[0], cmd->args[1]), SUCCESS); // throw error like bash
 	// free(current_working_dir);
@@ -71,7 +71,7 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
 	if (!pwd)
 		return (minishell_error("malloc error pwd in execute_cd"), ERROR);
-	env_var_set_env(pwd, env_var_list);
+	env_var_setenv(pwd, env_var_list);
 	free(pwd);
 	return (SUCCESS);
 }

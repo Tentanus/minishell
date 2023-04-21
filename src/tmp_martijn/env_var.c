@@ -10,6 +10,8 @@ char	*env_var_getenv(char *name, t_env_var_ll *env_var_list)
 {
 	size_t	len_name;
 
+	if (!name || !env_var_list)
+		return (NULL);
 	len_name = ft_strlen(name) + 1;
 	while (env_var_list != NULL)
 	{
@@ -31,7 +33,7 @@ void	env_var_setenv(char *envar, t_env_var_ll **env_var_list)
 	t_env_var_ll	*env_current;
 	t_env_var_ll	*prev;
 
-	if (!envar || env_var_list)
+	if (!envar || !env_var_list)
 		return ;
 	prev = NULL;
 	env_current = *env_var_list;
@@ -46,11 +48,11 @@ void	env_var_setenv(char *envar, t_env_var_ll **env_var_list)
 				*env_var_list = env_node;
 			else
 				prev->next = env_node;
-			env_var_free_node(env_current);
+			list_env_free_node(env_current);
 			return ;
 		}
 		prev = env_current;
 		env_current = env_current->next;
 	}
-	env_var_add_to_end_list(env_var_list, env_node);
+	list_env_add_back(env_var_list, env_node);
 }

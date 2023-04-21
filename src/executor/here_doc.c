@@ -42,7 +42,7 @@ char	*here_expand_line(char *line, size_t pos, t_env_var_ll *list_env)
 	env_name = ft_substr(line, pos + 1, var_len - 1);
 	if (!env_name)
 		return (NULL);
-	env_value = env_var_get_env(env_name, list_env);
+	env_value = env_var_getenv(env_name, list_env);
 	free(env_name);
 	line = here_replace_line(line, env_value, &pos, var_len);
 	if (!line)

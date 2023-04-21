@@ -7,7 +7,7 @@ int	main(int argc, char **argv, char **envp)
  	(void)	argv;
  	if (argc > 1)
 		return (EXIT_FAILURE);
-	if (init_shell(envp, &mini) == 1)
+	if (init_env(envp, &mini) == 1)
 		return (1);
 	mini.cmd_list = NULL;
 	mini.input= NULL;

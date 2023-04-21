@@ -43,7 +43,7 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 	char	*cmd;
 	char	**sub_paths;
 
-	path_complete = env_var_get_env("PATH", mini->env_list);
+	path_complete = env_var_getenv("PATH", mini->env_list);
 	if (path_complete == NULL) // if PATH does not exist
 		minishell_error("PATH does not exist");
 	if (!current_cmd->args[0]) // if cmd does not exist
@@ -76,7 +76,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	if (path_to_cmd != NULL)
 	{
-		env_list = env_var_to_cpp(mini->env_list);
+		env_list = list_env_convert_list_cpp(mini->env_list);
 		// printf("cmd->args[0] = %s\n", cmd->args[0])
 		// printf("path_to_cmd = %s\n", path_to_cmd);
 		// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);

@@ -44,9 +44,9 @@ SRC			:=	\
 				executor/execute_non_builtin.c		\
 				executor/here_doc.c					\
 				executor/redir.c					\
-				env_var_init_shell/env_var.c		\
-				env_var_init_shell/env_var_list.c	\
-				env_var_init_shell/init_shell.c		\
+				tmp_martijn/env_var.c				\
+				tmp_martijn/init_env.c				\
+				tmp_martijn/list_env_utils.c		\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
@@ -58,9 +58,6 @@ VER_SRC		:=	$(SRC) \
 				test/ver_main.c
 
 WEV_SRC		:=	$(SRC) \
-				tmp_martijn/env_var.c				\
-				tmp_martijn/init_env.c				\
-				tmp_martijn/list_env_utils.c		\
 				tmp_mares/parse_utils.c				\
 				tmp_martijn/wev_main.c
 
