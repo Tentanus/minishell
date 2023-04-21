@@ -54,25 +54,31 @@ Your shell should:
 
 # MiniShell
 
-Bouw image genaamd ubuntu-c-dev op basis van Dockerfile:
-```bash
-docker build -t ubuntu-c-dev .
-```
 
-Draai container op basis van image genaamd  ubuntu-c-dev met mounted eigen folder:
-```bash
-docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --rm --init -v "$PWD:/pwd"  ubuntu-c-dev sh -c "cd /pwd; bash"
-```
---cap-add=SYS_PTRACE --security-opt seccomp=unconfined = nodig om lldb te kunnen runnen in container
--i = interactive so bash doesn't immediately quit because there is no input\
--t = bash shows prompt\
---rm = delete container on exit to not waste space\
--v = mounts specific folder from host to Docker container\
---init = shiieet snap het nut niet, maar Noah gebruikt het\
--c = CPU shares (relative weight) ???\
-sh = ?
+# NOTES:
 
-Run code met readline in Ubuntu:
-```bash
-gcc code.c -L/usr/local/lib -I/usr/local/include -lreadline
-```
+## DUP2():
+dup2(old_fd, new_fd):
+The dup2() function duplicates the old file descriptor to the new (standard) file descriptor,
+which means that any subsequent write to the new_fd (standard output) will actually write to old_fd (the file).
+if (dup2(old_fd, new_fd) == -1) // redirect from old_fd to new_fd
+	return (ERROR and close(new_fd))
+
+The close() function must close the file descriptor that was returned by open().
+
+
+## Append Redirection:
+
+// handle append redirection
+``
+else if (redirect->redir == APP) // check if there is append redirection
+{
+	fd_file = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0644); // if so: open outfile and save it in fd_file
+	if (fd_file < 0)
+		return (minishell_error("failed to open append file"));
+	if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
+		return (minishell_error("Dup error stdoutput < - > write end of pipe\n"));
+	close(fd_file);
+}
+``
+

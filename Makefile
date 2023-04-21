@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/19 14:29:39 by mweverli      ########   odam.nl          #
+#    Updated: 2023/04/21 14:49:30 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,14 @@ SRC			:=	\
 				complexer/syntax.c					\
 				complexer/syntax_jmptbl_func.c		\
 				executor/executor.c					\
+				executor/execute_multiple_cmds.c	\
+				executor/execute_single_cmd.c		\
+				executor/execute_non_builtin.c		\
 				executor/here_doc.c					\
 				executor/redir.c					\
+				env_var_init_shell/env_var.c		\
+				env_var_init_shell/env_var_list.c	\
+				env_var_init_shell/init_shell.c		\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
