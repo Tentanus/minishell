@@ -70,7 +70,7 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	pwd = NULL;
 	pwd = ft_strjoin("PWD=", getcwd(pwd, 0));
 	if (!pwd)
-		return (minishell_error("malloc error pwd in execute_cd"), ERROR);
+		return (minishell_error("(malloc) error pwd in execute_cd"), ERROR);
 	env_var_set_env(pwd, env_var_list);
 	free(pwd);
 	return (SUCCESS);

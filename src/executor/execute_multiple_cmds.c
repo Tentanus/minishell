@@ -53,6 +53,10 @@ int	set_fds(int *fd_pipe, int prev_read_end)
 	close(fd_pipe[READ]); // close the read end of the pipe
 	return (prev_read_end);
 }
+void	sighandler(int sig)
+{
+	printf("handling the siggggs, sig = %d\n", sig);
+}
 
 void	execute_multiple_commands(t_minishell *mini)
 {
@@ -74,7 +78,10 @@ void	execute_multiple_commands(t_minishell *mini)
 		if (pid < 0)
 			return (minishell_error("Fork fail"));
 		if (pid == 0)
+		{
+			signal(SIGINT, &sighandler);
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
+		}
 		prev_read_end = set_fds(fd_pipe, prev_read_end);
 		// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
