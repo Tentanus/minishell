@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/19 19:40:25 by mweverli      ########   odam.nl          #
+#    Updated: 2023/04/21 15:59:14 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC			:=	\
 				executor/execute_non_builtin.c		\
 				executor/here_doc.c					\
 				executor/redir.c					\
+				executor/signals.c					\
 				env_var_init_shell/env_var.c		\
 				env_var_init_shell/env_var_list.c	\
 				env_var_init_shell/init_shell.c		\

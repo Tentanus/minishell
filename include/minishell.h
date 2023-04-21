@@ -232,6 +232,12 @@ int				handle_builtin(t_cmd *cmd, t_minishell *mini);
 void			handle_non_builtin(t_cmd *cmd, t_minishell *mini);
 void			executor(t_minishell *mini);
 
+// 				FUNCTION: SIGNALS
+
+void			sig_quit_handler(int sig);
+void			sig_int_handler();
+void			init_signals();
+
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 
 void			mini_parse_input(char *input, t_cmd *cmd);

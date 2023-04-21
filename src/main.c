@@ -11,6 +11,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	mini.cmd_list = NULL;
 	mini.input= NULL;
+	init_signals();
 	while (1)
 	{
 		mini.input = readline(MARSH_PROMPT);

@@ -4,11 +4,15 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 {
 	pid_t	pid;
 
+	signal(SIGINT, SIG_IGN); // !
+	signal(SIGQUIT, SIG_IGN); // !
 	pid = fork();
 	if (pid < 0)
 		return (minishell_error("fork fail"), -1);
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL); // !
+		signal(SIGINT, SIG_DFL); // !
 		dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
 		close(prev_read_end);
 		if (current_cmd->args[0] != NULL) // if cmd is not empty
@@ -23,11 +27,14 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 	}
 	// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 	close(prev_read_end);
+	signal(SIGINT, &sig_int_handler); // !
 	return (pid);
 }
 
 void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev_read_end)
 {
+	signal(SIGQUIT, SIG_DFL); // !
+	signal(SIGINT, SIG_DFL); // !
 	close(fd_pipe[READ]); // close the read end of the pipe
 	dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
 	dup2(fd_pipe[WRITE], STDOUT_FILENO); // duplicate the write end of the current pipe to standard output
@@ -40,6 +47,7 @@ void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 	}
 	else // if cmd is empty
 		handle_redirect(current_cmd->redir, redir_error_exit);
+	signal(SIGINT, &sig_int_handler); // !
 	exit(EXIT_SUCCESS); // TODO change exit code
 }
 
@@ -53,10 +61,6 @@ int	set_fds(int *fd_pipe, int prev_read_end)
 	close(fd_pipe[READ]); // close the read end of the pipe
 	return (prev_read_end);
 }
-void	sighandler(int sig)
-{
-	printf("handling the siggggs, sig = %d\n", sig);
-}
 
 void	execute_multiple_commands(t_minishell *mini)
 {
@@ -67,6 +71,8 @@ void	execute_multiple_commands(t_minishell *mini)
 	int		count_childs;
 
 	count_childs = 0;
+	// signal(SIGQUIT, SIG_IGN); // !
+	signal(SIGINT, SIG_IGN); // !
 	prev_read_end = STDIN_FILENO; // initialize the read end of the first pipe to standard input
 	current_cmd = mini->cmd_list;
 	while (current_cmd->next != NULL) // loop through linked list s_cmd made of t_cmd's, if current_cmd is not last cmd:
@@ -78,13 +84,12 @@ void	execute_multiple_commands(t_minishell *mini)
 		if (pid < 0)
 			return (minishell_error("Fork fail"));
 		if (pid == 0)
-		{
-			signal(SIGINT, &sighandler);
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
-		}
 		prev_read_end = set_fds(fd_pipe, prev_read_end);
+		signal(SIGINT, &sig_int_handler); // !
 		// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
 		current_cmd = current_cmd->next; // move to next node (simple cmd) in linked list
+		// while(1);
 	}
 	pid = execute_last_cmd(mini, current_cmd, prev_read_end); // last command in the pipeline
 	wait_function(pid, count_childs);
