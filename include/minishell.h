@@ -13,6 +13,7 @@
 # include <string.h> // for strerror
 # include <errno.h> // for errors
 # include <sys/wait.h> // for waitpid
+# include <signal.h> // for signals
 
 # include <libft.h> // for libft
 
@@ -26,6 +27,9 @@
 # define SUCCESS 0
 # define READ 0
 # define WRITE 1
+
+//			GLOBAL
+
 
 //			E_NUMS
 
