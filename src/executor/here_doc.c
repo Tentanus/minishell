@@ -68,30 +68,48 @@ char	*here_expand(char *line, t_env_var_ll *list_env)
 	return (line);
 }
 
-int	here_init(const char *delim, t_env_var_ll *list_env)
+int	here_lines(const char *delim, int fd,  t_env_var_ll *list_env)
 {
-	int		pipe_fd[2];
 	char	*line;
 
-	if (pipe(pipe_fd) == -1)
-		return (-1);
-	while (1)
+	signal(SIGINT, SIG_DFL);
+	while(1)
 	{
-		// TODO signal(SIGINT, &sig_int_here_handler); // !
 		line = readline("> ");
 		if (line == NULL)
-			return (-1);
+			exit(-1);
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
 			free(line);
 			break ;
 		}
-		line = ft_strjoin_fs1(line, "\n");
-		write(pipe_fd[1], line, ft_strlen(line));
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	exit(0);
+}
+
+int	here_init(const char *delim, t_env_var_ll *list_env)
+{
+	int	pipe_fd[2];
+	int	status;
+	int	pid;
+
+	if (pipe(pipe_fd) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+	{
+		close(pipe_fd[0]);
+		here_lines(delim, pipe_fd[1], list_env);
+	}
 	close(pipe_fd[1]);
+	waitpid(pid, &status, 0);
+//	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+//		setstatus = 130
 	return (pipe_fd[0]);
 }
 

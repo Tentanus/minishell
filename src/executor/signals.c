@@ -25,7 +25,7 @@ void	sig_int_here_handler()
 
 void    init_signals()
 {
-    signal(SIGINT, &sig_int_handler);
+	signal(SIGINT, &sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
