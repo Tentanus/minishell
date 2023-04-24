@@ -16,7 +16,10 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 	if (pid < 0)
 		return (minishell_error("fork fail"));
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL); // !
 		handle_non_builtin(current_cmd, mini);
+	}
 	else
 		wait_function(pid, 0);
 }

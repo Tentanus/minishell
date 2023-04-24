@@ -25,6 +25,7 @@ void	wait_function(pid_t pid, int count_childs)
 
 void	executor(t_minishell *mini)
 {
+	signal(SIGINT, SIG_IGN); // !
 	if (!mini->cmd_list)
 		return ;
 	handle_here_doc(mini->cmd_list, mini->env_list);

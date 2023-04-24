@@ -1,5 +1,12 @@
 #include <minishell.h>
 
+void	init_start(t_minishell *mini)
+{
+	tcgetattr(STDIN_FILENO, &mini->saved_term);
+	mini->saved_term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
+}
+
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
@@ -10,18 +17,24 @@ int	main(int argc, char **argv, char **envp)
 	if (init_shell(envp, &mini) == 1)
 		return (1);
 	mini.cmd_list = NULL;
-	mini.input= NULL;
+	mini.input = NULL;
+
+	init_start(&mini);
 	while (1)
 	{
-		mini.input = readline(MARSH_PROMPT);
+		init_signals();
+		mini.input = readline(OCTO_PROMPT);
+		// printf("|%s|\n", mini.input);
 		if (mini.input == NULL)
-			continue ;
+			sig_quit_handler(&mini);
 		if (ft_strncmp(mini.input, "", 1))
+		{
 			add_history(mini.input);
-		complexer(&mini);
-		executor(&mini);
-		list_cmd_free_list(mini.cmd_list);
-		mini.cmd_list = NULL;
+			complexer(&mini);
+			executor(&mini);
+			list_cmd_free_list(mini.cmd_list);
+			mini.cmd_list = NULL;
+		}
 		free(mini.input);
 		mini.input = NULL;
 	}

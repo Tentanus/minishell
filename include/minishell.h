@@ -13,6 +13,9 @@
 # include <string.h> // for strerror
 # include <errno.h> // for errors
 # include <sys/wait.h> // for waitpid
+# include <signal.h> // for signals
+# include <sys/ioctl.h> // for ioctl
+# include <termios.h> // for termios
 
 # include <libft.h> // for libft
 
@@ -20,12 +23,17 @@
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
+# define OCTO_PROMPT "\001\033[1;32m\002🐙> \001\033[0m\002"
+
 # define SET_DELIMETER "-|\'\"><$ "
 
 # define ERROR -1
 # define SUCCESS 0
 # define READ 0
 # define WRITE 1
+
+//			GLOBAL
+
 
 //			E_NUMS
 
@@ -89,6 +97,7 @@ typedef struct s_minishell
 	t_env_var_ll	*env_list;
 	char			*input;
 	int				status;
+	struct termios	saved_term;
 }	t_minishell;
 
 //				FUNCTIONS
@@ -227,6 +236,13 @@ void			execute_multiple_commands(t_minishell *mini);
 int				handle_builtin(t_cmd *cmd, t_minishell *mini);
 void			handle_non_builtin(t_cmd *cmd, t_minishell *mini);
 void			executor(t_minishell *mini);
+
+// 				FUNCTION: SIGNALS
+
+void			sig_quit_handler(t_minishell *mini);
+void			sig_int_handler(int sig);
+void			sig_int_here_handler(void);
+void			init_signals(void);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 

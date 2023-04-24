@@ -3,7 +3,7 @@
 char	*here_replace_line(char *line, const char *env_value, \
 		size_t *pos, size_t env_key_len)
 {
-	char			*new_line;
+	char	*new_line;
 	size_t	env_value_len;
 
 	if (!env_value)
@@ -77,6 +77,7 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 		return (-1);
 	while (1)
 	{
+		// TODO signal(SIGINT, &sig_int_here_handler); // !
 		line = readline("> ");
 		if (line == NULL)
 			return (-1);

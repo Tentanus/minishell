@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 		if (mini.input == NULL)
 		{
 			clear_history();
-			printf("exiting marshell\n");
+			printf("exit marshell\n");
 			exit(EXIT_SUCCESS);
 		}
 		complexer(&mini);
