@@ -34,5 +34,4 @@ void	executor(t_minishell *mini)
 	else
 		execute_multiple_commands(mini);
 	close_here_doc(mini->cmd_list);
-	// signal(SIGINT, &sig_int_handler); // !
 }

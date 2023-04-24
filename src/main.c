@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	init_start(&mini);
 	while (1)
 	{
-		init_signals(&mini);
+		init_signals();
 		mini.input = readline(OCTO_PROMPT);
 		// printf("|%s|\n", mini.input);
 		if (mini.input == NULL)

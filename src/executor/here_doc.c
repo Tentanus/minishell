@@ -3,7 +3,7 @@
 char	*here_replace_line(char *line, const char *env_value, \
 		size_t *pos, size_t env_key_len)
 {
-	char			*new_line;
+	char	*new_line;
 	size_t	env_value_len;
 
 	if (!env_value)
