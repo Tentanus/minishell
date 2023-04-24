@@ -6,11 +6,16 @@ void	init_start(t_minishell *mini)
 	mini->saved_term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 }
+// void test(void)
+// {
+// 	system("leaks -q marshell");
+// }
 
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
+	// atexit(test); // ! remove after testing!
  	(void)	argv;
  	if (argc > 1)
 		return (EXIT_FAILURE);

@@ -102,11 +102,13 @@ typedef struct s_minishell
 
 //				FUNCTIONS
 
-int				minishell_cd_error(const char *cmd, const char *arg);
+int				minishell_chdir_error(const char *cmd, const char *arg);
+void			minishell_cd_error(const char *loc);
 void			minishell_error(const char *loc);
 void			minishell_error_exit(const char *loc);
 void			minishell_syntax_error(const char *str);
 void			minishell_quote_error(void);
+
 
 //				FUNCTION: COMPLEX
 
@@ -241,7 +243,6 @@ void			executor(t_minishell *mini);
 
 void			sig_quit_handler(t_minishell *mini);
 void			sig_int_handler(int sig);
-void			sig_int_here_handler(void);
 void			init_signals(void);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)

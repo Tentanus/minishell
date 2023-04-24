@@ -1,6 +1,6 @@
 FROM debian:latest
 
-ENV CC="gcc" CFLAGS="-Wall -Wextra -Werror" LDFLAGS="-lreadline" READLINE_LINK=""
+ENV CC="gcc" CFLAGS="-Wall -Wextra -Werror" READLINE_LINK="-lreadline"
 
 RUN apt-get -y update \
 && \
@@ -23,7 +23,6 @@ RUN apt-get -y update \
 	rm -rf /var/lib/apt/lists/*
 
 ADD docker_config/.vimrc /root/.vimrc
-ADD ./ /marsh
 
 #	
 #	start up docker application
@@ -33,14 +32,18 @@ ADD ./ /marsh
 #
 #	to find image_ID:
 #	docker image list
-#	
-#	to run docker container:
-#	docker run -it --rm [image_tag/image_ID]
 #
-#	make executable
+#	to run docker container:
+#	docker run -it --rm -v $HOME/files/marshell:/marsh [image_tag/image_ID]
+#	docker run -it --rm -v $HOME/Desktop/minishell:/marsh [image_tag/image_ID]
+#
+#	cd marsh
+#	make fclean
+#	make dock (executable = "marshell")
 #
 #	to run valgrind:
 #	valgrind --leak-check=full --show-leak-kinds=all --suppressions=[SUPPRESSIONFILE.supp] [EXE]
+#	leaks shown at exit (or ctrl-D)
 #
 #		apt-get -y update && \
 #		apt-get install \

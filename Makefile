@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/24 13:21:08 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/04/24 16:58:54 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ DEP			:=	$(OBJ:%.o=%.d)
 
 ODIR			:=	$(sort $(dir $(ODIR)))
 READLINE_PATH	:=	lib/readline
-READLINE_LINK	:=	-Llib/readline/lib -lreadline -lncurses
+READLINE_LINK	?=	-Llib/readline/lib -lreadline -lncurses
 
 #============== LIBRARIES ===============#
 
@@ -97,7 +97,7 @@ INCLUDE			:=	-I$(INC_DIR) \
 all: $(NAME)
 
 $(NAME): LIB $(OBJ) 
-	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIB_LIST) -o $(NAME)
+	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIB_LIBFT) $(READLINE_LINK) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
@@ -112,7 +112,7 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "$(RED)$(BOLD)\tCLEANING $(NAME)$(RESET)"
 
-fclean: clean 
+fclean: clean lclean
 	@rm -f $(NAME)
 
 gclean: lclean tclean fclean

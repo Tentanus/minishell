@@ -44,12 +44,3 @@ int	main(int argc, char **argv, char **envp)
 	
  	return (EXIT_SUCCESS);
 }
-
-// !! TO DO:
-// !!
-// !! executer opzet maken (OP PAPIER MRAZ!!!)
-// !!
-// !! volgorde uitvoering commands bekijken en optimaliseren
-// !! structuur functies optimaliseren en norm maken
-// !! alle env functions goed checken en naar free-en kijken
-// !!
