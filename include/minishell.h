@@ -239,10 +239,10 @@ void			executor(t_minishell *mini);
 
 // 				FUNCTION: SIGNALS
 
-void			sig_quit_handler();
-void			sig_int_handler();
-void			init_signals();
-void			sig_int_here_handler();
+void			sig_quit_handler(t_minishell *mini);
+void			sig_int_handler(int sig);
+void			sig_int_here_handler(void);
+void			init_signals(void);
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 
