@@ -14,6 +14,8 @@
 # include <errno.h> // for errors
 # include <sys/wait.h> // for waitpid
 # include <signal.h> // for signals
+# include <sys/ioctl.h> // for ioctl
+// # include <termios.h> // for termios
 
 # include <libft.h> // for libft
 
@@ -21,6 +23,8 @@
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
 # define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
+# define OCTO_PROMPT "\001\033[1;32m\002🐙> \001\033[0m\002"
+
 # define SET_DELIMETER "-|\'\"><$ "
 
 # define ERROR -1
@@ -234,9 +238,10 @@ void			executor(t_minishell *mini);
 
 // 				FUNCTION: SIGNALS
 
-void			sig_quit_handler(int sig);
+void			sig_quit_handler();
 void			sig_int_handler();
 void			init_signals();
+void			sig_int_here_handler();
 
 // 				FUNCTION: TMP_MARES (CAN BE REMOVED)
 
