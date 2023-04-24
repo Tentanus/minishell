@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/21 15:59:14 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/04/24 13:21:08 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SRC			:=	\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
 				utils/minishell_error.c				\
-				utils/print_utils.c					\
+				utils/print_utils.c
 
 VER_SRC		:=	$(SRC) \
 				tmp_mares/parse_utils.c				\

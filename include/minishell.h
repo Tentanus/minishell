@@ -15,7 +15,7 @@
 # include <sys/wait.h> // for waitpid
 # include <signal.h> // for signals
 # include <sys/ioctl.h> // for ioctl
-// # include <termios.h> // for termios
+# include <termios.h> // for termios
 
 # include <libft.h> // for libft
 
@@ -97,6 +97,7 @@ typedef struct s_minishell
 	t_env_var_ll	*env_list;
 	char			*input;
 	int				status;
+	struct termios	saved_term;
 }	t_minishell;
 
 //				FUNCTIONS
