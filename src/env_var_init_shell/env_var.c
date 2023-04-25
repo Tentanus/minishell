@@ -80,3 +80,4 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 	}
 	env_var_add_to_end_list(env_var_list, new_var);
 }
+

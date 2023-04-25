@@ -38,10 +38,13 @@ int	main(int argc, char **argv, char **envp)
 			complexer(&mini);
 			executor(&mini);
 			list_cmd_free_list(mini.cmd_list);
+			// env_var_free_list(&mini.env_list);
+			NEW_env_var_free_list(mini.env_list);
 			mini.cmd_list = NULL;
 		}
 		free(mini.input);
 		mini.input = NULL;
 	}
+	// free(&mini);
  	return (EXIT_SUCCESS);
 }

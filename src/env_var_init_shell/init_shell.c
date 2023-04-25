@@ -9,7 +9,6 @@
 ** exported variables and their values.
 */
 
-
 /*
 ** function that initiates the creation of a new node containing a new environment variable in format of NAME=value
 ** and calls a function to add this node to the end of the linked list of environment variables.
@@ -44,6 +43,7 @@ void init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 			// printf("current->value %s \n", current->value);
 			value = ft_atoi(current->value) + 1;
 			current->value = ft_itoa(value); // ! malloc in ft_itoa
+			// free(value); // ! FREE
 			// printf("new current->value %s \n", current->value);
 		}
 		current = current->next;

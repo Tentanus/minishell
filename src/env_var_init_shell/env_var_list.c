@@ -23,9 +23,55 @@ void	print_linked_list(t_env_var_ll *env_var_list)
 void	env_var_free_node(t_env_var_ll *env_var_list)
 {
 	free(env_var_list->name);
-	free(env_var_list->value);
+	if (env_var_list->value)
+		free(env_var_list->value);
 	free(env_var_list);
 }
+
+t_env_var_ll	*NEW_env_var_free_node(t_env_var_ll *env_var_list)
+{
+	t_env_var_ll *node;
+
+	node = env_var_list->next;
+	free(env_var_list->name);
+	if (env_var_list->value)
+		free(env_var_list->value);
+	free(env_var_list);
+	return(node);
+}
+
+void	NEW_env_var_free_list(t_env_var_ll *env_var_list)
+{
+	t_env_var_ll *current;
+
+	if (env_var_list == NULL)
+		return ;
+	current = env_var_list;
+	while (current != NULL)
+		current = NEW_env_var_free_node(current);
+}
+
+/*
+** function to free whole of env_var_list
+*/
+void	env_var_free_list(t_env_var_ll **env_var_list)
+{
+	t_env_var_ll *current;
+	t_env_var_ll *tmp;
+
+	current = *env_var_list;
+	if (current == NULL)
+		return ;
+	while (current)
+	{
+		tmp = current->next;
+		env_var_free_node(current);
+		current = tmp;
+	}
+	*env_var_list = NULL;
+}
+
+
 
 /*
 ** function that creates a new node containing environment variable in format of NAME=value
@@ -46,8 +92,8 @@ t_env_var_ll	*env_var_init_new_var_node(char *env_var)
 		{
 			if (env_var[i] == '=')
 			{
-				new_var->name = ft_substr(env_var, 0, i);
-				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
+				new_var->name = ft_substr(env_var, 0, i); // ! MALLOC
+				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1); // ! MALLOC
 				break ;
 			}
 			i++;
@@ -56,7 +102,7 @@ t_env_var_ll	*env_var_init_new_var_node(char *env_var)
 	}
 	else
 	{
-		new_var->name = env_var;
+		new_var->name = ft_substr(env_var, 0, i); // ! MALLOC
 		new_var->value = NULL;
 		new_var->has_value = false;
 	}

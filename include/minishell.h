@@ -222,6 +222,9 @@ int				init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list);
 
 void			env_var_print_linked_list(t_env_var_ll *env_var_list); // TEST FUNCTION (CAN BE REMOVED)
 void			env_var_free_node(t_env_var_ll *env_var_list);
+void			env_var_free_list(t_env_var_ll **env_var_list);
+t_env_var_ll	*NEW_env_var_free_node(t_env_var_ll *env_var_list);
+void			NEW_env_var_free_list(t_env_var_ll *env_var_list);
 t_env_var_ll	*env_var_init_new_var_node(char *env_var);
 int				env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
 bool			env_var_exists(char *name, t_env_var_ll *env_var_list);
