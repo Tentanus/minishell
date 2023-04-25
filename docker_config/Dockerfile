@@ -39,11 +39,11 @@ ADD docker_config/.vimrc /root/.vimrc
 #
 #	cd marsh
 #	make fclean
-#	make dock (executable = "marshell")
+#	make dock DEBUG=1 (executable = "marshell")
 #
 #	to run valgrind:
 #	valgrind --leak-check=full --show-leak-kinds=all --suppressions=[SUPPRESSIONFILE.supp] ./[EXE]
-#	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./marshell
+#	valgrind --leak-check=full --suppressions=readline.supp ./marshell (OPTIONIAL: --show-leak-kinds=all)
 #	leaks shown at exit (or ctrl-D)
 #
 #		apt-get -y update && \

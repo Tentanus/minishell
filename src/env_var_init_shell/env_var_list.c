@@ -28,6 +28,27 @@ void	env_var_free_node(t_env_var_ll *env_var_list)
 	free(env_var_list);
 }
 
+/*
+** function to free whole of env_var_list
+*/
+void	env_var_free_list(t_env_var_ll **env_var_list)
+{
+	t_env_var_ll *current;
+	t_env_var_ll *tmp;
+
+	current = *env_var_list;
+	if (current == NULL)
+		return ;
+	while (current)
+	{
+		tmp = current->next;
+		env_var_free_node(current);
+		current = tmp;
+	}
+	*env_var_list = NULL;
+}
+
+
 t_env_var_ll	*NEW_env_var_free_node(t_env_var_ll *env_var_list)
 {
 	t_env_var_ll *node;
@@ -51,25 +72,7 @@ void	NEW_env_var_free_list(t_env_var_ll *env_var_list)
 		current = NEW_env_var_free_node(current);
 }
 
-/*
-** function to free whole of env_var_list
-*/
-void	env_var_free_list(t_env_var_ll **env_var_list)
-{
-	t_env_var_ll *current;
-	t_env_var_ll *tmp;
 
-	current = *env_var_list;
-	if (current == NULL)
-		return ;
-	while (current)
-	{
-		tmp = current->next;
-		env_var_free_node(current);
-		current = tmp;
-	}
-	*env_var_list = NULL;
-}
 
 
 
@@ -86,7 +89,7 @@ t_env_var_ll	*env_var_init_new_var_node(char *env_var)
 	if (!new_var)
 		return (minishell_error("malloc fail init_new_var"), NULL);
 	i = 0;
-	if (ft_strchr(env_var, '=') != NULL) 
+	if (ft_strchr(env_var, '=') != NULL)
 	{
 		while (env_var[i])
 		{
@@ -102,7 +105,7 @@ t_env_var_ll	*env_var_init_new_var_node(char *env_var)
 	}
 	else
 	{
-		new_var->name = ft_substr(env_var, 0, i); // ! MALLOC
+		new_var->name = ft_strdup(env_var); // ! MALLOC
 		new_var->value = NULL;
 		new_var->has_value = false;
 	}

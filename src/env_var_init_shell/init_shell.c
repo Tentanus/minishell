@@ -20,10 +20,8 @@ int	init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list)
 	new_var = env_var_init_new_var_node(env_var);
 	if (!new_var)
 		return (minishell_error("fail in add_variables"), 1);
-	// positie van var in list?
 	env_var_add_to_end_list(env_var_list, new_var);
 	// print_linked_list(env_var_list);
-	// of add_var_to_list();
 	return (0);
 }
 
@@ -39,12 +37,9 @@ void init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 	{
 		if (ft_strncmp("SHLVL", current->name, 6) == 0)
 		{
-			// printf("%s ", current->name);
-			// printf("current->value %s \n", current->value);
 			value = ft_atoi(current->value) + 1;
+			free(current->value); // ! FREE
 			current->value = ft_itoa(value); // ! malloc in ft_itoa
-			// free(value); // ! FREE
-			// printf("new current->value %s \n", current->value);
 		}
 		current = current->next;
 	}
