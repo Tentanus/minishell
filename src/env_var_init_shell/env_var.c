@@ -36,15 +36,14 @@ char	*env_var_get_env(char *name, t_env_var_ll *env_var_list)
 {
 	int		len_name;
 
+	if (!name || !env_var_list)
+		return (NULL);
 	len_name = ft_strlen(name) + 1;
-	if (env_var_exists(name, env_var_list) == true)
+	while (env_var_list != NULL)
 	{
-		while (env_var_list != NULL)
-		{
-			if (ft_strncmp(env_var_list->name, name, len_name) == 0)
-				return (env_var_list->value);
-			env_var_list = env_var_list->next;
-		}
+		if (ft_strncmp(env_var_list->name, name, len_name) == 0)
+			return (env_var_list->value);
+		env_var_list = env_var_list->next;
 	}
 	return (NULL);
 }
@@ -61,7 +60,7 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 
 	if (!envar)
 		return ;
-	new_var = env_var_init_new_var_node(envar);
+	new_var = env_var_create_new_node(envar);
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)
 	{

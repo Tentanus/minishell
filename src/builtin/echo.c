@@ -37,19 +37,24 @@ int		builtin_echo(t_cmd *cmd, int fd)
 	i = 1;
 	n_option = 0;
 	// fix seg fault for 'echo -n' command without other args
-	while (builtin_echo_is_n_option(cmd->args[i]) == true)
+	if (cmd->args[1] != NULL)
 	{
-		n_option = 1;
-		i++;
+		while (builtin_echo_is_n_option(cmd->args[i]) == true)
+		{
+			n_option = 1;
+			i++;
+		}
+		while (cmd->args[i] != NULL)
+		{
+			ft_putstr_fd(cmd->args[i], fd);
+			if (cmd->args[i + 1] != NULL)
+				ft_putchar_fd(' ', fd);
+			i++;
+		}
+		if (n_option == 0)
+			ft_putchar_fd('\n', fd);
 	}
-	while (cmd->args[i] != NULL)
-	{
-		ft_putstr_fd(cmd->args[i], fd);
-		if (cmd->args[i + 1] != NULL)
-			ft_putchar_fd(' ', fd);
-		i++;
-	}
-	if (n_option == 0)
+	else
 		ft_putchar_fd('\n', fd);
 	return (SUCCESS);
 }

@@ -24,7 +24,9 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 	}
 }
 // TODO export met lege variabele:
-// TODO not a valid identifier
+// TODO not a valid identifier VOORAL VOOR key = ? en key = $
+// TODO eerste character moet isalpha zijn
+// TODO daarna character moet isalphanum OF _ zijn
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 {	

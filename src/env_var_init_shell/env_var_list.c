@@ -1,88 +1,73 @@
 #include <minishell.h>
 
 /*
-** print linked list of environment variables FOR TESTING!
-*/
-void	print_linked_list(t_env_var_ll *env_var_list)
+ * function to create a new env node that has all values set to NULL
+ */
+t_env_var_ll	*env_var_init_node(void)
 {
-	printf("LINKED LISTOF ENV VARS:\n\n");
-	while (env_var_list != NULL)
-	{
-		printf("%s ", env_var_list->name);
-		printf("= ");
-		printf("%s ", env_var_list->value);
-		printf("%s\n", env_var_list->has_value ? "true" : "false");
-		env_var_list = env_var_list->next;
-	}
-	printf("\n\n");
-}
+	t_env_var_ll	*env_node;
 
-/*
-** function to free content and node in env_var_list
-*/
-void	env_var_free_node(t_env_var_ll *env_var_list)
-{
-	free(env_var_list->name);
-	free(env_var_list->value);
-	free(env_var_list);
+	env_node = malloc(sizeof(t_env_var_ll));
+	if (!env_node)
+		return (NULL);
+	env_node->name = NULL;
+	env_node->value = NULL;
+	env_node->has_value = false;
+	env_node->next = NULL;
+	return (env_node);
 }
 
 /*
 ** function that creates a new node containing environment variable in format of NAME=value
 ** also adds bool with 'has value' = true or false for every node.
 */
-t_env_var_ll	*env_var_init_new_var_node(char *env_var)
+t_env_var_ll	*env_var_create_new_node(char *env_var_str)
 {
-	t_env_var_ll	*new_var;
+	t_env_var_ll	*new_env_node;
 	int				i;
 
-	new_var = (t_env_var_ll *)malloc(sizeof(t_env_var_ll));
-	if (!new_var)
-		return (minishell_error("malloc fail init_new_var"), NULL);
+	if (!env_var_str)
+		return (NULL);
+	new_env_node = env_var_init_node();
+	if (!new_env_node)
+		return (minishell_error("(malloc) fail in initiating new_env_node"), NULL);
 	i = 0;
-	if (ft_strchr(env_var, '=') != NULL) 
-	{
-		while (env_var[i])
-		{
-			if (env_var[i] == '=')
-			{
-				new_var->name = ft_substr(env_var, 0, i);
-				new_var->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
-				break ;
-			}
-			i++;
-		}
-		new_var->has_value = true;
-	}
-	else
-	{
-		new_var->name = env_var;
-		new_var->value = NULL;
-		new_var->has_value = false;
-	}
-	new_var->next = NULL;
-	return (new_var);
+	while (env_var_str[i] && env_var_str[i] != '=')
+		i++;
+	new_env_node->name = ft_substr(env_var_str, 0, i); // ! MALLOC
+	if (new_env_node->name == NULL)
+		return (env_var_free_node(new_env_node), NULL);
+	// i++; // ! ?
+	if (env_var_str[i] == '\0')
+		return (new_env_node);
+	// new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str) - i - 1); // ! MALLOC
+	new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str + i + 1)); // MARTIJNS
+	if (new_env_node->value == NULL)
+		return (env_var_free_node(new_env_node), NULL);
+	new_env_node->has_value = true;
+	return (new_env_node);
 }
+
 
 /*
 ** function that adds a new node containing a new environment variable in format of NAME=value
 ** to the end of the linked list of environment variables.
 */
-int	env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var)
+void	env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_env_var)
 {
 	t_env_var_ll	*current;
 
-	current = *env_var_list;
+	if (env_var_list == NULL || new_env_var == NULL)
+		return ;
 	if (*env_var_list == NULL)
-		*env_var_list = new_var;
-	else
 	{
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_var;
+		*env_var_list = new_env_var;
+		return ;
 	}
-	new_var->next = NULL;
-	return (0);
+	current = *env_var_list;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = new_env_var;
 }
 
 size_t	env_var_size_has_value(t_env_var_ll *env_list)
@@ -132,4 +117,67 @@ char	**env_var_to_cpp(t_env_var_ll *env_list)
 		env_current = env_current->next;
 	}
 	return (env_ret);
+}
+
+/*
+** print linked list of environment variables FOR TESTING!
+*/
+void	env_var_print_linked_list(t_env_var_ll *env_var_list)
+{
+	printf("LINKED LISTOF ENV VARS:\n\n");
+	while (env_var_list != NULL)
+	{
+		printf("%s", env_var_list->name);
+		printf("=");
+		printf("%s\n", env_var_list->value);
+		// printf("%s\n", env_var_list->has_value ? "true" : "false");
+		env_var_list = env_var_list->next;
+	}
+	// printf("\n\n");
+}
+
+/*
+** function to free content and node in env_var_list
+*/
+void	env_var_free_node(t_env_var_ll *env_var_node)
+{
+	free(env_var_node->name);
+	if (env_var_node->value)
+		free(env_var_node->value);
+	free(env_var_node);
+}
+
+/*
+** function to free whole of env_var_list
+*/
+void	env_var_free_list(t_env_var_ll *env_var_list)
+{
+	t_env_var_ll *tmp_env;
+
+	if (env_var_list == NULL)
+		return ;
+	while (env_var_list)
+	{
+		tmp_env = env_var_list->next;
+		env_var_free_node(env_var_list);
+		env_var_list = tmp_env;
+	}
+}
+
+t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list)
+{
+	t_env_var_ll	*current_node;
+	int				len_name;
+
+	if (!name || !env_var_list)
+		return (NULL);
+	len_name = ft_strlen(name) + 1;
+	current_node = env_var_list;
+	while (current_node != NULL)
+	{
+		if (ft_strncmp(current_node->name, name, len_name) == 0)
+			return (current_node);
+		current_node = current_node->next;
+	}
+	return (NULL);
 }

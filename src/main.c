@@ -6,16 +6,22 @@ void	init_start(t_minishell *mini)
 	mini->saved_term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 }
+// void test(void)
+// {
+// 	system("leaks -q marshell");
+// }
 
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
+	// atexit(test); // ! remove after testing!
  	(void)	argv;
  	if (argc > 1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE); // error message saying user should run "./minishell" without other arguments
 	if (init_shell(envp, &mini) == 1)
 		return (1);
+	// env_var_print_linked_list(mini.env_list);
 	mini.cmd_list = NULL;
 	mini.input = NULL;
 
@@ -38,5 +44,8 @@ int	main(int argc, char **argv, char **envp)
 		free(mini.input);
 		mini.input = NULL;
 	}
+	// env_var_free_list(mini.env_list);
+	// mini.env_list = NULL;
+	// free(&mini);
  	return (EXIT_SUCCESS);
 }

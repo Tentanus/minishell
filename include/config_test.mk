@@ -16,12 +16,16 @@ W: LIB $(WOBJ)
 	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(READLINE_LINK) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARTIJN TEST COMPILED |$(RESET)"
 
+dock: LIB $(OBJ)
+	@$(COMPILE) $(INCLUDE) $(OBJ) $(READLINE_LINK) $(LIB_LIBFT) -o $(NAME)
+	@echo "$(GREEN)$(BOLD)| Docker Test complete |$(RESET)"
+
 Wdock: LIB $(WOBJ)
-	@$(COMPILE) $(INCLUDE) $(WOBJ) $(LIB_LIBFT) $(LDFLAGS) -o martest
+	@$(COMPILE) $(INCLUDE) $(WOBJ) $(READLINE_LINK) $(LIB_LIBFT) -o martest
 	@echo "$(GREEN)$(BOLD)| Docker Test complete |$(RESET)"
 
 Vdock: LIB $(VOBJ)
-	@$(COMPILE) $(INCLUDE) $(VOBJ) $(LIB_LIBFT) $(LDFLAGS) -o martest
+	@$(COMPILE) $(INCLUDE) $(VOBJ) $(READLINE_LINK) -o martest
 	@echo "$(GREEN)$(BOLD)| Docker Test complete |$(RESET)"
 
 Vebug: clean

@@ -81,7 +81,10 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 		// printf("path_to_cmd = %s\n", path_to_cmd);
 		// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
 		if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
+		{
+			ft_free_split(env_list);
 			return (minishell_error_exit(cmd->args[0]));
+		}
 		// return (minishell_error("execve non_builtin_execute"));
 	}
 }
