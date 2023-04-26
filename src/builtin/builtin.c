@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/04/26 14:15:58 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/04/26 15:36:24 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		return (builtin_cd(cmd, env_var_list));
 	if (ft_strncmp(cmd->args[0], "env", 4) == 0)
-		return (NEW_builtin_env(*env_var_list));
+		return (builtin_env(*env_var_list));
 	if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 		return (builtin_unset(cmd->args[1], env_var_list));
 	if (ft_strncmp(cmd->args[0], "export", 7) == 0)

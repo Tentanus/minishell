@@ -36,14 +36,14 @@ t_env_var_ll	*env_var_create_new_node(char *env_var_str)
 		i++;
 	new_env_node->name = ft_substr(env_var_str, 0, i); // ! MALLOC
 	if (new_env_node->name == NULL)
-		// return_and_free!
+		return (env_var_free_node(new_env_node), NULL);
 	// i++; // ! ?
 	if (env_var_str[i] == '\0')
 		return (new_env_node);
 	// new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str) - i - 1); // ! MALLOC
 	new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str + i + 1)); // MARTIJNS
 	if (new_env_node->value == NULL)
-		// return_and_free!
+		return (env_var_free_node(new_env_node), NULL);
 	new_env_node->has_value = true;
 	return (new_env_node);
 }
@@ -133,7 +133,7 @@ void	env_var_print_linked_list(t_env_var_ll *env_var_list)
 		// printf("%s\n", env_var_list->has_value ? "true" : "false");
 		env_var_list = env_var_list->next;
 	}
-	printf("\n\n");
+	// printf("\n\n");
 }
 
 /*

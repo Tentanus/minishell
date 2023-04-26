@@ -21,12 +21,11 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE); // error message saying user should run "./minishell" without other arguments
 	if (init_shell(envp, &mini) == 1)
 		return (1);
-	// print_linked_list(mini.env_list);
+	// env_var_print_linked_list(mini.env_list);
 	mini.cmd_list = NULL;
 	mini.input = NULL;
 
 	init_start(&mini);
-	env_var_print_linked_list(mini.env_list);
 	while (1)
 	{
 		init_signals();

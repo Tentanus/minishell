@@ -215,9 +215,8 @@ int				builtin_exit(t_cmd *cmd);
 //				FUNCTION: INIT SHELL
 
 int				init_shell(char **envp, t_minishell *mini);
-void			init_shell_set_underscore(t_env_var_ll *env_var_list);
-int				init_shell_update_SHLVL(t_env_var_ll *env_var_list);
-// int				init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list);
+void			init_shell_set_underscore(t_env_var_ll **env_var_list);
+int				init_shell_update_SHLVL(t_env_var_ll **env_var_list);
 
 //				FUNCTION: ENVIRONMENT VARIABLES
 
@@ -231,7 +230,6 @@ bool			env_var_exists(char *name, t_env_var_ll *env_var_list);
 char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list);
 void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
-// void			env_var_set_env(char *envar, t_env_var_ll *env_var_list);
 char			**env_var_to_cpp(t_env_var_ll *env_list);
 
 // 				FUNCTION: EXECUTOR

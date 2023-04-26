@@ -9,25 +9,25 @@
 ** exported variables and their values.
 */
 
-void	init_shell_set_underscore(t_env_var_ll *env_var_list)
+void	init_shell_set_underscore(t_env_var_ll **env_var_list)
 {
 	char	*new_path;
 
 	new_path = ft_strjoin("_=", "./minishell"); // ! MALLOC
 	if (!new_path)
 		return (minishell_error("malloc error new_path in set_underscore"));
-	env_var_set_env(new_path, &env_var_list);
+	env_var_set_env(new_path, env_var_list);
 	free(new_path);
 }
 /*
 ** function that updates environment variable "SHLVL" in list of environment variables
 */
-int	init_shell_update_SHLVL(t_env_var_ll *env_var_list)
+int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*shlvl_node;
 	unsigned int	value;
 	
-	shlvl_node = env_var_get_env_node("SHLVL", env_var_list);
+	shlvl_node = env_var_get_env_node("SHLVL", *env_var_list);
 	if (shlvl_node)
 	{
 		value = ft_atoi(shlvl_node->value) + 1;
@@ -41,7 +41,7 @@ int	init_shell_update_SHLVL(t_env_var_ll *env_var_list)
 	shlvl_node = env_var_create_new_node("SHLVL=1");
 	if (!shlvl_node)
 		return (1);
-	env_var_add_to_end_list(&env_var_list, shlvl_node);
+	env_var_add_to_end_list(env_var_list, shlvl_node);
 	return (0);
 }
 
@@ -68,10 +68,10 @@ int	init_shell(char **envp, t_minishell *mini)
 		env_var_add_to_end_list(&env_var_list, new_env_var);
 		i++;
 	}
-	if (init_shell_update_SHLVL(env_var_list))
+	if (init_shell_update_SHLVL(&env_var_list))
 		return (env_var_free_list(env_var_list), 1);
 	builtin_unset("OLDPWD", &env_var_list);
-	init_shell_set_underscore(env_var_list);
+	init_shell_set_underscore(&env_var_list);
 	mini->env_list = env_var_list;
 	return (0);
 }
