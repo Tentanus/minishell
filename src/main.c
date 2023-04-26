@@ -21,13 +21,13 @@ void	init_mini(t_minishell *mini)
 // }
 
 int	main(int argc, char **argv, char **envp)
- {
+{
 	t_minishell		mini;
 
 	// atexit(test); // ! remove after testing!
- 	(void)	argv;
+	(void)	argv;
 	init_mini(&mini);
- 	if (argc > 1)
+	if (argc > 1)
 		return (EXIT_FAILURE); // error message saying user should run "./minishell" without other arguments
 	if (init_shell(envp, &mini) == 1)
 		return (1);
@@ -51,5 +51,5 @@ int	main(int argc, char **argv, char **envp)
 	// env_var_free_list(mini.env_list);
 	// mini.env_list = NULL;
 	// free(&mini);
- 	return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

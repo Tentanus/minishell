@@ -38,6 +38,8 @@ char	*env_var_get_env(char *name, t_env_var_ll *env_var_list)
 
 	if (!name || !env_var_list)
 		return (NULL);
+	if (ft_strncmp(name, "?", 2) == 0)
+		return (g_status.exit_str);
 	len_name = ft_strlen(name) + 1;
 	while (env_var_list != NULL)
 	{
