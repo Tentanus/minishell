@@ -23,6 +23,59 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 		env_var_list = env_var_list->next;
 	}
 }
+
+
+// !!!!!!!! NOT MY OWN CODE! WRITE OWN CODE! AND HAVE FUN DOING IT XOXOXOXO !!!!
+int	ft_strlend(const char *str, char c)
+{
+	int	n;
+
+	n = 0;
+	if (!str)
+		return (0);
+	while (str[n] != '\0' && str[n] != c)
+		n++;
+	return (n);
+}
+// !!!!!!!! NOT MY OWN CODE! WRITE OWN CODE! AND HAVE FUN DOING IT XOXOXOXO !!!!
+int	ft_inset(char *s1, char c)
+{
+	while (s1 && *s1)
+	{
+		if (c == *s1)
+			return (1);
+		s1++;
+	}
+	return (0);
+}
+// !!!!!!!! NOT MY OWN CODE! WRITE OWN CODE! AND HAVE FUN DOING IT XOXOXOXO !!!!
+bool	validate_var_name(char *var)
+{
+	int		var_name_len;
+	int		i;
+
+	if (!ft_inset(var, '='))
+		return (false);
+	var_name_len = ft_strlend(var, '=');
+	if (!(ft_isalpha(var[0]) || var[0] == '_'))
+		return (false);
+	i = 1;
+	while (i < var_name_len)
+	{
+		if (!(ft_isalnum(var[i]) || ft_inset("+_", var[i])))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+// !!!!!!!! NOT MY OWN CODE! WRITE OWN CODE! AND HAVE FUN DOING IT XOXOXOXO !!!!
+
+// int		env_var_validate_name(char *name)
+// {
+	
+// 	return (SUCCESS);
+// }
+
 // TODO export met lege variabele:
 // TODO not a valid identifier VOORAL VOOR key = ? en key = $
 // TODO eerste character moet isalpha zijn
@@ -30,10 +83,23 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 {	
+	int	i;
+
+	i = 1;
 	if (cmd->args[1] == NULL) // this is the case for "export" without variables/options: that 1 arg = NULL
 		builtin_export_print_export(*env_var_list);
 	else
-		env_var_set_env(cmd->args[1], env_var_list);
+	{
+		while (cmd->args[i] != NULL) 
+		{
+			// TODO : write validate_var_name function! SEE ABOVE
+			if (validate_var_name(cmd->args[i]) == true)
+				env_var_set_env(cmd->args[i], env_var_list);
+			else
+				minishell_export_name_error(cmd->args[i]);
+			i++;
+		}
+	}
 	return (SUCCESS);
 }
 

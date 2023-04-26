@@ -15,6 +15,7 @@ void	init_mini(t_minishell *mini)
 		minishell_error("INIT g_status");
 	return ;
 }
+
 // void test(void)
 // {
 // 	system("leaks -q marshell");

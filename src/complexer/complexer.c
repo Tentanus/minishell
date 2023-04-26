@@ -3,7 +3,7 @@
 void	complexer(t_minishell *mini)
 {
 	mini->token = lexer(mini->input);
-	list_token_print(mini->token);
+	// list_token_print(mini->token);
 	if (mini->token == NULL)
 		minishell_error("tokenization error");
 	mini->syntax = syntax(mini->token, mini->env_list);
@@ -14,12 +14,12 @@ void	complexer(t_minishell *mini)
 		return ;
 	}
 	mini->token = expander(mini->token, mini->env_list);
-	list_token_print(mini->token);
+	// list_token_print(mini->token);
 	if (appender(mini) == false)
 		return (list_token_free_list(mini->token, list_token_free_node_str));
 	mini->cmd_list = parser(mini);
 	mini->token = NULL;
-	list_cmd_print(mini->cmd_list);
+	// list_cmd_print(mini->cmd_list);
 }
 
 /* IF mini->syntax contains a token the syntax has encountered a error at this

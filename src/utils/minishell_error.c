@@ -14,6 +14,15 @@ int	minishell_chdir_error(const char *cmd, const char *arg)
 	return (SUCCESS);
 }
 
+void	minishell_export_name_error(const char *name)
+{
+	ft_putstr_fd("marsh: export: '", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putendl_fd("not a valid identifier", 2);
+	return ;
+}
+
 void	minishell_cd_error(const char *loc)
 {
 	ft_putstr_fd("marsh: ", 2);
