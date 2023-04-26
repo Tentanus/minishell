@@ -40,12 +40,15 @@ void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 {
 	(void) val;
 	(*pos)++;
-	if (inp[*pos] == '?' || inp[*pos] == '$')
+	if (inp[*pos] == '?')
 	{
 		(*pos)++;
 		return ;
 	}
-	while (inp[*pos] && ft_isalnum(inp[*pos]))
+	if (inp[*pos] && !ft_isalpha(inp[*pos]))
+		return ;
+	(*pos)++;
+	while (inp[*pos] && (ft_isalnum(inp[*pos]) || inp[*pos] == '_'))
 		(*pos)++;
 }
 

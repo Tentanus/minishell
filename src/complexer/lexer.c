@@ -40,6 +40,16 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 		return ;
 }
 
+void	check_env_token(t_token *t_node)
+{
+	if (t_node->id != SH_VAR)
+		return ;
+	if (ft_strlen(t_node->str) > 1)
+		return ;
+	t_node->id = WORD;
+	return ;
+}
+
 t_token	*lexer(const char *inp)
 {
 	size_t	current_pos;
@@ -56,14 +66,13 @@ t_token	*lexer(const char *inp)
 		get_token_info(inp, &current_pos, node);
 		if (!node->str)
 			return (list_token_free_list(top, list_token_free_node_str), NULL);
-//		ft_printf("str:\t%s\n", node->str);
+		check_env_token(node);
 		list_token_add_back(&top, node);
 	}
 	return (top);
 }
 
-/*
- * considering variable expansion:
+/* considering variable expansion:
  *
  * 		export CD="c d ef"; echo ab$CD"g"
  * 		argv would show:

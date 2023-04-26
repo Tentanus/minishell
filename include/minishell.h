@@ -91,14 +91,24 @@ typedef struct s_env_var_ll
 
 typedef struct s_minishell
 {
+	char			*input;
 	t_token			*token;
 	t_token			*syntax;
 	t_cmd			*cmd_list;
 	t_env_var_ll	*env_list;
-	char			*input;
-	int				status;
 	struct termios	saved_term;
 }	t_minishell;
+
+typedef struct s_status
+{
+	int		status;
+	int		pid;
+	char	*exit_str;
+}	t_status;
+
+//				GLOBAL VARIABLES
+
+t_status	g_status;
 
 //				FUNCTIONS
 
