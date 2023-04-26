@@ -15,15 +15,20 @@ void	init_mini(t_minishell *mini)
 		minishell_error("INIT g_status");
 	return ;
 }
+// void test(void)
+// {
+// 	system("leaks -q marshell");
+// }
 
 int	main(int argc, char **argv, char **envp)
  {
 	t_minishell		mini;
 
+	// atexit(test); // ! remove after testing!
  	(void)	argv;
 	init_mini(&mini);
  	if (argc > 1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE); // error message saying user should run "./minishell" without other arguments
 	if (init_shell(envp, &mini) == 1)
 		return (1);
 	while (1)
@@ -43,5 +48,8 @@ int	main(int argc, char **argv, char **envp)
 		free(mini.input);
 		mini.input = NULL;
 	}
+	// env_var_free_list(mini.env_list);
+	// mini.env_list = NULL;
+	// free(&mini);
  	return (EXIT_SUCCESS);
 }

@@ -11,10 +11,9 @@ int	builtin_env(t_env_var_ll *env_var_list)
 	{
 		if (env_var_list->has_value == true)
 		{
-			printf("%s", env_var_list->name);
-			printf("=");
-			printf("%s", env_var_list->value);
-			printf("\n");
+			ft_putstr_fd(env_var_list->name, 2);
+			ft_putstr_fd("=", 2);
+			ft_putendl_fd(env_var_list->value, 2);
 		}
 		env_var_list = env_var_list->next;
 	}

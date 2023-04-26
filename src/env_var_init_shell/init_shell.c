@@ -9,46 +9,78 @@
 ** exported variables and their values.
 */
 
-
-/*
-** function that initiates the creation of a new node containing a new environment variable in format of NAME=value
-** and calls a function to add this node to the end of the linked list of environment variables.
-*/
-int	init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list)
+void	init_shell_set_underscore(t_env_var_ll **env_var_list)
 {
-	t_env_var_ll	*new_var;
+	char	*new_path;
 
-	new_var = env_var_init_new_var_node(env_var);
-	if (!new_var)
-		return (minishell_error("fail in add_variables"), 1);
-	// positie van var in list?
-	env_var_add_to_end_list(env_var_list, new_var);
-	// print_linked_list(env_var_list);
-	// of add_var_to_list();
+	new_path = ft_strjoin("_=", "./minishell"); // ! MALLOC
+	if (!new_path)
+		return (minishell_error("malloc error new_path in set_underscore"));
+	env_var_set_env(new_path, env_var_list);
+	free(new_path);
+}
+/*
+** function that updates environment variable "SHLVL" in list of environment variables
+*/
+int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
+{
+	t_env_var_ll	*shlvl_node;
+	unsigned int	value;
+	
+	shlvl_node = env_var_get_env_node("SHLVL", *env_var_list);
+	if (shlvl_node)
+	{
+		value = ft_atoi(shlvl_node->value) + 1;
+		if (shlvl_node->value)
+			free(shlvl_node->value); // ! FREE previous value
+		shlvl_node->value = ft_itoa(value); // ! malloc in ft_itoa
+		if (!shlvl_node->value)
+			return (1);
+		return (0);
+	}
+	shlvl_node = env_var_create_new_node("SHLVL=1");
+	if (!shlvl_node)
+		return (1);
+	env_var_add_to_end_list(env_var_list, shlvl_node);
 	return (0);
 }
 
 /*
-** function that updates environment variable "SHLVL" in list of environment variables
+** function that, for every envp, initiates the creation of a new node
+** containing a new environment variable in format of NAME=value
+** and adds this to our linked list of environment variables.
+** it also sets the SHLVL, unsets OLDPWD,
+** and sets _ to our executable name (= last entered command)
 */
-void init_shell_update_SHLVL(t_env_var_ll **env_var_list)
+int	init_shell(char **envp, t_minishell *mini)
 {
-	t_env_var_ll	*current = *env_var_list;
+	t_env_var_ll	*env_var_list;
+	t_env_var_ll	*new_env_var;
+	int				i;
 
-	int	value = 0;
-	while (current != NULL)
+	env_var_list = NULL;
+	i = 0;
+	while (envp[i] != NULL)
 	{
-		if (ft_strncmp("SHLVL", current->name, 6) == 0)
-		{
-			// printf("%s ", current->name);
-			// printf("current->value %s \n", current->value);
-			value = ft_atoi(current->value) + 1;
-			current->value = ft_itoa(value); // ! malloc in ft_itoa
-			// printf("new current->value %s \n", current->value);
-		}
-		current = current->next;
+		new_env_var = env_var_create_new_node(envp[i]);
+		if (!new_env_var)
+			return (env_var_free_list(env_var_list), 1);
+		env_var_add_to_end_list(&env_var_list, new_env_var);
+		i++;
 	}
+	if (init_shell_update_SHLVL(&env_var_list))
+		return (env_var_free_list(env_var_list), 1);
+	builtin_unset("OLDPWD", &env_var_list);
+	init_shell_set_underscore(&env_var_list);
+	mini->env_list = env_var_list;
+	return (0);
 }
+
+// initializing env_var / shell:
+// - (check) copy env_var from envp
+// - (check) update update_SHLVL
+// - (check) unset env_var OLDPWD
+// - (check but MAY NEED WORK TODO) update env_var '_'
 
 /*
 * $_, an underscore:
@@ -72,43 +104,3 @@ TODO ? fix second functionality of $_
 * $_ is not an environment variable, which means it is not available
 * to programs that are launched from within your Bash session.
 */
-void	init_shell_set_underscore(t_env_var_ll **env_var_list)
-{
-	char	*new_path;
-
-	new_path = ft_strjoin("_=", "./martest"); // change to 'marshell'?
-	if (!new_path)
-		return (minishell_error("malloc error new_path in set_underscore"));
-	env_var_set_env(new_path, env_var_list);
-	free(new_path);
-}
-
-
-/*
-** function that adds a environment variable for every envp to our linked list of env vars
-*/
-int	init_shell(char **envp, t_minishell *mini)
-{
-	t_env_var_ll	*env_var_list = NULL;
-	int	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (init_shell_add_env_vars(envp[i], &env_var_list) == 1)
-			return (minishell_error("fail in init_env_var"), 1);
-		i++;
-	}
-	if (env_var_exists("SHLVL", env_var_list) == true)
-		init_shell_update_SHLVL(&env_var_list);
-	builtin_unset("OLDPWD", &env_var_list);
-	init_shell_set_underscore(&env_var_list);
-	mini->env_list = env_var_list;
-	return (0);
-}
-
-// initializing env_var / shell:
-// - (check) copy env_var from envp
-// - (check) update update_SHLVL
-// - (check) unset env_var OLDPWD
-// - (check but MAY NEED WORK TODO) update env_var '_'
