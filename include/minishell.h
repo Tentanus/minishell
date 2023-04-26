@@ -209,24 +209,24 @@ int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void			builtin_export_print_export(t_env_var_ll *env_var_list);
 int				builtin_unset(char *name, t_env_var_ll **env_var_list);
 int				builtin_env(t_env_var_ll *env_var_list);
+int				NEW_builtin_env(t_env_var_ll *env_var_list);
 int				builtin_exit(t_cmd *cmd);
 
 //				FUNCTION: INIT SHELL
 
 int				init_shell(char **envp, t_minishell *mini);
-void			init_shell_set_underscore(t_env_var_ll **env_var_list);
-void			init_shell_update_SHLVL(t_env_var_ll **env_var_list);
-int				init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list);
+void			init_shell_set_underscore(t_env_var_ll *env_var_list);
+int				init_shell_update_SHLVL(t_env_var_ll *env_var_list);
+// int				init_shell_add_env_vars(char *env_var, t_env_var_ll **env_var_list);
 
 //				FUNCTION: ENVIRONMENT VARIABLES
 
 void			env_var_print_linked_list(t_env_var_ll *env_var_list); // TEST FUNCTION (CAN BE REMOVED)
-void			env_var_free_node(t_env_var_ll *env_var_list);
-void			env_var_free_list(t_env_var_ll **env_var_list);
-t_env_var_ll	*NEW_env_var_free_node(t_env_var_ll *env_var_list);
-void			NEW_env_var_free_list(t_env_var_ll *env_var_list);
-t_env_var_ll	*env_var_init_new_var_node(char *env_var);
-int				env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_var);
+void			env_var_free_node(t_env_var_ll *env_var_node);
+void			env_var_free_list(t_env_var_ll *env_var_list);
+t_env_var_ll	*env_var_init_node(void);
+t_env_var_ll	*env_var_create_new_node(char *env_var_str);
+void			env_var_add_to_end_list(t_env_var_ll **env_var_list, t_env_var_ll *new_env_var);
 bool			env_var_exists(char *name, t_env_var_ll *env_var_list);
 char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list);

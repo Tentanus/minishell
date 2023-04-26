@@ -82,6 +82,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 		// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
 		if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 			return (minishell_error_exit(cmd->args[0]));
+		// TODO !!! als execve failt, env_list FREE-en? Zodat die niet overload / bad access geeft.
 		// return (minishell_error("execve non_builtin_execute"));
 	}
 }

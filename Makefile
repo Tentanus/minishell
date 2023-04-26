@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/04/24 16:58:54 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/04/26 10:41:19 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@
 #=========  GENERAL VARIABLES:  =========#
 #========================================#
 
-NAME		:=	marshell
+NAME		:=	minishell
 
 SRC			:=	\
 				builtin/builtin.c					\

@@ -36,33 +36,16 @@ char	*env_var_get_env(char *name, t_env_var_ll *env_var_list)
 {
 	int		len_name;
 
+	if (!name || !env_var_list)
+		return (NULL);
 	len_name = ft_strlen(name) + 1;
-	if (env_var_exists(name, env_var_list) == true)
+	while (env_var_list != NULL)
 	{
-		while (env_var_list != NULL)
-		{
-			if (ft_strncmp(env_var_list->name, name, len_name) == 0)
-				return (env_var_list->value);
-			env_var_list = env_var_list->next;
-		}
+		if (ft_strncmp(env_var_list->name, name, len_name) == 0)
+			return (env_var_list->value);
+		env_var_list = env_var_list->next;
 	}
 	return (NULL);
-}
-
-t_env_var_ll *env_var_get_env_node(char *name, t_env_var_ll *env_var_list)
-{
-	t_env_var_ll	*node;
-	int				len_name;
-
-	node = env_var_list;
-	len_name = ft_strlen(name) + 1;
-	while (node)
-	{
-		if (ft_strncmp(node->name, name, len_name) == 0)
-			return (node);
-		node = node->next;
-	}
-	return (node);
 }
 
 /*
@@ -77,7 +60,7 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 
 	if (!envar)
 		return ;
-	new_var = env_var_init_new_var_node(envar);
+	new_var = env_var_create_new_node(envar);
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)
 	{
@@ -95,45 +78,4 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 		current = current->next;
 	}
 	env_var_add_to_end_list(env_var_list, new_var);
-}
-
-
-
-
-
-
-void	NEW_env_var_set_env(char *envar, t_env_var_ll **env_var_list)
-{
-	int				len_name;
-	t_env_var_ll	*new_var;
-	t_env_var_ll	*current;
-	t_env_var_ll	*tmp;
-
-	if (!envar)
-		return ;
-	new_var = env_var_init_new_var_node(envar);
-	len_name = ft_strlen(new_var->name) + 1;
-	current = *env_var_list;
-	if (current && ft_strncmp(current->name, new_var->name, len_name) == 0)
-	{
-		tmp = current->next;
-		env_var_free_node(current);
-		current = tmp;
-		env_var_list = &current;
-	}
-	else
-	{
-		while (current->next != NULL)
-		{
-			if (ft_strncmp(current->next->name, new_var->name, len_name) == 0)
-			{
-				tmp = current->next->next;
-				env_var_free_node(current->next);
-				current->next = tmp;
-				return ;
-			}
-			current = current->next;
-		}
-		env_var_add_to_end_list(env_var_list, new_var);
-	}
 }
