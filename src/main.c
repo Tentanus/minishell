@@ -12,7 +12,7 @@ void	init_mini(t_minishell *mini)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 	g_status.exit_str = ft_strdup("0");
 	if (!g_status.exit_str)
-		minishell_error("INIT g_status");
+		minishell_error_exit("");
 	return ;
 }
 // void test(void)
