@@ -13,17 +13,12 @@ void	builtin_export_print_export(t_env_var_ll *env_var_list)
 {
 	while (env_var_list != NULL)
 	{
-		if (!ft_strncmp(env_var_list->name, "_", 2))
-			env_var_list = env_var_list->next;
+		ft_putstr_fd("declare -x ", 1);
+		if (env_var_list->value != NULL)
+			printf("%s=\"%s\"\n", env_var_list->name, env_var_list->value);
 		else
-		{
-			ft_putstr_fd("declare -x ", 1);
-			if (env_var_list->value != NULL)
-				printf("%s=\"%s\"\n", env_var_list->name, env_var_list->value);
-			else
-				printf("%s\n", env_var_list->name);
-			env_var_list = env_var_list->next;
-		}
+			printf("%s\n", env_var_list->name);
+		env_var_list = env_var_list->next;
 	}
 }
 
@@ -41,7 +36,7 @@ int	ft_strlen_char(const char *str, char c)
 
 /*
 ** env_var_validate_name
-** first character of "name" should be alphabetic (isalpha) or "_" underscore
+** first character of "name" should be alphabetic (isalpha)
 ** rest of characters of "name" should be alphabetic
 ** or numeric (isalnum) or "_" underscore
 */
@@ -51,12 +46,12 @@ bool	env_var_validate_name(char *name)
 	int		i;
 
 	name_len = ft_strlen_char(name, '=');
-	if (!(ft_isalpha(name[0]) || name[0] == '_'))
+	if (!ft_isalpha(name[0]))
 		return (false);
 	i = 0;
-	while (name[i] < name_len)
+	while (i < name_len)
 	{
-		if (!(ft_isalnum(name[i])) || name[i] == '_')
+		if (!ft_isalnum(name[i]) && name[i] != '_')
 			return (false);
 		i++;
 	}
