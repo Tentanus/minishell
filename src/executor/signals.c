@@ -17,6 +17,7 @@ void	sig_int_handler(int sig)
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
+	status_update(1);
 }
 
 void	init_signals(void)

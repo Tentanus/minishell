@@ -36,8 +36,6 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 	node->id = get_char_id(inp[(*pos)]);
 	func[node->id](inp, pos, node->id);
 	node->str = ft_substr(inp, start_pos, (*pos - start_pos));
-	if (node->str == NULL)
-		return ;
 }
 
 void	check_env_token(t_token *t_node)
@@ -65,7 +63,9 @@ t_token	*lexer(const char *inp)
 			minishell_error("parser/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		if (!node->str)
-			return (list_token_free_list(top, list_token_free_node_str), NULL);
+			return (list_token_free_list(top, list_token_free_node_str), \
+					mini_error_test(error_print, 1, "lexer: token error"), \
+					NULL);
 		check_env_token(node);
 		list_token_add_back(&top, node);
 	}
