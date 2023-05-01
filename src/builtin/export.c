@@ -36,7 +36,7 @@ int	ft_strlen_char(const char *str, char c)
 
 /*
 ** env_var_validate_name
-** first character of "name" should be alphabetic (isalpha)
+** first character of "name" should be alphabetic (isalpha) or underscore "_"
 ** rest of characters of "name" should be alphabetic
 ** or numeric (isalnum) or "_" underscore
 */
@@ -46,7 +46,7 @@ bool	env_var_validate_name(char *name)
 	int		i;
 
 	name_len = ft_strlen_char(name, '=');
-	if (!ft_isalpha(name[0]))
+	if (!ft_isalpha(name[0]) && name[0] != '_')
 		return (false);
 	i = 0;
 	while (i < name_len)
@@ -71,6 +71,8 @@ void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 		return ;
 	if (env_var_exists(name_tmp, *env_var_list) == true)
 	{
+		if (ft_strncmp(name_tmp, "_", 2) == 0)
+			return (free(name_tmp), minishell_export_name_error(name));
 		if (ft_strchr(name, '=') == 0)
 			return (free(name_tmp));
 		else
@@ -111,3 +113,8 @@ int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 // We can access bash environment variables only one way;
 // the parent shell exports its variables to the child shell’s environment
 // but the child shell can’t export variables back to the parent shell !
+
+// according to POSIX.1-2017, a value is added to the existing string if a user
+// enters name+=value
+// our shell does not handle this, instead it gives the error message
+// "not a valid identifier"

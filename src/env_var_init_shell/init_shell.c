@@ -43,8 +43,7 @@ int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 ** function that, for every envp, initiates the creation of a new node
 ** containing a new environment variable in format of NAME=value
 ** and adds this to our linked list of environment variables.
-** it also sets the SHLVL, unsets OLDPWD,
-** and sets _ to our executable name (= last entered command)
+** it also sets the SHLVL and unsets OLDPWD.
 */
 int	init_shell(char **envp, t_minishell *mini)
 {
