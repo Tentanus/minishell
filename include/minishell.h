@@ -112,13 +112,20 @@ t_status	g_status;
 
 //				FUNCTIONS
 
+void			mini_error_test(void  (*func)(const char *), int, const char *str);
+void			mini_exit_test(void  (*func)(const char *), int, const char *str);
+
+void			syntax_error(const char *token);
+void			error_print(const char *str);
+
 int				minishell_chdir_error(const char *cmd, const char *arg);
 void			minishell_cd_error(const char *loc);
 void			minishell_error(const char *loc);
 void			minishell_error_exit(const char *loc);
-void			minishell_syntax_error(const char *str);
 void			minishell_quote_error(void);
 
+//				FUNCTION: STATU
+void			status_update(unsigned int status);
 
 //				FUNCTION: COMPLEX
 

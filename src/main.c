@@ -12,7 +12,7 @@ void	init_mini(t_minishell *mini)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 	g_status.exit_str = ft_strdup("0");
 	if (!g_status.exit_str)
-		minishell_error_exit("");
+		mini_exit_test(error_print, 1, "out of memory");
 	return ;
 }
 // void test(void)
@@ -26,11 +26,11 @@ int	main(int argc, char **argv, char **envp)
 
 	// atexit(test); // ! remove after testing!
 	(void)	argv;
-	init_mini(&mini);
 	if (argc > 1)
-		return (EXIT_FAILURE); // error message saying user should run "./minishell" without other arguments
+		mini_exit_test(error_print, 1, "too many arguments");
+	init_mini(&mini);
 	if (init_shell(envp, &mini) == 1)
-		return (1);
+		mini_exit_test(error_print, 1, "unable to startup");
 	while (1)
 	{
 		init_signals();
@@ -48,8 +48,5 @@ int	main(int argc, char **argv, char **envp)
 		free(mini.input);
 		mini.input = NULL;
 	}
-	// env_var_free_list(mini.env_list);
-	// mini.env_list = NULL;
-	// free(&mini);
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
