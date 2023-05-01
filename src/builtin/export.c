@@ -41,7 +41,7 @@ int	ft_strlen_char(const char *str, char c)
 
 /*
 ** env_var_validate_name
-** first character of "name" should be alphabetic (isalpha) or "_" underscore
+** first character of "name" should be alphabetic (isalpha)
 ** rest of characters of "name" should be alphabetic
 ** or numeric (isalnum) or "_" underscore
 */
@@ -51,12 +51,12 @@ bool	env_var_validate_name(char *name)
 	int		i;
 
 	name_len = ft_strlen_char(name, '=');
-	if (!(ft_isalpha(name[0]) || name[0] == '_'))
+	if (!ft_isalpha(name[0]))
 		return (false);
 	i = 0;
-	while (name[i] < name_len)
+	while (i < name_len)
 	{
-		if (!(ft_isalnum(name[i])) || name[i] == '_')
+		if (!ft_isalnum(name[i]) && name[i] != '_')
 			return (false);
 		i++;
 	}
@@ -76,7 +76,7 @@ void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 		return ;
 	if (env_var_exists(name_tmp, *env_var_list) == true)
 	{
-		if (ft_strchr(name, '=') == 0)
+		if (ft_strchr(name, '=') != 0)
 			return (free(name_tmp));
 		else
 			return (free(name_tmp), env_var_set_env(name, env_var_list));

@@ -56,6 +56,8 @@ Your shell should:
 
 
 # NOTES:
+shell variable "_" underscore info  
+https://unix.stackexchange.com/questions/436615/when-is-an-environment-variable-of-a-bash-shell  
 
 ## DUP2():
 dup2(old_fd, new_fd):
