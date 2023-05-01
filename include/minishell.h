@@ -241,6 +241,8 @@ char			*env_var_get_env(char *name, t_env_var_ll *env_var_list);
 t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list);
 void			env_var_set_env(char *envar, t_env_var_ll **env_var_list);
 char			**env_var_to_cpp(t_env_var_ll *env_list);
+bool			env_var_validate_name(char *name);
+void			env_var_validate(char *name, t_env_var_ll **env_var_list);
 
 // 				FUNCTION: EXECUTOR
 
