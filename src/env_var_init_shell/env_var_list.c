@@ -30,7 +30,7 @@ t_env_var_ll	*env_var_create_new_node(char *env_var_str)
 		return (NULL);
 	new_env_node = env_var_init_node();
 	if (!new_env_node)
-		return (minishell_error("(malloc) fail in initiating new_env_node"), NULL);
+		return (mini_error_test(error_print, 1, "(malloc) fail in initiating new_env_node"), NULL);
 	i = 0;
 	while (env_var_str[i] && env_var_str[i] != '=')
 		i++;
