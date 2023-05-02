@@ -14,6 +14,15 @@ int	minishell_chdir_error(const char *cmd, const char *arg)
 	return (SUCCESS);
 }
 
+void	minishell_export_name_error(const char *name)
+{
+	ft_putstr_fd("marsh: export: '", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putendl_fd("not a valid identifier", 2);
+	return ;
+}
+
 void	minishell_cd_error(const char *loc)
 {
 	ft_putstr_fd("marsh: ", 2);
@@ -46,6 +55,19 @@ void	syntax_error(const char *token)
 	ft_putstr_fd("syntax error near unexpected token '", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
+}
+
+void	cmd_error(const char *cmd)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(": command not found", 2);
+}
+
+void	error(const char *cmd)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	perror(NULL);
 }
 
 void	error_print(const char *str)
