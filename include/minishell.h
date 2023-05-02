@@ -112,20 +112,22 @@ t_status	g_status;
 
 //				FUNCTIONS
 
+void			minishell_error(const char *loc);
+void			minishell_error_exit(const char *loc);
+
 void			mini_error_test(void  (*func)(const char *), int, const char *str);
 void			mini_exit_test(void  (*func)(const char *), int, const char *str);
 
+void			minishell_quote_error(void);
+void			syntax_error(const char *token);
+
 void			error(const char *cmd);
 void			cmd_error(const char *cmd);
-void			syntax_error(const char *token);
 void			error_print(const char *str);
+void			chdir_error(const char *cmd);
+void			export_error(const char *name);
 
-int				minishell_chdir_error(const char *cmd, const char *arg);
-void			minishell_cd_error(const char *loc);
-void			minishell_error(const char *loc);
-void			minishell_error_exit(const char *loc);
-void			minishell_quote_error(void);
-void			minishell_export_name_error(const char *name);
+
 
 //				FUNCTION: STATUS
 void			status_update(unsigned int status);

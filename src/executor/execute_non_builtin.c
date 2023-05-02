@@ -77,18 +77,16 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (path_to_cmd != NULL)
 	{
 		env_list = env_var_to_cpp(mini->env_list);
-		// fprintf(stderr, "executing NON builtin command = %s\n\n", cmd->args[0]);
 		if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 		{
 			ft_free_split(env_list);
-			// status_update(127);
-			printf("hoi ik ben er\n");
+			// printf("hoi ik ben er\n");
 			if (access(path_to_cmd, F_OK) == -1)
 				mini_exit_test(cmd_error, 127, cmd->args[0]);
 			if (access(path_to_cmd, X_OK) == -1)
 				mini_exit_test(error, 126, cmd->args[0]);
-			// exit(127);
-			// mini_exit_test(cmd_error, 127, cmd->args[0]);
+			errno = 21;
+			mini_exit_test(error, 126, cmd->args[0]);
 		}
 	}
 }

@@ -36,7 +36,6 @@ int		builtin_echo(t_cmd *cmd, int fd)
 
 	i = 1;
 	n_option = 0;
-	// fix seg fault for 'echo -n' command without other args
 	if (cmd->args[1] != NULL)
 	{
 		while (builtin_echo_is_n_option(cmd->args[i]) == true)
