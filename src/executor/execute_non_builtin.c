@@ -53,7 +53,7 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 		if (access(current_cmd->args[0], X_OK) == 0)
 			return (current_cmd->args[0]);
 		else
-			return (minishell_error(current_cmd->args[0]), NULL);
+			mini_exit_test(error, 126, current_cmd->args[0]);
 	}
 	cmd = ft_strjoin("/", current_cmd->args[0]); // ! MALLOC
 	if (!cmd)
@@ -81,10 +81,13 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 		if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 		{
 			ft_free_split(env_list);
-			printf("in failed execve if\n");
-			status_update(127);
-			mini_error_test(cmd_error, 127, cmd->args[0]);
-			exit(127);
+			// status_update(127);
+			printf("hoi ik ben er\n");
+			if (access(path_to_cmd, F_OK) == -1)
+				mini_exit_test(cmd_error, 127, cmd->args[0]);
+			if (access(path_to_cmd, X_OK) == -1)
+				mini_exit_test(error, 126, cmd->args[0]);
+			// exit(127);
 			// mini_exit_test(cmd_error, 127, cmd->args[0]);
 		}
 	}

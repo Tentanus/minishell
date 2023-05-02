@@ -12,7 +12,7 @@ void	wait_function(pid_t pid, int count_childs)
 		count_childs--;
 	}
 	// if (WIFEXITED(status)) // if last cmd exited normally
-	// 	exit (WEXITSTATUS(status)); // exit with exit status of last command
+	status_update(WEXITSTATUS(status)); // exit with exit status of last command
 }
 
 /*

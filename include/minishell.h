@@ -101,8 +101,8 @@ typedef struct s_minishell
 
 typedef struct s_status
 {
-	int		status;
-	int		pid;
+	// int		status;
+	// int		pid;
 	char	*exit_str;
 }	t_status;
 
@@ -114,6 +114,7 @@ t_status	g_status;
 
 void			mini_error_test(void  (*func)(const char *), int, const char *str);
 void			mini_exit_test(void  (*func)(const char *), int, const char *str);
+void			error(const char *cmd);
 
 void			cmd_error(const char *cmd);
 void			syntax_error(const char *token);

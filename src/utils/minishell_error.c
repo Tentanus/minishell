@@ -59,6 +59,13 @@ void	cmd_error(const char *cmd)
 	ft_putendl_fd(": command not found", 2);
 }
 
+void	error(const char *cmd)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	perror(NULL);
+}
+
 void	error_print(const char *str)
 {
 	ft_putendl_fd(str, 2);
