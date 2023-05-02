@@ -60,7 +60,7 @@ bool	expander_remove_check_quotes(t_token *t_node)
 	str = t_node->str;
 	if (len < 2 || str[0] != str[len - 1])
 	{
-		minishell_quote_error();
+		mini_error_test(error_print, 258, "unclosed quotes");
 		return (true);
 	}
 	ft_memmove(str, str + 1, len);
@@ -119,7 +119,10 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	if (t_current->str == NULL || expander_remove_check_quotes(t_current))
 		return (NULL);
 	if (t_current->id == QUOTE)
+	{
+		t_current->id = WORD;
 		return (list_token_cpy_node(t_current));
+	}
 	i = 0;
 	while ((t_current->str)[i])
 	{
@@ -133,6 +136,7 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 		else
 			i++;
 	}
+	t_current->id = WORD;
 	return (list_token_cpy_node(t_current));
 }
 

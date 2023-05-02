@@ -108,7 +108,7 @@ t_token	*list_token_free_node_non_word(t_token *t_node)
 	t_tmp = t_node->next;
 	if (t_node == NULL)
 		return (NULL);
-	if (t_node->id != WORD && t_node->id != QUOTE && t_node->id != DQUOTE) // remove check for QUOTE & DQUOTE when expander is implemented
+	if (t_node->id != WORD)
 		free(t_node->str);
 	free(t_node);
 	return (t_tmp);

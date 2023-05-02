@@ -39,11 +39,6 @@ void	minishell_error_exit(const char *loc)
 	exit(errno);
 }
 
-void	minishell_quote_error(void)
-{
-	ft_putendl_fd("marsh: unclosed quotes", 2);
-}
-
 //------------------------------------------------------------
 
 void	syntax_error(const char *token)
@@ -73,3 +68,9 @@ void	mini_exit_test(void (*func)(const char *), \
 	func(str);
 	exit(status);
 }
+
+
+/*
+als fd op -1 komt te staan return error in child process
+
+ */

@@ -7,7 +7,6 @@ t_cmd	*list_cmd_new(void)
 	cmd_ret = malloc(sizeof(t_cmd) * 1);
 	if (!cmd_ret)
 		return (NULL);
-	// cmd_ret->simple_cmd = NULL;
 	cmd_ret->args = NULL;
 	cmd_ret->redir = NULL;
 	cmd_ret->next = NULL;
@@ -44,9 +43,6 @@ t_cmd	*list_cmd_free_node(t_cmd *cmd_node)
 	t_cmd	*cmd_tmp;
 
 	cmd_tmp = cmd_node->next;
-	// if (cmd_node->simple_cmd != NULL)
-	// 	free(cmd_node->simple_cmd);
-	// cmd_node->simple_cmd = NULL;
 	if (cmd_node->args != NULL)
 		ft_free_split(cmd_node->args);
 	cmd_node->args = NULL;
