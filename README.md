@@ -56,6 +56,29 @@ Your shell should:
 
 
 # NOTES:
+shell variable "_" underscore info
+https://unix.stackexchange.com/questions/436615/when-is-an-environment-variable-of-a-bash-shell
+$_, an underscore:
+1. At shell startup, set to the pathname used to invoke the shell.
+When you invoke a new shell, the $_ parameter in the new shell will
+be set to the value of the $_ parameter in the parent shell.
+This means that the $_ parameter in the new shell will contain the
+last argument of the command that invoked the new shell!
+TODO ? fix second functionality of $_
+2. is a special parameter that expands to/contains
+the last argument to the previous simple command that was executed.
+$_ is set automatically by Bash after each command is executed,
+regardless of whether it was successful or not.
+It is often used as a quick way to reference the
+last argument without having to retype it.
+If the previous command didn't have any arguments, $_ will be empty.
+$_ is just a regular parameter like any other, which means you can use it
+in the same way you would use any other parameter.
+For example, you can pass it as an argument to a command,
+or use it in a variable assignment.
+$_ is not an environment variable, which means it is not available
+to programs that are launched from within your Bash session.
+
 
 ## DUP2():
 dup2(old_fd, new_fd):

@@ -35,11 +35,17 @@ void	token_id_redir(const char *inp, size_t *pos, const t_token_id val)
 		i++;
 	}
 }
-
+/*
+** token_id_shvar
+** first character of "name" should be alphabetic (isalpha) or underscore "_"
+** rest of characters of "name" should be alphabetic
+** or numeric (isalnum) or "_" underscore
+*/
 void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 {
 	(void) val;
 	(*pos)++;
+	// TODO: update validation according to rules in note above ^
 	if (inp[*pos] == '?')
 	{
 		(*pos)++;

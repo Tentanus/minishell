@@ -15,6 +15,7 @@ void	init_mini(t_minishell *mini)
 		mini_exit_test(error_print, 1, "out of memory");
 	return ;
 }
+
 // void test(void)
 // {
 // 	system("leaks -q marshell");

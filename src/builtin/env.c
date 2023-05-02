@@ -4,7 +4,6 @@
 ** our own env function: it prints all environment variables (env builtin)
 */
 
-// function to print environment variables stored in linked list (env builtin)
 int	builtin_env(t_env_var_ll *env_var_list)
 {
 	while (env_var_list != NULL)
