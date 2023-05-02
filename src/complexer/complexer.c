@@ -20,7 +20,7 @@ void	complexer(t_minishell *mini)
 	if (mini->cmd_list == NULL)
 		mini_error_test(error_print, 1, "parser: unable to parse");
 	mini->token = NULL;
-	list_cmd_print(mini->cmd_list);
+	// list_cmd_print(mini->cmd_list);
 }
 
 /* IF mini->syntax contains a token the syntax has encountered a error at this

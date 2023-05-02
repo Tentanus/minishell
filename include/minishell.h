@@ -115,6 +115,7 @@ t_status	g_status;
 void			mini_error_test(void  (*func)(const char *), int, const char *str);
 void			mini_exit_test(void  (*func)(const char *), int, const char *str);
 
+void			cmd_error(const char *cmd);
 void			syntax_error(const char *token);
 void			error_print(const char *str);
 
@@ -124,7 +125,7 @@ void			minishell_error(const char *loc);
 void			minishell_error_exit(const char *loc);
 void			minishell_quote_error(void);
 
-//				FUNCTION: STATU
+//				FUNCTION: STATUS
 void			status_update(unsigned int status);
 
 //				FUNCTION: COMPLEX
