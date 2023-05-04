@@ -14,7 +14,6 @@ int	builtin_pwd(int fd)
 
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
-	// cwd = NULL;
 	if (cwd == NULL)
 		return (mini_error_test(error_print, 1, "pwd error"), MALLOC_ERROR);
 	ft_putstr_fd(cwd, fd);

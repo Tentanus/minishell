@@ -49,3 +49,16 @@ void	execute_single_command(t_minishell *mini)
 		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 }
+
+// int	handle_builtin(t_cmd *cmd, t_minishell *mini)
+// {
+// 	if (builtin_check(cmd->args[0]) == true)
+// 	{
+// 		handle_redirect(cmd->redir, redir_error);
+// 		if (builtin_execute(cmd, &mini->env_list) != SUCCESS)
+// 			return (ERROR);
+// 		return (status_update(12000), SUCCESS);
+// 	}
+// 	else
+// 		return (ERROR);
+// }

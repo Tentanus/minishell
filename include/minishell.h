@@ -229,7 +229,8 @@ char			*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
 int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void			builtin_export_print_export(t_env_var_ll *env_var_list);
-int				builtin_unset(char *name, t_env_var_ll **env_var_list);
+int				builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				unset_env_var(char *name, t_env_var_ll **env_var_list);
 int				builtin_env(t_env_var_ll *env_var_list);
 int				builtin_exit(t_cmd *cmd);
 

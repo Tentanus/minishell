@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/04 13:54:54 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/04 17:12:16 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		return (builtin_env(*env_var_list));
 	if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-		return (builtin_unset(cmd->args[1], env_var_list));
+		return (builtin_unset(cmd, env_var_list));
 	if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		return (builtin_export(cmd, env_var_list));
 	if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
@@ -55,7 +55,9 @@ int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 	if (builtin_check(cmd->args[0]) == true)
 	{
 		handle_redirect(cmd->redir, redir_error);
-		return (builtin_execute(cmd, &mini->env_list));
+		if (builtin_execute(cmd, &mini->env_list) == SUCCESS)
+			return (status_update(0), SUCCESS);
+		return (SUCCESS);
 	}
 	else
 		return (ERROR);
