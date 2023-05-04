@@ -77,7 +77,8 @@ int	here_lines(const char *delim, int fd,  t_env_var_ll *list_env)
 	{
 		line = readline("> ");
 		if (line == NULL)
-			exit(-1);
+			mini_exit_test(error_print, -1, \
+					"warning: here-doc expected end-of-file");
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
@@ -88,6 +89,18 @@ int	here_lines(const char *delim, int fd,  t_env_var_ll *list_env)
 		free(line);
 	}
 	exit(0);
+}
+
+int	here_return(int status, int fd)
+{
+	if (WIFSIGNALED(status) == true)
+	{
+		if (WTERMSIG(status) == SIGINT)
+			status_update(130);
+		close(fd);
+		return (-1);
+	}
+	return(fd);
 }
 
 int	here_init(const char *delim, t_env_var_ll *list_env)
@@ -108,9 +121,7 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 	}
 	close(pipe_fd[1]);
 	waitpid(pid, &status, 0);
-//	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-//		setstatus = 130
-	return (pipe_fd[0]);
+	return (here_return(status, pipe_fd[0]));
 }
 
 void	close_here_doc(t_cmd *cmd_list)
@@ -130,7 +141,7 @@ void	close_here_doc(t_cmd *cmd_list)
 	}
 }
 
-void	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
+int	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
 {
 	t_redir	*redir_node;
 
@@ -142,9 +153,10 @@ void	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
 			if (redir_node->redir == HERE)
 				redir_node->fd = here_init(redir_node->file, list_env);
 			if (redir_node->redir == HERE && redir_node->fd == -1)
-				minishell_error("here_doc fd failed");
+				return (-1);
 			redir_node = redir_node->next;
 		}
 		cmd_list = cmd_list->next;
 	}
+	return (0);
 }

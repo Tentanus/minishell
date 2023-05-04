@@ -44,7 +44,7 @@ void	execute_single_command(t_minishell *mini)
 	tmp_fd_out = dup(1);
 	current_cmd = mini->cmd_list;
 	if (current_cmd->args[0] == NULL) // even if cmd is empty:
-		handle_redirect(current_cmd->redir, redir_error); // fprintf(stderr, "no command yes redirection\n");
+		handle_redirect(current_cmd->redir, mini_error); // fprintf(stderr, "no command yes redirection\n");
 	else if (handle_builtin(current_cmd, mini) != SUCCESS)
 		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));

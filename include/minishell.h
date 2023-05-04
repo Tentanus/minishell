@@ -176,7 +176,7 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 //				HERE_DOC
 
-void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
+int				handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
 void			handle_redirect(t_redir *redir_cur, void (error)(const char *));
 

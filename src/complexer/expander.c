@@ -48,7 +48,7 @@ t_token	*expander_shell_var(t_token *t_current, t_env_var_ll *env_var_list)
 	free(split);
 	if (i == 0)
 		return (list_token_new());
-	list_token_free_last(t_return, list_token_free_node);
+	list_token_free_last(t_return, list_token_free_node_str);
 	return (t_return);
 }
 

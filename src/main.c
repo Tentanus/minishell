@@ -14,7 +14,7 @@ void	init_mini(t_minishell *mini)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 	g_status.exit_str = ft_strdup("0");
 	if (!g_status.exit_str)
-		mini_exit_test(error_print, 137, "out of memory");
+		mini_exit_test(error_print, 137, "unable to startup");
 	return ;
 }
 
@@ -45,8 +45,6 @@ int	main(int argc, char **argv, char **envp)
 			add_history(mini.input);
 			complexer(&mini);
 			executor(&mini);
-			list_cmd_free_list(mini.cmd_list);
-			mini.cmd_list = NULL;
 		}
 		free(mini.input);
 		mini.input = NULL;
