@@ -1,5 +1,7 @@
 #include <minishell.h>
 
+t_status	g_status;
+
 void	init_mini(t_minishell *mini)
 {
 	mini->input = NULL;

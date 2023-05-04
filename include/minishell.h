@@ -108,7 +108,7 @@ typedef struct s_status
 
 //				GLOBAL VARIABLES
 
-t_status	g_status;
+extern t_status	g_status;
 
 //				FUNCTIONS
 
