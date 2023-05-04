@@ -5,7 +5,7 @@ void	wait_function(pid_t pid, int count_childs)
 	int	status;
 
 	if (waitpid(pid, &status, 0) < 0) // let parent wait for last executed command/process, specified with pid
-		return (minishell_error("waitpid error"));
+		return (mini_error_test(error_print, ERROR, "Waitpid error"));
 	while (count_childs > 0) // wait for all child processes
 	{
 		wait(NULL);

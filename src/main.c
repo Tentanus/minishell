@@ -24,9 +24,8 @@ void	init_mini(t_minishell *mini)
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell		mini;
-
 	// atexit(test); // ! remove after testing!
-	(void)	argv;
+	(void) argv;
 	if (argc > 1)
 		mini_exit_test(error_print, 1, "too many arguments");
 	init_mini(&mini);

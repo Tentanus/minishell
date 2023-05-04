@@ -3,9 +3,10 @@
 bool	syntax_id_pipe(t_token *t_prev, t_token *t_cur, \
 		t_env_var_ll *env_list)
 {
-	t_token	*t_next = list_token_skip_space((t_token *) t_cur);
+	t_token	*t_next;
 
 	(void) env_list;
+	t_next = list_token_skip_space((t_token *) t_cur);
 	if (t_prev == NULL || t_next == NULL)
 		return (1);
 	if (ft_strlen(t_cur->str) != 1)
@@ -31,8 +32,9 @@ bool	syntax_id_redir_shvar(t_token *t_next, t_env_var_ll *env_list)
 bool	syntax_id_redir(t_token *t_prev, t_token *t_cur, \
 		t_env_var_ll *env_list)
 {
-	t_token	*t_next = list_token_skip_space((t_token *) t_cur);
+	t_token	*t_next;
 
+	t_next = list_token_skip_space((t_token *) t_cur);
 	(void) t_prev;
 	if (t_next == NULL)
 		return (1);

@@ -27,6 +27,7 @@
 
 # define SET_DELIMETER "-|\'\"><$ "
 
+# define MALLOC_ERROR -2
 # define ERROR -1
 # define SUCCESS 0
 # define READ 0
@@ -275,7 +276,7 @@ char			**make_double_array(int word_count);
 int				ft_word_counter(char const *s, char c);
 void			free_double_array(char **double_array);
 
-//				TEST FUNCTIONS (CAN BE REMOVED)
+//				TEST FUNCTIONS (SHOULD BE REMOVED) // ! NOT NORM PROOF
 
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);

@@ -14,16 +14,11 @@ int	builtin_pwd(int fd)
 
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
-	if (cwd != NULL)
-	{
-		ft_putstr_fd(cwd, fd);
-		ft_putstr_fd("\n", fd);
-		free(cwd);
-	}
-	else
-	{
-		minishell_error("pwd error");
-		return (1);
-	}
+	// cwd = NULL;
+	if (cwd == NULL)
+		return (mini_error_test(error_print, 1, "pwd error"), MALLOC_ERROR);
+	ft_putstr_fd(cwd, fd);
+	ft_putstr_fd("\n", fd);
+	free(cwd);
 	return (SUCCESS);
 }

@@ -5,7 +5,8 @@
 **
 ** - bool function to check if environment variable already exists
 ** - getenv function: if env_var with NAME exists, it's VALUE is returned
-** - our own setenv function: it sets a (new) environment variable (used in export builtin)
+** - our own setenv function:
+** it sets a (new) environment variable (used in export builtin)
 **
 */
 
@@ -57,11 +58,13 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 {
 	int				len_name;
 	t_env_var_ll	*new_var;
-	t_env_var_ll	*current = *env_var_list;
-	t_env_var_ll	*prev = NULL;
+	t_env_var_ll	*current;
+	t_env_var_ll	*prev;
 
 	if (!envar)
 		return ;
+	current = *env_var_list;
+	prev = NULL;
 	new_var = env_var_create_new_node(envar);
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)

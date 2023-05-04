@@ -13,7 +13,7 @@ int	builtin_exit(t_cmd *cmd)
 	else
 	{
 		clear_history();
-		return (exit(errno), SUCCESS);
+		return (exit(errno), SUCCESS); // errno or our own status code?
 	}
 }
 

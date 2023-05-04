@@ -20,7 +20,7 @@ int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*shlvl_node;
 	unsigned int	value;
-	
+
 	shlvl_node = env_var_get_env_node("SHLVL", *env_var_list);
 	if (shlvl_node)
 	{

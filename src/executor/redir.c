@@ -20,11 +20,11 @@ void	redir_error(const char *file)
 int	redir_id_input(const char *file, int fd, void (err_func)(const char *))
 {
 	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	if (fd == ERROR)
 		return (err_func(file), errno);
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, STDIN_FILENO) == ERROR)
 		return (err_func(file), errno);
-	if (close(fd) == -1)
+	if (close(fd) == ERROR)
 		return (err_func(file), errno);
 	return (0);
 }
@@ -32,9 +32,9 @@ int	redir_id_input(const char *file, int fd, void (err_func)(const char *))
 int	redir_id_here(const char *file, int fd, void (err_func)(const char *))
 {
 	(void) file;
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, STDIN_FILENO) == ERROR)
 		return (err_func(file), errno);
-	if (close(fd) == -1)
+	if (close(fd) == ERROR)
 		return (err_func(file), errno);
 	return (0);
 }
@@ -42,11 +42,11 @@ int	redir_id_here(const char *file, int fd, void (err_func)(const char *))
 int	redir_id_output(const char *file, int fd, void (err_func)(const char *))
 {
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (fd == -1)
+	if (fd == ERROR)
 		return (err_func(file), errno);
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(fd, STDOUT_FILENO) == ERROR)
 		return (err_func(file), errno);
-	if (close(fd) == -1)
+	if (close(fd) == ERROR)
 		return (err_func(file), errno);
 	return (0);
 }
@@ -54,11 +54,11 @@ int	redir_id_output(const char *file, int fd, void (err_func)(const char *))
 int	redir_id_append(const char *file, int fd, void (err_func)(const char *))
 {
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd == -1)
+	if (fd == ERROR)
 		return (err_func(file), errno);
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(fd, STDOUT_FILENO) == ERROR)
 		return (err_func(file), errno);
-	if (close(fd) == -1)
+	if (close(fd) == ERROR)
 		return (err_func(file), errno);
 	return (0);
 }

@@ -68,16 +68,16 @@ char	*here_expand(char *line, t_env_var_ll *list_env)
 	return (line);
 }
 
-int	here_lines(const char *delim, int fd,  t_env_var_ll *list_env)
+int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 {
 	char	*line;
 
 	signal(SIGINT, SIG_DFL);
-	while(1)
+	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL)
-			exit(-1);
+			exit(ERROR);
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
@@ -96,11 +96,11 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 	int	status;
 	int	pid;
 
-	if (pipe(pipe_fd) == -1)
-		return (-1);
+	if (pipe(pipe_fd) == ERROR)
+		return (ERROR);
 	pid = fork();
-	if (pid == -1)
-		return (-1);
+	if (pid == ERROR)
+		return (ERROR);
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
@@ -141,8 +141,8 @@ void	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
 		{
 			if (redir_node->redir == HERE)
 				redir_node->fd = here_init(redir_node->file, list_env);
-			if (redir_node->redir == HERE && redir_node->fd == -1)
-				minishell_error("here_doc fd failed");
+			if (redir_node->redir == HERE && redir_node->fd == ERROR)
+				mini_error_test(error_print, ERROR, "here_doc fd failed");
 			redir_node = redir_node->next;
 		}
 		cmd_list = cmd_list->next;

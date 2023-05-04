@@ -16,7 +16,6 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*new_working_dir;
 
-	// new_working_dir = malloc((sizeof(new_working_dir))*1024);
 	if (cmd->args[1] == NULL) // this is the case for "cd" without path: that 1 arg = NULL
 		new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list)); // ! MALLOC
 	else if (cmd->args[1][0] == '~')
@@ -40,21 +39,20 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 	return (new_working_dir);
 }
 
-int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
+int	builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
-	char	*current_working_dir = NULL;
+	char	*current_working_dir;
 	char	*pwd;
 	char	*cwd;
 	char	*new_working_dir;
 
+	current_working_dir = NULL;
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
 	if (new_working_dir == NULL)
-		return (SUCCESS); // exit cd, make sure executor does not execute non-builtin after this
-	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));  // ! MALLOC
-	// current_working_dir = NULL;
+		return (SUCCESS);
+	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list)); // ! MALLOC
 	if (!current_working_dir)
-		return (free(new_working_dir), mini_error_test(error_print, 1, "(malloc) error current_working_dir in execute_cd"), SUCCESS);
-	printf("hier?\n");
+		return (free(new_working_dir), mini_error_test(error_print, 1, "(malloc) error current_working_dir in execute_cd"), MALLOC_ERROR);
 	if (chdir(new_working_dir) != 0)
 		return (mini_error_test(error, 1, cmd->args[1]), SUCCESS);
 	env_var_set_env(current_working_dir, env_var_list);
@@ -65,7 +63,7 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	cwd = getcwd(cwd, 0);
 	pwd = ft_strjoin("PWD=", cwd); // ! MALLOC
 	if (!pwd)
-		return (free(cwd), minishell_error("error pwd in execute_cd"), ERROR);
+		return (free(cwd), mini_error_test(error_print, 1, "(malloc) error pwd in execute_cd"), MALLOC_ERROR);
 	env_var_set_env(pwd, env_var_list);
 	free(cwd); // ! FREE
 	free(pwd); // ! FREE

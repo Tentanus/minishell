@@ -29,7 +29,7 @@ bool	builtin_echo_is_n_option(char *str)
 		return (false);
 }
 
-int		builtin_echo(t_cmd *cmd, int fd)
+int	builtin_echo(t_cmd *cmd, int fd)
 {
 	int	i;
 	int	n_option;

@@ -37,17 +37,14 @@ t_env_var_ll	*env_var_create_new_node(char *env_var_str)
 	new_env_node->name = ft_substr(env_var_str, 0, i); // ! MALLOC
 	if (new_env_node->name == NULL)
 		return (env_var_free_node(new_env_node), NULL);
-	// i++; // ! ?
 	if (env_var_str[i] == '\0')
 		return (new_env_node);
-	// new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str) - i - 1); // ! MALLOC
-	new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str + i + 1)); // MARTIJNS
+	new_env_node->value = ft_substr(env_var_str, i + 1, ft_strlen(env_var_str + i + 1)); // ! MALLOC
 	if (new_env_node->value == NULL)
 		return (env_var_free_node(new_env_node), NULL);
 	new_env_node->has_value = true;
 	return (new_env_node);
 }
-
 
 /*
 ** function that adds a new node containing a new environment variable in format of NAME=value
@@ -152,7 +149,7 @@ void	env_var_free_node(t_env_var_ll *env_var_node)
 */
 void	env_var_free_list(t_env_var_ll *env_var_list)
 {
-	t_env_var_ll *tmp_env;
+	t_env_var_ll	*tmp_env;
 
 	if (env_var_list == NULL)
 		return ;

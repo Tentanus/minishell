@@ -8,11 +8,13 @@
 int	builtin_unset(char *name, t_env_var_ll **env_var_list)
 {
 	int				len_name;
-	t_env_var_ll	*current = *env_var_list;
-	t_env_var_ll	*temp_var = NULL;
+	t_env_var_ll	*current;
+	t_env_var_ll	*temp_var;
 
-	if (!name)
-		return (ERROR);
+	if (!name) // seg fault protection ??
+		return (MALLOC_ERROR);
+	current = *env_var_list;
+	temp_var = NULL;
 	len_name = ft_strlen(name);
 	while (current != NULL && current->next != NULL)
 	{
