@@ -51,8 +51,10 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	if (new_working_dir == NULL)
 		return (SUCCESS); // exit cd, make sure executor does not execute non-builtin after this
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));  // ! MALLOC
+	// current_working_dir = NULL;
 	if (!current_working_dir)
-		return (minishell_error("error current_working_dir in execute_cd"), ERROR);
+		return (free(new_working_dir), mini_error_test(error_print, 1, "(malloc) error current_working_dir in execute_cd"), SUCCESS);
+	printf("hier?\n");
 	if (chdir(new_working_dir) != 0)
 		return (mini_error_test(error, 1, cmd->args[1]), SUCCESS);
 	env_var_set_env(current_working_dir, env_var_list);
