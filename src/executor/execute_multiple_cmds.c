@@ -10,6 +10,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL); // !
+		signal(SIGQUIT, SIG_DFL); // !
 		dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
 		close(prev_read_end);
 		if (current_cmd->args[0] != NULL) // if cmd is not empty
@@ -30,6 +31,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev_read_end)
 {
 	signal(SIGINT, SIG_DFL); // !
+	signal(SIGQUIT, SIG_DFL); // !
 	close(fd_pipe[READ]); // close the read end of the pipe
 	dup2(prev_read_end, STDIN_FILENO); // duplicate the read end of the previous pipe to standard input
 	dup2(fd_pipe[WRITE], STDOUT_FILENO); // duplicate the write end of the current pipe to standard output

@@ -11,8 +11,16 @@ void	wait_function(pid_t pid, int count_childs)
 		wait(NULL);
 		count_childs--;
 	}
-	// if (WIFEXITED(status)) // if last cmd exited normally
-	status_update(WEXITSTATUS(status)); // exit with exit status of last command
+	if (WIFEXITED(status)) // if last cmd exited normally (by calling exit or returning to main)
+		status_update(WEXITSTATUS(status)); // exit with exit status of last command
+	if (WIFSIGNALED(status)) // if last cmd terminated by call of a signal
+	{
+		if (WTERMSIG(status) == SIGQUIT) // ctrl-backslash
+			ft_putendl_fd("^\\Quit: 3", 1); // naar fd 1 of 2?
+		else if (WTERMSIG(status) == SIGINT) // ctrl-c
+			ft_putendl_fd("^C", 1); // naar fd 1 of 2?
+		status_update(status + 128); // lekker hardcoding whiii
+	}
 }
 
 /*

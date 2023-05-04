@@ -6,8 +6,6 @@ void	sig_quit_handler(t_minishell *mini)
 	ft_putchar_fd('\n', 2);
 	free(mini->input);
 	mini->input = NULL;
-	// NEW_env_var_free_list(mini->env_list);
-	// mini->env_list = NULL;
 	exit(130); // change exit code
 }
 

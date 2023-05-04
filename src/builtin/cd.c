@@ -32,7 +32,7 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 		{
 			new_working_dir = ft_strdup(env_var_get_env("OLDPWD", *env_var_list)); // ! MALLOC
 			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
-				return (minishell_cd_error("cd: OLDPWD not set\n"), NULL);
+				return (free(new_working_dir), mini_error_test(error_print, 1, "cd: OLDPWD not set"), NULL);
 		}
 		else
 			new_working_dir = ft_strdup(cmd->args[1]); // ! MALLOC
@@ -53,10 +53,10 @@ int		builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 	current_working_dir = ft_strjoin("OLDPWD=", env_var_get_env("PWD", *env_var_list));  // ! MALLOC
 	if (!current_working_dir)
 		return (minishell_error("error current_working_dir in execute_cd"), ERROR);
+	if (chdir(new_working_dir) != 0)
+		return (mini_error_test(error, 1, cmd->args[1]), SUCCESS);
 	env_var_set_env(current_working_dir, env_var_list);
 	free(current_working_dir); // ! FREE
-	if (chdir(new_working_dir) != 0)
-		return (minishell_chdir_error(cmd->args[0], cmd->args[1]), SUCCESS);
 	if (cmd->args[1] != NULL && ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
 		builtin_pwd(1);
 	cwd = NULL;

@@ -72,7 +72,7 @@ void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 	if (env_var_exists(name_tmp, *env_var_list) == true)
 	{
 		if (ft_strncmp(name_tmp, "_", 2) == 0)
-			return (free(name_tmp), minishell_export_name_error(name));
+			return (free(name_tmp), mini_error_test(export_error, 1, name));
 		if (ft_strchr(name, '=') == 0)
 			return (free(name_tmp));
 		else
@@ -81,7 +81,7 @@ void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 	if (env_var_validate_name(name) == true)
 		env_var_set_env(name, env_var_list);
 	else
-		minishell_export_name_error(name);
+		mini_error_test(export_error, 1, name);
 	return (free(name_tmp));
 }
 

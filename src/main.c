@@ -12,7 +12,7 @@ void	init_mini(t_minishell *mini)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 	g_status.exit_str = ft_strdup("0");
 	if (!g_status.exit_str)
-		mini_exit_test(error_print, 1, "out of memory");
+		mini_exit_test(error_print, 137, "out of memory");
 	return ;
 }
 
