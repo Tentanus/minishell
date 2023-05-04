@@ -67,7 +67,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	char	*path_to_cmd;
 	char	**env_list;
 
-	handle_redirect(cmd->redir, mini_exit);
+	handle_redirect(cmd->redir, mini_exit_test);
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	env_list = env_var_to_cpp(mini->env_list);
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)

@@ -20,7 +20,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 				handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 		}
 		else // if cmd is empty
-			handle_redirect(current_cmd->redir, mini_exit);
+			handle_redirect(current_cmd->redir, mini_exit_test);
 		exit(EXIT_SUCCESS); // TODO change exit code
 	}
 	// printf("pid: %d\tcmd: %s\n", pid, current_cmd->args[0]);
@@ -42,7 +42,7 @@ void	execute_child(t_minishell *mini, t_cmd *current_cmd, int *fd_pipe, int prev
 			handle_non_builtin(current_cmd, mini); // handle redirect and execute non builtin
 	}
 	else // if cmd is empty
-		handle_redirect(current_cmd->redir, mini_exit);
+		handle_redirect(current_cmd->redir, mini_exit_test);
 	exit(EXIT_SUCCESS); // TODO change exit code
 }
 
