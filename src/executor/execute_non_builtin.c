@@ -54,7 +54,7 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 		if (access(current_cmd->args[0], X_OK) == 0)
 			return (current_cmd->args[0]);
 		else
-			mini_exit_test(error, 126, current_cmd->args[0]);
+			mini_exit_test(error, 127, current_cmd->args[0]);
 	}
 	sub_paths = ft_split(path_complete, ':'); // ! MALLOC
 	if (!sub_paths)
