@@ -13,23 +13,17 @@ int	builtin_exit(t_cmd *cmd)
 		if (cmd->args[2] == NULL)
 		{
 			if (ft_stris(cmd->args[1], ft_isdigit) == 1)
-			{
-				clear_history();
-				return (exit(ft_atoi(cmd->args[1])), SUCCESS);
-			}
+				return (clear_history(), exit(ft_atoi(cmd->args[1])), SUCCESS);
 			if (ft_stris(cmd->args[1], ft_isdigit) == 0)
-			{
-				clear_history();
-				return (mini_error_test(error_print, 1, "exit: numeric argument required"), exit(255), ERROR);
-			}
+				return (clear_history(), mini_error_test(error_print, \
+					1, "exit: numeric argument required"), exit(255), ERROR);
 		}
 		if (ft_stris(cmd->args[1], ft_isdigit) == 1)
-			return (mini_error_test(error_print, 1, "exit: too many arguments"), ERROR);
+			return (mini_error_test(error_print, 1, \
+				"exit: too many arguments"), ERROR);
 		if (ft_stris(cmd->args[1], ft_isdigit) == 0)
-		{
-			clear_history();
-			return (mini_error_test(error_print, 1, "exit: numeric argument required"), exit(255), ERROR);
-		}
+			return (clear_history(), mini_error_test(error_print, \
+				1, "exit: numeric argument required"), exit(255), ERROR);
 	}
 	clear_history();
 	return (exit(ft_atoi(g_status.exit_str)), SUCCESS);
