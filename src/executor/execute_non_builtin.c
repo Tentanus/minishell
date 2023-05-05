@@ -62,6 +62,29 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 	return (find_path(sub_paths, current_cmd->args[0]));
 }
 
+/*
+	str_is_space checks of which characters the string exists.
+	Returns 0 if string exists of whitespace.
+	Returns 1 if string exists of not-whitespace-characters.
+	Returns 2 if string does not exist.
+*/
+
+int	str_is_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || str[i] == '\0')
+		return (2);
+	while (str[i])
+	{
+		if (str[i] != '\t' && str[i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 {
 	char	*path_to_cmd;
@@ -73,7 +96,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 	{
 		ft_free_split(env_list);
-		if (access(path_to_cmd, F_OK) == ERROR)
+		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR) // also add !cmd->args ??
 			mini_exit_test(cmd_error, 127, cmd->args[0]);
 		if (access(path_to_cmd, X_OK) == ERROR)
 			mini_exit_test(error, 126, cmd->args[0]);
