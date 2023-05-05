@@ -61,9 +61,11 @@ t_token	*list_token_skip_space(t_token *t_current)
 {
 	t_token	*t_return;
 
-	if (t_current == NULL || t_current->next == NULL)
+	if (t_current == NULL)
 		return (NULL);
 	t_return = t_current->next;
+	if (t_return == NULL)
+		return (NULL);
 	if (t_return->id == SPACEBAR)
 		t_return = t_return->next;
 	return (t_return);
