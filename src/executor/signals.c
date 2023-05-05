@@ -6,7 +6,7 @@ void	sig_quit_handler(t_minishell *mini)
 	ft_putchar_fd('\n', 2);
 	free(mini->input);
 	mini->input = NULL;
-	exit(130); // change exit code
+	exit(0); // ! change exit code ! Was 130?
 }
 
 void	sig_int_handler(int sig)
