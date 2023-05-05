@@ -109,7 +109,7 @@ typedef struct s_status
 
 //				GLOBAL VARIABLES
 
-t_status	g_status;
+extern t_status	g_status;
 
 //				FUNCTIONS
 
@@ -177,9 +177,9 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 //				HERE_DOC
 
-void			handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
+int				handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
-void			handle_redirect(t_redir *redir_cur, void (error)(const char *));
+void			handle_redirect(t_redir *redir_cur, void (*err_func)(void (*func)(const char *), int status, const char *));
 
 void			redir_error_exit(const char *file);
 void			redir_error(const char *file);

@@ -36,10 +36,18 @@ void	executor(t_minishell *mini)
 	signal(SIGINT, SIG_IGN); // !
 	if (!mini->cmd_list)
 		return ;
-	handle_here_doc(mini->cmd_list, mini->env_list);
+	if (handle_here_doc(mini->cmd_list, mini->env_list) == -1)
+	{
+		close_here_doc(mini->cmd_list);
+		list_cmd_free_list(mini->cmd_list);
+		mini->cmd_list = NULL;
+		return ;
+	}
 	if (mini->cmd_list->next == NULL)
 		execute_single_command(mini);
 	else
 		execute_multiple_commands(mini);
 	close_here_doc(mini->cmd_list);
+	list_cmd_free_list(mini->cmd_list);
+	mini->cmd_list = NULL;
 }

@@ -4,9 +4,7 @@ bool	app_token(t_token *t_node)
 {
 	if (t_node == NULL)
 		return (false);
-	if (t_node->id == WORD || \
-		t_node->id == DQUOTE || \
-		t_node->id == QUOTE)
+	if (t_node->id == WORD)
 		return (true);
 	return (false);
 }

@@ -87,3 +87,9 @@ void	mini_exit_test(void (*func)(const char *), \
 	func(str);
 	exit(status);
 }
+
+
+/*
+als fd op -1 komt te staan return error in child process
+
+ */

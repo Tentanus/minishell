@@ -9,24 +9,25 @@ void	list_redir_print(t_redir *redir_list);
 
 void	list_token_print(t_token *top)
 {
-	int			size = list_token_size(top);
-	const int	con = size;
+	int			size;
+	const int	con = list_token_size(top);
 	const char	*token_name[9] = {
-		[0] = "TOKEN",
-		[1] = "PIPE",
-		[2] = "QUOTE",
-		[3] = "DOUBLE QUOTE",
-		[4] = "GREAT",
-		[5] = "LESS",
-		[6] = "SHELL_VAR",
-		[7] = "SPACE",
-		[8] = "WORD"
-	} ;
+	[0] = "TOKEN",
+	[1] = "PIPE",
+	[2] = "QUOTE",
+	[3] = "DOUBLE QUOTE",
+	[4] = "GREAT",
+	[5] = "LESS",
+	[6] = "SHELL_VAR",
+	[7] = "SPACE",
+	[8] = "WORD"
+	};
 
+	size = list_token_size(top);
 	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
 	while (size--)
 	{
-		printf("TOKEN [%02d]\tid:  %s [%d]\n\t\tstr: |%s|\n", (con - size),  token_name[top->id], top->id, top->str);
+		printf("TOKEN [%02d]\tid: %s [%d]\n\t\tstr: |%s|\n", (con - size), token_name[top->id], top->id, top->str);
 		top = top->next;
 	}
 	return ;
@@ -34,9 +35,10 @@ void	list_token_print(t_token *top)
 
 void	list_cmd_print(t_cmd *cmd_list)
 {
-	int			size = list_cmd_size( cmd_list);
-	const int	con = size;
+	int			size;
+	const int	con = list_cmd_size(cmd_list);
 
+	size = list_cmd_size(cmd_list);
 	printf("\nPRINT CMD LIST\t %02d NODES\n", size);
 	while (cmd_list != NULL)
 	{
@@ -52,12 +54,12 @@ void	list_cmd_print(t_cmd *cmd_list)
 void	list_redir_print(t_redir *redir_list)
 {
 	const char	*redir_name[5] = {
-		[0] = "REDIR",
-		[1] = "INPUT",
-		[2] = "HERE_DOC",
-		[3] = "OUTPUT",
-		[4] = "APPEND"
-	} ;
+	[0] = "REDIR",
+	[1] = "INPUT",
+	[2] = "HERE_DOC",
+	[3] = "OUTPUT",
+	[4] = "APPEND"
+	};
 
 	if (redir_list == NULL)
 	{
@@ -75,8 +77,9 @@ void	list_redir_print(t_redir *redir_list)
 
 void	print_cpp_array(const char **arg)
 {
-	size_t i = 0;
+	size_t	i;
 
+	i = 0;
 	printf("| ARGUMENTS:\n");
 	while (arg[i] != NULL)
 	{
@@ -87,8 +90,9 @@ void	print_cpp_array(const char **arg)
 
 size_t	list_token_size(t_token *t_list)
 {
-	size_t	ret = 0;
+	size_t	ret;
 
+	ret = 0;
 	if (t_list == NULL)
 		return (0);
 	while (t_list != NULL)
@@ -101,8 +105,9 @@ size_t	list_token_size(t_token *t_list)
 
 size_t	list_cmd_size(t_cmd *t_list)
 {
-	size_t	ret = 0;
+	size_t	ret;
 
+	ret = 0;
 	if (t_list == NULL)
 		return (0);
 	while (t_list != NULL)
@@ -112,4 +117,3 @@ size_t	list_cmd_size(t_cmd *t_list)
 	}
 	return (ret);
 }
-

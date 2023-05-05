@@ -11,8 +11,7 @@ size_t	parser_get_arg(t_token *t_current)
 		return (0);
 	while (t_current != NULL && t_current->id != PIPE)
 	{
-		if (t_current->id == QUOTE || t_current->id == DQUOTE || \
-			t_current->id == WORD)
+		if (t_current->id == WORD)
 			arg_ret++;
 		if (t_current->id == GREAT || t_current->id == LESS)
 			t_current = list_token_skip_space(t_current);
@@ -27,8 +26,8 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	const t_parser_func	func[9] = {
 	[0] = NULL,
 	[1] = parser_id_pipe,
-	[2] = parser_id_word,
-	[3] = parser_id_word,
+	[2] = NULL,
+	[3] = NULL,
 	[4] = parser_id_redir,
 	[5] = parser_id_redir,
 	[6] = NULL,
