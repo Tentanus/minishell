@@ -98,7 +98,7 @@ int	here_return(int status, int fd)
 		if (WTERMSIG(status) == SIGINT)
 			status_update(130);
 		close(fd);
-		return (-1);
+		return (ERROR);
 	}
 	return(fd);
 }
@@ -153,7 +153,7 @@ int	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
 			if (redir_node->redir == HERE)
 				redir_node->fd = here_init(redir_node->file, list_env);
 			if (redir_node->redir == HERE && redir_node->fd == ERROR)
-				return (mini_error_test(error_print, ERROR, "here_doc fd failed"), -1);
+				return (mini_error_test(error_print, ERROR, "here_doc fd failed"), ERROR); // ! double check with maarty
 			redir_node = redir_node->next;
 		}
 		cmd_list = cmd_list->next;

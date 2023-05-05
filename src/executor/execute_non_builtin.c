@@ -93,10 +93,11 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	handle_redirect(cmd->redir, mini_exit_test);
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	env_list = env_var_to_cpp(mini->env_list);
+	// printf("return of execve = %d\n", execve(path_to_cmd, cmd->args, env_list));
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 	{
 		ft_free_split(env_list);
-		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR) // also add !cmd->args ??
+		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR) 
 			mini_exit_test(cmd_error, 127, cmd->args[0]);
 		if (access(path_to_cmd, X_OK) == ERROR)
 			mini_exit_test(error, 126, cmd->args[0]);

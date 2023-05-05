@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:04:42 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/04/13 12:21:09 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/05 11:08:17 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void OLD_set_up_pipe(int *fd_pipe)
 {
 	if (pipe(fd_pipe) < 0)
 		return (minishell_error("Pipe failed"));
-	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1) // Redirect stdout to write end of pipe
+	if (dup2(fd_pipe[1], STDOUT_FILENO) == ERROR) // Redirect stdout to write end of pipe
 		return (minishell_error("dup2 error for write end of pipe"));
-	if (close(fd_pipe[1]) == -1) // Close write end of pipe
+	if (close(fd_pipe[1]) == ERROR) // Close write end of pipe
 		return (minishell_error("close fd_pipe[1] error"));
-	if (dup2(fd_pipe[0], STDIN_FILENO) == -1) // Redirect stdin to read end of pipe
+	if (dup2(fd_pipe[0], STDIN_FILENO) == ERROR) // Redirect stdin to read end of pipe
 		return (minishell_error("dup2 error for read end of pipe"));
-	if (close(fd_pipe[0]) == -1) // Close read end of pipe
+	if (close(fd_pipe[0]) == ERROR) // Close read end of pipe
 		return (minishell_error("close fd_pipe[0] error"));
 }
 
@@ -116,7 +116,7 @@ void OLD_handle_output(t_cmd *cmd)
 			fd_file = open(redirect->file, O_TRUNC | O_CREAT | O_RDWR, 0644); // if so: open outfile and save it in fd_file
 			if (fd_file < 0 || (access(redirect->file, W_OK) != 0))
 				return (minishell_error("failed to open output file"));
-			if (dup2(fd_file, STDOUT_FILENO) == -1) // redirect stdout to fd_file
+			if (dup2(fd_file, STDOUT_FILENO) == ERROR) // redirect stdout to fd_file
 				return (minishell_error("Dup error stdoutput < - > outfile\n"));
 			close(fd_file);	
 		}
@@ -141,7 +141,7 @@ void OLD_handle_input(t_cmd *cmd)
 			fd_file = open(redirect->file, O_RDONLY); // if so: open infile and save it in fd_file
 			if (fd_file < 0 || (access(redirect->file, R_OK) != 0))
 				return (minishell_error("failed to open input file"));
-			if (dup2(fd_file, STDIN_FILENO) == -1) // redirect stdin to fd_file
+			if (dup2(fd_file, STDIN_FILENO) == ERROR) // redirect stdin to fd_file
 				return (minishell_error("Dup error stdinput < - > infile\n"));
 			close(fd_file);
 		}
