@@ -3,6 +3,15 @@
 typedef bool	(*t_syntax_func) (t_token *t_prev, t_token *t_cur, \
 		t_env_var_ll *env_list);
 
+t_token	*list_token_start_nonspace(t_token *list)
+{
+	if (list == NULL)
+		return (NULL);
+	if (list->id == SPACEBAR)
+		return (list->next);
+	return (list);
+}
+
 t_token	*syntax(t_token *top, t_env_var_ll *env_list)
 {
 	t_token				*t_prev;
@@ -20,7 +29,7 @@ t_token	*syntax(t_token *top, t_env_var_ll *env_list)
 	};
 
 	t_prev = NULL;
-	t_cur = list_token_skip_space(top);
+	t_cur = list_token_start_nonspace(top);
 	while (t_cur != NULL)
 	{
 		if (func[t_cur->id](t_prev, t_cur, env_list))

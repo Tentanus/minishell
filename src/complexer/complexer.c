@@ -32,4 +32,5 @@ arg[1]:	|echo|
 arg[2]:	||
 arg[3]:	|ab|
 
+	list_token_print(mini->token);
 */
