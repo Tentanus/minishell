@@ -18,6 +18,8 @@ bool	env_var_exists(char *name, t_env_var_ll *env_var_list)
 {
 	int	len_name;
 
+	if (!name)
+		return (false);
 	len_name = ft_strlen(name) + 1;
 	while (env_var_list != NULL)
 	{
@@ -66,6 +68,8 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 	current = *env_var_list;
 	prev = NULL;
 	new_var = env_var_create_new_node(envar);
+	if (!new_var || !new_var->name)
+		return ;
 	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)
 	{

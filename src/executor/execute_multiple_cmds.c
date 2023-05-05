@@ -6,7 +6,7 @@ pid_t	execute_last_cmd(t_minishell *mini, t_cmd *current_cmd, int prev_read_end)
 
 	pid = fork();
 	if (pid < 0)
-		return (mini_error_test(error_print, ERROR, "fork fail"), ERROR);
+		return (mini_error_test(error_print, 1, "fork: Resource temporarily unavailable"), ERROR);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL); // !
@@ -72,7 +72,7 @@ void	execute_multiple_commands(t_minishell *mini)
 			return (mini_error_test(error_print, ERROR, "Pipe fail"));
 		pid = fork();
 		if (pid < 0)
-			return (mini_error_test(error_print, ERROR, "Fork fail"));
+			return (mini_error_test(error_print, 1, "fork: Resource temporarily unavailable"));
 		if (pid == 0)
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);
 		prev_read_end = set_fds(fd_pipe, prev_read_end);

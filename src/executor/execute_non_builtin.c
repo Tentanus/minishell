@@ -73,7 +73,7 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 	{
 		ft_free_split(env_list);
-		if (access(path_to_cmd, F_OK) == ERROR)
+		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR)
 			mini_exit_test(cmd_error, 127, cmd->args[0]);
 		if (access(path_to_cmd, X_OK) == ERROR)
 			mini_exit_test(error, 126, cmd->args[0]);

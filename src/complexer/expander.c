@@ -92,6 +92,8 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 	char	*sh_expand;
 	char	*new_token_str;
 
+	if (!t_current || !t_current->str)
+		return (ERROR);
 	sh_expand = expander_get_shell_var(t_current->str, pos, &len_sh_var, \
 			env_var_list);
 	if (!sh_expand)

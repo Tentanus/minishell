@@ -11,7 +11,7 @@ int	unset_env_var(char *name, t_env_var_ll **env_var_list)
 	t_env_var_ll	*current;
 	t_env_var_ll	*temp_var;
 
-	if (!name) // seg fault protection ??
+	if (!name)
 		return (MALLOC_ERROR);
 	current = *env_var_list;
 	temp_var = NULL;
@@ -40,6 +40,8 @@ int	builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list)
 	current = *env_var_list;
 	temp_var = NULL;
 	i = 1;
+	if (!cmd->args[1])
+		return (ERROR);
 	len_name = ft_strlen(cmd->args[i]);
 	while (cmd->args[i] != NULL)
 	{

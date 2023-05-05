@@ -3,8 +3,8 @@
 /*
 ** echo:
 ** echo [-n] [arg …]
-** Outputs the args, separated by spaces, terminated with a newline. 
-** The return status is 0 unless a write error occurs. 
+** Outputs the args, separated by spaces, terminated with a newline.
+** The return status is 0 unless a write error occurs.
 ** If -n is specified, the trailing newline is suppressed.
 */
 
@@ -13,6 +13,8 @@ bool	builtin_echo_is_n_option(char *str)
 	int	i;
 	int	len;
 
+	if (!str)
+		return (false);
 	if (ft_strncmp(str, "-n", 2) == 0)
 	{
 		i = 2;
@@ -43,6 +45,7 @@ int	builtin_echo(t_cmd *cmd, int fd)
 			n_option = 1;
 			i++;
 		}
+		// printf("cmd->args[i] = %s\n", cmd->args[i]);
 		while (cmd->args[i] != NULL)
 		{
 			ft_putstr_fd(cmd->args[i], fd);

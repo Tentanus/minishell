@@ -85,8 +85,12 @@ char	*env_var_make_cp(const t_env_var_ll *env_node)
 {
 	char	*ret;
 
+	if (!env_node || !env_node->name)
+		return (NULL);
 	ret = ft_calloc(sizeof(char), (ft_strlen(env_node->name) + \
 				ft_strlen(env_node->value) + 2));
+	if (!ret)
+		return (NULL);
 	ft_strlcat(ret, env_node->name, ft_strlen(env_node->name) + 1);
 	ft_strlcat(ret, "=", ft_strlen(ret) + 2);
 	ft_strlcat(ret, env_node->value, ft_strlen(ret) + ft_strlen(env_node->value) + 1);

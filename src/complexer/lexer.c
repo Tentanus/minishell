@@ -40,6 +40,8 @@ void	get_token_info(const char *inp, size_t *pos, t_token *node)
 
 void	check_env_token(t_token *t_node)
 {
+	if (!t_node || !t_node->str)
+		return ;
 	if (t_node->id != SH_VAR)
 		return ;
 	if (ft_strlen(t_node->str) > 1)

@@ -14,7 +14,7 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 
 	pid = fork();
 	if (pid < 0)
-		return (mini_error_test(error_print, ERROR, "Fork fail"));
+		return (mini_error_test(error_print, 1, "fork: Resource temporarily unavailable"));
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL); // !

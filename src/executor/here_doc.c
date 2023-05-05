@@ -6,13 +6,15 @@ char	*here_replace_line(char *line, const char *env_value, \
 	char	*new_line;
 	size_t	env_value_len;
 
+	if (!line)
+		return (NULL);
 	if (!env_value)
 		env_value_len = 0;
 	else
 		env_value_len = ft_strlen(env_value);
 	new_line = ft_calloc(sizeof(char), (ft_strlen(line) - env_key_len + \
 				env_value_len + 1));
-	if (!line)
+	if (!new_line)
 		return (free(line), NULL);
 	ft_strlcpy(new_line, line, *pos + 1);
 	if (!env_value)
@@ -72,6 +74,9 @@ int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 {
 	char	*line;
 
+	if (!delim)
+		mini_exit_test(error_print, -1, \
+			"warning: here-doc expected end-of-file");
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
