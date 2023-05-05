@@ -68,12 +68,12 @@ char	*here_expand(char *line, t_env_var_ll *list_env)
 	return (line);
 }
 
-int	here_lines(const char *delim, int fd,  t_env_var_ll *list_env)
+int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 {
 	char	*line;
 
 	signal(SIGINT, SIG_DFL);
-	while(1)
+	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL)
@@ -109,11 +109,11 @@ int	here_init(const char *delim, t_env_var_ll *list_env)
 	int	status;
 	int	pid;
 
-	if (pipe(pipe_fd) == -1)
-		return (-1);
+	if (pipe(pipe_fd) == ERROR)
+		return (ERROR);
 	pid = fork();
-	if (pid == -1)
-		return (-1);
+	if (pid == ERROR)
+		return (ERROR);
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
@@ -152,7 +152,7 @@ int	handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env)
 		{
 			if (redir_node->redir == HERE)
 				redir_node->fd = here_init(redir_node->file, list_env);
-			if (redir_node->redir == HERE && redir_node->fd == -1)
+			if (redir_node->redir == HERE && redir_node->fd == ERROR)
 				return (-1);
 			redir_node = redir_node->next;
 		}

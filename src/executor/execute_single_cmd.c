@@ -14,7 +14,7 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 
 	pid = fork();
 	if (pid < 0)
-		return (minishell_error("fork fail"));
+		return (mini_error_test(error_print, ERROR, "Fork fail"));
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL); // !
@@ -44,8 +44,21 @@ void	execute_single_command(t_minishell *mini)
 	tmp_fd_out = dup(1);
 	current_cmd = mini->cmd_list;
 	if (current_cmd->args[0] == NULL) // even if cmd is empty:
-		handle_redirect(current_cmd->redir, mini_error_test); // fprintf(stderr, "no command yes redirection\n");
-	else if (handle_builtin(current_cmd, mini) != SUCCESS)
+		handle_redirect(current_cmd->redir, mini_error_test);
+	else if (handle_builtin(current_cmd, mini) == ERROR)
 		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));
 }
+
+// int	handle_builtin(t_cmd *cmd, t_minishell *mini)
+// {
+// 	if (builtin_check(cmd->args[0]) == true)
+// 	{
+// 		handle_redirect(cmd->redir, redir_error);
+// 		if (builtin_execute(cmd, &mini->env_list) != SUCCESS)
+// 			return (ERROR);
+// 		return (status_update(12000), SUCCESS);
+// 	}
+// 	else
+// 		return (ERROR);
+// }

@@ -4,7 +4,7 @@ void	complexer(t_minishell *mini)
 {
 	mini->token = lexer(mini->input);
 	if (mini->token == NULL)
-		minishell_error("tokenization error");
+		mini_error_test(error_print, 1, "tokenization error");
 	mini->syntax = syntax(mini->token, mini->env_list);
 	if (mini->syntax)
 	{
@@ -14,7 +14,7 @@ void	complexer(t_minishell *mini)
 	}
 	mini->token = expander(mini->token, mini->env_list);
 	if (appender(mini) == false)
-		return (list_token_free_list(mini->token, list_token_free_node_str),  \
+		return (list_token_free_list(mini->token, list_token_free_node_str), \
 				mini_error_test(error_print, 1, "expander: unable to expand"));
 	mini->cmd_list = parser(mini);
 	if (mini->cmd_list == NULL)

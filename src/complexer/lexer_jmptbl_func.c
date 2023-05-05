@@ -35,6 +35,7 @@ void	token_id_redir(const char *inp, size_t *pos, const t_token_id val)
 		i++;
 	}
 }
+
 /*
 ** token_id_shvar
 ** first character of "name" should be alphabetic (isalpha) or underscore "_"

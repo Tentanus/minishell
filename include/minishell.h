@@ -27,6 +27,7 @@
 
 # define SET_DELIMETER "-|\'\"><$ "
 
+# define MALLOC_ERROR -2
 # define ERROR -1
 # define SUCCESS 0
 # define READ 0
@@ -228,7 +229,8 @@ char			*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
 int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 void			builtin_export_print_export(t_env_var_ll *env_var_list);
-int				builtin_unset(char *name, t_env_var_ll **env_var_list);
+int				builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list);
+int				unset_env_var(char *name, t_env_var_ll **env_var_list);
 int				builtin_env(t_env_var_ll *env_var_list);
 int				builtin_exit(t_cmd *cmd);
 
@@ -275,7 +277,7 @@ char			**make_double_array(int word_count);
 int				ft_word_counter(char const *s, char c);
 void			free_double_array(char **double_array);
 
-//				TEST FUNCTIONS (CAN BE REMOVED)
+//				TEST FUNCTIONS (SHOULD BE REMOVED) // ! NOT NORM PROOF
 
 void			list_token_print(t_token *top);
 void			list_cmd_print(t_cmd *cmd_list);

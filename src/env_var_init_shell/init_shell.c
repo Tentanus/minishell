@@ -20,7 +20,7 @@ int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*shlvl_node;
 	unsigned int	value;
-	
+
 	shlvl_node = env_var_get_env_node("SHLVL", *env_var_list);
 	if (shlvl_node)
 	{
@@ -63,7 +63,7 @@ int	init_shell(char **envp, t_minishell *mini)
 	}
 	if (init_shell_update_SHLVL(&env_var_list))
 		return (env_var_free_list(env_var_list), 1);
-	builtin_unset("OLDPWD", &env_var_list);
+	unset_env_var("OLDPWD", &env_var_list);
 	mini->env_list = env_var_list;
 	return (0);
 }

@@ -101,7 +101,7 @@ int	expander_inject_var(t_token *t_current, const int pos, \
 	new_token_str = ft_calloc(sizeof(char), \
 			((ft_strlen(t_current->str) - len_sh_var + len_sh_expand) + 1));
 	if (!new_token_str)
-		return (-1);
+		return (ERROR);
 	ft_strlcpy(new_token_str, t_current->str, pos + 1);
 	ft_strlcat(new_token_str, sh_expand, pos + len_sh_expand + 1);
 	ft_strlcat(new_token_str, &(t_current->str)[pos + len_sh_var], \

@@ -5,12 +5,12 @@ typedef int	(*t_redir_func)(const char *file, int fd, void (err_func)(void (*f)(
 int	redir_id_input(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (err_func(error, 1, file), -1);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (err_func(error, 1, file), -1);
-	if (close(fd) == -1)
-		return (err_func(error, 1, file), -1);
+	if (fd == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (dup2(fd, STDIN_FILENO) == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (close(fd) == ERROR)
+		return (err_func(error, 1, file), ERROR);
 	return (0);
 }
 
@@ -18,34 +18,34 @@ int	redir_id_here(const char *file, int fd, void (err_func)(void (*f)(const char
 {
 	(void) err_func;
 	(void) file;
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (-1);
-	if (close(fd) == -1)
-		return (-1);
+	if (dup2(fd, STDIN_FILENO) == ERROR)
+		return (ERROR);
+	if (close(fd) == ERROR)
+		return (ERROR);
 	return (0);
 }
 
 int	redir_id_output(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (fd == -1)
-		return (err_func(error, 1, file), -1);
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		return (err_func(error, 1, file), -1);
-	if (close(fd) == -1)
-		return (err_func(error, 1, file), -1);
+	if (fd == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (dup2(fd, STDOUT_FILENO) == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (close(fd) == ERROR)
+		return (err_func(error, 1, file), ERROR);
 	return (0);
 }
 
 int	redir_id_append(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd == -1)
-		return (err_func(error, 1, file), -1);
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		return (err_func(error, 1, file), -1);
-	if (close(fd) == -1)
-		return (err_func(error, 1, file), -1);
+	if (fd == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (dup2(fd, STDOUT_FILENO) == ERROR)
+		return (err_func(error, 1, file), ERROR);
+	if (close(fd) == ERROR)
+		return (err_func(error, 1, file), ERROR);
 	return (0);
 }
 

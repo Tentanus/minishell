@@ -1,8 +1,7 @@
-#include <libft.h>
-#include <stdio.h>
-#include <errno.h>
+// #include <libft.h> // ! REMOVE?
+// #include <stdio.h> // ! REMOVE?
+// #include <errno.h> // ! REMOVE?
 #include <minishell.h>
-
 
 void	minishell_error(const char *loc)
 {
