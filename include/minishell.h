@@ -1,28 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 15:00:07 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 //			INCLUDES
 
-# include <stdio.h> // for printf (and partly readline)
-# include <unistd.h> // for close, write, access, dup2, execve, fork, pipe, getcwd, chdir
-# include <stdlib.h> // for free, exit, malloc, getenv
-# include <readline/readline.h> // for readline
-# include <readline/history.h> // for history
-# include <stdbool.h> // for bool
-# include <fcntl.h> // for open
-# include <string.h> // for strerror
-# include <errno.h> // for errors
-# include <sys/wait.h> // for waitpid
-# include <signal.h> // for signals
-# include <sys/ioctl.h> // for ioctl
-# include <termios.h> // for termios
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <string.h>
+# include <errno.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 
-# include <libft.h> // for libft
+# include <libft.h>
 
 //			MACROS
 
 # define MARSH_PROMPT "\001\033[1;32m\002marsh> \001\033[0m\002"
-# define MARES_PROMPT "\001\033[1;32m\002maresiscoding> \001\033[0m\002"
 # define OCTO_PROMPT "\001\033[1;32m\002🐙> \001\033[0m\002"
 
 # define SET_DELIMETER "-|\'\"><$ "
@@ -32,9 +43,6 @@
 # define SUCCESS 0
 # define READ 0
 # define WRITE 1
-
-//			GLOBAL
-
 
 //			E_NUMS
 
@@ -102,8 +110,6 @@ typedef struct s_minishell
 
 typedef struct s_status
 {
-	// int		status;
-	// int		pid;
 	char	*exit_str;
 }	t_status;
 
@@ -161,6 +167,9 @@ bool			syntax_id_misc(t_token *t_prev, t_token *t_cur, \
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 char			*expander_get_shell_var(const char *str, const int pos, \
 				size_t *len_sh_var, t_env_var_ll *env_var_list);
+t_token			*expander_shell_var_spacer(char *str);
+t_token			*expander_shell_var(t_token *t_current, \
+				t_env_var_ll *env_var_list);
 
 //				FUNCTION: APPENDER
 
@@ -179,9 +188,7 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 int				handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
 void			handle_redirect(t_redir *redir_cur, void (*err_func)(void (*func)(const char *), int status, const char *));
-
-void			redir_error_exit(const char *file);
-void			redir_error(const char *file);
+char			*here_expand(char *line, t_env_var_ll *list_env);
 
 //					UTILS_TOKEN
 

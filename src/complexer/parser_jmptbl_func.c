@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parser_jmptbl_func.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 14:41:26 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 14:41:28 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 t_token	*parser_id_pipe(t_cmd *cmd_node, t_token *t_current)

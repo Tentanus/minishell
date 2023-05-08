@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   syntax.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 14:41:36 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 14:41:50 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 typedef bool	(*t_syntax_func) (t_token *t_prev, t_token *t_cur, \
@@ -39,8 +51,6 @@ t_token	*syntax(t_token *top, t_env_var_ll *env_list)
 	}
 	return (NULL);
 }
-
-// if only space tokens are given wat to do?
 
 /* -------------------------------------------------------
    The grammar symbols

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 14:40:56 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 14:41:17 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 typedef t_token*	(*t_parser_func)(t_cmd *cmd_node, t_token *t_current);
@@ -73,13 +85,3 @@ t_cmd	*parser(t_minishell *mini)
 	list_token_free_list(mini->token, list_token_free_node_non_word);
 	return (cmd_return);
 }
-
-// add extra function: that skips the free for WORD_QUOTE_DQUOTE 
-//free_node_PIPE_GREAT_LESS_SPACEBAR
-//
-//test case in bash:
-//
-// >$ <infile
-// >$ echo $?
-// .$ 0
-//

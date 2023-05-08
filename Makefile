@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/05/08 13:59:49 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/05/08 15:00:07 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC			:=	\
 				complexer/appender.c				\
 				complexer/complexer.c				\
 				complexer/expander.c				\
+				complexer/expander_extra.c			\
 				complexer/lexer.c					\
 				complexer/lexer_jmptbl_func.c		\
 				complexer/parser.c					\
@@ -43,6 +44,7 @@ SRC			:=	\
 				executor/execute_single_cmd.c		\
 				executor/execute_non_builtin.c		\
 				executor/here_doc.c					\
+				executor/here_doc_expand.c			\
 				executor/redir.c					\
 				executor/signals.c					\
 				env_var_init_shell/env_var.c		\

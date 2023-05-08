@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   syntax_jmptbl_func.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 14:42:08 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 14:42:10 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 bool	syntax_id_pipe(t_token *t_prev, t_token *t_cur, \
