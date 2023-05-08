@@ -1,37 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   wev_main.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mweverli <mweverli@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 15:35:19 by mweverli      #+#    #+#                 */
+/*   Updated: 2023/05/08 15:37:06 by mweverli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
+
+t_status	g_status;
+
+void	init_mini(t_minishell *mini)
+{
+	mini->input = NULL;
+	mini->token = NULL;
+	mini->syntax = NULL;
+	mini->cmd_list = NULL;
+	mini->env_list = NULL;
+	tcgetattr(STDIN_FILENO, &mini->saved_term);
+	mini->saved_term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
+	g_status.exit_str = ft_strdup("0");
+	if (!g_status.exit_str)
+		mini_exit(error_print, 137, "unable to startup");
+	return ;
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell		mini;
 
-	(void)	argv;
-	(void)	envp;
+	(void) argv;
 	if (argc > 1)
-		return (EXIT_FAILURE);
+		mini_exit(error_print, 1, "too many arguments");
+	init_mini(&mini);
 	if (init_shell(envp, &mini) == 1)
-		return (1);
-	mini.cmd_list = NULL;
-	mini.input= NULL;
+		mini_exit(error_print, 1, "unable to startup");
 	while (1)
 	{
-		mini.input = readline(MARSH_PROMPT);
-		if (mini.input)
+		init_signals();
+		mini.input = readline(OCTO_PROMPT);
+		if (mini.input == NULL)
+			sig_quit_handler(&mini);
+		if (ft_strncmp(mini.input, "", 1))
 		{
-			if (ft_strncmp(mini.input, "", 1))
-				add_history(mini.input);
+			add_history(mini.input);
+			complexer(&mini);
+			executor(&mini);
 		}
-		if (mini.input == NULL || ft_strncmp(mini.input, "exit", 4) == 0)
-		{
-			clear_history();
-			printf("exiting marshell\n");
-			exit(EXIT_SUCCESS);
-		}
-		complexer(&mini);
-		executor(&mini);
-		list_cmd_free_list(mini.cmd_list); // remove once testing complexer is finished
-		mini.cmd_list = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

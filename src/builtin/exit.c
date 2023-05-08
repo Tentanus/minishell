@@ -26,7 +26,7 @@ int	builtin_exit(t_cmd *cmd)
 				1, "exit: numeric argument required"), exit(255), ERROR);
 	}
 	clear_history();
-	return (exit(ft_atoi(g_status.exit_str)), SUCCESS);
+	return (exit(ft_atoi(g_status)), SUCCESS);
 }
 
 // exit builtin in aanvullen:

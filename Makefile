@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/05/08 15:00:07 by mweverli      ########   odam.nl          #
+#    Updated: 2023/05/08 15:47:19 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC			:=	\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
+				utils/list_token_free_utils.c		\
 				utils/minishell_error.c				\
 				utils/minishell_error_custom.c		\
 				utils/status.c						\

@@ -103,7 +103,7 @@ int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 			i++;
 		}
 	}
-	if (ft_strncmp(g_status.exit_str, "1", 2) == 0)
+	if (ft_strncmp(g_status, "1", 2) == 0)
 		return (ERROR);
 	return (SUCCESS);
 }

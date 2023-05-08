@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:41:55 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:57:28 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:42:37 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	list_token_print(t_token *top)
 	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
 	while (size--)
 	{
-		printf("TOKEN [%02d]\tid: %s [%d]\n\t\tstr: |%s|\n", (con - size), token_name[top->id], top->id, top->str);
+		printf("TOKEN [%02d]\tid: %s [%d]\n\t\tstr: |%s|\n", \
+				(con - size), token_name[top->id], top->id, top->str);
 		top = top->next;
 	}
 	return ;
@@ -81,7 +82,8 @@ void	list_redir_print(t_redir *redir_list)
 	ft_printf("| REDIRECTIONS:\n");
 	while (redir_list != NULL)
 	{
-		ft_printf("|\tTYPE [%d]:\t%s\n", redir_list->redir, redir_name[redir_list->redir]);
+		ft_printf("|\tTYPE [%d]:\t%s\n", redir_list->redir, \
+				redir_name[redir_list->redir]);
 		ft_printf("|\tFILE:\t%s\n", redir_list->file);
 		redir_list = redir_list->next;
 	}

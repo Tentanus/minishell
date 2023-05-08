@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:41:23 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:41:24 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:41:22 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,83 +81,4 @@ t_token	*list_token_skip_space(t_token *t_current)
 	if (t_return->id == SPACEBAR)
 		t_return = t_return->next;
 	return (t_return);
-}
-
-t_token	*list_token_skip_pipe(t_token *t_current)
-{
-	t_token	*t_previous;
-
-	if (t_current == NULL)
-		return (NULL);
-	while (t_current != NULL)
-	{
-		t_previous = t_current;
-		t_current = t_current->next;
-		if (t_previous->id == PIPE)
-			break ;
-	}
-	return (t_current);
-}
-
-//	FREE FUNCTIONS
-
-t_token	*list_token_free_node_str(t_token *t_node)
-{
-	t_token	*t_tmp;
-
-	t_tmp = t_node->next;
-	if (t_node == NULL)
-		return (NULL);
-	if (t_node->str != NULL)
-		free(t_node->str);
-	t_node->str = NULL;
-	free(t_node);
-	return (t_tmp);
-}
-
-t_token	*list_token_free_node_non_word(t_token *t_node)
-{
-	t_token	*t_tmp;
-
-	t_tmp = t_node->next;
-	if (t_node == NULL)
-		return (NULL);
-	if (t_node->id != WORD)
-		free(t_node->str);
-	free(t_node);
-	return (t_tmp);
-}
-
-t_token	*list_token_free_node(t_token *t_node)
-{
-	t_token	*t_tmp;
-
-	t_tmp = t_node->next;
-	if (t_node == NULL)
-		return (NULL);
-	free(t_node);
-	return (t_tmp);
-}
-
-void	list_token_free_last(t_token *t_list, t_token *(*f) (t_token *))
-{
-	t_token	*t_previous;
-
-	if (t_list == NULL)
-		return ;
-	while (t_list->next != NULL)
-	{
-		t_previous = t_list;
-		t_list = t_list->next;
-	}
-	t_previous->next = f(t_list);
-}
-
-void	list_token_free_list(t_token *t_list, t_token *(*f) (t_token *))
-{
-	if (t_list == NULL)
-		return ;
-	while (t_list != NULL)
-		t_list = f(t_list);
-	return ;
 }
