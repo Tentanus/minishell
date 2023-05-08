@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:40:56 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:41:17 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:41:24 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,22 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 			return (list_cmd_free_node(cmd_node), false);
 	}
 	return (true);
+}
+
+t_token	*list_token_skip_pipe(t_token *t_current)
+{
+	t_token	*t_previous;
+
+	if (t_current == NULL)
+		return (NULL);
+	while (t_current != NULL)
+	{
+		t_previous = t_current;
+		t_current = t_current->next;
+		if (t_previous->id == PIPE)
+			break ;
+	}
+	return (t_current);
 }
 
 t_cmd	*parser(t_minishell *mini)

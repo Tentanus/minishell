@@ -6,13 +6,13 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:47:18 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_status	g_status;
+char	*g_status;
 
 void	init_mini(t_minishell *mini)
 {
@@ -24,8 +24,8 @@ void	init_mini(t_minishell *mini)
 	tcgetattr(STDIN_FILENO, &mini->saved_term);
 	mini->saved_term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
-	g_status.exit_str = ft_strdup("0");
-	if (!g_status.exit_str)
+	g_status = ft_strdup("0");
+	if (!g_status)
 		mini_exit(error_print, 137, "unable to startup");
 	return ;
 }

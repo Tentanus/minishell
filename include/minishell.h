@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 16:34:26 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 16:48:34 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct s_status
 
 //				GLOBAL VARIABLES
 
-extern t_status	g_status;
+extern char		*g_status;
 
 //				FUNCTIONS
 
@@ -193,7 +193,6 @@ t_token			*list_token_new(void);
 t_token			*list_token_cpy_node(t_token *t_node);
 t_token			*list_token_last(t_token *t_list);
 t_token			*list_token_skip_space(t_token *t_current);
-t_token			*list_token_skip_pipe(t_token *t_current);
 void			list_token_add_back(t_token **list, t_token *node);
 
 void			list_token_free_list(t_token *t_list, t_token *(*f)(t_token *));
