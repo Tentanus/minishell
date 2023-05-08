@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:48:03 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:51:58 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 	char	*line;
 
 	if (!delim)
-		mini_exit_test(error_print, -1, \
+		mini_exit(error_print, -1, \
 			"warning: here-doc expected end-of-file");
 	signal(SIGINT, SIG_DFL);
 	while (1)

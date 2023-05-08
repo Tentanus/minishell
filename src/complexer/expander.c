@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:36:13 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:39:02 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	expander_remove_check_quotes(t_token *t_node)
 	str = t_node->str;
 	if (len < 2 || str[0] != str[len - 1])
 	{
-		mini_error_test(error_print, 258, "unclosed quotes");
+		mini_error(error_print, 258, "unclosed quotes");
 		return (true);
 	}
 	ft_memmove(str, str + 1, len);
@@ -121,7 +121,7 @@ t_token	*expander(t_token *t_input, t_env_var_ll *env_var_list)
 		if (!t_node)
 			return (list_token_free_list(t_input, list_token_free_node_str), \
 					list_token_free_list(t_return, list_token_free_node_str), \
-					mini_error_test(error_print, 1, "expander: unable to expand"), \
+					mini_error(error_print, 1, "expander: unable to expand"), \
 					NULL);
 		list_token_add_back(&t_return, t_node);
 		t_current = t_current->next;

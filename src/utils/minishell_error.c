@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:41:29 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:41:30 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	error_print(const char *str)
 	ft_putendl_fd(str, 2);
 }
 
-void	mini_error_test(void (*func)(const char *), \
+void	mini_error(void (*func)(const char *), \
 		int status, const char *str)
 {
 	ft_putstr_fd("marsh: ", 2);
@@ -32,7 +32,7 @@ void	mini_error_test(void (*func)(const char *), \
 	status_update((unsigned int) status);
 }
 
-void	mini_exit_test(void (*func)(const char *), \
+void	mini_exit(void (*func)(const char *), \
 		int status, const char *str)
 {
 	ft_putstr_fd("marsh: ", 2);

@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:52:21 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:52:24 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 
 	pid = fork();
 	if (pid < 0)
-		return (mini_error_test(error_print, 1, \
+		return (mini_error(error_print, 1, \
 			"fork: Resource temporarily unavailable"));
 	if (pid == 0)
 	{
@@ -57,7 +57,7 @@ void	execute_single_command(t_minishell *mini)
 	tmp_fd_out = dup(1);
 	current_cmd = mini->cmd_list;
 	if (current_cmd->args[0] == NULL)
-		handle_redirect(current_cmd->redir, mini_error_test);
+		handle_redirect(current_cmd->redir, mini_error);
 	else if (handle_builtin(current_cmd, mini) == ERROR)
 		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));

@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:35:14 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:35:21 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	complexer(t_minishell *mini)
 {
 	mini->token = lexer(mini->input);
 	if (mini->token == NULL)
-		mini_error_test(error_print, 1, "tokenization error");
+		mini_error(error_print, 1, "tokenization error");
 	mini->syntax = syntax(mini->token, mini->env_list);
 	if (mini->syntax)
 	{
-		mini_error_test(syntax_error, 258, mini->syntax->str);
+		mini_error(syntax_error, 258, mini->syntax->str);
 		list_token_free_list(mini->token, list_token_free_node_str);
 		return ;
 	}
 	mini->token = expander(mini->token, mini->env_list);
 	if (appender(mini) == false)
 		return (list_token_free_list(mini->token, list_token_free_node_str), \
-				mini_error_test(error_print, 1, "expander: unable to expand"));
+				mini_error(error_print, 1, "expander: unable to expand"));
 	mini->cmd_list = parser(mini);
 	if (mini->cmd_list == NULL)
-		mini_error_test(error_print, 1, "parser: unable to parse");
+		mini_error(error_print, 1, "parser: unable to parse");
 	mini->token = NULL;
 }
 

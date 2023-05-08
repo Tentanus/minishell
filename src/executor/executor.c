@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:02 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:51:04 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	wait_function(pid_t pid, int count_childs)
 	int	status;
 
 	if (waitpid(pid, &status, 0) < 0)
-		return (mini_error_test(error_print, ERROR, "Waitpid error"));
+		return (mini_error(error_print, ERROR, "Waitpid error"));
 	while (count_childs > 0)
 	{
 		wait(NULL);

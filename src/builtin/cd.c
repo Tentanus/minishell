@@ -37,7 +37,7 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 		else
 			new_working_dir = ft_strdup(cmd->args[1]);
 		if (new_working_dir == NULL)
-			return (free(new_working_dir), mini_error_test(error_print, 1, \
+			return (free(new_working_dir), mini_error(error_print, 1, \
 				"cd: OLDPWD not set"), NULL);
 	}
 	else
@@ -57,11 +57,11 @@ int	change_directory(t_cmd *cmd, t_env_var_ll **env_var_list)
 	current_working_dir = ft_strjoin("OLDPWD=", \
 		env_var_get_env("PWD", *env_var_list));
 	if (!current_working_dir)
-		return (free(new_working_dir), mini_error_test(error_print, 1, \
+		return (free(new_working_dir), mini_error(error_print, 1, \
 			"(malloc) error current_working_dir in execute_cd"), MALLOC_ERROR);
 	if (chdir(new_working_dir) != 0)
 		return (free(current_working_dir), free(new_working_dir), \
-			mini_error_test(error, 1, cmd->args[1]), ERROR);
+			mini_error(error, 1, cmd->args[1]), ERROR);
 	env_var_set_env(current_working_dir, env_var_list);
 	free(current_working_dir);
 	free(new_working_dir);
@@ -81,7 +81,7 @@ int	builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list)
 		cwd = getcwd(cwd, 0);
 		pwd = ft_strjoin("PWD=", cwd);
 		if (!pwd)
-			return (free(cwd), mini_error_test(error_print, 1, \
+			return (free(cwd), mini_error(error_print, 1, \
 				"(malloc) error pwd in execute_cd"), MALLOC_ERROR);
 		env_var_set_env(pwd, env_var_list);
 		free(cwd);

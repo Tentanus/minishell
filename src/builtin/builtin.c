@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:03:28 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	handle_builtin(t_cmd *cmd, t_minishell *mini)
 {
 	if (builtin_check(cmd->args[0]) == true)
 	{
-		handle_redirect(cmd->redir, mini_error_test);
+		handle_redirect(cmd->redir, mini_error);
 		if (builtin_execute(cmd, &mini->env_list) == SUCCESS)
 			return (status_update(0), SUCCESS);
 		return (SUCCESS);

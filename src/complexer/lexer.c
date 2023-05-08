@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:39:34 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:39:36 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ t_token	*lexer(const char *inp)
 	{
 		node = list_token_new();
 		if (!node)
-			mini_error_test(error_print, ERROR, "parser/lexer.c: lexer @ malloc");
+			mini_error(error_print, ERROR, "parser/lexer.c: lexer @ malloc");
 		get_token_info(inp, &current_pos, node);
 		if (!node->str)
 			return (list_token_free_list(top, list_token_free_node_str), \
-					mini_error_test(error_print, 1, "lexer: token error"), \
+					mini_error(error_print, 1, "lexer: token error"), \
 					NULL);
 		check_env_token(node);
 		list_token_add_back(&top, node);

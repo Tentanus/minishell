@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:47:39 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:47:40 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ pid_t	execute_last_cmd(t_minishell *mini, \
 
 	pid = fork();
 	if (pid < 0)
-		return (mini_error_test(error_print, 1, \
+		return (mini_error(error_print, 1, \
 			"fork: Resource temporarily unavailable"), ERROR);
 	if (pid == 0)
 	{
@@ -33,7 +33,7 @@ pid_t	execute_last_cmd(t_minishell *mini, \
 				handle_non_builtin(current_cmd, mini);
 		}
 		else
-			handle_redirect(current_cmd->redir, mini_exit_test);
+			handle_redirect(current_cmd->redir, mini_exit);
 		exit(SUCCESS);
 	}
 	close(prev_read_end);
@@ -55,7 +55,7 @@ void	execute_child(t_minishell *mini, \
 			handle_non_builtin(current_cmd, mini);
 	}
 	else
-		handle_redirect(current_cmd->redir, mini_exit_test);
+		handle_redirect(current_cmd->redir, mini_exit);
 	exit(SUCCESS);
 }
 
@@ -84,10 +84,10 @@ void	execute_multiple_commands(t_minishell *mini)
 	{
 		count_childs++;
 		if (pipe(fd_pipe) < 0)
-			return (mini_error_test(error_print, ERROR, "Pipe fail"));
+			return (mini_error(error_print, ERROR, "Pipe fail"));
 		pid = fork();
 		if (pid < 0)
-			return (mini_error_test(error_print, 1, \
+			return (mini_error(error_print, 1, \
 				"fork: Resource temporarily unavailable"));
 		if (pid == 0)
 			execute_child(mini, current_cmd, fd_pipe, prev_read_end);

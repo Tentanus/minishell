@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:00:07 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:21:59 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,10 @@ extern t_status	g_status;
 
 //				FUNCTIONS
 
-void			minishell_error(const char *loc);
-void			minishell_error_exit(const char *loc);
-
-void			mini_error_test(void  (*func)(const char *), int, const char *str);
-void			mini_exit_test(void  (*func)(const char *), int, const char *str);
+void			mini_error(void  (*func)(const char *), int, const char *str);
+void			mini_exit(void  (*func)(const char *), int, const char *str);
 
 void			syntax_error(const char *token);
-
 void			error(const char *cmd);
 void			cmd_error(const char *cmd);
 void			error_print(const char *str);

@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:40:14 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_mini(t_minishell *mini)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);
 	g_status.exit_str = ft_strdup("0");
 	if (!g_status.exit_str)
-		mini_exit_test(error_print, 137, "unable to startup");
+		mini_exit(error_print, 137, "unable to startup");
 	return ;
 }
 
@@ -36,10 +36,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argv;
 	if (argc > 1)
-		mini_exit_test(error_print, 1, "too many arguments");
+		mini_exit(error_print, 1, "too many arguments");
 	init_mini(&mini);
 	if (init_shell(envp, &mini) == 1)
-		mini_exit_test(error_print, 1, "unable to startup");
+		mini_exit(error_print, 1, "unable to startup");
 	while (1)
 	{
 		init_signals();
