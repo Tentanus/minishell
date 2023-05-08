@@ -87,8 +87,14 @@ void	mini_exit_test(void (*func)(const char *), \
 	exit(status);
 }
 
+void	mini_exit_here_test(void (*func)(const char *), \
+		int status, const char *str)
+{
+	ft_putstr_fd("marsh", 2);
+	(void) func(str);
+	exit(status);
+}
 
 /*
 als fd op -1 komt te staan return error in child process
-
- */
+*/

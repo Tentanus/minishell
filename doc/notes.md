@@ -1,3 +1,26 @@
+	| Signal      | Status                    | Action                 | Exit code   |
+	| ----------- | ------------------------- | ---------------------- | ----------- |
+[✅] | ctrl-C      | interactive mode          | new prompt             | 1           |
+[✅] | ctrl-C      | waiting for user input    | print ^C, new prompt   | 130         |
+[✅] | ctrl-C      | in heredoc                | new prompt             | 1           |
+[✅] | ctrl-C      | in cat | cat | ls         | print ^C, new prompt   | 0           | to do: print ^C
+  	| ----------- | ------------------------- | ---------------------- | ----------- |
+[✅] | ctrl-D      | interactive mode          | print exit, exit shell | 0           | to do: print "exit" on same line as prompt
+[✅] | ctrl-D      | waiting for user input    | new prompt             | 0           |
+[✅] | ctrl-D      | in heredoc                | new prompt             | 0           |
+[✅] | ctrl-D      | in cat | cat | ls         | new prompt             | 0           |
+	| ----------- | ------------------------- | ---------------------- | ----------- |
+[✅] | ctrl-\      | interactive mode          | do nothing             | unchanged   |
+[✅] | ctrl-\      | waiting for user input    | print ^\Quit: 3        | 131         |
+[✅] | ctrl-\      | in heredoc                | do nothing             | N/A         |
+[✅] | ctrl-\      | in cat | cat | ls         | new prompt             | 0           |
+	| ----------- | ------------------------- | ---------------------- | ----------- |
+
+
+
+
+
+
 some minor mistakes: Overal beautifull shelly.
 
 [x] leaks for wrong command while expansion. 
@@ -24,25 +47,6 @@ some minor mistakes: Overal beautifull shelly.
 [x] ping localhost | sleep 2
 [x] export
 [x] signals working correct in multi layers of minishell
-
-
-	| Signal      | Status                    | Action                 | Exit code   |
-	| ----------- | ------------------------- | ---------------------- | ----------- |
-[x] | ctrl-C      | interactive mode          | new prompt             | 1           |
-[x] | ctrl-C      | waiting for user input    | print ^C, new prompt   | 130         | to do: print ^C + newline
-[x] | ctrl-C      | in heredoc                | new prompt             | 1           | to do: exit code is nu nog 0
-[ ] | ctrl-C      | in cat | cat | ls         | print ^C, new prompt   | 0           | to do: exit code van laatste cmd gebruiken
-	| ----------- | ------------------------- | ---------------------- | ----------- |
-[x] | ctrl-D      | interactive mode          | print exit, exit shell | 0           |
-[x] | ctrl-D      | waiting for user input    | new prompt             | 0           |
-[x] | ctrl-D      | in heredoc                | new prompt             | 0           |
-[x] | ctrl-D      | in cat | cat | ls         | new prompt             | 0           |
-	| ----------- | ------------------------- | ---------------------- | ----------- |
-[x] | ctrl-\      | interactive mode          | do nothing             | unchanged   |
-[x] | ctrl-\      | waiting for user input    | print ^\Quit: 3        | 131         |
-[x] | ctrl-\      | in heredoc                | do nothing             | N/A         |
-[ ] | ctrl-\      | in cat | cat | ls         | new prompt             | 0           | to do: new prompt (now does nothing)
-	| ----------- | ------------------------- | ---------------------- | ----------- |
 
 [x] expansion quotes
 	echo "$USER"'$USER'

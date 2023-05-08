@@ -118,6 +118,7 @@ void			minishell_error_exit(const char *loc);
 
 void			mini_error_test(void  (*func)(const char *), int, const char *str);
 void			mini_exit_test(void  (*func)(const char *), int, const char *str);
+void			mini_exit_here_test(void (*func)(const char *), int status, const char *str);
 
 void			minishell_quote_error(void);
 void			syntax_error(const char *token);

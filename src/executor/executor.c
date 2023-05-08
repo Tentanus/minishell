@@ -34,15 +34,11 @@ void	wait_function(pid_t pid, int count_childs)
 void	executor(t_minishell *mini)
 {
 	signal(SIGINT, SIG_IGN); // !
+	// signal(SIGQUIT, SIG_DFL); // !
 	if (!mini->cmd_list)
 		return ;
 	if (handle_here_doc(mini->cmd_list, mini->env_list) == -1)
-	{
 		close_here_doc(mini->cmd_list);
-		list_cmd_free_list(mini->cmd_list);
-		mini->cmd_list = NULL;
-		return ;
-	}
 	if (mini->cmd_list->next == NULL)
 		execute_single_command(mini);
 	else

@@ -2,8 +2,7 @@
 
 void	sig_quit_handler(t_minishell *mini)
 {
-	ft_putstr_fd("exit", 2);
-	ft_putchar_fd('\n', 2);
+	ft_putendl_fd("exit", 2);
 	free(mini->input);
 	mini->input = NULL;
 	exit(0); // ! change exit code ! Was 130?
