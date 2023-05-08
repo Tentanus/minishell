@@ -83,7 +83,7 @@ void	unset_node(char *env_var, t_env_var_ll **env_var_list)
 		if (ft_strncmp(current->name, env_var, len_name + 1) == 0)
 		{
 			if (prev == NULL)
-				env_var_list = &(current->next);
+				*env_var_list = current->next;
 			else
 				prev->next = current->next;
 			env_var_free_node(current);
@@ -112,7 +112,7 @@ int	builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list)
 			unset_node(cmd->args[i], env_var_list);
 		i++;
 	}
-	if (ft_strncmp(g_status.exit_str, "1", 2) == 0)
+	if (ft_strncmp(g_status, "1", 2) == 0)
 		return (ERROR);
 	return (SUCCESS);
 }
