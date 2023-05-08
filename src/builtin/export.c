@@ -64,6 +64,8 @@ int	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 	int		i;
 
 	i = 0;
+	if (!name)
+		return (ERROR);
 	while (name[i] && name[i] != '=')
 		i++;
 	name_tmp = ft_substr(name, 0, i);

@@ -45,7 +45,6 @@ int	builtin_echo(t_cmd *cmd, int fd)
 			n_option = 1;
 			i++;
 		}
-		// printf("cmd->args[i] = %s\n", cmd->args[i]);
 		while (cmd->args[i] != NULL)
 		{
 			ft_putstr_fd(cmd->args[i], fd);

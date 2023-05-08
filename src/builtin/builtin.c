@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:02:41 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:03:28 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ bool	builtin_check(char *cmd)
 int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
-		return (builtin_echo(cmd, 1)); // right fd?
+		return (builtin_echo(cmd, 1));
 	if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
-		return (builtin_pwd(1)); // right fd?
+		return (builtin_pwd(1));
 	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		return (builtin_cd(cmd, env_var_list));
 	if (ft_strncmp(cmd->args[0], "env", 4) == 0)

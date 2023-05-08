@@ -58,30 +58,26 @@ char	*env_var_get_env(char *name, t_env_var_ll *env_var_list)
 */
 void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 {
-	int				len_name;
 	t_env_var_ll	*new_var;
 	t_env_var_ll	*current;
 	t_env_var_ll	*prev;
 
-	if (!envar)
-		return ;
 	current = *env_var_list;
 	prev = NULL;
 	new_var = env_var_create_new_node(envar);
 	if (!new_var || !new_var->name)
 		return ;
-	len_name = ft_strlen(new_var->name) + 1;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->name, new_var->name, len_name) == 0)
+		if (ft_strncmp(current->name, new_var->name, \
+			ft_strlen(new_var->name) + 1) == 0)
 		{
 			new_var->next = current->next;
 			if (prev == NULL)
 				*env_var_list = new_var;
 			else
 				prev->next = new_var;
-			env_var_free_node(current);
-			return ;
+			return (env_var_free_node(current));
 		}
 		prev = current;
 		current = current->next;
