@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:21:59 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 16:34:26 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void			cmd_error(const char *cmd);
 void			error_print(const char *str);
 void			chdir_error(const char *cmd);
 void			export_error(const char *name);
+void			unset_error(const char *name);
 
 //				FUNCTION: STATUS
 

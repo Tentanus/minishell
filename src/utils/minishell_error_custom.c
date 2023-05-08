@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:41:48 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:41:49 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/08 16:33:15 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	syntax_error(const char *token)
 	ft_putstr_fd("syntax error near unexpected token '", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
+}
+
+void	unset_error(const char *name)
+{
+	ft_putstr_fd("unset: `", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putendl_fd("not a valid identifier", 2);
 }
 
 void	export_error(const char *name)

@@ -15,34 +15,30 @@
 
 char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
-	char	*new_working_dir;
+	char	*nwd;
 
 	if (cmd->args[1] == NULL)
-		new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list));
-	else if (cmd->args[1][0] == '~')
-	{
-		if (cmd->args[1][1] == '/')
-			new_working_dir = ft_strjoin(env_var_get_env("HOME", \
-				*env_var_list), &cmd->args[1][1]);
-		else
-			new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list));
-	}
+		nwd = ft_strdup(env_var_get_env("HOME", *env_var_list));
+	else if (ft_strncmp(&cmd->args[1][0], "~", 2) == 0)
+		nwd = ft_strdup(env_var_get_env("HOME", *env_var_list));
+	else if (ft_strncmp(&cmd->args[1][0], "~/", 3) == 0)
+		nwd = ft_strjoin(env_var_get_env("HOME", \
+			*env_var_list), &cmd->args[1][1]);
 	else if (cmd->args[1][0] == '-')
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
-			new_working_dir = ft_strdup(env_var_get_env("OLDPWD", \
-				*env_var_list));
+			nwd = ft_strdup(env_var_get_env("OLDPWD", *env_var_list));
 		else if (ft_strncmp(&cmd->args[1][0], "--", 3) == 0)
-			new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list));
+			nwd = ft_strdup(env_var_get_env("HOME", *env_var_list));
 		else
-			new_working_dir = ft_strdup(cmd->args[1]);
-		if (new_working_dir == NULL)
-			return (free(new_working_dir), mini_error(error_print, 1, \
+			return (mini_error(error_print, 1, "cd: invalid option"), NULL);
+		if (nwd == NULL)
+			return (free(nwd), mini_error(error_print, 1, \
 				"cd: OLDPWD not set"), NULL);
 	}
 	else
-		new_working_dir = ft_strdup(cmd->args[1]);
-	return (new_working_dir);
+		nwd = ft_strdup(cmd->args[1]);
+	return (nwd);
 }
 
 int	change_directory(t_cmd *cmd, t_env_var_ll **env_var_list)

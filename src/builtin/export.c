@@ -78,13 +78,13 @@ int	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 		if (ft_strchr(name, '=') == 0)
 			return (free(name_tmp), SUCCESS);
 		else
-			return (free(name_tmp), env_var_set_env(name, env_var_list), SUCCESS);
+			return (free(name_tmp), env_var_set_env(name, env_var_list), \
+				SUCCESS);
 	}
 	if (env_var_validate_name(name) == true)
-		env_var_set_env(name, env_var_list);
+		return (free(name_tmp), env_var_set_env(name, env_var_list), SUCCESS);
 	else
 		return (free(name_tmp), mini_error(export_error, 1, name), ERROR);
-	return (free(name_tmp), SUCCESS);
 }
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
