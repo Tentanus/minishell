@@ -42,7 +42,6 @@ void	export_error(const char *name)
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("': ", 2);
 	ft_putendl_fd("not a valid identifier", 2);
-	// perror(NULL);
 }
 
 void	cmd_error(const char *cmd)

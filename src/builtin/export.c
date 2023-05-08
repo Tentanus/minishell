@@ -58,7 +58,7 @@ bool	env_var_validate_name(char *name)
 	return (true);
 }
 
-void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
+int	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 {
 	char	*name_tmp;
 	int		i;
@@ -68,21 +68,21 @@ void	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 		i++;
 	name_tmp = ft_substr(name, 0, i);
 	if (!name_tmp)
-		return ;
+		return (ERROR);
 	if (env_var_exists(name_tmp, *env_var_list) == true)
 	{
 		if (ft_strncmp(name_tmp, "_", 2) == 0)
-			return (free(name_tmp), mini_error_test(export_error, 1, name));
+			return (free(name_tmp), mini_error_test(export_error, 1, name), ERROR);
 		if (ft_strchr(name, '=') == 0)
-			return (free(name_tmp));
+			return (free(name_tmp), SUCCESS);
 		else
-			return (free(name_tmp), env_var_set_env(name, env_var_list));
+			return (free(name_tmp), env_var_set_env(name, env_var_list), SUCCESS);
 	}
 	if (env_var_validate_name(name) == true)
 		env_var_set_env(name, env_var_list);
 	else
-		mini_error_test(export_error, 1, name);
-	return (free(name_tmp));
+		return (free(name_tmp), mini_error_test(export_error, 1, name), ERROR);
+	return (free(name_tmp), SUCCESS);
 }
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
@@ -96,10 +96,13 @@ int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 	{
 		while (cmd->args[i] != NULL)
 		{
-			env_var_validate_args(cmd->args[i], env_var_list);
+			if (env_var_validate_args(cmd->args[i], env_var_list) == ERROR)
+				status_update(1);
 			i++;
 		}
 	}
+	if (ft_strncmp(g_status.exit_str, "1", 2) == 0)
+		return (ERROR);
 	return (SUCCESS);
 }
 

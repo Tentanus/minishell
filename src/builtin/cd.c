@@ -25,17 +25,19 @@ char	*builtin_cd_get_new_working_dir(t_cmd *cmd, t_env_var_ll **env_var_list)
 		else
 			new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list)); // ! MALLOC
 	}
-	else
+	else if (cmd->args[1][0] == '-')
 	{
 		if (ft_strncmp(&cmd->args[1][0], "-", 2) == 0)
-		{
 			new_working_dir = ft_strdup(env_var_get_env("OLDPWD", *env_var_list)); // ! MALLOC
-			if (new_working_dir == NULL) // check if OLDPWD exists, if not:
-				return (free(new_working_dir), mini_error_test(error_print, 1, "cd: OLDPWD not set"), NULL);
-		}
+		else if (ft_strncmp(&cmd->args[1][0], "--", 3) == 0)
+			new_working_dir = ft_strdup(env_var_get_env("HOME", *env_var_list)); // ! MALLOC
 		else
-			new_working_dir = ft_strdup(cmd->args[1]); // ! MALLOC
+			new_working_dir = ft_strdup(cmd->args[1]);
+		if (new_working_dir == NULL) // check if OLDPWD exists, if not:
+			return (free(new_working_dir), mini_error_test(error_print, 1, "cd: OLDPWD not set"), NULL);
 	}
+	else
+		new_working_dir = ft_strdup(cmd->args[1]); // ! MALLOC
 	return (new_working_dir);
 }
 
