@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/05/01 15:34:24 by mweverli      ########   odam.nl          #
+#    Updated: 2023/05/08 13:59:49 by mverbrug      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,13 @@ SRC			:=	\
 				executor/signals.c					\
 				env_var_init_shell/env_var.c		\
 				env_var_init_shell/env_var_list.c	\
+				env_var_init_shell/env_var_node.c	\
 				env_var_init_shell/init_shell.c		\
 				utils/list_cmd_utils.c				\
 				utils/list_redir_utils.c			\
 				utils/list_token_utils.c			\
 				utils/minishell_error.c				\
+				utils/minishell_error_custom.c		\
 				utils/status.c						\
 				utils/print_utils.c
 

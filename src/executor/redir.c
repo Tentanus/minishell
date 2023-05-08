@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   redir.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 13:49:00 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/08 13:49:01 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-typedef int	(*t_redir_func)(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *));
+typedef int	(*t_redir_func)(const char *file, int fd, \
+	void (err_func)(void (*f)(const char *), int status, const char *));
 
-int	redir_id_input(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
+int	redir_id_input(const char *file, int fd, \
+	void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_RDONLY);
 	if (fd == ERROR)
@@ -14,7 +28,8 @@ int	redir_id_input(const char *file, int fd, void (err_func)(void (*f)(const cha
 	return (0);
 }
 
-int	redir_id_here(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
+int	redir_id_here(const char *file, int fd, \
+	void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	(void) err_func;
 	(void) file;
@@ -25,7 +40,8 @@ int	redir_id_here(const char *file, int fd, void (err_func)(void (*f)(const char
 	return (0);
 }
 
-int	redir_id_output(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
+int	redir_id_output(const char *file, int fd, \
+	void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == ERROR)
@@ -37,7 +53,8 @@ int	redir_id_output(const char *file, int fd, void (err_func)(void (*f)(const ch
 	return (0);
 }
 
-int	redir_id_append(const char *file, int fd, void (err_func)(void (*f)(const char *), int status, const char *))
+int	redir_id_append(const char *file, int fd, \
+	void (err_func)(void (*f)(const char *), int status, const char *))
 {
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == ERROR)
@@ -49,7 +66,8 @@ int	redir_id_append(const char *file, int fd, void (err_func)(void (*f)(const ch
 	return (0);
 }
 
-void	handle_redirect(t_redir *redir_cur, void (*err_func)(void (*func)(const char *), int status, const char *))
+void	handle_redirect(t_redir *redir_cur, \
+	void (*err_func)(void (*func)(const char *), int status, const char *))
 {
 	const t_redir_func	func[5] = {
 	[0] = NULL,
@@ -63,7 +81,8 @@ void	handle_redirect(t_redir *redir_cur, void (*err_func)(void (*func)(const cha
 		return ;
 	while (redir_cur != NULL)
 	{
-		func[redir_cur->redir]((const char *)redir_cur->file, redir_cur->fd, err_func);
+		func[redir_cur->redir]((const char *)redir_cur->file, \
+			redir_cur->fd, err_func);
 		redir_cur = redir_cur->next;
 	}
 }

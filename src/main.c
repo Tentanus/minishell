@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/08 13:40:14 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 t_status	g_status;
@@ -18,15 +30,10 @@ void	init_mini(t_minishell *mini)
 	return ;
 }
 
-// void test(void)
-// {
-// 	system("leaks -q marshell");
-// }
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell		mini;
-	// atexit(test); // ! remove after testing!
+
 	(void) argv;
 	if (argc > 1)
 		mini_exit_test(error_print, 1, "too many arguments");

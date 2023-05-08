@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   execute_non_builtin.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 13:39:56 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/08 13:53:00 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 char	*free_and_return(char *cmd, char **sub_paths, char *path_cmd)
@@ -15,15 +27,17 @@ char	*find_path(char	**sub_paths, char *cmd)
 
 	i = 0;
 	path_cmd = NULL;
-	tmp_cmd = ft_strjoin("/", cmd); // ! MALLOC
+	tmp_cmd = ft_strjoin("/", cmd);
 	if (!tmp_cmd)
-		return (ft_free_split(sub_paths), mini_error_test(error_print, ERROR, "(malloc) error in strjoin tmp_cmd + /cmd"), NULL);
+		return (ft_free_split(sub_paths), mini_error_test(error_print, \
+			ERROR, "(malloc) error in strjoin tmp_cmd + /cmd"), NULL);
 	while (sub_paths[i] != NULL)
 	{
-		path_cmd = ft_strjoin(sub_paths[i], tmp_cmd); // ! MALLOC
+		path_cmd = ft_strjoin(sub_paths[i], tmp_cmd);
 		if (!path_cmd)
 		{
-			mini_error_test(error_print, ERROR, "Error in strjoin sub_path[i] + /cmd");
+			mini_error_test(error_print, ERROR, \
+				"Error in strjoin sub_path[i] + /cmd");
 			free_and_return(tmp_cmd, sub_paths, path_cmd);
 		}
 		if (access(path_cmd, X_OK) == 0)
@@ -47,16 +61,17 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 	char	**sub_paths;
 
 	path_complete = env_var_get_env("PATH", mini->env_list);
-	if (!current_cmd->args[0]) // if cmd does not exist
+	if (!current_cmd->args[0])
 		mini_error_test(error_print, ERROR, "cmd does not exist");
-	if (ft_strncmp(current_cmd->args[0], "./", 2) == 0 || ft_strncmp(current_cmd->args[0], "/", 1) == 0 ) // if cmd starts with ./
+	if (ft_strncmp(current_cmd->args[0], "./", 2) == 0 || \
+		ft_strncmp(current_cmd->args[0], "/", 1) == 0)
 	{
 		if (access(current_cmd->args[0], X_OK) == 0)
 			return (current_cmd->args[0]);
 		else
 			mini_exit_test(error, 127, current_cmd->args[0]);
 	}
-	sub_paths = ft_split(path_complete, ':'); // ! MALLOC
+	sub_paths = ft_split(path_complete, ':');
 	if (!sub_paths)
 		mini_error_test(error_print, ERROR, "Error in split subpaths");
 	return (find_path(sub_paths, current_cmd->args[0]));

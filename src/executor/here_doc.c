@@ -78,16 +78,11 @@ int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 		mini_exit_test(error_print, -1, \
 			"warning: here-doc expected end-of-file");
 	signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_DFL); // !
 	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL)
 			exit (133);
-			// mini_exit_test(error_print, 133, \
-			// 		"warning: here-doc expected end-of-file");
-			// mini_exit_here_test(error_print, 0, \
-			// 	"");
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
@@ -104,17 +99,16 @@ int	here_return(int status, int fd)
 {
 	if (WEXITSTATUS(status) == 133)
 	{
-		status_update(0); // was 130!
-		close(fd);
+		status_update(0);
 		return (-1);
 	}
 	if (WIFSIGNALED(status) == true && WTERMSIG(status) == SIGINT)
 	{
-		status_update(1); // was 130!
+		status_update(1);
 		close(fd);
 		return (-1);
 	}
-	return(fd);
+	return (fd);
 }
 
 int	here_init(const char *delim, t_env_var_ll *list_env)

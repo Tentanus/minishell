@@ -1,25 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   executor.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 13:40:02 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/08 13:51:04 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 void	wait_function(pid_t pid, int count_childs)
 {
 	int	status;
 
-	if (waitpid(pid, &status, 0) < 0) // let parent wait for last executed command/process, specified with pid
+	if (waitpid(pid, &status, 0) < 0)
 		return (mini_error_test(error_print, ERROR, "Waitpid error"));
-	while (count_childs > 0) // wait for all child processes
+	while (count_childs > 0)
 	{
 		wait(NULL);
 		count_childs--;
 	}
-	if (WIFEXITED(status)) // if last cmd exited normally (by calling exit or returning to main)
-		status_update(WEXITSTATUS(status)); // exit with exit status of last command
-	if (WIFSIGNALED(status)) // if last cmd terminated by call of a signal
+	if (WIFEXITED(status))
+		status_update(WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == SIGQUIT) // ctrl-backslash
-			ft_putendl_fd("^\\Quit: 3", 1); // naar fd 1 of 2?
-		else if (WTERMSIG(status) == SIGINT) // ctrl-c
-			ft_putendl_fd("^C", 1); // naar fd 1 of 2?
-		status_update(status + 128); // lekker hardcoding whiii
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("^\\Quit: 3", 1);
+		else if (WTERMSIG(status) == SIGINT)
+			ft_putendl_fd("^C", 1);
+		status_update(status + 128);
 	}
 }
 
@@ -33,8 +45,7 @@ void	wait_function(pid_t pid, int count_childs)
 
 void	executor(t_minishell *mini)
 {
-	signal(SIGINT, SIG_IGN); // !
-	// signal(SIGQUIT, SIG_DFL); // !
+	signal(SIGINT, SIG_IGN);
 	if (!mini->cmd_list)
 		return ;
 	if (handle_here_doc(mini->cmd_list, mini->env_list) == -1)

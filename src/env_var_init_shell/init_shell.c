@@ -14,7 +14,8 @@
 */
 
 /*
-** function that updates environment variable "SHLVL" in list of environment variables
+** function that updates environment variable "SHLVL"
+** in list of environment variables
 */
 int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
 {

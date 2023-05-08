@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   print_utils.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/08 13:41:55 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/08 13:57:28 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 // TESTING FUNCTION
@@ -116,4 +128,19 @@ size_t	list_cmd_size(t_cmd *t_list)
 		ret++;
 	}
 	return (ret);
+}
+
+/*
+** print linked list of environment variables FOR TESTING!
+*/
+void	env_var_print_linked_list(t_env_var_ll *env_var_list)
+{
+	printf("LINKED LISTOF ENV VARS:\n\n");
+	while (env_var_list != NULL)
+	{
+		printf("%s", env_var_list->name);
+		printf("=");
+		printf("%s\n", env_var_list->value);
+		env_var_list = env_var_list->next;
+	}
 }
