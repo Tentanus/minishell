@@ -5,8 +5,6 @@ ODIR		:=	$(OBJ) \
 				$(VOBJ) \
 				$(WOBJ)
 
-OS			:=	$(shell uname)
-
 V: LIB $(VOBJ)
 	@$(COMPILE) -g3 $(INCLUDE) $(LIB_LIST) $(READLINE_LINK) $(VOBJ) -o martest
 	@echo "$(GREEN)$(BOLD)  | MARES TEST COMPILED |$(RESET)"

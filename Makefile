@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/05/09 11:50:00 by mverbrug      ########   odam.nl          #
+#    Updated: 2023/05/09 12:42:22 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,16 +29,16 @@ SRC			:=	\
 				builtin/export.c					\
 				builtin/pwd.c						\
 				builtin/unset.c						\
-				complexer/appender.c				\
 				complexer/complexer.c				\
-				complexer/expander.c				\
-				complexer/expander_extra.c			\
 				complexer/lexer.c					\
 				complexer/lexer_jmptbl_func.c		\
-				complexer/parser.c					\
-				complexer/parser_jmptbl_func.c		\
 				complexer/syntax.c					\
 				complexer/syntax_jmptbl_func.c		\
+				complexer/expander.c				\
+				complexer/expander_utils.c			\
+				complexer/appender.c				\
+				complexer/parser.c					\
+				complexer/parser_jmptbl_func.c		\
 				executor/executor.c					\
 				executor/execute_multiple_cmds.c	\
 				executor/execute_single_cmd.c		\
@@ -58,7 +58,6 @@ SRC			:=	\
 				utils/minishell_error.c				\
 				utils/minishell_error_custom.c		\
 				utils/status.c						\
-				utils/print_utils.c					\
 				main.c
 
 SRC			:=	$(SRC:%=$(SRC_DIR)/%)
