@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:23:59 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 10:24:36 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:41:14 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	init_shell_update_shlvl(t_env_var_ll **env_var_list)
 	t_env_var_ll	*shlvl_node;
 	unsigned int	value;
 
-	shlvl_node = env_var_get_env_node("SHLVL", *env_var_list);
+	shlvl_node = list_env_var_get_node("SHLVL", *env_var_list);
 	if (shlvl_node)
 	{
 		value = ft_atoi(shlvl_node->value) + 1;
@@ -45,10 +45,10 @@ int	init_shell_update_shlvl(t_env_var_ll **env_var_list)
 			return (1);
 		return (0);
 	}
-	shlvl_node = env_var_create_new_node("SHLVL=1");
+	shlvl_node = list_env_var_fill_node("SHLVL=1");
 	if (!shlvl_node)
 		return (1);
-	env_var_add_to_end_list(env_var_list, shlvl_node);
+	list_env_var_add_back(env_var_list, shlvl_node);
 	return (0);
 }
 
@@ -68,14 +68,14 @@ int	init_shell(char **envp, t_minishell *mini)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		new_env_var = env_var_create_new_node(envp[i]);
+		new_env_var = list_env_var_fill_node(envp[i]);
 		if (!new_env_var)
-			return (env_var_free_list(env_var_list), 1);
-		env_var_add_to_end_list(&env_var_list, new_env_var);
+			return (list_env_var_free_list(env_var_list), 1);
+		list_env_var_add_back(&env_var_list, new_env_var);
 		i++;
 	}
-	if (init_shell_update_SHLVL(&env_var_list))
-		return (env_var_free_list(env_var_list), 1);
+	if (init_shell_update_shlvl(&env_var_list))
+		return (list_env_var_free_list(env_var_list), 1);
 	unset_env_var("OLDPWD", &env_var_list);
 	mini->env_list = env_var_list;
 	return (0);

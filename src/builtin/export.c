@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:30:32 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 10:30:33 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:24:32 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** in the format 'declare -x NAME="value"'.
 */
 
-void	builtin_export_print_export(t_env_var_ll *env_var_list)
+void	builtin_export_print(t_env_var_ll *env_var_list)
 {
 	while (env_var_list != NULL)
 	{
@@ -105,7 +105,7 @@ int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 
 	i = 1;
 	if (cmd->args[i] == NULL)
-		builtin_export_print_export(*env_var_list);
+		builtin_export_print(*env_var_list);
 	else
 	{
 		while (cmd->args[i] != NULL)

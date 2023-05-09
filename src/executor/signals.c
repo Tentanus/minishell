@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:47:35 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 13:47:36 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:45:04 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	sig_int_handler(int sig)
 	status_update(1);
 }
 
-void	init_signals(void)
+void	sig_init(void)
 {
 	signal(SIGINT, &sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);

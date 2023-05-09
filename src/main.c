@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:47:18 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:45:04 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		mini_exit(error_print, 1, "unable to startup");
 	while (1)
 	{
-		init_signals();
+		sig_init();
 		mini.input = readline(OCTO_PROMPT);
 		if (mini.input == NULL)
 			sig_quit_handler(&mini);

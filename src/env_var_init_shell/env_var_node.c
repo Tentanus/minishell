@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:23:40 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 10:23:41 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:35:55 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * function to create a new env node that has all values set to NULL
 */
-t_env_var_ll	*env_var_init_node(void)
+t_env_var_ll	*list_env_var_new_node(void)
 {
 	t_env_var_ll	*env_node;
 
@@ -34,14 +34,14 @@ t_env_var_ll	*env_var_init_node(void)
 ** variable in format of NAME=value
 ** also adds bool with 'has value' = true or false for every node.
 */
-t_env_var_ll	*env_var_create_new_node(char *env_var_str)
+t_env_var_ll	*list_env_var_fill_node(char *env_var_str)
 {
 	t_env_var_ll	*new_env_node;
 	int				i;
 
 	if (!env_var_str)
 		return (NULL);
-	new_env_node = env_var_init_node();
+	new_env_node = list_env_var_new_node();
 	if (!new_env_node)
 		return (mini_error(error_print, 1, \
 			"(malloc) fail in initiating new_env_node"), NULL);
@@ -50,18 +50,18 @@ t_env_var_ll	*env_var_create_new_node(char *env_var_str)
 		i++;
 	new_env_node->name = ft_substr(env_var_str, 0, i);
 	if (new_env_node->name == NULL)
-		return (env_var_free_node(new_env_node), NULL);
+		return (list_env_var_free_node(new_env_node), NULL);
 	if (env_var_str[i] == '\0')
 		return (new_env_node);
 	new_env_node->value = ft_substr(env_var_str, i + 1, \
 		ft_strlen(env_var_str + i + 1));
 	if (new_env_node->value == NULL)
-		return (env_var_free_node(new_env_node), NULL);
+		return (list_env_var_free_node(new_env_node), NULL);
 	new_env_node->has_value = true;
 	return (new_env_node);
 }
 
-t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list)
+t_env_var_ll	*list_env_var_get_node(char *name, t_env_var_ll *env_var_list)
 {
 	t_env_var_ll	*current_node;
 	int				len_name;
@@ -82,7 +82,7 @@ t_env_var_ll	*env_var_get_env_node(char *name, t_env_var_ll *env_var_list)
 /*
 ** function to free content and node in env_var_list
 */
-void	env_var_free_node(t_env_var_ll *env_var_node)
+void	list_env_var_free_node(t_env_var_ll *env_var_node)
 {
 	free(env_var_node->name);
 	if (env_var_node->value)

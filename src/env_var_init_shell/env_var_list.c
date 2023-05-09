@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:26:57 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 10:26:58 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:41:14 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** environment variable in format of NAME=value
 ** to the end of the linked list of environment variables.
 */
-void	env_var_add_to_end_list(t_env_var_ll **env_var_list, \
+void	list_env_var_add_back(t_env_var_ll **env_var_list, \
 	t_env_var_ll *new_env_var)
 {
 	t_env_var_ll	*current;
@@ -66,7 +66,7 @@ char	*env_var_make_cp(const t_env_var_ll *env_node)
 	return (ret);
 }
 
-char	**env_var_to_cpp(t_env_var_ll *env_list)
+char	**list_env_var_convert_to_cpp(t_env_var_ll *env_list)
 {
 	t_env_var_ll	*env_current;
 	char			**env_ret;
@@ -92,7 +92,7 @@ char	**env_var_to_cpp(t_env_var_ll *env_list)
 /*
 ** function to free whole of env_var_list
 */
-void	env_var_free_list(t_env_var_ll *env_var_list)
+void	list_env_var_free_list(t_env_var_ll *env_var_list)
 {
 	t_env_var_ll	*tmp_env;
 
@@ -101,7 +101,7 @@ void	env_var_free_list(t_env_var_ll *env_var_list)
 	while (env_var_list)
 	{
 		tmp_env = env_var_list->next;
-		env_var_free_node(env_var_list);
+		list_env_var_free_node(env_var_list);
 		env_var_list = tmp_env;
 	}
 }

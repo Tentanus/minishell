@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:26:49 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 10:26:50 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 11:36:47 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 
 	current = *env_var_list;
 	prev = NULL;
-	new_var = env_var_create_new_node(envar);
+	new_var = list_env_var_fill_node(envar);
 	if (!new_var || !new_var->name)
 		return ;
 	while (current != NULL)
@@ -89,10 +89,10 @@ void	env_var_set_env(char *envar, t_env_var_ll **env_var_list)
 				*env_var_list = new_var;
 			else
 				prev->next = new_var;
-			return (env_var_free_node(current));
+			return (list_env_var_free_node(current));
 		}
 		prev = current;
 		current = current->next;
 	}
-	env_var_add_to_end_list(env_var_list, new_var);
+	list_env_var_add_back(env_var_list, new_var);
 }
