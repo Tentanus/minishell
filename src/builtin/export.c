@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/09 10:30:32 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/09 10:30:33 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 /*
@@ -88,7 +100,7 @@ int	env_var_validate_args(char *name, t_env_var_ll **env_var_list)
 }
 
 int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
-{	
+{
 	int	i;
 
 	i = 1;
@@ -113,7 +125,7 @@ int	builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list)
 // This variable is local and only available in the shell
 // in which it is declared.
 // Environment variable: export VARIABLE=4
-// This variable is global, it is available in the 
+// This variable is global, it is available in the
 // shell's child shells, processes and commands.
 // We can access bash environment variables only one way;
 // the parent shell exports its variables to the child shell’s environment

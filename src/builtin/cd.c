@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cd.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/09 10:30:17 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/09 10:30:18 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 /*
-** cd 
+** cd
 ** Changes the current working directory.
 ** If the new_directory is not supplied, the value of the HOME shell variable
-** is used. 
+** is used.
 ** If the directory change is successful, cd sets the value of the
 ** PWD environment variable to the new directory name,
 ** and sets the OLDPWD environment variable to the value of the

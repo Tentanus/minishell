@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 16:48:34 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/09 10:34:33 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ extern char		*g_status;
 
 //				FUNCTIONS
 
-void			mini_error(void  (*func)(const char *), int, const char *str);
-void			mini_exit(void  (*func)(const char *), int, const char *str);
+void			mini_error(void (*func)(const char *), int, const char *str);
+void			mini_exit(void (*func)(const char *), int, const char *str);
 
 void			syntax_error(const char *token);
 void			error(const char *cmd);
@@ -159,7 +159,7 @@ bool			syntax_id_redir(t_token *t_prev, t_token *t_cur, \
 bool			syntax_id_misc(t_token *t_prev, t_token *t_cur, \
 		t_env_var_ll *env_list);
 
-//				FUNCTION: EXPANDER 
+//				FUNCTION: EXPANDER
 
 t_token			*expander(t_token *t_input, t_env_var_ll *env_var_list);
 char			*expander_get_shell_var(const char *str, const int pos, \
@@ -239,7 +239,7 @@ int				builtin_exit(t_cmd *cmd);
 //				FUNCTION: INIT SHELL
 
 int				init_shell(char **envp, t_minishell *mini);
-int				init_shell_update_SHLVL(t_env_var_ll **env_var_list);
+int				init_shell_update_shlvl(t_env_var_ll **env_var_list);
 
 //				FUNCTION: ENVIRONMENT VARIABLES
 

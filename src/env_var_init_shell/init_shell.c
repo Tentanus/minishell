@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   init_shell.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/09 10:23:59 by mverbrug      #+#    #+#                 */
+/*   Updated: 2023/05/09 10:24:36 by mverbrug      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 /*
@@ -17,7 +29,7 @@
 ** function that updates environment variable "SHLVL"
 ** in list of environment variables
 */
-int	init_shell_update_SHLVL(t_env_var_ll **env_var_list)
+int	init_shell_update_shlvl(t_env_var_ll **env_var_list)
 {
 	t_env_var_ll	*shlvl_node;
 	unsigned int	value;
