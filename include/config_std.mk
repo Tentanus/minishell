@@ -16,7 +16,7 @@ CC			:=	gcc
 CFLAGS		?=	-Wall -Werror -Wextra
 
 ifdef DEBUG
-	CFLAGS		+=	-g3 #-fsanitize=address
+	CFLAGS		+=	-g #-fsanitize=address
 endif
 
 COMPILE		:=	$(CC) $(CFLAGS)

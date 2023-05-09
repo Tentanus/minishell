@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:45:12 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 19:04:59 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,6 @@ typedef struct s_minishell
 	struct termios	saved_term;
 }	t_minishell;
 
-typedef struct s_status
-{
-	char	*exit_str;
-}	t_status;
-
 //				GLOBAL VARIABLES
 
 extern char		*g_status;
@@ -122,6 +117,8 @@ extern char		*g_status;
 void			mini_error(void (*func) (const char *), \
 					int status, const char *str);
 void			mini_exit(void (*func) (const char *), \
+					int status, const char *str);
+void			mini_exit_child(void (*func) (const char *), \
 					int status, const char *str);
 
 void			error(const char *cmd);

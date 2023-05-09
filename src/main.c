@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:45:04 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 19:06:32 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,4 @@ int	main(int argc, char **argv, char **envp)
 		free(mini.input);
 		mini.input = NULL;
 	}
-	exit(EXIT_SUCCESS);
 }

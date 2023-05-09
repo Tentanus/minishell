@@ -6,7 +6,7 @@
 #    By: mweverli <mweverli@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/01 17:54:19 by mweverli      #+#    #+#                  #
-#    Updated: 2023/05/09 12:42:22 by mweverli      ########   odam.nl          #
+#    Updated: 2023/05/09 18:24:15 by mweverli      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,11 +92,11 @@ INCLUDE			:=	-I$(INC_DIR) \
 
 all: $(NAME)
 
-$(NAME): LIB $(OBJ)
+$(NAME): $(ODIR) LIB $(OBJ)
 	@$(COMPILE) $(INCLUDE) $(OBJ) $(LIB_LIBFT) $(READLINE_LINK) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)========= $(NAME) COMPILED =========$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(ODIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(COMPILE) $(INCLUDE) -MMD -o $@ -c $<
 	@echo "$(CYAN)COMPILING:\t$(if $(findstring -g,$(CFLAGS)), debug (-g))\t$(notdir $<)\
 	$(RESET)"
@@ -111,7 +111,7 @@ clean:
 fclean: clean lclean
 	@rm -f $(NAME)
 
-gclean: lclean tclean fclean
+gclean: lclean fclean
 	@echo "$(RED)$(BOLD)\n\t-=- READY FOR GIT -=-$(RESET)"
 
 re: fclean all

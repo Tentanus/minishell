@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:48:03 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 19:04:20 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 	char	*line;
 
 	if (!delim)
-		mini_exit(error_print, -1, \
+		mini_exit_child(error_print, -1, \
 			"warning: here-doc expected end-of-file");
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL)
-			exit (133);
+			_exit (133);
 		line = here_expand(line, list_env);
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
@@ -34,7 +34,7 @@ int	here_lines(const char *delim, int fd, t_env_var_ll *list_env)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	exit(0);
+	_exit(0);
 }
 
 int	here_return(int status, int fd)

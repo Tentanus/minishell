@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:41:29 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:21:31 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 19:00:21 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ void	mini_exit(void (*func)(const char *), \
 	ft_putstr_fd("marsh: ", 2);
 	func(str);
 	exit(status);
+}
+
+void	mini_exit_child(void (*func)(const char *), \
+		int status, const char *str)
+{
+	ft_putstr_fd("marsh: ", 2);
+	func(str);
+	_exit(status);
 }

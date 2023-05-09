@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:39:56 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:39:13 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/09 19:02:48 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_path_to_cmd(t_minishell *mini, t_cmd *current_cmd)
 		if (access(current_cmd->args[0], X_OK) == 0)
 			return (current_cmd->args[0]);
 		else
-			mini_exit(error, 127, current_cmd->args[0]);
+			mini_exit_child(error, 127, current_cmd->args[0]);
 	}
 	sub_paths = ft_split(path_complete, ':');
 	if (!sub_paths)
@@ -82,17 +82,17 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	char	*path_to_cmd;
 	char	**env_list;
 
-	handle_redirect(cmd->redir, mini_exit);
+	handle_redirect(cmd->redir, mini_exit_child);
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	env_list = list_env_var_convert_to_cpp(mini->env_list);
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 	{
 		ft_free_split(env_list);
 		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR)
-			mini_exit(cmd_error, 127, cmd->args[0]);
+			mini_exit_child(cmd_error, 127, cmd->args[0]);
 		if (access(path_to_cmd, X_OK) == ERROR)
-			mini_exit(error, 126, cmd->args[0]);
+			mini_exit_child(error, 126, cmd->args[0]);
 		errno = 21;
-		mini_exit(error, 126, cmd->args[0]);
+		mini_exit_child(error, 126, cmd->args[0]);
 	}
 }
