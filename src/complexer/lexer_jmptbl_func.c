@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:39:50 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:40:45 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/11 15:39:21 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ void	token_id_shvar(const char *inp, size_t *pos, const t_token_id val)
 		(*pos)++;
 		return ;
 	}
-	if (inp[*pos] && !ft_isalpha(inp[*pos]))
+	if (!ft_isalpha(inp[*pos]))
 		return ;
-	(*pos)++;
+	if (inp[*pos])
+		(*pos)++;
 	while (inp[*pos] && (ft_isalnum(inp[*pos]) || inp[*pos] == '_'))
 		(*pos)++;
 }
