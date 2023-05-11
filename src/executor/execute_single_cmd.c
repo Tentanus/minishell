@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:52:21 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/11 11:43:04 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 12:28:54 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	execute_single_child(t_cmd *current_cmd, t_minishell *mini)
 	pid_t	pid;
 
 	pid = fork();
-	// exit(35823);
 	if (pid < 0)
 		return (mini_error(error_print, 1, \
 			"fork: Resource temporarily unavailable"));

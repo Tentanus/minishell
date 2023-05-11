@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 11:18:54 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 12:19:05 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ void	init_mini(t_minishell *mini)
 		mini_exit(error_print, 137, "unable to startup");
 	return ;
 }
-
+/*
 void f(void)
 {
 	system("leaks --exclude symbol  minishell");
 }
-
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell		mini;
 
 	(void) argv;
-	atexit(f);
+//	atexit(f);
 	if (argc > 1)
 		mini_exit(error_print, 1, "too many arguments");
 	init_mini(&mini);

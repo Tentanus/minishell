@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:39:56 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 19:02:48 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/11 12:22:21 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	char	**env_list;
 
 	handle_redirect(cmd->redir, mini_exit_child);
+	if (cmd->args[0] == NULL)
+		return (status_update(0));
 	path_to_cmd = get_path_to_cmd(mini, cmd);
 	env_list = list_env_var_convert_to_cpp(mini->env_list);
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
