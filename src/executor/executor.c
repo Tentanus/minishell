@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:02 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 10:46:56 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	executor(t_minishell *mini)
 	if (!mini->cmd_list)
 		return ;
 	if (handle_here_doc(mini->cmd_list, mini->env_list) == -1)
-		close_here_doc(mini->cmd_list);
+		close_here_doc(mini->cmd_list); 
 	if (mini->cmd_list->next == NULL)
 		execute_single_command(mini);
 	else
