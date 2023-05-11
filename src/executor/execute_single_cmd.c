@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:52:21 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/11 14:23:16 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 20:22:07 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void	execute_single_command(t_minishell *mini)
 	tmp_fd_out = dup(1);
 	current_cmd = mini->cmd_list;
 	if (current_cmd->args[0] == NULL)
-		handle_redirect(current_cmd->redir, mini_error);
+	{
+		if (handle_redirect(current_cmd->redir, mini_error) == ERROR)
+			return (status_update(1));
+	}
 	else if (handle_builtin(current_cmd, mini, 0) == ERROR)
 		execute_single_child(current_cmd, mini);
 	return (set_back_std_fd(tmp_fd_in, tmp_fd_out));

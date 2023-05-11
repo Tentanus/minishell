@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/11 14:23:32 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 20:28:54 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 int				handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
-void			handle_redirect(t_redir *redir_cur, void (*err_func) \
+int				handle_redirect(t_redir *redir_cur, void (*err_func) \
 					(void (*func)(const char *), int status, const char *));
 char			*here_expand(char *line, t_env_var_ll *list_env);
 
@@ -225,8 +225,8 @@ t_redir			*list_redir_free_node(t_redir *redir_node);
 //				FUNCTION: BUILTIN
 
 bool			builtin_check(char *cmd);
-// int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list); // !
-int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list, int flag_child);
+int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list, \
+					int flag_child);
 int				builtin_echo(t_cmd *cmd, int fd);
 int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
