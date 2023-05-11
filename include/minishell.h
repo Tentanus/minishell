@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/09 19:04:59 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/11 14:23:32 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,8 @@ t_redir			*list_redir_free_node(t_redir *redir_node);
 //				FUNCTION: BUILTIN
 
 bool			builtin_check(char *cmd);
-int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list);
+// int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list); // !
+int				builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list, int flag_child);
 int				builtin_echo(t_cmd *cmd, int fd);
 int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
@@ -234,6 +235,7 @@ int				builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				unset_env_var(char *name, t_env_var_ll **env_var_list);
 int				builtin_env(t_env_var_ll *env_var_list);
 int				builtin_exit(t_cmd *cmd);
+int				builtin_exit_child(t_cmd *cmd); // !
 
 //				FUNCTION: INIT SHELL
 
@@ -260,7 +262,9 @@ void			list_env_var_free_list(t_env_var_ll *env_var_list);
 void			wait_function(pid_t pid, int count_childs);
 void			execute_single_command(t_minishell *mini);
 void			execute_multiple_commands(t_minishell *mini);
-int				handle_builtin(t_cmd *cmd, t_minishell *mini);
+// int				handle_builtin(t_cmd *cmd, t_minishell *mini); // !
+int				handle_builtin(t_cmd *cmd, t_minishell *mini, int flag_child);
+
 void			handle_non_builtin(t_cmd *cmd, t_minishell *mini);
 void			executor(t_minishell *mini);
 

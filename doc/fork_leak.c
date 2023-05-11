@@ -12,6 +12,5 @@ int    main(void)
 
 	atexit(f);
     pid = fork();
-    // _exit(3523);
     return (0);
 }

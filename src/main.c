@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 12:40:29 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 14:31:14 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_mini(t_minishell *mini)
 	return ;
 }
 
-void f(void)
+void	f(void)
 {
 	system("leaks minishell");
 }

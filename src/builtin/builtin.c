@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 14:05:05 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 12:30:24 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/11 14:21:35 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	builtin_check(char *cmd)
 	return (false);
 }
 
-int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
+int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list, int flag_child)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		return (builtin_echo(cmd, 1));
@@ -47,17 +47,19 @@ int	builtin_execute(t_cmd *cmd, t_env_var_ll **env_var_list)
 		return (builtin_unset(cmd, env_var_list));
 	if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		return (builtin_export(cmd, env_var_list));
-	if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
+	if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && flag_child == 1)
+		return (builtin_exit_child(cmd));
+	if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && flag_child == 0)
 		return (builtin_exit(cmd));
 	return (ERROR);
 }
 
-int	handle_builtin(t_cmd *cmd, t_minishell *mini)
+int	handle_builtin(t_cmd *cmd, t_minishell *mini, int flag_child)
 {
 	if (builtin_check(cmd->args[0]) == true)
 	{
 		handle_redirect(cmd->redir, mini_error);
-		if (builtin_execute(cmd, &mini->env_list) == SUCCESS)
+		if (builtin_execute(cmd, &mini->env_list, flag_child) == SUCCESS)
 			return (status_update(0), SUCCESS);
 		return (status_update(1), SUCCESS);
 	}

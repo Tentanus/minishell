@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:47:39 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 12:45:06 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/11 14:33:14 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ pid_t	execute_last_cmd(t_minishell *mini, \
 		dup2(prev_read_end, STDIN_FILENO);
 		close(prev_read_end);
 		if (builtin_check(current_cmd->args[0]) == true)
-			handle_builtin(current_cmd, mini);
+			handle_builtin(current_cmd, mini, 1);
 		else
 			handle_non_builtin(current_cmd, mini);
 		_exit(ft_atoi(g_status));
@@ -47,7 +47,7 @@ void	execute_child(t_minishell *mini, \
 	dup2(fd_pipe[WRITE], STDOUT_FILENO);
 	close(fd_pipe[WRITE]);
 	if (builtin_check(current_cmd->args[0]) == true)
-		handle_builtin(current_cmd, mini);
+		handle_builtin(current_cmd, mini, 1);
 	else
 		handle_non_builtin(current_cmd, mini);
 	_exit(ft_atoi(g_status));
