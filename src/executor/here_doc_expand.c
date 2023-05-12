@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:49:58 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:51:55 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/12 16:02:31 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*here_expand(char *line, t_env_var_ll *list_env)
 			if (!line)
 				return (NULL);
 		}
+		if (!line[i])
+			break ;
 		i++;
 	}
 	return (line);
