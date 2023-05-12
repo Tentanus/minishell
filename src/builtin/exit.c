@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:27:04 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 15:04:00 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:11:05 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int	builtin_exit(t_cmd *cmd)
 {
-	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] != NULL)
 	{
 		if (cmd->args[2] == NULL)

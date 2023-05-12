@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:47:35 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:45:04 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:15:42 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sig_quit_handler(t_minishell *mini)
 {
-	ft_putendl_fd("exit", 2);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	free(mini->input);
 	mini->input = NULL;
 	exit(0);

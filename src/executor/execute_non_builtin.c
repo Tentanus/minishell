@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:39:56 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 20:25:38 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:38:09 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	handle_non_builtin(t_cmd *cmd, t_minishell *mini)
 	if (execve(path_to_cmd, cmd->args, env_list) != SUCCESS)
 	{
 		ft_free_split(env_list);
-		free(path_to_cmd);
 		if (cmd->args[0][0] == '\0' || access(path_to_cmd, F_OK) == ERROR)
 			mini_exit_child(cmd_error, 127, cmd->args[0]);
 		if (access(path_to_cmd, X_OK) == ERROR)
