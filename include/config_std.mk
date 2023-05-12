@@ -16,6 +16,10 @@ CC			:=	gcc
 CFLAGS		?=	-Wall -Werror -Wextra
 
 ifdef DEBUG
+	CFLAGS		+=	-g 
+endif
+
+ifdef FSAN
 	CFLAGS		+=	-g -fsanitize=address
 endif
 
