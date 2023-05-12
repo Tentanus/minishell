@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/11 15:31:33 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/12 14:52:13 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ t_token			*parser_id_space(t_cmd *cmd_node, t_token *t_current);
 
 int				handle_here_doc(t_cmd *cmd_list, t_env_var_ll *list_env);
 void			close_here_doc(t_cmd *cmd_list);
-void			handle_redirect(t_redir *redir_cur, void (*err_func) \
+int				handle_redirect(t_redir *redir_cur, void (*err_func) \
 					(void (*func)(const char *), int status, const char *));
 char			*here_expand(char *line, t_env_var_ll *list_env);
 

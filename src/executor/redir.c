@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:49:00 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:43:16 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/11 20:18:00 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	redir_id_append(const char *file, int fd, \
 	return (0);
 }
 
-void	handle_redirect(t_redir *redir_cur, \
+int	handle_redirect(t_redir *redir_cur, \
 	void (*err_func)(void (*func)(const char *), int status, const char *))
 {
 	const t_redir_func	func[5] = {
@@ -78,11 +78,13 @@ void	handle_redirect(t_redir *redir_cur, \
 	};
 
 	if (redir_cur == NULL)
-		return ;
+		return (SUCCESS);
 	while (redir_cur != NULL)
 	{
-		func[redir_cur->redir]((const char *)redir_cur->file, \
-			redir_cur->fd, err_func);
+		if (func[redir_cur->redir]((const char *)redir_cur->file, \
+			redir_cur->fd, err_func) == ERROR)
+			return (ERROR);
 		redir_cur = redir_cur->next;
 	}
+	return (SUCCESS);
 }
