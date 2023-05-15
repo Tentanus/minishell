@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:30:32 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/15 12:55:01 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 19:28:11 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ bool	env_var_validate_name(char *name)
 	int		i;
 
 	name_len = ft_strlen_char(name, '=');
-	if ((!ft_isalpha(name[0]) && name[0] != '_') || ft_strncmp(name, "_=", 2) == 0)
+	if ((!ft_isalpha(name[0]) && name[0] != '_') || \
+			ft_strncmp(name, "_=", 2) == 0)
 		return (false);
 	i = 0;
 	while (i < name_len)
