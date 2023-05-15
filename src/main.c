@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/15 12:16:45 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 15:39:57 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_mini(t_minishell *mini)
 	mini->syntax = NULL;
 	mini->cmd_list = NULL;
 	mini->env_list = NULL;
+	if (!isatty(STDIN_FILENO))
+		rl_outstream = stdin;
 	tcgetattr(STDIN_FILENO, &mini->saved_term);
 	mini->saved_term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &mini->saved_term);

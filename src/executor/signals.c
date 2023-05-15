@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:47:35 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/12 15:15:42 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 15:32:23 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sig_quit_handler(t_minishell *mini)
 	ft_putendl_fd("exit", STDERR_FILENO);
 	free(mini->input);
 	mini->input = NULL;
-	exit(0);
+	exit(ft_atoi(g_status));
 }
 
 void	sig_int_handler(int sig)
