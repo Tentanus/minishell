@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:23:59 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:41:14 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 12:41:35 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int	init_shell(char **envp, t_minishell *mini)
 	}
 	if (init_shell_update_shlvl(&env_var_list))
 		return (list_env_var_free_list(env_var_list), 1);
-	unset_env_var("OLDPWD", &env_var_list);
+	unset_node("OLDPWD", &env_var_list);
+	unset_node("_", &env_var_list);
 	mini->env_list = env_var_list;
 	return (0);
 }

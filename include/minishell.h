@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:53:02 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/12 14:52:13 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 12:55:57 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int				builtin_cd(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_pwd(int fd);
 int				builtin_export(t_cmd *cmd, t_env_var_ll **env_var_list);
 int				builtin_unset(t_cmd *cmd, t_env_var_ll **env_var_list);
-int				unset_env_var(char *name, t_env_var_ll **env_var_list);
+void			unset_node(char *env_var, t_env_var_ll **env_var_list);
 int				builtin_env(t_env_var_ll *env_var_list);
 int				builtin_exit(t_cmd *cmd);
 int				builtin_exit_child(t_cmd *cmd);

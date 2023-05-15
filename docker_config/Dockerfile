@@ -35,15 +35,15 @@ ADD docker_config/.vimrc /root/.vimrc
 #
 #	to run docker container:
 #	docker run -it --rm -v $HOME/files/marshell:/marsh [image_tag/image_ID]
-#	docker run -it --rm -v $HOME/Desktop/minishell:/marsh [image_tag/image_ID]
+#	docker run -it --rm -v $PWD:/minishell [image_tag/image_ID]
 #
-#	cd marsh
+#	cd minishell
 #	make fclean
-#	make dock DEBUG=1 (executable = "marshell")
+#	make DEBUG=1 (executable = "minishell")
 #
 #	to run valgrind:
 #	valgrind --leak-check=full --show-leak-kinds=all --suppressions=[SUPPRESSIONFILE.supp] ./[EXE]
-#	valgrind --leak-check=full --suppressions=readline.supp ./marshell (OPTIONIAL: --show-leak-kinds=all)
+#	valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=readline.supp ./minishell (OPTIONIAL: --show-leak-kinds=all)
 #	leaks shown at exit (or ctrl-D)
 #
 #		apt-get -y update && \

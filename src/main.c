@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 13:40:13 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/12 16:07:40 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 12:16:45 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell		mini;
 
 	(void) argv;
-	atexit(f);
+	// atexit(f);
 	if (argc > 1)
 		mini_exit(error_print, 1, "too many arguments");
 	init_mini(&mini);

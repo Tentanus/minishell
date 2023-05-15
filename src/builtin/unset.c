@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:27:12 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/09 11:47:50 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 12:55:28 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,6 @@
 /*
 ** our own unset function: it removes environment variable (unset builtin)
 */
-
-int	unset_env_var(char *name, t_env_var_ll **env_var_list)
-{
-	int				len_name;
-	t_env_var_ll	*current;
-	t_env_var_ll	*temp_var;
-
-	if (!name)
-		return (MALLOC_ERROR);
-	current = *env_var_list;
-	temp_var = NULL;
-	len_name = ft_strlen(name);
-	while (current != NULL && current->next != NULL)
-	{
-		if (ft_strncmp(current->next->name, name, len_name) == 0)
-		{
-			temp_var = current->next;
-			current->next = temp_var->next;
-			list_env_var_free_node(temp_var);
-			return (SUCCESS);
-		}
-		current = current->next;
-	}
-	return (SUCCESS);
-}
 
 void	unset_node(char *env_var, t_env_var_ll **env_var_list)
 {
