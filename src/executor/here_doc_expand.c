@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:49:58 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/12 16:02:31 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/15 19:22:35 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*here_replace_line(char *line, const char *env_value, \
 	{
 		ft_strlcat(new_line, line + *pos + env_key_len, \
 				ft_strlen(new_line) + ft_strlen(line + *pos + env_key_len) + 1);
-		return (new_line);
+		return (free(line), new_line);
 	}
 	ft_strlcat(new_line, env_value, ft_strlen(new_line) + env_value_len + 1);
 	ft_strlcat(new_line, line + *pos + env_key_len, \
@@ -77,7 +77,13 @@ char	*here_expand(char *line, t_env_var_ll *list_env)
 		}
 		if (!line[i])
 			break ;
+		if (line[i] == '$')
+			continue ;
 		i++;
 	}
 	return (line);
 }
+
+// cause leaks [$VAR doesnt not exits as env var]:
+//  > $VAR$VAR
+//  > $VAR $VAR
