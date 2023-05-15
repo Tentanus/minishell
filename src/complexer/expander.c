@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:36:13 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:20:42 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/15 19:36:55 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	i = 0;
 	while ((t_current->str)[i])
 	{
-		if ((t_current->str)[i] == '$')
+		if ((t_current->str)[i] == '$' && ft_isalpha((t_current->str)[i + 1]))
 		{
 			tmp = expander_inject_var(t_current, i, env_var_list);
 			if (tmp < 0)
