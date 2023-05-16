@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:27:04 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/16 11:26:42 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/16 13:50:32 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 **
 */
 
-bool str_is_number(char *str)
+bool	str_is_number(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
+	if (ft_strncmp(str, "-", 2) == 0)
+		return (false);
 	if ((str[0] >= '0' && str[0] <= '9') || str[0] == '-')
 		i++;
 	else
@@ -41,25 +43,22 @@ int	str_to_exit_code(char *str)
 
 	exit_code = ft_atoi(str);
 	if (exit_code > 255 || exit_code < -255)
-		return (exit_code % 255);
+		return (exit_code % 256);
 	return (exit_code);
 }
 
-
 int	builtin_exit(t_cmd *cmd)
 {
-	int exit_code;
-
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] != NULL)
 	{
+		if (ft_strncmp(cmd->args[1], "--", 3) == 0)
+			return (clear_history(), exit(0), SUCCESS);
 		if (cmd->args[2] == NULL)
 		{
 			if (str_is_number(cmd->args[1]) == true)
-			{
-				exit_code = str_to_exit_code(cmd->args[1]);
-				return (clear_history(), exit(exit_code), SUCCESS);
-			}
+				return (clear_history(), \
+					exit(str_to_exit_code(cmd->args[1])), SUCCESS);
 			if (str_is_number(cmd->args[1]) == false)
 				return (mini_error(error_print, \
 					1, "exit: numeric argument required"), exit(255), ERROR);
@@ -76,18 +75,16 @@ int	builtin_exit(t_cmd *cmd)
 }
 
 int	builtin_exit_child(t_cmd *cmd)
-{
-	int exit_code;
-	
+{	
 	if (cmd->args[1] != NULL)
 	{
+		if (ft_strncmp(cmd->args[1], "--", 3) == 0)
+			return (clear_history(), exit(0), SUCCESS);
 		if (cmd->args[2] == NULL)
 		{
 			if (str_is_number(cmd->args[1]) == true)
-			{
-				exit_code = str_to_exit_code(cmd->args[1]);
-				return (clear_history(), _exit(exit_code), SUCCESS);
-			}
+				return (clear_history(), \
+					_exit(str_to_exit_code(cmd->args[1])), SUCCESS);
 			if (str_is_number(cmd->args[1]) == false)
 				return (mini_error(error_print, \
 					1, "exit: numeric argument required"), _exit(255), ERROR);
