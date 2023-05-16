@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:30:17 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/11 11:27:28 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/16 16:08:15 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,18 @@ int	change_directory(t_cmd *cmd, t_env_var_ll **env_var_list)
 {
 	char	*new_working_dir;
 	char	*current_working_dir;
+	char	*cwd;
 
 	new_working_dir = builtin_cd_get_new_working_dir(cmd, env_var_list);
 	if (new_working_dir == NULL)
 		return (ERROR);
-	current_working_dir = NULL;
-	current_working_dir = ft_strjoin("OLDPWD=", \
-		env_var_get_env("PWD", *env_var_list));
+	cwd = NULL;
+	cwd = getcwd(cwd, 0);
+	current_working_dir = ft_strjoin("OLDPWD=", cwd);
 	if (!current_working_dir)
-		return (free(new_working_dir), mini_error(error_print, 1, \
+		return (free(cwd), free(new_working_dir), mini_error(error_print, 1, \
 			"(malloc) error current_working_dir in execute_cd"), MALLOC_ERROR);
+	free(cwd);
 	if (chdir(new_working_dir) != 0)
 		return (free(current_working_dir), free(new_working_dir), \
 			mini_error(error, 1, cmd->args[1]), ERROR);

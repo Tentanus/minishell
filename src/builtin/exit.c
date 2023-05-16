@@ -6,7 +6,7 @@
 /*   By: mverbrug <mverbrug@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 10:27:04 by mverbrug      #+#    #+#                 */
-/*   Updated: 2023/05/16 13:50:32 by mverbrug      ########   odam.nl         */
+/*   Updated: 2023/05/16 15:58:16 by mverbrug      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	str_is_number(char *str)
 	i = 0;
 	if (ft_strncmp(str, "-", 2) == 0)
 		return (false);
-	if ((str[0] >= '0' && str[0] <= '9') || str[0] == '-')
+	if ((str[0] >= '0' && str[0] <= '9') || str[0] == '-' || str[0] == '+')
 		i++;
 	else
 		return (false);
