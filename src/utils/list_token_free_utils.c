@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 15:38:31 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:38:44 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/16 15:04:53 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ t_token	*list_token_free_node_non_word(t_token *t_node)
 	t_tmp = t_node->next;
 	if (t_node == NULL)
 		return (NULL);
-	if (t_node->id != WORD)
+	if (t_node->id != WORD && \
+	t_node->id != QUOTE && \
+	t_node->id != DQUOTE)
 		free(t_node->str);
 	free(t_node);
 	return (t_tmp);

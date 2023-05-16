@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:40:56 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/16 14:30:22 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/16 15:05:37 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ size_t	parser_get_arg(t_token *t_current)
 		return (0);
 	while (t_current != NULL && t_current->id != PIPE)
 	{
-		if (t_current->id == WORD)
+		if (t_current->id == WORD || \
+		t_current->id == QUOTE || \
+		t_current->id == DQUOTE)
 			arg_ret++;
 		if (t_current->id == GREAT || t_current->id == LESS)
 			t_current = list_token_skip_space(t_current);
