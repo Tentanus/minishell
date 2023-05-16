@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:36:13 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/15 19:36:55 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/16 14:29:59 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,12 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 	if (t_current->str == NULL || expander_remove_check_quotes(t_current))
 		return (NULL);
 	if (t_current->id == QUOTE)
-	{
-		t_current->id = WORD;
 		return (list_token_cpy_node(t_current));
-	}
 	i = 0;
 	while ((t_current->str)[i])
 	{
-		if ((t_current->str)[i] == '$' && ft_isalpha((t_current->str)[i + 1]))
+		if ((t_current->str)[i] == '$' && \
+		(ft_isalpha((t_current->str)[i + 1]) || t_current->str[i + 1] == '?'))
 		{
 			tmp = expander_inject_var(t_current, i, env_var_list);
 			if (tmp < 0)
@@ -98,7 +96,6 @@ t_token	*expander_quote(t_token *t_current, t_env_var_ll *env_var_list)
 		else
 			i++;
 	}
-	t_current->id = WORD;
 	return (list_token_cpy_node(t_current));
 }
 

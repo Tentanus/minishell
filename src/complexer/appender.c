@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:34:50 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 14:34:52 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/16 14:20:11 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ bool	app_token(t_token *t_node)
 {
 	if (t_node == NULL)
 		return (false);
-	if (t_node->id == WORD)
+	if (t_node->id == WORD || \
+		t_node->id == QUOTE || \
+		t_node->id == DQUOTE)
 		return (true);
 	return (false);
 }

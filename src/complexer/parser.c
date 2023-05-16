@@ -6,7 +6,7 @@
 /*   By: mweverli <mweverli@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 14:40:56 by mweverli      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:41:24 by mweverli      ########   odam.nl         */
+/*   Updated: 2023/05/16 14:30:22 by mweverli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ bool	parser_fill_cmd_node(t_cmd *cmd_node, t_token *t_current)
 	const t_parser_func	func[9] = {
 	[0] = NULL,
 	[1] = parser_id_pipe,
-	[2] = NULL,
-	[3] = NULL,
+	[2] = parser_id_word,
+	[3] = parser_id_word,
 	[4] = parser_id_redir,
 	[5] = parser_id_redir,
 	[6] = NULL,
